@@ -2,10 +2,9 @@ import pandas as pd
 import subprocess
 import os
 
-localDaPasta = "projects-sheets"
 indice = 1 
 
-def clonar_repositorios():
+def clonar_repositorios(localDaPasta):
 
     try:
         pastaComListaProjetos = os.listdir(localDaPasta)
