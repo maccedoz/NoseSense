@@ -1,0 +1,2639 @@
+[00:00:00.559] Server  LOG     ✓ Ready in 356ms
+[00:00:03.185] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:03.325] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:03.325] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:03.325] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773268022616} /_vercel/insights/view
+[00:08:07.842] Server  LOG     ✓ Compiled in 395ms
+[00:08:08.464] Browser ERROR   ./automacao-completa/frontend/components/add-llm-dialog.tsx:28:1
+Parsing ecmascript source code failed
+  26 | const AVAILABLE_PROVIDERS = [
+  27 |   'OpenAI',
+> 28 | =  'Google',
+     | ^
+  29 |   'Meta',
+  30 |   'Mistral',
+  31 |   'Cohere',
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+[00:08:10.660] Browser ERROR   ./automacao-completa/frontend/components/add-llm-dialog.tsx:28:1
+Parsing ecmascript source code failed
+  26 | const AVAILABLE_PROVIDERS = [
+  27 |   'OpenAI',
+> 28 | =  'Google',
+     | ^
+  29 |  =
+  30 | ]
+  31 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+[00:08:15.274] Browser ERROR   ./automacao-completa/frontend/components/add-llm-dialog.tsx:28:1
+Parsing ecmascript source code failed
+  26 | const AVAILABLE_PROVIDERS = [
+  27 |   'OpenAI',
+> 28 | =  'Google',
+     | ^
+  29 | ]
+  30 |
+  31 | export function AddProviderDialog() {
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/add-llm-dialog.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+[00:08:30.852] Server  LOG     ✓ Compiled in 29ms
+[00:08:31.924] Server  LOG     ✓ Compiled in 38ms
+[00:08:34.422] Server  LOG     ✓ Compiled in 32ms
+[00:08:53.984] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:54.122] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:08:54.122] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:08:54.122] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773268553413} /_vercel/insights/view
+[00:14:14.566] Server  LOG     ✓ Compiled in 55ms
+[00:14:16.305] Server  LOG     ✓ Compiled in 40ms
+[00:14:17.544] Server  LOG     ✓ Compiled in 43ms
+[00:15:30.116] Browser ERROR   Falha ao salvar no backend: {}
+[00:15:33.734] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:33.878] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:15:33.878] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:15:33.878] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773268953169} /_vercel/insights/view
+[00:16:04.163] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:04.301] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:16:04.301] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:16:04.301] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773268983592} /_vercel/insights/view
+[00:17:38.737] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.738] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.740] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.740] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.742] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.742] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.743] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.744] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.744] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.745] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.746] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.746] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.747] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.748] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.749] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.749] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.750] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.751] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.751] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.751] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.838] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.839] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.839] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.840] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.841] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.841] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.842] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.842] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.843] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.843] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.844] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.844] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:38.845] Server  LOG     ✓ Compiled in 116ms
+[00:17:39.622] Browser ERROR   ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:43.944] Server  ERROR   ⨯ ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:44.962] Browser ERROR   uncaughtError: Error: ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:17:45.120] Browser ERROR   ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:45.120] Browser ERROR   ./automacao-completa/frontend/components/header.tsx:4:1
+Module not found: Can't resolve './active-models-status'
+  2 |
+  3 | import { Beaker } from 'lucide-react'
+> 4 | import { ActiveModelsStatus } from './active-models-status' // Certifique-se que o caminho está correto
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | export function Header() {
+  7 |   return (
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/components/header.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/components/header.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:48.912] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:49.062] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:17:49.062] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:17:49.062] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773269088354} /_vercel/insights/view
+[00:18:53.728] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.729] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.730] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.731] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.732] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.733] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.734] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.735] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.736] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.737] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.738] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.739] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.741] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.741] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.742] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.743] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.744] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.745] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.746] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.746] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.747] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.748] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.749] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.749] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.750] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.751] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.751] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.752] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.753] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.755] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.756] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.757] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:53.764] Server  LOG     ✓ Compiled in 119ms
+[00:18:54.620] Browser ERROR   ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:18:56.052] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.053] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.054] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.055] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.060] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.060] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.061] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.061] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.062] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.063] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.064] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.065] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.066] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.066] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.067] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.067] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.069] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.069] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.070] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.071] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.072] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.072] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.074] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.074] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.075] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.076] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.076] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.077] Server  ERROR   ⨯ ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:18:56.091] Server  LOG     ✓ Compiled in 54ms
+[00:18:57.017] Browser ERROR   ./automacao-completa/frontend/app/page.tsx:14:1
+Module not found: Can't resolve '@/components/active-models-status'
+  12 | import { useAppStore } from '@/lib/store'
+  13 | // 1. Importe o componente de status aqui
+> 14 | import { ActiveModelsStatus } from '@/components/active-models-status'
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function Home() {
+  17 |   const { status } = useAppStore()
+
+Import map: aliased to relative './components/active-models-status' inside of [project]/automacao-completa/frontend
+
+Import traces:
+  Client Component Browser:
+    ./automacao-completa/frontend/app/page.tsx [Client Component Browser]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./automacao-completa/frontend/app/page.tsx [Client Component SSR]
+    ./automacao-completa/frontend/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:41.443] Server  LOG     ✓ Compiled in 40ms
+[00:21:02.371] Server  LOG     ✓ Compiled in 80ms
+[00:21:07.849] Server  LOG     ✓ Compiled in 164ms
+[00:21:44.309] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:44.449] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:21:44.449] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:21:44.449] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773269323741} /_vercel/insights/view
+[00:23:07.543] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:23:07.682] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:23:07.682] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:23:07.682] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773269406974} /_vercel/insights/view
+[00:24:27.633] Server  LOG     ✓ Compiled in 46ms
+[00:24:29.011] Server  LOG     ✓ Compiled in 47ms
+[00:28:32.340] Server  LOG     ✓ Compiled in 0ms
+[00:28:32.596] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:28:32.734] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:28:32.734] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:28:32.734] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773269732025} /_vercel/insights/view
+[00:28:37.101] Server  LOG     ✓ Compiled in 38ms
+[00:28:41.360] Server  LOG     ✓ Compiled in 47ms
+[00:28:46.274] Server  LOG     ✓ Compiled in 85ms
+[00:29:28.635] Server  LOG     ✓ Compiled in 181ms
+[00:30:17.200] Server  LOG     ✓ Compiled in 64ms
+[00:32:20.422] Server  LOG     ✓ Compiled in 181ms
+[00:43:47.230] Server  LOG     ✓ Compiled in 131ms
+[00:44:02.442] Server  LOG     ✓ Compiled in 70ms
+[00:44:31.115] Server  LOG     ✓ Compiled in 36ms
+[00:44:32.100] Browser ERROR   uncaughtError: ReferenceError: React is not defined
+[00:44:38.818] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:44:38.846] Server  LOG     ✓ Compiled in 55ms
+[00:44:39.346] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:40.318] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:44:40.318] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:44:40.318] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773270698789} /_vercel/insights/view
+[00:44:51.957] Server  LOG     ✓ Compiled in 40ms
+[00:45:30.341] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:45:30.496] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:45:30.496] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:45:30.496] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773270749786} /_vercel/insights/view
+[00:45:59.658] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:45:59.801] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:45:59.801] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:45:59.801] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773270779093} /_vercel/insights/view
+[00:49:16.300] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:49:16.451] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:49:16.451] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:49:16.451] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1773270975743} /_vercel/insights/view

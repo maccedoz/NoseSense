@@ -1,0 +1,276 @@
+TESTE 1
+PROJETO: pekko-platform-guide
+ARQUIVO: /home/magno-macedo/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/02-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
+LINHAS: 51-71
+```java
+@Test
+  public void rejectAlreadyAddedItem() {
+    CommandResultWithReply<
+            ShoppingCart.Command,
+            ShoppingCart.Event,
+            ShoppingCart.State,
+            StatusReply<ShoppingCart.Summary>>
+        result1 =
+            eventSourcedTestKit.runCommand(replyTo -> new ShoppingCart.AddItem("foo", 42, replyTo));
+    assertTrue(result1.reply().isSuccess());
+    CommandResultWithReply<
+            ShoppingCart.Command,
+            ShoppingCart.Event,
+            ShoppingCart.State,
+            StatusReply<ShoppingCart.Summary>>
+        result2 =
+            eventSourcedTestKit.runCommand(replyTo -> new ShoppingCart.AddItem("foo", 42, replyTo));
+    assertTrue(result2.reply().isError());
+    assertTrue(result2.hasNoEvents());
+  }
+```
+
+TESTE 2
+PROJETO: pekko-platform-guide
+ARQUIVO: /home/magno-macedo/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/03-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
+LINHAS: 119-147
+```java
+@Test
+  public void checkout() {
+    CommandResultWithReply<
+            ShoppingCart.Command,
+            ShoppingCart.Event,
+            ShoppingCart.State,
+            StatusReply<ShoppingCart.Summary>>
+        result1 =
+            eventSourcedTestKit.runCommand(replyTo -> new ShoppingCart.AddItem("foo", 42, replyTo));
+    assertTrue(result1.reply().isSuccess());
+    CommandResultWithReply<
+            ShoppingCart.Command,
+            ShoppingCart.Event,
+            ShoppingCart.State,
+            StatusReply<ShoppingCart.Summary>>
+        result2 = eventSourcedTestKit.runCommand(replyTo -> new ShoppingCart.Checkout(replyTo));
+    assertTrue(result2.reply().isSuccess());
+    assertTrue(result2.event() instanceof ShoppingCart.CheckedOut);
+    assertEquals(CART_ID, result2.event().cartId);
+
+    CommandResultWithReply<
+            ShoppingCart.Command,
+            ShoppingCart.Event,
+            ShoppingCart.State,
+            StatusReply<ShoppingCart.Summary>>
+        result3 =
+            eventSourcedTestKit.runCommand(replyTo -> new ShoppingCart.AddItem("foo", 42, replyTo));
+    assertTrue(result3.reply().isError());
+  }
+```
+
+TESTE 3
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
+LINHAS: 56-70
+```java
+@Test
+  public void globalSideInputValues() {
+    Encoder<WindowedValue<String>> enc =
+        windowedValueEncoder(encoderOf(String.class), encoderOf(GlobalWindow.class));
+    Dataset<WindowedValue<String>> ds =
+        dataset(enc, valueInGlobalWindow("a"), valueInGlobalWindow("b"));
+
+    SideInputValues<String> values = new SideInputValues.Global<>("test", StringUtf8Coder.of(), ds);
+    assertThat(values.get(GlobalWindow.INSTANCE)).isEqualTo(ImmutableList.of("a", "b"));
+
+    SideInputValues<String> deserialized = KRYO.serde(values);
+    assertThat(deserialized).isEqualToIgnoringGivenFields(values, "binaryValues");
+    assertThat(deserialized.get(GlobalWindow.INSTANCE)).isEqualTo(ImmutableList.of("a", "b"));
+  }
+```
+
+TESTE 4
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
+LINHAS: 71-95
+```java
+@Test
+  public void windowedSideInputValues() {
+    Encoder<WindowedValue<String>> encoder =
+        windowedValueEncoder(encoderOf(String.class), encoderOf(IntervalWindow.class));
+    Coder<WindowedValue<String>> coder =
+        getFullCoder(StringUtf8Coder.of(), IntervalWindow.getCoder());
+
+    Dataset<WindowedValue<String>> ds =
+        dataset(
+            encoder,
+            valueInWindows("a", intervalWindow(0, 1), intervalWindow(1, 2)),
+            valueInWindows("b", intervalWindow(1, 2), intervalWindow(2, 3)));
+
+    SideInputValues<String> values = new SideInputValues.ByWindow<>("test", coder, ds);
+    assertThat(values.get(intervalWindow(0, 1))).isEqualTo(ImmutableList.of("a"));
+    assertThat(values.get(intervalWindow(1, 2))).isEqualTo(ImmutableList.of("a", "b"));
+    assertThat(values.get(intervalWindow(2, 3))).isEqualTo(ImmutableList.of("b"));
+
+    SideInputValues<String> deserialized = KRYO.serde(values);
+    assertThat(deserialized).isEqualToIgnoringGivenFields(values, "binaryValues");
+    assertThat(deserialized.get(intervalWindow(0, 1))).isEqualTo(ImmutableList.of("a"));
+    assertThat(deserialized.get(intervalWindow(1, 2))).isEqualTo(ImmutableList.of("a", "b"));
+    assertThat(deserialized.get(intervalWindow(2, 3))).isEqualTo(ImmutableList.of("b"));
+  }
+```
+
+TESTE 5
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
+LINHAS: 52-63
+```java
+@Test
+  public void garbageCollectionTimeAfterEndOfGlobalWindow() {
+    FixedWindows windowFn = FixedWindows.of(Duration.standardMinutes(5));
+    WindowingStrategy<?, ?> strategy = WindowingStrategy.globalDefault().withWindowFn(windowFn);
+
+    IntervalWindow window = windowFn.assignWindow(BoundedWindow.TIMESTAMP_MAX_VALUE);
+    assertThat(window.maxTimestamp(), equalTo(GlobalWindow.INSTANCE.maxTimestamp()));
+    assertThat(
+        LateDataUtils.garbageCollectionTime(window, strategy),
+        equalTo(GlobalWindow.INSTANCE.maxTimestamp()));
+  }
+```
+
+TESTE 6
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
+LINHAS: 64-81
+```java
+@Test
+  public void garbageCollectionTimeAfterEndOfGlobalWindowWithLateness() {
+    FixedWindows windowFn = FixedWindows.of(Duration.standardMinutes(5));
+    Duration allowedLateness = Duration.millis(Long.MAX_VALUE);
+    WindowingStrategy<?, ?> strategy =
+        WindowingStrategy.globalDefault()
+            .withWindowFn(windowFn)
+            .withAllowedLateness(allowedLateness);
+
+    IntervalWindow window = windowFn.assignWindow(new Instant(-100));
+    assertThat(
+        window.maxTimestamp().plus(allowedLateness),
+        Matchers.greaterThan(GlobalWindow.INSTANCE.maxTimestamp()));
+    assertThat(
+        LateDataUtils.garbageCollectionTime(window, strategy),
+        equalTo(GlobalWindow.INSTANCE.maxTimestamp()));
+  }
+```
+
+TESTE 7
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/ReduceFnRunnerTest.java
+LINHAS: 1390-1421
+```java
+@Test
+  public void testPaneInfoFinalAndOnTime() throws Exception {
+    ReduceFnTester<Integer, Iterable<Integer>, IntervalWindow> tester =
+        ReduceFnTester.nonCombining(
+            WindowingStrategy.of(FixedWindows.of(Duration.millis(10)))
+                .withTrigger(
+                    Repeatedly.forever(AfterPane.elementCountAtLeast(2))
+                        .orFinally(AfterWatermark.pastEndOfWindow()))
+                .withMode(AccumulationMode.DISCARDING_FIRED_PANES)
+                .withAllowedLateness(Duration.millis(100))
+                .withClosingBehavior(ClosingBehavior.FIRE_ALWAYS));
+
+    tester.advanceInputWatermark(new Instant(0));
+
+    // Should trigger due to element count
+    tester.injectElements(
+        TimestampedValue.of(1, new Instant(1)), TimestampedValue.of(2, new Instant(2)));
+
+    assertThat(
+        tester.extractOutput(),
+        contains(
+            WindowMatchers.valueWithPaneInfo(
+                PaneInfo.createPane(true, false, Timing.EARLY, 0, -1))));
+
+    tester.advanceInputWatermark(new Instant(150));
+    assertThat(
+        tester.extractOutput(),
+        contains(
+            WindowMatchers.valueWithPaneInfo(
+                PaneInfo.createPane(false, true, Timing.ON_TIME, 1, 0))));
+  }
+```
+
+TESTE 8
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+LINHAS: 278-297
+```java
+@Test
+  public void processElementNoSideInputs() {
+    SimplePushbackSideInputDoFnRunner<Integer, Integer> runner = createRunner(ImmutableList.of());
+
+    WindowedValue<Integer> multiWindow =
+        WindowedValues.of(
+            2,
+            new Instant(-2),
+            ImmutableList.of(
+                new IntervalWindow(new Instant(-500L), new Instant(0L)),
+                new IntervalWindow(BoundedWindow.TIMESTAMP_MIN_VALUE, new Instant(250L)),
+                GlobalWindow.INSTANCE),
+            PaneInfo.ON_TIME_AND_ONLY_FIRING);
+    Iterable<WindowedValue<Integer>> multiWindowPushback =
+        runner.processElementInReadyWindows(multiWindow);
+    assertThat(multiWindowPushback, emptyIterable());
+    // Should preserve the compressed representation when there's no side inputs.
+    assertThat(underlying.inputElems, containsInAnyOrder(multiWindow));
+  }
+```
+
+TESTE 9
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+LINHAS: 175-194
+```java
+@Test
+  public void processElementSideInputNotReady() {
+    when(reader.isReady(Mockito.eq(singletonView), Mockito.any(BoundedWindow.class)))
+        .thenReturn(false);
+
+    SimplePushbackSideInputDoFnRunner<Integer, Integer> runner =
+        createRunner(ImmutableList.of(singletonView));
+
+    WindowedValue<Integer> oneWindow =
+        WindowedValues.of(
+            2,
+            new Instant(-2),
+            new IntervalWindow(new Instant(-500L), new Instant(0L)),
+            PaneInfo.ON_TIME_AND_ONLY_FIRING);
+    Iterable<WindowedValue<Integer>> oneWindowPushback =
+        runner.processElementInReadyWindows(oneWindow);
+    assertThat(oneWindowPushback, containsInAnyOrder(oneWindow));
+    assertThat(underlying.inputElems, emptyIterable());
+  }
+```
+
+TESTE 10
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+LINHAS: 195-217
+```java
+@Test
+  public void processElementSideInputNotReadyMultipleWindows() {
+    when(reader.isReady(Mockito.eq(singletonView), Mockito.any(BoundedWindow.class)))
+        .thenReturn(false);
+
+    SimplePushbackSideInputDoFnRunner<Integer, Integer> runner =
+        createRunner(ImmutableList.of(singletonView));
+
+    WindowedValue<Integer> multiWindow =
+        WindowedValues.of(
+            2,
+            new Instant(-2),
+            ImmutableList.of(
+                new IntervalWindow(new Instant(-500L), new Instant(0L)),
+                new IntervalWindow(BoundedWindow.TIMESTAMP_MIN_VALUE, new Instant(250L)),
+                GlobalWindow.INSTANCE),
+            PaneInfo.ON_TIME_AND_ONLY_FIRING);
+    Iterable<WindowedValue<Integer>> multiWindowPushback =
+        runner.processElementInReadyWindows(multiWindow);
+    assertThat(multiWindowPushback, equalTo(multiWindow.explodeWindows()));
+    assertThat(underlying.inputElems, emptyIterable());
+  }
+```
+
