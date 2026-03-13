@@ -1,7 +1,8 @@
 import json
 import os
+import re 
 from langchain_openai import ChatOpenAI
-from langchain_together import ChatTogether
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 CAMINHO_JSON = "dados.json"
 def search_for_api_keys(name: str) -> str:
@@ -27,18 +28,29 @@ def initialize_models() -> dict:
             "openai_gpt5_nano": ChatOpenAI(model="gpt-5-nano", api_key=openai_key),
         })
 
-    # ✅ TOGETHER AI
+    # # ✅ TOGETHER AI
     try:
-        together_key_1 = search_for_api_keys("together")
+        together_key_1 = search_for_api_keys("togetherai")
     except Exception as e:
         print(f"Error occurred while fetching Together AI API key: {e}")
         together_key_1 = None
 
     if together_key_1:
         models.update({
-            "together_deepseek": ChatTogether(model="deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free", api_key=together_key_1),
-            "together_gemma": ChatTogether(model="google/gemma-3n-E4B-it", api_key=together_key_1),
-            "together_qwen": ChatTogether(model="Qwen/Qwen2.5-7B-Instruct-Turbo", api_key=together_key_1),
+            "togetherai_deepseek": ChatOpenAI(base_url="https://api.together.xyz/v1", model="deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free", api_key=together_key_1),
+            "togetherai_gemma": ChatOpenAI(base_url="https://api.together.xyz/v1", model="google/gemma-3n-E4B-it", api_key=together_key_1),
+            "togetherai_qwen": ChatOpenAI(base_url="https://api.together.xyz/v1", model="Qwen/Qwen2.5-7B-Instruct-Turbo", api_key=together_key_1),
         })
+    # ✅ GOOGLE API
+    try:
+        google_key = search_for_api_keys("googleai")
+    except Exception as e:
+        print(f"Error occurred while fetching Google API key: {e}")
+        google_key = None
 
+    if google_key:
+        models.update({
+            "google_gemini": ChatGoogleGenerativeAI(model="gemini-2.5-flash", api_key=google_key),
+        })
+    
     return models

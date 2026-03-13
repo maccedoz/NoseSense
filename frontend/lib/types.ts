@@ -2,6 +2,7 @@ export interface LLMModel {
   id: string
   name: string
   enabled: boolean
+  backendId?: string
 }
 
 export interface Provider {
@@ -49,8 +50,10 @@ export interface ProcessResult {
   modelName: string
   providerName: string
   testType: TestType
+  testIndex?: number
+  correctAnswer?: AnswerOption | string
   status: 'success' | 'error'
-  answer?: AnswerOption
+  answer?: AnswerOption | string
   errorMessage?: string
   timestamp: Date
 }

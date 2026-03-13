@@ -3,10 +3,10 @@
 import { create } from 'zustand'
 import type { Provider, LLMModel, ProcessResult, ProcessError, ProcessStatus } from './types'
 
-// Fallback estático caso o backend não retorne nada
 const PREDEFINED_MODELS: Record<string, string[]> = {
   'OpenAI': ['GPT-4o', 'GPT-4o-mini', 'GPT-4-turbo', 'GPT-3.5-turbo'],
   'TogetherAI': ['DeepSeek-R1', 'Gemma-3n', 'Qwen2.5-7B'],
+  'GoogleAI': ['Gemini 2.5 Flash'],
 }
 
 /**
@@ -31,6 +31,7 @@ interface AppState {
   activeBackendModels: string[] // Lista de strings vindas do Python
   
   fetchActiveModels: () => Promise<void>
+  fetchPreviousResults: () => Promise<void>
   addProvider: (provider: { name: string; apiKey: string }) => void
   removeProvider: (id: string) => void
   toggleProviderExpanded: (id: string) => void
@@ -55,7 +56,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   // retorna um array de LLMModel baseado nos nomes enviados pelo backend
   getModelsForProvider: (providerName: string): LLMModel[] => {
     const backend = get().activeBackendModels
-    const keyPrefix = providerName.toLowerCase() + '_'
+    
+    // Tratamento especial para o prefixo da GoogleAI
+    // Se for 'GoogleAI', o python manda como 'google_gemini'
+    const keyPrefix = providerName === 'GoogleAI' 
+      ? 'google_' 
+      : providerName.toLowerCase() + '_'
+      
     const fromBackend = backend
       .filter((k) => k.startsWith(keyPrefix))
       .map((k, idx) => {
@@ -64,6 +71,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           id: `m-${providerName.toLowerCase()}-${idx}`,
           name: formatBackendModelName(rawModel),
           enabled: false,
+          backendId: k,
         } as LLMModel
       })
     if (fromBackend.length > 0) return fromBackend
@@ -98,6 +106,59 @@ export const useAppStore = create<AppState>((set, get) => ({
       }
     } catch (error) {
       console.error("Erro ao sincronizar modelos com o backend:", error)
+    }
+  },
+
+  fetchPreviousResults: async () => {
+    try {
+      const response = await fetch('http://localhost:8001/api/results')
+      if (response.ok) {
+        const history: ProcessResult[] = await response.json()
+        if (history.length > 0) {
+          
+          // Mapear os modelos retornados ("openai_gpt5") para o nome e provedor original da UI ("GPT-5")
+          const mappedHistory = history.map(item => {
+            let providerName = 'Desconhecido'
+            let modelName = item.modelName
+            const raw = item.modelName
+
+            if (raw.startsWith('google_')) {
+              providerName = 'GoogleAI'
+              modelName = formatBackendModelName(raw.slice(7))
+            } else if (raw.startsWith('openai_')) {
+              providerName = 'OpenAI'
+              modelName = formatBackendModelName(raw.slice(7))
+            } else if (raw.startsWith('togetherai_')) {
+              providerName = 'TogetherAI'
+              modelName = formatBackendModelName(raw.slice(11))
+            } else {
+              // Fallback para modelos customizados
+              for (const p of get().providers) {
+                const matchedModel = p.models.find(m => m.backendId === raw || m.id === raw)
+                if (matchedModel) {
+                  providerName = p.name
+                  modelName = matchedModel.name
+                  break
+                }
+              }
+            }
+
+            return {
+              ...item,
+              providerName,
+              modelName
+            }
+          })
+          
+          set({
+             results: mappedHistory,
+             status: 'completed', // Força a tela de Dashboard exibir as análises
+             progress: 100
+          })
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao buscar histórico do banco:", error)
     }
   },
 

@@ -13,11 +13,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppStore } from '@/lib/store'
 
 export default function Home() {
-  const { status, fetchActiveModels } = useAppStore()
+  const { status, fetchActiveModels, fetchPreviousResults } = useAppStore()
   
   useEffect(() => {
     fetchActiveModels()
-  }, [fetchActiveModels])
+    fetchPreviousResults()
+  }, [fetchActiveModels, fetchPreviousResults])
   
   return (
     <div className="min-h-screen bg-background">

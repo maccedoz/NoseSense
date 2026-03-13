@@ -128,7 +128,10 @@ export function AnalysisTab() {
         modelStat.errors++
         testTypeStat.errors++
       } else if (result.status === 'success' && result.answer) {
-        const correctAnswer = CORRECT_ANSWERS[result.testType]
+        
+        // Agora cada linha no resultado histórico tem sua própria correta, mesmo se o smell for repetido
+        const correctAnswer = result.correctAnswer || CORRECT_ANSWERS[result.testType]
+        
         if (result.answer === correctAnswer) {
           modelStat.correctAnswers++
           testTypeStat.correctAnswers++
@@ -350,8 +353,8 @@ export function AnalysisTab() {
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value, name) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
-                    labelFormatter={(label, payload) => payload?.[0]?.payload?.fullName || label}
+                    formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
+                    labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                   />
                   <Legend 
                     wrapperStyle={{ paddingTop: '20px' }}
@@ -440,8 +443,8 @@ export function AnalysisTab() {
                     borderRadius: '8px',
                     color: '#fff'
                   }}
-                  formatter={(value, name) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
-                  labelFormatter={(label, payload) => payload?.[0]?.payload?.fullName || label}
+                  formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
+                  labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                 />
                 <Legend 
                   formatter={(value) => value === 'acertos' ? 'Acertos' : value === 'erros' ? 'Erros' : 'Timeout'}

@@ -25,31 +25,50 @@ export function FinalResultsTable() {
     )
   }
 
-  // Criar mapa de resultados por modelo e tipo de teste
-  const resultsMap = new Map<string, Map<TestType, { status: 'success' | 'error'; answer?: string; errorMessage?: string }>>()
-  
+  // Extrai informações únicas de cada teste da execução (novo modelo suporta múltiplos itens)
+  // Criamos um mapa onde a chave é o ID do Teste e o valor são as infos gerais e os resultados dos modelos.
+  type TestData = { testType: string; correctAnswer: string; results: Map<string, { status: string; answer?: string; errorMessage?: string }> }
+  const testsByIndexMap = new Map<number, TestData>()
+
+  // Extrair também todos os modelos agrupados das keys do JSON 
+  const testedModelsSet = new Set<string>()
+
   results.forEach((result) => {
-    const modelKey = `${result.providerName}/${result.modelName}`
-    if (!resultsMap.has(modelKey)) {
-      resultsMap.set(modelKey, new Map())
+    // Fallback: se o item do histórico for mto antigo e n tiver index geramos 1 pelo index do map
+    const tIndex = result.testIndex ?? testsByIndexMap.size + 1 
+    const cAnswer = (result.correctAnswer ?? CORRECT_ANSWERS[result.testType] ?? '-').toString()
+    
+    if (!testsByIndexMap.has(tIndex)) {
+      testsByIndexMap.set(tIndex, { 
+        testType: result.testType, 
+        correctAnswer: cAnswer, 
+        results: new Map() 
+      })
     }
-    resultsMap.get(modelKey)!.set(result.testType, {
+
+    const modelKey = `${result.providerName}/${result.modelName}`
+    testedModelsSet.add(modelKey)
+
+    testsByIndexMap.get(tIndex)!.results.set(modelKey, {
       status: result.status,
       answer: result.answer,
       errorMessage: result.errorMessage,
     })
   })
 
-  // Obter lista unica de modelos que foram testados
-  const testedModels = Array.from(resultsMap.keys())
+  // Transforma Sets em Arrays consistentes ordenados
+  const testedModels = Array.from(testedModelsSet).sort()
+  const allTestsExecutedIds = Array.from(testsByIndexMap.keys()).sort((a,b) => a - b)
 
   const downloadCSV = () => {
-    const headers = ['Tipo de Teste', 'Resposta Correta', ...testedModels]
-    const rows = TEST_TYPES.map((testType) => {
-      const correctAnswer = CORRECT_ANSWERS[testType]
-      const row = [testType, correctAnswer]
+    const headers = ['Índice', 'Tipo de Teste', 'Resposta Correta', ...testedModels]
+    
+    const rows = allTestsExecutedIds.map((testId) => {
+      const data = testsByIndexMap.get(testId)!
+      const row = [testId.toString(), data.testType, data.correctAnswer]
+      
       testedModels.forEach((modelKey) => {
-        const result = resultsMap.get(modelKey)?.get(testType)
+        const result = data.results.get(modelKey)
         if (result) {
           row.push(result.status === 'success' ? (result.answer || '-') : `ERRO: ${result.errorMessage || 'Timeout'}`)
         } else {
@@ -113,31 +132,34 @@ export function FinalResultsTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {TEST_TYPES.map((testType, index) => {
-                const correctAnswer = CORRECT_ANSWERS[testType]
+              {allTestsExecutedIds.map((testId, index) => {
+                const data = testsByIndexMap.get(testId)!
+                
                 return (
                   <TableRow 
-                    key={testType} 
+                    key={testId} 
                     className={cn(
                       "border-border hover:bg-secondary/30",
                       index % 2 === 0 ? 'bg-secondary/10' : ''
                     )}
                   >
                     <TableCell className="font-medium text-foreground bg-secondary/20 text-sm">
-                      {testType}
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">#{testId}</span>
+                        <span>{data.testType}</span>
+                      </div>
                     </TableCell>
                     <TableCell className="text-center bg-secondary/10">
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm">
-                        {correctAnswer}
+                        {data.correctAnswer}
                       </span>
                     </TableCell>
                     {testedModels.map((modelKey) => {
-                      const result = resultsMap.get(modelKey)?.get(testType)
-                      const isCorrect = result?.status === 'success' && result?.answer === correctAnswer
-                      const isError = result?.status === 'error'
+                      const result = data.results.get(modelKey)
+                      const isCorrect = result?.status === 'success' && result?.answer === data.correctAnswer
                       
                       return (
-                        <TableCell key={`${testType}-${modelKey}`} className="text-center">
+                        <TableCell key={`${testId}-${modelKey}`} className="text-center">
                           {result ? (
                             result.status === 'success' ? (
                               <span className={cn(
@@ -151,7 +173,7 @@ export function FinalResultsTable() {
                             ) : (
                               <div className="flex flex-col items-center gap-1">
                                 <span className="text-xs text-destructive font-medium">ERRO</span>
-                                <span className="text-xs text-muted-foreground">Timeout</span>
+                                <span className="text-xs text-muted-foreground" title={result.errorMessage}>Falha API</span>
                               </div>
                             )
                           ) : (

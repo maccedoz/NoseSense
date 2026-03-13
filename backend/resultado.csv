@@ -1,0 +1,11 @@
+test_smell,correct_answer,openai_gpt4.1_nano,openai_gpt5_nano,togetherai_gemma
+Assertion Roulette,C,C,C,C
+Assertion Roulette,C,C,C,C
+Assertion Roulette,A,E,A,A
+Assertion Roulette,B,E,B,A
+Assertion Roulette,B,A,B,E
+Assertion Roulette,D,E,D,E
+Assertion Roulette,A,E,A,B
+Assertion Roulette,B,E,D,E
+Assertion Roulette,A,B,A,D
+Assertion Roulette,A,D,A,B

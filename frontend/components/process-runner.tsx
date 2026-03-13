@@ -1,79 +1,145 @@
 'use client'
-
+import { useRef, useState } from 'react'
 import { useAppStore } from '@/lib/store'
 import { TEST_TYPES, ANSWER_OPTIONS } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { Play, CheckCircle2, XCircle, Loader2 } from 'lucide-react'
+import { Play, CheckCircle2, XCircle, Loader2, Square } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export function ProcessRunner() {
   const { status, progress, errors, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
   
+  const eventSourceRef = useRef<EventSource | null>(null)
+  const statsRef = useRef({ total: 0, completed: 0 })
   const enabledModels = getEnabledModels()
+  const [showConfirm, setShowConfirm] = useState(false)
   
-  const runProcess = async () => {
+  const handleStartClick = () => {
     if (enabledModels.length === 0) return
+    setShowConfirm(true)
+  }
+
+  const runProcess = async () => {
+    setShowConfirm(false)
     
+    // Limpar DB Back-end antes de rodar processamento 
+    try {
+      await fetch('http://localhost:8001/api/results', { method: 'DELETE' })
+    } catch(e) {
+      console.error("Erro ao limpar banco:", e)
+    }
+
     resetResults()
     setStatus('running')
     setProgress(0)
     
-    const totalSteps = enabledModels.length * TEST_TYPES.length
-    let completedSteps = 0
-    
-    // Criar todas as promessas para rodar sincronamente (todas as LLMs ao mesmo tempo)
-    const promises = enabledModels.flatMap(({ provider, model }) =>
-      TEST_TYPES.map((testType) =>
-        new Promise<void>((resolve) => {
-          setTimeout(() => {
-            // Simulando sucesso/erro (15% chance de timeout)
-            const isError = Math.random() < 0.15
-            
-            if (isError) {
-              addError({
-                modelName: model.name,
-                providerName: provider.name,
-                testType,
-                message: 'API Timeout - A requisicao excedeu o tempo limite',
-                timestamp: new Date(),
-              })
-              addResult({
-                id: crypto.randomUUID(),
-                modelName: model.name,
-                providerName: provider.name,
-                testType,
-                status: 'error',
-                errorMessage: 'API Timeout',
-                timestamp: new Date(),
-              })
-            } else {
-              // Gerar resposta aleatoria A-E
-              const randomAnswer = ANSWER_OPTIONS[Math.floor(Math.random() * ANSWER_OPTIONS.length)]
-              addResult({
-                id: crypto.randomUUID(),
-                modelName: model.name,
-                providerName: provider.name,
-                testType,
-                status: 'success',
-                answer: randomAnswer,
-                timestamp: new Date(),
-              })
-            }
-            
-            completedSteps++
-            setProgress((completedSteps / totalSteps) * 100)
-            resolve()
-          }, 300 + Math.random() * 700)
+    // Obter array de models ativados e mapeados para a chave nativa do backend
+    const activeModelNames = enabledModels
+      .map(item => item.model.backendId)
+      .filter(Boolean)
+      .join(',')
+  
+    // Define a URL do stream injetando os modelos ativados para o python
+    const streamUrl = activeModelNames 
+        ? `http://localhost:8001/api/run-tests?models=${activeModelNames}`
+        : 'http://localhost:8001/api/run-tests'
+
+    // Connect to SSE Endpoint
+    const eventSource = new EventSource(streamUrl)
+    eventSourceRef.current = eventSource
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+
+      if (data.type === 'start') {
+        console.log(`Iniciando testes: ${data.total_tests}`)
+        // Total steps = number of tests * number of models being tested
+        statsRef.current.total = data.total_tests * data.models.length
+        statsRef.current.completed = 0
+      } 
+      
+      else if (data.type === 'result') {
+        const isError = data.answer === 'API_ERROR' || data.answer === 'TIMEOUT'
+        
+        // Se quisermos mapear provider, pegamos o prefixo (ex: openai_ -> OpenAI)
+        let providerName = 'Desconhecido'
+        if (data.model_name.startsWith('openai')) providerName = 'OpenAI'
+        if (data.model_name.startsWith('togetherai')) providerName = 'TogetherAI'
+        if (data.model_name.startsWith('google')) providerName = 'GoogleAI'
+        
+        if (isError) {
+          addError({
+            modelName: data.model_name,
+            providerName: providerName,
+            testType: data.test_smell,
+            message: data.answer,
+            timestamp: new Date(),
+          })
+        }
+        
+        addResult({
+          id: crypto.randomUUID(),
+          modelName: data.model_name,
+          providerName: providerName,
+          testType: data.test_smell,
+          testIndex: data.test_index,
+          correctAnswer: data.correct_answer,
+          status: isError ? 'error' : 'success',
+          answer: data.answer,
+          timestamp: new Date(),
         })
-      )
-    )
-    
-    // Executar todas as promessas sincronamente
-    await Promise.all(promises)
-    
-    setProgress(100)
-    setStatus('completed')
+        
+        // Atualiza progresso
+        statsRef.current.completed += 1
+        if (statsRef.current.total > 0) {
+           setProgress((statsRef.current.completed / statsRef.current.total) * 100)
+        }
+      } 
+      
+      else if (data.type === 'complete') {
+        setProgress(100)
+        setStatus('completed')
+        eventSource.close()
+      }
+      
+      else if (data.type === 'error') {
+        addError({
+          modelName: 'Backend',
+          providerName: 'Sistema',
+          testType: 'Unknown Test',
+          message: data.message,
+          timestamp: new Date(),
+        })
+        setStatus('idle')
+        eventSource.close()
+      }
+    }
+
+    eventSource.onerror = (error) => {
+      console.error('SSE Error:', error)
+      setStatus('idle')
+      eventSource.close()
+      eventSourceRef.current = null
+    }
+  }
+
+  const stopProcess = () => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close()
+      eventSourceRef.current = null
+    }
+    setStatus('idle')
   }
 
   return (
@@ -90,28 +156,41 @@ export function ProcessRunner() {
         )}
       </div>
       
-      <Button
-        onClick={runProcess}
-        disabled={status === 'running' || enabledModels.length === 0}
-        className={cn(
-          "w-full",
-          status === 'running' 
-            ? "bg-secondary text-secondary-foreground" 
-            : "bg-primary hover:bg-primary/90 text-primary-foreground"
+      <div className="flex gap-2">
+        <Button
+          onClick={handleStartClick}
+          disabled={status === 'running' || enabledModels.length === 0}
+          className={cn(
+            "flex-1",
+            status === 'running' 
+              ? "bg-secondary text-secondary-foreground" 
+              : "bg-primary hover:bg-primary/90 text-primary-foreground"
+          )}
+        >
+          {status === 'running' ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Processando...
+            </>
+          ) : (
+            <>
+              <Play className="w-4 h-4 mr-2" />
+              Rodar Processo
+            </>
+          )}
+        </Button>
+
+        {status === 'running' && (
+          <Button 
+            variant="destructive" 
+            onClick={stopProcess}
+            className="px-3"
+            title="Parar Processamento"
+          >
+            <Square className="w-4 h-4" />
+          </Button>
         )}
-      >
-        {status === 'running' ? (
-          <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Processando...
-          </>
-        ) : (
-          <>
-            <Play className="w-4 h-4 mr-2" />
-            Rodar Processo
-          </>
-        )}
-      </Button>
+      </div>
       
       {enabledModels.length === 0 && (
         <p className="text-xs text-muted-foreground text-center">
@@ -149,6 +228,26 @@ export function ProcessRunner() {
           )}
         </div>
       )}
+
+      {/* Confirmation Dialog */}
+      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Apagar dados anteriores?</AlertDialogTitle>
+            <AlertDialogDescription>
+              A execução de um novo teste irá limpar todo o histórico do banco de dados local "resultados.db" 
+              e da planilha "resultado.csv". Deseja continuar?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={runProcess} className="bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+              Sim, Apagar e Rodar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </div>
   )
 }
