@@ -402,6 +402,7 @@ export function AnalysisTab() {
                       borderRadius: '8px',
                       color: '#fff'
                     }}
+                    itemStyle={{ color: '#fff', fontWeight: 'bold' }}
                   />
                 </PieChart>
               </ResponsiveContainer>

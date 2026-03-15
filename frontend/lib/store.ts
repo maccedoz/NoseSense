@@ -7,6 +7,7 @@ const PREDEFINED_MODELS: Record<string, string[]> = {
   'OpenAI': ['GPT-4o', 'GPT-4o-mini', 'GPT-4-turbo', 'GPT-3.5-turbo'],
   'TogetherAI': ['DeepSeek-R1', 'Gemma-3n', 'Qwen2.5-7B'],
   'GoogleAI': ['Gemini 2.5 Flash'],
+  'AnthropicAI': ['Claude 4.6 Opus', 'Claude 4.5 Sonnet', 'Claude 4.5 Haiku'],
 }
 
 /**
@@ -57,11 +58,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   getModelsForProvider: (providerName: string): LLMModel[] => {
     const backend = get().activeBackendModels
     
-    // Tratamento especial para o prefixo da GoogleAI
-    // Se for 'GoogleAI', o python manda como 'google_gemini'
-    const keyPrefix = providerName === 'GoogleAI' 
-      ? 'google_' 
-      : providerName.toLowerCase() + '_'
+    // Tratamento especial para o prefixo da GoogleAI e AnthropicAI
+    let keyPrefix = providerName.toLowerCase() + '_'
+    if (providerName === 'GoogleAI') {
+      keyPrefix = 'google_'
+    } else if (providerName === 'AnthropicAI') {
+      keyPrefix = 'anthropic_'
+    }
       
     const fromBackend = backend
       .filter((k) => k.startsWith(keyPrefix))
@@ -131,6 +134,9 @@ export const useAppStore = create<AppState>((set, get) => ({
             } else if (raw.startsWith('togetherai_')) {
               providerName = 'TogetherAI'
               modelName = formatBackendModelName(raw.slice(11))
+            } else if (raw.startsWith('anthropic_')) {
+              providerName = 'AnthropicAI'
+              modelName = formatBackendModelName(raw.slice(10))
             } else {
               // Fallback para modelos customizados
               for (const p of get().providers) {

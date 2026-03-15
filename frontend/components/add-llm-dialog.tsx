@@ -26,7 +26,8 @@ import { Plus, Building2, Key, Loader2 } from 'lucide-react' // Adicionei o Load
 const AVAILABLE_PROVIDERS = [
   'OpenAI',
   'TogetherAI',
-  'GoogleAI'
+  'GoogleAI',
+  'AnthropicAI'
 ]
 
 export function AddProviderDialog() {
