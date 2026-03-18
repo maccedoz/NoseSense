@@ -70,8 +70,8 @@ export function AddProviderDialog() {
           addProvider({ name: providerName, apiKey: apiKey.trim() })
           
           toast({
-            title: "Sucesso!",
-            description: "Chave da API salva no servidor.",
+            title: "Success!",
+            description: "API key saved on the server.",
           })
 
           // 3. Limpa e fecha o modal
@@ -82,16 +82,16 @@ export function AddProviderDialog() {
           // Erro retornado pelo Pydantic/FastAPI
           toast({
             variant: "destructive",
-            title: "Erro na validação",
-            description: data.detail || "Verifique os dados enviados.",
+            title: "Validation Error",
+            description: data.detail || "Check the submitted data.",
           })
         }
       } catch (error) {
         // Erro de rede (Backend fora do ar ou CORS)
         toast({
           variant: "destructive",
-          title: "Erro de Conexão",
-          description: "Não foi possível conectar ao backend.",
+            title: "Connection Error",
+            description: "Could not connect to the backend.",
         })
         console.error("Falha ao salvar no backend:", error)
       } finally {
@@ -109,25 +109,25 @@ export function AddProviderDialog() {
           disabled={availableProviders.length === 0}
         >
           <Plus className="w-4 h-4 mr-2" />
-          {availableProviders.length === 0 ? 'Todas as empresas adicionadas' : 'Adicionar Empresa'}
+          {availableProviders.length === 0 ? 'All providers added' : 'Add Provider'}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-card border-border">
         <DialogHeader>
           <DialogTitle className="text-foreground flex items-center gap-2">
             <Building2 className="w-5 h-5 text-primary" />
-            Adicionar Empresa
+            Add Provider
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Selecione a empresa e adicione a chave de API para usar seus modelos.
+            Select the provider and add the API key to use their models.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Empresa</label>
+            <label className="text-sm font-medium text-foreground">Provider</label>
             <Select value={providerName} onValueChange={setProviderName} disabled={isSubmitting}>
               <SelectTrigger className="bg-input border-border text-foreground">
-                <SelectValue placeholder="Selecione uma empresa" />
+                <SelectValue placeholder="Select a provider" />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border">
                 {availableProviders.map((provider) => (
@@ -141,7 +141,7 @@ export function AddProviderDialog() {
           <div className="space-y-2">
             <label htmlFor="apiKey" className="text-sm font-medium text-foreground flex items-center gap-1">
               <Key className="w-3 h-3" />
-              Chave da API
+              API Key
             </label>
             <Input
               id="apiKey"
@@ -161,14 +161,14 @@ export function AddProviderDialog() {
               disabled={isSubmitting}
               className="border-border text-foreground hover:bg-secondary"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               type="submit"
               disabled={!providerName || !apiKey.trim() || isSubmitting}
               className="bg-primary hover:bg-primary/90 text-primary-foreground min-w-[100px]"
             >
-              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Adicionar'}
+              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add'}
             </Button>
           </DialogFooter>
         </form>

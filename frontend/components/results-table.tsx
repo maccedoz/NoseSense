@@ -17,12 +17,12 @@ export function ResultsTable() {
   const { results, status } = useAppStore()
   
   const downloadCSV = () => {
-    const headers = ['Modelo', 'Provedor', 'Tipo de Teste', 'Resultado', 'Erro', 'Data/Hora']
+    const headers = ['Model', 'Provider', 'Test Type', 'Result', 'Error', 'Date/Time']
     const rows = results.map((result) => [
       result.modelName,
       result.providerName,
       result.testType,
-      result.status === 'success' ? 'Sucesso' : 'Erro',
+      result.status === 'success' ? 'Success' : 'Error',
       result.errorMessage || '',
       result.timestamp.toISOString(),
     ])
@@ -42,9 +42,9 @@ export function ResultsTable() {
     return (
       <div className="flex flex-col items-center justify-center h-full py-16 text-center">
         <Table className="w-12 h-12 text-muted-foreground/50 mb-4" />
-        <h3 className="text-lg font-medium text-foreground mb-2">Nenhum resultado ainda</h3>
+        <h3 className="text-lg font-medium text-foreground mb-2">No results yet</h3>
         <p className="text-sm text-muted-foreground max-w-xs">
-          Execute o processo para visualizar os resultados aqui em formato de planilha.
+          Run the process to view the results here in spreadsheet format.
         </p>
       </div>
     )
@@ -59,16 +59,16 @@ export function ResultsTable() {
         <div className="flex items-center gap-4">
           <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
             <Table className="w-4 h-4" />
-            Processamento ({results.length})
+            Processing ({results.length})
           </h3>
           <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1 text-accent">
               <CheckCircle2 className="w-3 h-3" />
-              {successCount} sucesso(s)
+              {successCount} success(es)
             </span>
             <span className="flex items-center gap-1 text-destructive">
               <XCircle className="w-3 h-3" />
-              {errorCount} erro(s)
+              {errorCount} error(s)
             </span>
           </div>
         </div>
@@ -80,7 +80,7 @@ export function ResultsTable() {
           className="border-border text-foreground hover:bg-secondary"
         >
           <Download className="w-4 h-4 mr-2" />
-          Exportar CSV
+          Export CSV
         </Button>
       </div>
       
@@ -90,9 +90,9 @@ export function ResultsTable() {
             <TableHeader className="sticky top-0 bg-card z-10">
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground font-medium w-[80px]">Status</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Modelo</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Tipo de Teste</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Resultado</TableHead>
+                <TableHead className="text-muted-foreground font-medium">Model</TableHead>
+                <TableHead className="text-muted-foreground font-medium">Test Type</TableHead>
+                <TableHead className="text-muted-foreground font-medium">Result</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -118,7 +118,7 @@ export function ResultsTable() {
                   </TableCell>
                   <TableCell>
                     {result.status === 'success' ? (
-                      <span className="text-accent">Sucesso</span>
+                      <span className="text-accent">Success</span>
                     ) : (
                       <span className="text-destructive">{result.errorMessage}</span>
                     )}

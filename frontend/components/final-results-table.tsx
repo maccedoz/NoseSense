@@ -20,7 +20,7 @@ export function FinalResultsTable() {
   if (status !== 'completed' || results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground">
-        <p className="text-sm">Execute o processo para ver os resultados finais.</p>
+        <p className="text-sm">Run the process to see the final results.</p>
       </div>
     )
   }
@@ -61,7 +61,7 @@ export function FinalResultsTable() {
   const allTestsExecutedIds = Array.from(testsByIndexMap.keys()).sort((a,b) => a - b)
 
   const downloadCSV = () => {
-    const headers = ['Índice', 'Tipo de Teste', 'Resposta Correta', ...testedModels]
+    const headers = ['Index', 'Test Type', 'Correct Answer', ...testedModels]
     
     const rows = allTestsExecutedIds.map((testId) => {
       const data = testsByIndexMap.get(testId)!
@@ -70,7 +70,7 @@ export function FinalResultsTable() {
       testedModels.forEach((modelKey) => {
         const result = data.results.get(modelKey)
         if (result) {
-          row.push(result.status === 'success' ? (result.answer || '-') : `ERRO: ${result.errorMessage || 'Timeout'}`)
+          row.push(result.status === 'success' ? (result.answer || '-') : `ERROR: ${result.errorMessage || 'Timeout'}`)
         } else {
           row.push('-')
         }
@@ -95,9 +95,9 @@ export function FinalResultsTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>{testedModels.length} modelo(s)</span>
+          <span>{testedModels.length} model(s)</span>
           <span className="text-border">|</span>
-          <span>{TEST_TYPES.length} tipos de teste</span>
+          <span>{TEST_TYPES.length} test types</span>
         </div>
         <Button
           onClick={downloadCSV}
@@ -106,7 +106,7 @@ export function FinalResultsTable() {
           className="gap-2 border-primary/50 text-primary hover:bg-primary/10"
         >
           <Download className="w-4 h-4" />
-          Exportar CSV
+          Export CSV
         </Button>
       </div>
 
@@ -116,10 +116,10 @@ export function FinalResultsTable() {
             <TableHeader className="sticky top-0 bg-card z-10">
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground font-medium bg-secondary/50 min-w-[180px]">
-                  Tipo de Teste
+                  Test Type
                 </TableHead>
                 <TableHead className="text-muted-foreground font-medium bg-secondary/30 text-center min-w-[80px]">
-                  Correta
+                  Correct
                 </TableHead>
                 {testedModels.map((modelKey) => (
                   <TableHead 
@@ -172,8 +172,8 @@ export function FinalResultsTable() {
                               </span>
                             ) : (
                               <div className="flex flex-col items-center gap-1">
-                                <span className="text-xs text-destructive font-medium">ERRO</span>
-                                <span className="text-xs text-muted-foreground" title={result.errorMessage}>Falha API</span>
+                                <span className="text-xs text-destructive font-medium">ERROR</span>
+                                <span className="text-xs text-muted-foreground" title={result.errorMessage}>API Failed</span>
                               </div>
                             )
                           ) : (

@@ -177,8 +177,8 @@ export function AnalysisTab() {
     }))
 
     const pieChartData = [
-      { name: 'Acertos', value: totalCorrect, color: CHART_COLORS.success },
-      { name: 'Erros', value: totalWrong, color: CHART_COLORS.error },
+      { name: 'Correct', value: totalCorrect, color: CHART_COLORS.success },
+      { name: 'Errors', value: totalWrong, color: CHART_COLORS.error },
       { name: 'Timeout', value: totalErrors, color: CHART_COLORS.muted },
     ].filter(d => d.value > 0)
 
@@ -226,7 +226,7 @@ export function AnalysisTab() {
     return (
       <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
         <Activity className="w-12 h-12 mb-4 opacity-50" />
-        <p className="text-sm">Execute o processo para ver as analises.</p>
+        <p className="text-sm">Run the process to view the analysis.</p>
       </div>
     )
   }
@@ -241,7 +241,7 @@ export function AnalysisTab() {
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <Target className="w-4 h-4" />
-              <span className="text-xs uppercase">Total de Testes</span>
+              <span className="text-xs uppercase">Total Tests</span>
             </div>
             <p className="text-3xl font-bold text-foreground">{overallStats.totalTests}</p>
           </CardContent>
@@ -251,7 +251,7 @@ export function AnalysisTab() {
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span className="text-xs uppercase">Acertos</span>
+              <span className="text-xs uppercase">Correct</span>
             </div>
             <p className="text-3xl font-bold text-green-500">{overallStats.totalCorrect}</p>
           </CardContent>
@@ -261,7 +261,7 @@ export function AnalysisTab() {
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <XCircle className="w-4 h-4 text-red-500" />
-              <span className="text-xs uppercase">Erros</span>
+              <span className="text-xs uppercase">Errors</span>
             </div>
             <p className="text-3xl font-bold text-red-500">{overallStats.totalWrong}</p>
           </CardContent>
@@ -284,11 +284,11 @@ export function AnalysisTab() {
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-primary mb-2">
               <TrendingUp className="w-5 h-5" />
-              <span className="text-sm font-medium">Taxa de Acerto Geral</span>
+              <span className="text-sm font-medium">Overall Accuracy</span>
             </div>
             <p className="text-4xl font-bold text-primary">{overallStats.overallAccuracy.toFixed(1)}%</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {overallStats.totalCorrect} de {overallStats.totalTests - overallStats.totalErrors} respostas validas
+              {overallStats.totalCorrect} of {overallStats.totalTests - overallStats.totalErrors} valid answers
             </p>
           </CardContent>
         </Card>
@@ -298,7 +298,7 @@ export function AnalysisTab() {
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 text-green-500 mb-2">
                 <Award className="w-5 h-5" />
-                <span className="text-sm font-medium">Melhor Modelo</span>
+                <span className="text-sm font-medium">Best Model</span>
               </div>
               <p className="text-xl font-bold text-foreground">{overallStats.bestModel.modelName}</p>
               <p className="text-xs text-muted-foreground">{overallStats.bestModel.providerName}</p>
@@ -312,7 +312,7 @@ export function AnalysisTab() {
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 text-red-500 mb-2">
                 <AlertTriangle className="w-5 h-5" />
-                <span className="text-sm font-medium">Pior Modelo</span>
+                <span className="text-sm font-medium">Worst Model</span>
               </div>
               <p className="text-xl font-bold text-foreground">{overallStats.worstModel.modelName}</p>
               <p className="text-xs text-muted-foreground">{overallStats.worstModel.providerName}</p>
@@ -328,9 +328,9 @@ export function AnalysisTab() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-primary" />
-              Desempenho por Modelo
+              Performance by Model
             </CardTitle>
-            <CardDescription>Comparacao de acertos, erros e timeouts</CardDescription>
+            <CardDescription>Comparison of correct answers, errors, and timeouts</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -353,12 +353,12 @@ export function AnalysisTab() {
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
+                    formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Errors' : 'Timeout']}
                     labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                   />
                   <Legend 
                     wrapperStyle={{ paddingTop: '20px' }}
-                    formatter={(value) => value === 'acertos' ? 'Acertos' : value === 'erros' ? 'Erros' : 'Timeout'}
+                    formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Errors' : 'Timeout'}
                   />
                   <Bar dataKey="acertos" fill={CHART_COLORS.success} radius={[4, 4, 0, 0]} />
                   <Bar dataKey="erros" fill={CHART_COLORS.error} radius={[4, 4, 0, 0]} />
@@ -373,9 +373,9 @@ export function AnalysisTab() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <PieChartIcon className="w-4 h-4 text-primary" />
-              Distribuicao Geral
+              Overall Distribution
             </CardTitle>
-            <CardDescription>Proporcao de resultados</CardDescription>
+            <CardDescription>Proportion of results</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -416,9 +416,9 @@ export function AnalysisTab() {
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-primary" />
-            Desempenho por Tipo de Teste
+            Performance by Test Type
           </CardTitle>
-          <CardDescription>Acertos e erros para cada categoria de teste</CardDescription>
+          <CardDescription>Correct answers and errors for each test category</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[350px]">
@@ -444,11 +444,11 @@ export function AnalysisTab() {
                     borderRadius: '8px',
                     color: '#fff'
                   }}
-                  formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Acertos' : name === 'erros' ? 'Erros' : 'Timeout']}
+                  formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Errors' : 'Timeout']}
                   labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                 />
                 <Legend 
-                  formatter={(value) => value === 'acertos' ? 'Acertos' : value === 'erros' ? 'Erros' : 'Timeout'}
+                  formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Errors' : 'Timeout'}
                 />
                 <Bar dataKey="acertos" fill={CHART_COLORS.success} radius={[0, 4, 4, 0]} />
                 <Bar dataKey="erros" fill={CHART_COLORS.error} radius={[0, 4, 4, 0]} />
@@ -464,9 +464,9 @@ export function AnalysisTab() {
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <Activity className="w-4 h-4 text-primary" />
-            Taxa de Acerto por Tipo de Teste (Radar)
+            Accuracy by Test Type (Radar)
           </CardTitle>
-          <CardDescription>Visualizacao radial do desempenho em cada categoria</CardDescription>
+          <CardDescription>Radial visualization of performance in each category</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[400px]">
@@ -496,7 +496,7 @@ export function AnalysisTab() {
                     borderRadius: '8px',
                     color: '#fff'
                   }}
-                  formatter={(value: number) => [`${value.toFixed(1)}%`, 'Taxa de Acerto']}
+                  formatter={(value: number) => [`${value.toFixed(1)}%`, 'Accuracy']}
                   labelFormatter={(label, payload) => payload?.[0]?.payload?.fullName || label}
                 />
               </RadarChart>
@@ -512,9 +512,9 @@ export function AnalysisTab() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <Target className="w-4 h-4 text-primary" />
-              Ranking de Modelos
+              Models Ranking
             </CardTitle>
-            <CardDescription>Ordenado por taxa de acerto</CardDescription>
+            <CardDescription>Ordered by accuracy rate</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
@@ -555,8 +555,8 @@ export function AnalysisTab() {
                     )}
                   />
                   <div className="flex gap-4 text-xs text-muted-foreground">
-                    <span className="text-green-500">{stats.correctAnswers} acertos</span>
-                    <span className="text-red-500">{stats.wrongAnswers} erros</span>
+                    <span className="text-green-500">{stats.correctAnswers} correct</span>
+                    <span className="text-red-500">{stats.wrongAnswers} errors</span>
                     {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} timeouts</span>}
                   </div>
                 </div>
@@ -570,9 +570,9 @@ export function AnalysisTab() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-primary" />
-              Ranking por Tipo de Teste
+              Test Type Ranking
             </CardTitle>
-            <CardDescription>Ordenado por taxa de acerto</CardDescription>
+            <CardDescription>Ordered by accuracy rate</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
@@ -610,8 +610,8 @@ export function AnalysisTab() {
                     )}
                   />
                   <div className="flex gap-4 text-xs text-muted-foreground">
-                    <span className="text-green-500">{stats.correctAnswers} acertos</span>
-                    <span className="text-red-500">{stats.wrongAnswers} erros</span>
+                    <span className="text-green-500">{stats.correctAnswers} correct</span>
+                    <span className="text-red-500">{stats.wrongAnswers} errors</span>
                     {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} timeouts</span>}
                   </div>
                 </div>
@@ -626,25 +626,25 @@ export function AnalysisTab() {
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <Activity className="w-4 h-4 text-primary" />
-            Resumo Estatistico
+            Statistical Summary
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div>
-              <p className="text-xs text-muted-foreground uppercase mb-1">Media de Acerto (Modelos)</p>
+              <p className="text-xs text-muted-foreground uppercase mb-1">Average Accuracy (Models)</p>
               <p className="text-2xl font-bold text-foreground">
                 {(modelStats.reduce((acc, s) => acc + s.accuracy, 0) / modelStats.length).toFixed(1)}%
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase mb-1">Media de Acerto (Testes)</p>
+              <p className="text-xs text-muted-foreground uppercase mb-1">Average Accuracy (Tests)</p>
               <p className="text-2xl font-bold text-foreground">
                 {(testTypeStats.reduce((acc, s) => acc + s.accuracy, 0) / testTypeStats.length).toFixed(1)}%
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase mb-1">Desvio Padrao (Modelos)</p>
+              <p className="text-xs text-muted-foreground uppercase mb-1">Standard Deviation (Models)</p>
               <p className="text-2xl font-bold text-foreground">
                 {(() => {
                   const mean = modelStats.reduce((acc, s) => acc + s.accuracy, 0) / modelStats.length
@@ -654,7 +654,7 @@ export function AnalysisTab() {
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase mb-1">Taxa de Timeout</p>
+              <p className="text-xs text-muted-foreground uppercase mb-1">Timeout Rate</p>
               <p className="text-2xl font-bold text-foreground">
                 {((overallStats.totalErrors / overallStats.totalTests) * 100).toFixed(1)}%
               </p>

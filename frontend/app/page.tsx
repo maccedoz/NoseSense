@@ -28,11 +28,10 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight text-balance">
-            LLM Benchmark Tool
+            NoseSense
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto text-pretty">
-            Ferramenta para avaliacao comparativa de modelos de linguagem. 
-            Configure os provedores, selecione os modelos e execute os testes.
+            Platform for detecting and analyzing Test Smells with multiple LLMs simultaneously.
           </p>
         </div>
 
@@ -43,7 +42,7 @@ export default function Home() {
             <div className="p-6 rounded-xl bg-card border border-border">
               <h2 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary" />
-                Empresas
+                Providers
               </h2>
               
               <div className="space-y-6">
@@ -65,12 +64,12 @@ export default function Home() {
             <div className="p-6 rounded-xl bg-card border border-border min-h-[600px]">
               <Tabs defaultValue="processing" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
-                  <TabsTrigger value="processing">Processamento</TabsTrigger>
+                  <TabsTrigger value="processing">Processing</TabsTrigger>
                   <TabsTrigger value="results" disabled={status !== 'completed'}>
-                    Resultados
+                    Results
                   </TabsTrigger>
                   <TabsTrigger value="analysis" disabled={status !== 'completed'}>
-                    Analises
+                    Analysis
                   </TabsTrigger>
                 </TabsList>
                 
@@ -93,7 +92,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>© 2026 Aries Lab. Projeto de Iniciacao Cientifica.</p>
+            <p>© 2026 Aries Lab. Undergraduate Research Project by Magno Macedo.</p>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
                 <span className="text-xs font-bold text-primary">AL</span>

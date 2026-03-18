@@ -12,12 +12,12 @@ export function ProviderList() {
   return (
     <div className="space-y-3">
       <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-        Empresas / Provedores
+        Providers
       </h3>
       <div className="space-y-2">
         {providers.length === 0 ? (
           <p className="text-sm text-muted-foreground py-4 text-center">
-            Nenhuma empresa cadastrada. Adicione uma empresa para comecar.
+            No providers registered. Add a provider to get started.
           </p>
         ) : (
           providers.map((provider) => {
@@ -51,11 +51,11 @@ export function ProviderList() {
                     </span>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-xs text-muted-foreground">
-                        {provider.models.length} modelo(s)
+                        {provider.models.length} model(s)
                       </span>
                       {enabledCount > 0 && (
                         <span className="text-xs text-primary font-medium">
-                          {enabledCount} selecionado(s)
+                          {enabledCount} selected
                         </span>
                       )}
                     </div>

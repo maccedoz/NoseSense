@@ -13,7 +13,7 @@ export function ErrorList() {
     <div className="space-y-3">
       <h3 className="text-sm font-medium text-destructive flex items-center gap-2">
         <AlertTriangle className="w-4 h-4" />
-        Erros Encontrados ({errors.length})
+        Errors Found ({errors.length})
       </h3>
       <ScrollArea className="h-[150px] rounded-lg border border-destructive/30 bg-destructive/5">
         <div className="p-3 space-y-2">

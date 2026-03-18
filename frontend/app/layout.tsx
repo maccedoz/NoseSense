@@ -16,8 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'LLM Benchmark Tool - Aries Lab',
-  description: 'Ferramenta de benchmark para avaliação de modelos de linguagem',
+  title: 'NoseSense - Aries Lab',
+  description: 'LLM-based platform for detecting Test Smells',
   generator: 'v0.app',
   icons: {
     icon: [

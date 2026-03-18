@@ -3,7 +3,7 @@ import os
 import re 
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_together import ChatTogether
+#from langchain_together import ChatTogether não funciona por causa das versões do pydantic, a solução foi usar o chat da openai
 from langchain_anthropic import ChatAnthropic
 
 CAMINHO_JSON = "dados.json"
@@ -58,9 +58,9 @@ def initialize_models() -> dict:
     together_key_1 = chaves_salvas.get("togetherai")
     if together_key_1:
         models.update({
-            "togetherai_deepseek": ChatTogether(base_url="https://api.together.xyz/v1", model="deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free", api_key=together_key_1),
-            "togetherai_gemma": ChatTogether(base_url="https://api.together.xyz/v1", model="google/gemma-3n-E4B-it", api_key=together_key_1),
-            "togetherai_qwen": ChatTogether(base_url="https://api.together.xyz/v1", model="Qwen/Qwen2.5-7B-Instruct-Turbo", api_key=together_key_1),
+            "togetherai_deepseek": ChatOpenAI(base_url="https://api.together.xyz/v1", model="deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free", api_key=together_key_1),
+            "togetherai_gemma": ChatOpenAI(base_url="https://api.together.xyz/v1", model="google/gemma-3n-E4B-it", api_key=together_key_1),
+            "togetherai_qwen": ChatOpenAI(base_url="https://api.together.xyz/v1", model="Qwen/Qwen2.5-7B-Instruct-Turbo", api_key=together_key_1),
         })  
 
     # ✅ GOOGLE API

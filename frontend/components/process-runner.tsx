@@ -146,12 +146,12 @@ export function ProcessRunner() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-          Execucao
+          Execution
         </h3>
         {status === 'completed' && (
           <span className="text-xs text-accent flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" />
-            Concluido
+            Completed
           </span>
         )}
       </div>
@@ -170,12 +170,12 @@ export function ProcessRunner() {
           {status === 'running' ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Processando...
+              Processing...
             </>
           ) : (
             <>
               <Play className="w-4 h-4 mr-2" />
-              Rodar Processo
+              Run Process
             </>
           )}
         </Button>
@@ -185,7 +185,7 @@ export function ProcessRunner() {
             variant="destructive" 
             onClick={stopProcess}
             className="px-3"
-            title="Parar Processamento"
+            title="Stop Processing"
           >
             <Square className="w-4 h-4" />
           </Button>
@@ -194,20 +194,20 @@ export function ProcessRunner() {
       
       {enabledModels.length === 0 && (
         <p className="text-xs text-muted-foreground text-center">
-          Selecione ao menos um modelo para executar
+          Select at least one model to run
         </p>
       )}
       
       {enabledModels.length > 0 && status === 'idle' && (
         <p className="text-xs text-muted-foreground text-center">
-          {enabledModels.length} modelo(s) x {TEST_TYPES.length} testes = {enabledModels.length * TEST_TYPES.length} execucoes
+          {enabledModels.length} model(s) x {TEST_TYPES.length} tests = {enabledModels.length * TEST_TYPES.length} executions
         </p>
       )}
       
       {status !== 'idle' && (
         <div className="space-y-3 p-4 rounded-lg bg-secondary/30 border border-border">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Progresso</span>
+            <span className="text-muted-foreground">Progress</span>
             <span className="text-foreground font-medium">{Math.round(progress)}%</span>
           </div>
           <Progress value={progress} className="h-2" />
@@ -216,12 +216,12 @@ export function ProcessRunner() {
             <div className="pt-2 space-y-2">
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-accent" />
-                <span className="text-foreground">Processo concluido!</span>
+                <span className="text-foreground">Process completed!</span>
               </div>
               {errors.length > 0 && (
                 <div className="flex items-center gap-2 text-sm text-destructive">
                   <XCircle className="w-4 h-4" />
-                  <span>{errors.length} erro(s) encontrado(s)</span>
+                  <span>{errors.length} error(s) found</span>
                 </div>
               )}
             </div>
@@ -233,16 +233,16 @@ export function ProcessRunner() {
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Apagar dados anteriores?</AlertDialogTitle>
+            <AlertDialogTitle>Clear previous data?</AlertDialogTitle>
             <AlertDialogDescription>
-              A execução de um novo teste irá limpar todo o histórico do banco de dados local "resultados.db" 
-              e da planilha "resultado.csv". Deseja continuar?
+              Running a new test will clear all history from the local database "resultados.db" 
+              and the spreadsheet "resultado.csv". Do you want to continue?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={runProcess} className="bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-              Sim, Apagar e Rodar
+              Yes, Clear and Run
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

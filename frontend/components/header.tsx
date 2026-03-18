@@ -1,8 +1,9 @@
 'use client'
 
-import { Beaker, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 export function Header() {
@@ -20,12 +21,12 @@ export function Header() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30">
-              <Beaker className="w-5 h-5 text-primary" />
+            <div className="w-14 h-14 flex items-center justify-center overflow-visible">
+              <Image src="/logo.png" alt="Aries Lab Logo" width={56} height={56} className="object-contain scale-[1.3]" />
             </div>
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider">Aries Lab</p>
-              <h1 className="text-lg font-semibold text-foreground">LLM Benchmark Tool</h1>
+              <h1 className="text-lg font-semibold text-foreground">NoseSense</h1>
             </div>
           </div>
         </div>
@@ -37,7 +38,7 @@ export function Header() {
             size="icon"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             className="w-9 h-9"
-            title={`Alternar para modo ${theme === 'dark' ? 'claro' : 'escuro'}`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
               <Sun className="w-4 h-4" />
