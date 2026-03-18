@@ -1,0 +1,1898 @@
+TESTE 1
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 198-202
+```java
+@Test
+  public void testBatchPipelineCanceledState() throws Exception {
+    testCanceledPipeline(getBatchOptions());
+  }
+```
+
+TESTE 2
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 209-213
+```java
+@Test
+  public void testBatchPipelineFailedState() throws Exception {
+    testFailedPipeline(getBatchOptions());
+  }
+```
+
+TESTE 3
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 187-191
+```java
+@Test
+  public void testBatchPipelineRunningState() throws Exception {
+    testRunningPipeline(getBatchOptions());
+  }
+```
+
+TESTE 4
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 220-224
+```java
+@Test
+  public void testBatchPipelineTimeoutState() throws Exception {
+    testTimeoutPipeline(getBatchOptions());
+  }
+```
+
+TESTE 5
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 132-148
+```java
+@Test
+  public void testBinaryCombineWithSlidingWindows() {
+    PCollection<Integer> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(1, new Instant(1)),
+                    TimestampedValue.of(3, new Instant(2)),
+                    TimestampedValue.of(5, new Instant(3))))
+            .apply(Window.into(SlidingWindows.of(Duration.millis(3)).every(Duration.millis(1))))
+            .apply(
+                Combine.globally(BinaryCombineFn.<Integer>of((i1, i2) -> i1 > i2 ? i1 : i2))
+                    .withoutDefaults());
+    PAssert.that(input).containsInAnyOrder(1, 3, 5, 5, 5);
+    pipeline.run();
+  }
+```
+
+TESTE 6
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 54-62
+```java
+@Test
+  public void testCombineGlobally() {
+    PCollection<Integer> input =
+        pipeline.apply(Create.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)).apply(Sum.integersGlobally());
+    PAssert.that(input).containsInAnyOrder(55);
+    // uses combine per key
+    pipeline.run();
+  }
+```
+
+TESTE 7
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 63-80
+```java
+@Test
+  public void testCombineGloballyPreservesWindowing() {
+    PCollection<Integer> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(1, new Instant(1)),
+                    TimestampedValue.of(2, new Instant(2)),
+                    TimestampedValue.of(3, new Instant(11)),
+                    TimestampedValue.of(4, new Instant(3)),
+                    TimestampedValue.of(5, new Instant(11)),
+                    TimestampedValue.of(6, new Instant(12))))
+            .apply(Window.into(FixedWindows.of(Duration.millis(10))))
+            .apply(Sum.integersGlobally().withoutDefaults());
+    PAssert.that(input).containsInAnyOrder(7, 14);
+    pipeline.run();
+  }
+```
+
+TESTE 8
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 100-115
+```java
+@Test
+  public void testCombineGloballyWithMergingWindows() {
+    PCollection<Integer> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(2, new Instant(5)),
+                    TimestampedValue.of(4, new Instant(11)),
+                    TimestampedValue.of(6, new Instant(12))))
+            .apply(Window.into(Sessions.withGapDuration(Duration.millis(5))))
+            .apply(Sum.integersGlobally().withoutDefaults());
+
+    PAssert.that(input).containsInAnyOrder(2 /*window [5-10)*/, 10 /*window [11-17)*/);
+    pipeline.run();
+  }
+```
+
+TESTE 9
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 81-99
+```java
+@Test
+  public void testCombineGloballyWithSlidingWindows() {
+    PCollection<Integer> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(1, new Instant(1)),
+                    TimestampedValue.of(3, new Instant(2)),
+                    TimestampedValue.of(5, new Instant(3)),
+                    TimestampedValue.of(2, new Instant(1)),
+                    TimestampedValue.of(4, new Instant(2)),
+                    TimestampedValue.of(6, new Instant(3))))
+            .apply(Window.into(SlidingWindows.of(Duration.millis(3)).every(Duration.millis(1))))
+            .apply(Sum.integersGlobally().withoutDefaults());
+    PAssert.that(input)
+        .containsInAnyOrder(1 + 2, 1 + 2 + 3 + 4, 1 + 3 + 5 + 2 + 4 + 6, 3 + 4 + 5 + 6, 5 + 6);
+    pipeline.run();
+  }
+```
+
+TESTE 10
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+LINHAS: 116-131
+```java
+@Test
+  public void testCountGloballyWithSlidingWindows() {
+    PCollection<String> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of("a", new Instant(1)),
+                    TimestampedValue.of("a", new Instant(2)),
+                    TimestampedValue.of("a", new Instant(2))))
+            .apply(Window.into(SlidingWindows.of(Duration.millis(2)).every(Duration.millis(1))));
+    PCollection<Long> output =
+        input.apply(Combine.globally(Count.<String>combineFn()).withoutDefaults());
+    PAssert.that(output).containsInAnyOrder(1L, 3L, 2L);
+    pipeline.run();
+  }
+```
+
+TESTE 11
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGroupedValuesTest.java
+LINHAS: 48-63
+```java
+@Test
+  public void testCombineGroupedValues() {
+    PCollection<KV<String, Integer>> input =
+        pipeline
+            .apply(
+                Create.<KV<String, Iterable<Integer>>>of(
+                        KV.of("a", ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
+                        KV.of("b", ImmutableList.of()))
+                    .withCoder(
+                        KvCoder.of(StringUtf8Coder.of(), IterableCoder.of(VarIntCoder.of()))))
+            .apply(Combine.groupedValues(Sum.ofIntegers()));
+
+    PAssert.that(input).containsInAnyOrder(KV.of("a", 55), KV.of("b", 0));
+    pipeline.run();
+  }
+```
+
+TESTE 12
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 127-150
+```java
+@Test
+  public void testCombineByKeyWithMergingWindows() {
+    PCollection<KV<Integer, Integer>> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(5)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(7)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 2), new Instant(5)),
+                    TimestampedValue.of(KV.of(2, 4), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 6), new Instant(12))))
+            .apply(Window.into(Sessions.withGapDuration(Duration.millis(5))))
+            .apply(Sum.integersPerKey());
+
+    PAssert.that(input)
+        .containsInAnyOrder(
+            KV.of(1, 9), // window [5-16)
+            KV.of(2, 2), // window [5-10)
+            KV.of(2, 10) // window [11-17)
+            );
+    pipeline.run();
+  }
+```
+
+TESTE 13
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 58-73
+```java
+@Test
+  public void testCombinePerKey() {
+    List<KV<Integer, Integer>> elems = new ArrayList<>();
+    elems.add(KV.of(1, 1));
+    elems.add(KV.of(1, 3));
+    elems.add(KV.of(1, 5));
+    elems.add(KV.of(2, 2));
+    elems.add(KV.of(2, 4));
+    elems.add(KV.of(2, 6));
+
+    PCollection<KV<Integer, Integer>> input =
+        pipeline.apply(Create.of(elems)).apply(Sum.integersPerKey());
+    PAssert.that(input).containsInAnyOrder(KV.of(1, 9), KV.of(2, 12));
+    pipeline.run();
+  }
+```
+
+TESTE 14
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 85-102
+```java
+@Test
+  public void testCombinePerKeyPreservesWindowing() {
+    PCollection<KV<Integer, Integer>> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(1)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(2)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 2), new Instant(3)),
+                    TimestampedValue.of(KV.of(2, 4), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 6), new Instant(12))))
+            .apply(Window.into(FixedWindows.of(Duration.millis(10))))
+            .apply(Sum.integersPerKey());
+    PAssert.that(input).containsInAnyOrder(KV.of(1, 4), KV.of(1, 5), KV.of(2, 2), KV.of(2, 10));
+    pipeline.run();
+  }
+```
+
+TESTE 15
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 103-126
+```java
+@Test
+  public void testCombinePerKeyWithSlidingWindows() {
+    PCollection<KV<Integer, Integer>> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(1)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(2)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(3)),
+                    TimestampedValue.of(KV.of(1, 2), new Instant(1)),
+                    TimestampedValue.of(KV.of(1, 4), new Instant(2)),
+                    TimestampedValue.of(KV.of(1, 6), new Instant(3))))
+            .apply(Window.into(SlidingWindows.of(Duration.millis(3)).every(Duration.millis(1))))
+            .apply(Sum.integersPerKey());
+    PAssert.that(input)
+        .containsInAnyOrder(
+            KV.of(1, 1 + 2),
+            KV.of(1, 1 + 2 + 3 + 4),
+            KV.of(1, 1 + 3 + 5 + 2 + 4 + 6),
+            KV.of(1, 3 + 4 + 5 + 6),
+            KV.of(1, 5 + 6));
+    pipeline.run();
+  }
+```
+
+TESTE 16
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 151-173
+```java
+@Test
+  public void testCountPerElementWithSlidingWindows() {
+    PCollection<String> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of("a", new Instant(1)),
+                    TimestampedValue.of("a", new Instant(2)),
+                    TimestampedValue.of("b", new Instant(3)),
+                    TimestampedValue.of("b", new Instant(4))))
+            .apply(Window.into(SlidingWindows.of(Duration.millis(2)).every(Duration.millis(1))));
+    PCollection<KV<String, Long>> output = input.apply(Count.perElement());
+    PAssert.that(output)
+        .containsInAnyOrder(
+            KV.of("a", 1L),
+            KV.of("a", 2L),
+            KV.of("a", 1L),
+            KV.of("b", 1L),
+            KV.of("b", 2L),
+            KV.of("b", 1L));
+    pipeline.run();
+  }
+```
+
+TESTE 17
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+LINHAS: 74-84
+```java
+@Test
+  public void testDistinctViaCombinePerKey() {
+    List<Integer> elems = Lists.newArrayList(1, 2, 3, 3, 4, 4, 4, 4, 5, 5);
+
+    // Distinct is implemented in terms of CombinePerKey
+    PCollection<Integer> result = pipeline.apply(Create.of(elems)).apply(Distinct.create());
+
+    PAssert.that(result).containsInAnyOrder(1, 2, 3, 4, 5);
+    pipeline.run();
+  }
+```
+
+TESTE 18
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/FlattenTest.java
+LINHAS: 42-54
+```java
+@Test
+  public void testFlatten() {
+    PCollection<Integer> input1 =
+        pipeline.apply("input1", Create.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    PCollection<Integer> input2 =
+        pipeline.apply("input2", Create.of(11, 12, 13, 14, 15, 16, 17, 18, 19, 20));
+    PCollectionList<Integer> pcs = PCollectionList.of(input1).and(input2);
+    PCollection<Integer> input = pcs.apply(Flatten.pCollections());
+    PAssert.that(input)
+        .containsInAnyOrder(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+    pipeline.run();
+  }
+```
+
+TESTE 19
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+LINHAS: 110-137
+```java
+@Test
+  public void testGroupByKeyExplodesMultipleWindows() {
+    pipeline
+        .apply(
+            Create.timestamped(
+                shuffleRandomly(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(5)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(7)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 2), new Instant(5)),
+                    TimestampedValue.of(KV.of(2, 4), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 6), new Instant(12)))))
+        .apply(Window.into(SlidingWindows.of(Duration.millis(10)).every(Duration.millis(5))))
+        .apply(GroupByKey.create())
+        // Passert do not support multiple kv with same key (because multiple windows)
+        .apply(
+            ParDo.of(
+                new AssertContains<>(
+                    KV.of(1, containsInAnyOrder(1, 3)), // window [0-10)
+                    KV.of(1, containsInAnyOrder(1, 3, 5)), // window [5-15)
+                    KV.of(1, containsInAnyOrder(5)), // window [10-20)
+                    KV.of(2, containsInAnyOrder(2)), // window [0-10)
+                    KV.of(2, containsInAnyOrder(2, 4, 6)), // window [5-15)
+                    KV.of(2, containsInAnyOrder(4, 6)) // window [10-20)
+                    )));
+    pipeline.run();
+  }
+```
+
+TESTE 20
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+LINHAS: 84-109
+```java
+@Test
+  public void testGroupByKeyPreservesWindowing() {
+    pipeline
+        .apply(
+            Create.timestamped(
+                shuffleRandomly(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(1)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(2)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 2), new Instant(3)),
+                    TimestampedValue.of(KV.of(2, 4), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 6), new Instant(12)))))
+        .apply(Window.into(FixedWindows.of(Duration.millis(10))))
+        .apply(GroupByKey.create())
+        // Passert do not support multiple kv with same key (because multiple windows)
+        .apply(
+            ParDo.of(
+                new AssertContains<>(
+                    KV.of(1, containsInAnyOrder(1, 3)), // window [0-10)
+                    KV.of(1, containsInAnyOrder(5)), // window [10-20)
+                    KV.of(2, containsInAnyOrder(4, 6)), // window [10-20)
+                    KV.of(2, containsInAnyOrder(2)) // window [0-10)
+                    )));
+    pipeline.run();
+  }
+```
+
+TESTE 21
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+LINHAS: 138-162
+```java
+@Test
+  public void testGroupByKeyWithMergingWindows() {
+    pipeline
+        .apply(
+            Create.timestamped(
+                shuffleRandomly(
+                    TimestampedValue.of(KV.of(1, 1), new Instant(5)),
+                    TimestampedValue.of(KV.of(1, 3), new Instant(7)),
+                    TimestampedValue.of(KV.of(1, 5), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 2), new Instant(5)),
+                    TimestampedValue.of(KV.of(2, 4), new Instant(11)),
+                    TimestampedValue.of(KV.of(2, 6), new Instant(12)))))
+        .apply(Window.into(Sessions.withGapDuration(Duration.millis(5))))
+        .apply(GroupByKey.create())
+        // Passert do not support multiple kv with same key (because multiple windows)
+        .apply(
+            ParDo.of(
+                new AssertContains<>(
+                    KV.of(1, containsInAnyOrder(1, 3, 5)), // window [5-16)
+                    KV.of(2, containsInAnyOrder(2)), // window [5-10)
+                    KV.of(2, containsInAnyOrder(4, 6)) // window [11-17)
+                    )));
+    pipeline.run();
+  }
+```
+
+TESTE 22
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/SimpleSourceTest.java
+LINHAS: 40-46
+```java
+@Test
+  public void testBoundedSource() {
+    PCollection<Integer> input = pipeline.apply(Create.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    PAssert.that(input).containsInAnyOrder(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    pipeline.run();
+  }
+```
+
+TESTE 23
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/WindowAssignTest.java
+LINHAS: 46-62
+```java
+@Test
+  public void testWindowAssign() {
+    PCollection<Integer> input =
+        pipeline
+            .apply(
+                Create.timestamped(
+                    TimestampedValue.of(1, new Instant(1)),
+                    TimestampedValue.of(2, new Instant(2)),
+                    TimestampedValue.of(3, new Instant(3)),
+                    TimestampedValue.of(4, new Instant(10)),
+                    TimestampedValue.of(5, new Instant(11))))
+            .apply(Window.into(FixedWindows.of(Duration.millis(10))))
+            .apply(Sum.integersGlobally().withoutDefaults());
+    PAssert.that(input).containsInAnyOrder(6, 9);
+    pipeline.run();
+  }
+```
+
+TESTE 24
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
+LINHAS: 185-189
+```java
+@Test
+  public void testHashMapEncoder() {
+    testMapEncoder(HashMap.class, identity());
+  }
+```
+
+TESTE 25
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
+LINHAS: 190-194
+```java
+@Test
+  public void testTreeMapEncoder() {
+    testMapEncoder(TreeMap.class, TreeMap::new);
+  }
+```
+
+TESTE 26
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+LINHAS: 65-71
+```java
+@Test
+  public void testCoderIsSerializableWithWellKnownCoderType() throws Exception {
+    CoderProperties.coderSerializable(
+        KeyedWorkItemCoder.of(
+            GlobalWindow.Coder.INSTANCE, GlobalWindow.Coder.INSTANCE, GlobalWindow.Coder.INSTANCE));
+  }
+```
+
+TESTE 27
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+LINHAS: 37-41
+```java
+@Test
+  public void testCoderProperties() throws Exception {
+    CoderProperties.coderSerializable(
+        KeyedWorkItemCoder.of(StringUtf8Coder.of(), VarIntCoder.of(), GlobalWindow.Coder.INSTANCE));
+  }
+```
+
+TESTE 28
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+LINHAS: 42-64
+```java
+@Test
+  public void testEncodeDecodeEqual() throws Exception {
+    Iterable<TimerData> timers =
+        ImmutableList.of(
+            TimerData.of(
+                StateNamespaces.global(),
+                new Instant(500L),
+                new Instant(500L),
+                TimeDomain.EVENT_TIME));
+    Iterable<WindowedValue<Integer>> elements =
+        ImmutableList.of(
+            WindowedValues.valueInGlobalWindow(1),
+            WindowedValues.valueInGlobalWindow(4),
+            WindowedValues.valueInGlobalWindow(8));
+
+    KeyedWorkItemCoder<String, Integer> coder =
+        KeyedWorkItemCoder.of(StringUtf8Coder.of(), VarIntCoder.of(), GlobalWindow.Coder.INSTANCE);
+
+    CoderProperties.coderDecodeEncodeEqual(coder, KeyedWorkItems.workItem("foo", timers, elements));
+    CoderProperties.coderDecodeEncodeEqual(coder, KeyedWorkItems.elementsWorkItem("foo", elements));
+    CoderProperties.coderDecodeEncodeEqual(coder, KeyedWorkItems.timersWorkItem("foo", timers));
+  }
+```
+
+TESTE 29
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 219-237
+```java
+@Test
+  public void testInvokeProcessElementOutputDisallowedAfterFailedTryClaim() throws Exception {
+    DoFn<Void, String> brokenFn =
+        new DoFn<Void, String>() {
+          @ProcessElement
+          public void process(ProcessContext c, RestrictionTracker<OffsetRange, Long> tracker) {
+            assertFalse(tracker.tryClaim(6L));
+            c.output("foo");
+          }
+
+          @GetInitialRestriction
+          public OffsetRange getInitialRestriction(@Element Void element) {
+            throw new UnsupportedOperationException("Should not be called in this test");
+          }
+        };
+    e.expectMessage("Output is not allowed after a failed tryClaim()");
+    runTest(brokenFn, new OffsetRange(0, 5));
+  }
+```
+
+TESTE 30
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 201-218
+```java
+@Test
+  public void testInvokeProcessElementOutputDisallowedBeforeTryClaim() throws Exception {
+    DoFn<Void, String> brokenFn =
+        new DoFn<Void, String>() {
+          @ProcessElement
+          public void process(ProcessContext c, RestrictionTracker<OffsetRange, Long> tracker) {
+            c.output("foo");
+          }
+
+          @GetInitialRestriction
+          public OffsetRange getInitialRestriction(@Element Void element) {
+            throw new UnsupportedOperationException("Should not be called in this test");
+          }
+        };
+    e.expectMessage("Output is not allowed before tryClaim()");
+    runTest(brokenFn, new OffsetRange(0, 5));
+  }
+```
+
+TESTE 31
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+LINHAS: 209-232
+```java
+@Test
+  public void testFinishBundleExceptionsWrappedAsUserCodeException() {
+    ThrowingDoFn fn = new ThrowingDoFn();
+    DoFnRunner<String, String> runner =
+        new SimpleDoFnRunner<>(
+            null,
+            fn,
+            NullSideInputReader.empty(),
+            null,
+            null,
+            Collections.emptyList(),
+            mockStepContext,
+            null,
+            Collections.emptyMap(),
+            WindowingStrategy.of(new GlobalWindows()),
+            DoFnSchemaInformation.create(),
+            Collections.emptyMap());
+
+    thrown.expect(UserCodeException.class);
+    thrown.expectCause(is(fn.exceptionToThrow));
+
+    runner.finishBundle();
+  }
+```
+
+TESTE 32
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+LINHAS: 569-596
+```java
+@Test
+  public void testOnTimerAllowedSkew() {
+    TimerOutputSkewingDoFn fn = new TimerOutputSkewingDoFn(Duration.millis(10), Duration.millis(5));
+    DoFnRunner<KV<String, Duration>, Duration> runner =
+        new SimpleDoFnRunner<>(
+            null,
+            fn,
+            NullSideInputReader.empty(),
+            new ListOutputManager(),
+            null,
+            Collections.emptyList(),
+            mockStepContext,
+            null,
+            Collections.emptyMap(),
+            WindowingStrategy.of(new GlobalWindows()),
+            DoFnSchemaInformation.create(),
+            Collections.emptyMap());
+
+    runner.onTimer(
+        TimerDeclaration.PREFIX + TimerOutputSkewingDoFn.TIMER_ID,
+        "",
+        null,
+        GlobalWindow.INSTANCE,
+        new Instant(0),
+        new Instant(0),
+        TimeDomain.EVENT_TIME);
+  }
+```
+
+TESTE 33
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+LINHAS: 114-144
+```java
+@Test
+  public void testOnTimerExceptionsWrappedAsUserCodeException() {
+    ThrowingDoFn fn = new ThrowingDoFn();
+    DoFnRunner<String, String> runner =
+        new SimpleDoFnRunner<>(
+            null,
+            fn,
+            NullSideInputReader.empty(),
+            null,
+            null,
+            Collections.emptyList(),
+            mockStepContext,
+            null,
+            Collections.emptyMap(),
+            WindowingStrategy.of(new GlobalWindows()),
+            DoFnSchemaInformation.create(),
+            Collections.emptyMap());
+
+    thrown.expect(UserCodeException.class);
+    thrown.expectCause(is(fn.exceptionToThrow));
+
+    runner.onTimer(
+        TimerDeclaration.PREFIX + ThrowingDoFn.TIMER_ID,
+        "",
+        null,
+        GlobalWindow.INSTANCE,
+        new Instant(0),
+        new Instant(0),
+        TimeDomain.EVENT_TIME);
+  }
+```
+
+TESTE 34
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+LINHAS: 90-113
+```java
+@Test
+  public void testProcessElementExceptionsWrappedAsUserCodeException() {
+    ThrowingDoFn fn = new ThrowingDoFn();
+    DoFnRunner<String, String> runner =
+        new SimpleDoFnRunner<>(
+            null,
+            fn,
+            NullSideInputReader.empty(),
+            null,
+            null,
+            Collections.emptyList(),
+            mockStepContext,
+            null,
+            Collections.emptyMap(),
+            WindowingStrategy.of(new GlobalWindows()),
+            DoFnSchemaInformation.create(),
+            Collections.emptyMap());
+
+    thrown.expect(UserCodeException.class);
+    thrown.expectCause(is(fn.exceptionToThrow));
+
+    runner.processElement(WindowedValues.valueInGlobalWindow("anyValue"));
+  }
+```
+
+TESTE 35
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+LINHAS: 185-208
+```java
+@Test
+  public void testStartBundleExceptionsWrappedAsUserCodeException() {
+    ThrowingDoFn fn = new ThrowingDoFn();
+    DoFnRunner<String, String> runner =
+        new SimpleDoFnRunner<>(
+            null,
+            fn,
+            NullSideInputReader.empty(),
+            null,
+            null,
+            Collections.emptyList(),
+            mockStepContext,
+            null,
+            Collections.emptyMap(),
+            WindowingStrategy.of(new GlobalWindows()),
+            DoFnSchemaInformation.create(),
+            Collections.emptyMap());
+
+    thrown.expect(UserCodeException.class);
+    thrown.expectCause(is(fn.exceptionToThrow));
+
+    runner.startBundle();
+  }
+```
+
+TESTE 36
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SplittableParDoProcessFnTest.java
+LINHAS: 622-637
+```java
+@Test
+  public void testInvokesLifecycleMethods() throws Exception {
+    DoFn<Integer, String> fn = new LifecycleVerifyingFn();
+    try (ProcessFnTester<Integer, String, SomeRestriction, Void, Void> tester =
+        new ProcessFnTester<>(
+            Instant.now(),
+            fn,
+            BigEndianIntegerCoder.of(),
+            SerializableCoder.of(SomeRestriction.class),
+            VoidCoder.of(),
+            MAX_OUTPUTS_PER_BUNDLE,
+            MAX_BUNDLE_DURATION)) {
+      tester.startElement(42, new SomeRestriction());
+    }
+  }
+```
+
+TESTE 37
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 119-123
+```java
+@Test
+  public void testGargageCollectOrdered() throws Exception {
+    testGarbageCollect(true);
+  }
+```
+
+TESTE 38
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 114-118
+```java
+@Test
+  public void testGargageCollectUnordered() throws Exception {
+    testGarbageCollect(false);
+  }
+```
+
+TESTE 39
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 109-113
+```java
+@Test
+  public void testLateDroppingOrdered() throws Exception {
+    testLateDropping(true);
+  }
+```
+
+TESTE 40
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 104-108
+```java
+@Test
+  public void testLateDroppingUnordered() throws Exception {
+    testLateDropping(false);
+  }
+```
+
+TESTE 41
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 129-133
+```java
+@Test
+  public void testOutputOrdered() throws Exception {
+    testOutput(true);
+  }
+```
+
+TESTE 42
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+LINHAS: 124-128
+```java
+@Test
+  public void testOutputUnordered() throws Exception {
+    testOutput(false);
+  }
+```
+
+TESTE 43
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
+LINHAS: 62-66
+```java
+@Test
+  public void testCoderIsSerializableWithWellKnownCoderType() {
+    CoderProperties.coderSerializable(TimerDataCoderV2.of(GlobalWindow.Coder.INSTANCE));
+  }
+```
+
+TESTE 44
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
+LINHAS: 39-61
+```java
+@Test
+  public void testTimerDataCoder() throws Exception {
+    CoderProperties.coderDecodeEncodeEqual(
+        TimerDataCoderV2.of(GlobalWindow.Coder.INSTANCE),
+        TimerData.of(
+            "arbitrary-id",
+            StateNamespaces.global(),
+            new Instant(0),
+            new Instant(0),
+            TimeDomain.EVENT_TIME));
+
+    Coder<IntervalWindow> windowCoder = IntervalWindow.getCoder();
+    CoderProperties.coderDecodeEncodeEqual(
+        TimerDataCoderV2.of(windowCoder),
+        TimerData.of(
+            "another-id",
+            StateNamespaces.window(
+                windowCoder, new IntervalWindow(new Instant(0), new Instant(100))),
+            new Instant(99),
+            new Instant(99),
+            TimeDomain.PROCESSING_TIME));
+  }
+```
+
+TESTE 45
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 346-350
+```java
+@Test
+  public void testDeep() {
+    runTest(Arrays.asList(Collections.nCopies(10, "a"), Collections.nCopies(12, "b")));
+  }
+```
+
+TESTE 46
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 340-345
+```java
+@Test
+  public void testFlat() {
+    runTest(
+        Arrays.asList(Arrays.asList("a", "a"), Arrays.asList("b", "b"), Arrays.asList("c", "c")));
+  }
+```
+
+TESTE 47
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 366-370
+```java
+@Test
+  public void testLargeDense() {
+    runFuzz(10, 120, 2, 4, 0.8);
+  }
+```
+
+TESTE 48
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 361-365
+```java
+@Test
+  public void testLargeSparse() {
+    runFuzz(10, 120, 2, 4, 0.2);
+  }
+```
+
+TESTE 49
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 356-360
+```java
+@Test
+  public void testMedium() {
+    runFuzz(10, 20, 2, 4, 0.5);
+  }
+```
+
+TESTE 50
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 351-355
+```java
+@Test
+  public void testSmall() {
+    runFuzz(10, 5, 2, 3, 0.5);
+  }
+```
+
+TESTE 51
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 335-339
+```java
+@Test
+  public void testTrivial() {
+    runTest(Arrays.asList(Arrays.asList("a", "b"), Arrays.asList("a", "c")));
+  }
+```
+
+TESTE 52
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/LabeledMetricsTest.java
+LINHAS: 53-75
+```java
+@Test
+  public void testOperationsUpdateCounterFromContainerWhenContainerIsPresent() {
+    HashMap<String, String> labels = new HashMap<String, String>();
+    String urn = MonitoringInfoConstants.Urns.ELEMENT_COUNT;
+    MonitoringInfoMetricName name = MonitoringInfoMetricName.named(urn, labels);
+
+    MetricsContainer mockContainer = Mockito.mock(MetricsContainer.class);
+    Counter mockCounter = Mockito.mock(Counter.class);
+    when(mockContainer.getCounter(name)).thenReturn(mockCounter);
+
+    Counter counter = LabeledMetrics.counter(name);
+
+    MetricsEnvironment.setCurrentContainer(mockContainer);
+    counter.inc();
+    verify(mockCounter).inc(1);
+
+    counter.inc(47L);
+    verify(mockCounter).inc(47);
+
+    counter.dec(5L);
+    verify(mockCounter).inc(-5);
+  }
+```
+
+TESTE 53
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoEncodingsTest.java
+LINHAS: 179-190
+```java
+@Test
+  public void testHistgramInt64EncodingUnsupportedBucket() {
+    thrown.expect(HistogramParsingException.class);
+    thrown.expectMessage("Unable to encode Int64 Histogram, bucket is not recognized");
+
+    HistogramData.BucketType buckets = HistogramData.UnsupportedBuckets.of();
+
+    HistogramData inputHistogram = new HistogramData(buckets);
+    inputHistogram.record(2, 4, 8, 16, 32);
+    encodeInt64Histogram(inputHistogram);
+  }
+```
+
+TESTE 54
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+LINHAS: 131-137
+```java
+@Test
+  public void testEmptyUrnThrows() {
+    HashMap<String, String> labels = new HashMap<String, String>();
+    thrown.expect(IllegalArgumentException.class);
+    MonitoringInfoMetricName.named("", labels);
+  }
+```
+
+TESTE 55
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+LINHAS: 117-123
+```java
+@Test
+  public void testNullLabelsThrows() {
+    thrown.expect(IllegalArgumentException.class);
+    HashMap<String, String> labels = null;
+    MonitoringInfoMetricName.named(MonitoringInfoConstants.Urns.ELEMENT_COUNT, labels);
+  }
+```
+
+TESTE 56
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+LINHAS: 124-130
+```java
+@Test
+  public void testNullUrnThrows() {
+    HashMap<String, String> labels = new HashMap<String, String>();
+    thrown.expect(IllegalArgumentException.class);
+    MonitoringInfoMetricName.named(null, labels);
+  }
+```
+
+TESTE 57
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
+LINHAS: 41-44
+```java
+@Test
+  public void testClearRecursively() {
+    FinishedTriggersProperties.verifyClearRecursively(FinishedTriggersBitSet.emptyWithCapacity(1));
+  }
+```
+
+TESTE 58
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
+LINHAS: 32-35
+```java
+@Test
+  public void testSetGet() {
+    FinishedTriggersProperties.verifyGetAfterSet(FinishedTriggersBitSet.emptyWithCapacity(1));
+  }
+```
+
+TESTE 59
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
+LINHAS: 42-45
+```java
+@Test
+  public void testClearRecursively() {
+    FinishedTriggersProperties.verifyClearRecursively(FinishedTriggersSet.fromSet(new HashSet<>()));
+  }
+```
+
+TESTE 60
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
+LINHAS: 33-36
+```java
+@Test
+  public void testSetGet() {
+    FinishedTriggersProperties.verifyGetAfterSet(FinishedTriggersSet.fromSet(new HashSet<>()));
+  }
+```
+
+TESTE 61
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/RepeatedlyStateMachineTest.java
+LINHAS: 60-65
+```java
+@Test
+  public void testOnElement() throws Exception {
+    setUp(FixedWindows.of(Duration.millis(10)));
+    tester.injectElements(37);
+    verify(mockTrigger).onElement(Mockito.any());
+  }
+```
+
+TESTE 62
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/TriggerStateMachinesTest.java
+LINHAS: 106-115
+```java
+@Test
+  public void testNeverTranslation() {
+    RunnerApi.Trigger trigger =
+        RunnerApi.Trigger.newBuilder()
+            .setNever(RunnerApi.Trigger.Never.getDefaultInstance())
+            .build();
+    checkNotNull(TriggerStateMachines.stateMachineForTrigger(trigger));
+    // No parameters, so if it doesn't crash, we win!
+  }
+```
+
+TESTE 63
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+LINHAS: 231-238
+```java
+@Test
+  public void getGraphWithoutVisitingThrows() {
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("completely traversed");
+    thrown.expectMessage("get a graph");
+    visitor.getGraph();
+  }
+```
+
+TESTE 64
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+LINHAS: 223-230
+```java
+@Test
+  public void traverseIndependentPathsSucceeds() {
+    p.apply("left", Create.of(1, 2, 3));
+    p.apply("right", Create.of("foo", "bar", "baz"));
+
+    p.traverseTopologically(visitor);
+  }
+```
+
+TESTE 65
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+LINHAS: 212-222
+```java
+@Test
+  public void traverseMultipleTimesThrows() {
+    p.apply(Create.of(1, 2, 3));
+
+    p.traverseTopologically(visitor);
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage(DirectGraphVisitor.class.getSimpleName());
+    thrown.expectMessage("is finalized");
+    p.traverseTopologically(visitor);
+  }
+```
+
+TESTE 66
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 265-273
+```java
+@Test
+  public void splitsInputs() {
+    Pipeline p = getPipeline();
+    PCollection<Long> longs = p.apply(Read.from(MustSplitSource.of(CountingSource.upTo(3))));
+
+    PAssert.that(longs).containsInAnyOrder(0L, 1L, 2L);
+    p.run();
+  }
+```
+
+TESTE 67
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 575-596
+```java
+@Test
+  public void testMutatingInputCoderDoFnError() throws Exception {
+    Pipeline pipeline = getPipeline();
+
+    pipeline
+        .apply(Create.of(new byte[] {0x1, 0x2, 0x3}, new byte[] {0x4, 0x5, 0x6}))
+        .apply(
+            ParDo.of(
+                new DoFn<byte[], Integer>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    byte[] inputArray = c.element();
+                    inputArray[0] = 0xa;
+                    c.output(13);
+                  }
+                }));
+
+    thrown.expect(IllegalMutationException.class);
+    thrown.expectMessage("Input");
+    thrown.expectMessage("must not be mutated");
+    pipeline.run();
+  }
+```
+
+TESTE 68
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 546-569
+```java
+@Test
+  public void testMutatingInputDoFnError() throws Exception {
+    Pipeline pipeline = getPipeline();
+
+    pipeline
+        .apply(
+            Create.of(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6))
+                .withCoder(ListCoder.of(VarIntCoder.of())))
+        .apply(
+            ParDo.of(
+                new DoFn<List<Integer>, Integer>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    List<Integer> inputList = c.element();
+                    inputList.set(0, 37);
+                    c.output(12);
+                  }
+                }));
+
+    thrown.expect(IllegalMutationException.class);
+    thrown.expectMessage("Input");
+    thrown.expectMessage("must not be mutated");
+    pipeline.run();
+  }
+```
+
+TESTE 69
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 518-540
+```java
+@Test
+  public void testMutatingOutputCoderDoFnError() throws Exception {
+    Pipeline pipeline = getPipeline();
+
+    pipeline
+        .apply(Create.of(42))
+        .apply(
+            ParDo.of(
+                new DoFn<Integer, byte[]>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    byte[] outputArray = new byte[] {0x1, 0x2, 0x3};
+                    c.output(outputArray);
+                    outputArray[0] = 0xa;
+                    c.output(outputArray);
+                  }
+                }));
+
+    thrown.expect(IllegalMutationException.class);
+    thrown.expectMessage("output");
+    thrown.expectMessage("must not be mutated");
+    pipeline.run();
+  }
+```
+
+TESTE 70
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 435-457
+```java
+@Test
+  public void testMutatingOutputThenOutputDoFnError() throws Exception {
+    Pipeline pipeline = getPipeline();
+
+    pipeline
+        .apply(Create.of(42))
+        .apply(
+            ParDo.of(
+                new DoFn<Integer, List<Integer>>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    List<Integer> outputList = Arrays.asList(1, 2, 3, 4);
+                    c.output(outputList);
+                    outputList.set(0, 37);
+                    c.output(outputList);
+                  }
+                }));
+
+    thrown.expect(IllegalMutationException.class);
+    thrown.expectMessage("output");
+    thrown.expectMessage("must not be mutated");
+    pipeline.run();
+  }
+```
+
+TESTE 71
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 491-512
+```java
+@Test
+  public void testMutatingOutputThenTerminateDoFnError() throws Exception {
+    Pipeline pipeline = getPipeline();
+
+    pipeline
+        .apply(Create.of(42))
+        .apply(
+            ParDo.of(
+                new DoFn<Integer, List<Integer>>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    List<Integer> outputList = Arrays.asList(1, 2, 3, 4);
+                    c.output(outputList);
+                    outputList.set(0, 37);
+                  }
+                }));
+
+    thrown.expect(IllegalMutationException.class);
+    thrown.expectMessage("output");
+    thrown.expectMessage("must not be mutated");
+    pipeline.run();
+  }
+```
+
+TESTE 72
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 463-485
+```java
+@Test
+  public void testMutatingOutputWithEnforcementDisabledSucceeds() throws Exception {
+    PipelineOptions options = PipelineOptionsFactory.create();
+    options.setRunner(DirectRunner.class);
+    options.as(DirectOptions.class).setEnforceImmutability(false);
+    Pipeline pipeline = Pipeline.create(options);
+
+    pipeline
+        .apply(Create.of(42))
+        .apply(
+            ParDo.of(
+                new DoFn<Integer, List<Integer>>() {
+                  @ProcessElement
+                  public void processElement(ProcessContext c) {
+                    List<Integer> outputList = Arrays.asList(1, 2, 3, 4);
+                    c.output(outputList);
+                    outputList.set(0, 37);
+                    c.output(outputList);
+                  }
+                }));
+
+    pipeline.run();
+  }
+```
+
+TESTE 73
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 597-624
+```java
+@Test
+  public void testUnencodableOutputElement() throws Exception {
+    Pipeline p = getPipeline();
+    PCollection<Long> pcollection =
+        p.apply(Create.of((Void) null))
+            .apply(
+                ParDo.of(
+                    new DoFn<Void, Long>() {
+                      @ProcessElement
+                      public void processElement(ProcessContext c) {
+                        c.output(null);
+                      }
+                    }))
+            .setCoder(VarLongCoder.of());
+    pcollection.apply(
+        ParDo.of(
+            new DoFn<Long, Long>() {
+              @ProcessElement
+              public void unreachable(ProcessContext c) {
+                fail("Pipeline should fail to encode a null Long in VarLongCoder");
+              }
+            }));
+
+    thrown.expectCause(isA(CoderException.class));
+    thrown.expectMessage("cannot encode a null Long");
+    p.run();
+  }
+```
+
+TESTE 74
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 625-634
+```java
+@Test
+  public void testUnencodableOutputFromBoundedRead() throws Exception {
+    Pipeline p = getPipeline();
+    p.apply(GenerateSequence.from(0).to(10)).setCoder(new LongNoDecodeCoder());
+
+    thrown.expectCause(isA(CoderException.class));
+    thrown.expectMessage("Cannot decode a long");
+    p.run();
+  }
+```
+
+TESTE 75
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 635-643
+```java
+@Test
+  public void testUnencodableOutputFromUnboundedRead() {
+    Pipeline p = getPipeline();
+    p.apply(GenerateSequence.from(0)).setCoder(new LongNoDecodeCoder());
+
+    thrown.expectMessage("Cannot decode a long");
+    p.run();
+  }
+```
+
+TESTE 76
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 409-429
+```java
+@Test
+  public void transformDisplayDataExceptionShouldFail() {
+    DoFn<Integer, Integer> brokenDoFn =
+        new DoFn<Integer, Integer>() {
+          @ProcessElement
+          public void processElement(ProcessContext c) throws Exception {}
+
+          @Override
+          public void populateDisplayData(DisplayData.Builder builder) {
+            throw new RuntimeException("oh noes!");
+          }
+        };
+
+    Pipeline p = getPipeline();
+    p.apply(Create.of(1, 2, 3)).apply(ParDo.of(brokenDoFn));
+
+    thrown.expectMessage(brokenDoFn.getClass().getName());
+    thrown.expectCause(ThrowableMessageMatcher.hasMessage(is("oh noes!")));
+    p.run();
+  }
+```
+
+TESTE 77
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 137-167
+```java
+@Test
+  public void wordCountShouldSucceed() throws Throwable {
+    Pipeline p = getPipeline();
+
+    PCollection<KV<String, Long>> counts =
+        p.apply(Create.of("foo", "bar", "foo", "baz", "bar", "foo"))
+            .apply(
+                MapElements.via(
+                    new SimpleFunction<String, String>() {
+                      @Override
+                      public String apply(String input) {
+                        return input;
+                      }
+                    }))
+            .apply(Count.perElement());
+    PCollection<String> countStrs =
+        counts.apply(
+            MapElements.via(
+                new SimpleFunction<KV<String, Long>, String>() {
+                  @Override
+                  public String apply(KV<String, Long> input) {
+                    return String.format("%s: %s", input.getKey(), input.getValue());
+                  }
+                }));
+
+    PAssert.that(countStrs).containsInAnyOrder("baz: 1", "bar: 2", "foo: 3");
+
+    DirectPipelineResult result = (DirectPipelineResult) p.run();
+    result.waitUntilFinish();
+  }
+```
+
+TESTE 78
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagersTest.java
+LINHAS: 92-104
+```java
+@Test
+  public void whenManagersSucceedSucceeds() throws Exception {
+    PipelineOptions options = PipelineOptionsFactory.create();
+    DoFnLifecycleManager first = DoFnLifecycleManager.of(new EmptyFn(), options);
+    DoFnLifecycleManager second = DoFnLifecycleManager.of(new EmptyFn(), options);
+    DoFnLifecycleManager third = DoFnLifecycleManager.of(new EmptyFn(), options);
+    first.get();
+    second.get();
+    third.get();
+
+    DoFnLifecycleManagers.removeAllFromManagers(ImmutableList.of(first, second, third));
+  }
+```
+
+TESTE 79
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 132-140
+```java
+@Test
+  public void getElementsAfterAddShouldReturnAddedElements() {
+    WindowedValue<Integer> firstValue = WindowedValues.valueInGlobalWindow(1);
+    WindowedValue<Integer> secondValue =
+        WindowedValues.timestampedValueInGlobalWindow(2, new Instant(1000L));
+
+    afterCommitGetElementsShouldHaveAddedElements(ImmutableList.of(firstValue, secondValue));
+  }
+```
+
+TESTE 80
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 127-131
+```java
+@Test
+  public void getElementsBeforeAddShouldReturnEmptyIterable() {
+    afterCommitGetElementsShouldHaveAddedElements(Collections.<WindowedValue<Integer>>emptyList());
+  }
+```
+
+TESTE 81
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 96-100
+```java
+@Test
+  public void keyedWithByteArrayKeyShouldCreateKeyedBundle() throws Exception {
+    createKeyedBundle(ByteArrayCoder.of(), new byte[] {0, 2, 4, 99});
+  }
+```
+
+TESTE 82
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 81-85
+```java
+@Test
+  public void keyedWithNullKeyShouldCreateKeyedBundle() throws Exception {
+    createKeyedBundle(VoidCoder.of(), null);
+  }
+```
+
+TESTE 83
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 86-90
+```java
+@Test
+  public void keyedWithStringKeyShouldCreateKeyedBundle() throws Exception {
+    createKeyedBundle(StringUtf8Coder.of(), "foo");
+  }
+```
+
+TESTE 84
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+LINHAS: 91-95
+```java
+@Test
+  public void keyedWithVarIntKeyShouldCreateKeyedBundle() throws Exception {
+    createKeyedBundle(VarIntCoder.of(), 1234);
+  }
+```
+
+TESTE 85
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
+LINHAS: 191-198
+```java
+@Test
+  public void getKeyedPValuesBeforeTraverseThrows() {
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("completely traversed");
+    thrown.expectMessage("getKeyedPValues");
+    visitor.getKeyedPValues();
+  }
+```
+
+TESTE 86
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
+LINHAS: 176-190
+```java
+@Test
+  public void traverseMultipleTimesThrows() {
+    p.apply(
+            Create.of(KV.of(1, (Void) null), KV.of(2, (Void) null), KV.of(3, (Void) null))
+                .withCoder(KvCoder.of(VarIntCoder.of(), VoidCoder.of())))
+        .apply(GroupByKey.create())
+        .apply(Keys.create());
+
+    p.traverseTopologically(visitor);
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("already been finalized");
+    thrown.expectMessage(KeyedPValueTrackingVisitor.class.getSimpleName());
+    p.traverseTopologically(visitor);
+  }
+```
+
+TESTE 87
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/MultiStepCombineTest.java
+LINHAS: 60-77
+```java
+@Test
+  public void testMultiStepCombine() {
+    PCollection<KV<String, Long>> combined =
+        pipeline
+            .apply(
+                Create.of(
+                    KV.of("foo", 1L),
+                    KV.of("bar", 2L),
+                    KV.of("bizzle", 3L),
+                    KV.of("bar", 4L),
+                    KV.of("bizzle", 11L)))
+            .apply(Combine.perKey(new MultiStepCombineFn()));
+
+    PAssert.that(combined)
+        .containsInAnyOrder(KV.of("foo", 1L), KV.of("bar", 6L), KV.of("bizzle", 14L));
+    pipeline.run();
+  }
+```
+
+TESTE 88
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+LINHAS: 252-265
+```java
+@Test
+  public void testRequiresTimeSortedInput() {
+    Instant now = Instant.ofEpochMilli(0);
+    PCollection<KV<String, Integer>> input =
+        pipeline.apply(
+            Create.timestamped(
+                TimestampedValue.of(KV.of("", 1), now.plus(Duration.millis(2))),
+                TimestampedValue.of(KV.of("", 2), now.plus(Duration.millis(1))),
+                TimestampedValue.of(KV.of("", 3), now)));
+    PCollection<String> result = input.apply(ParDo.of(statefulConcat()));
+    PAssert.that(result).containsInAnyOrder("3", "3:2", "3:2:1");
+    pipeline.run();
+  }
+```
+
+TESTE 89
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+LINHAS: 266-281
+```java
+@Test
+  public void testRequiresTimeSortedInputWithLateData() {
+    Instant now = Instant.ofEpochMilli(0);
+    PCollection<KV<String, Integer>> input =
+        pipeline.apply(
+            TestStream.create(KvCoder.of(StringUtf8Coder.of(), VarIntCoder.of()))
+                .addElements(TimestampedValue.of(KV.of("", 1), now.plus(Duration.millis(2))))
+                .addElements(TimestampedValue.of(KV.of("", 2), now.plus(Duration.millis(1))))
+                .advanceWatermarkTo(now.plus(Duration.millis(1)))
+                .addElements(TimestampedValue.of(KV.of("", 3), now))
+                .advanceWatermarkToInfinity());
+    PCollection<String> result = input.apply(ParDo.of(statefulConcat()));
+    PAssert.that(result).containsInAnyOrder("2", "2:1");
+    pipeline.run();
+  }
+```
+
+TESTE 90
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+LINHAS: 282-301
+```java
+@Test
+  public void testRequiresTimeSortedInputWithLateDataAndAllowedLateness() {
+    Instant now = Instant.ofEpochMilli(0);
+    PCollection<KV<String, Integer>> input =
+        pipeline
+            .apply(
+                TestStream.create(KvCoder.of(StringUtf8Coder.of(), VarIntCoder.of()))
+                    .addElements(TimestampedValue.of(KV.of("", 1), now.plus(Duration.millis(2))))
+                    .addElements(TimestampedValue.of(KV.of("", 2), now.plus(Duration.millis(1))))
+                    .advanceWatermarkTo(now.plus(Duration.millis(1)))
+                    .addElements(TimestampedValue.of(KV.of("", 3), now))
+                    .advanceWatermarkToInfinity())
+            .apply(
+                Window.<KV<String, Integer>>into(new GlobalWindows())
+                    .withAllowedLateness(Duration.millis(2)));
+    PCollection<String> result = input.apply(ParDo.of(statefulConcat()));
+    PAssert.that(result).containsInAnyOrder("3", "3:2", "3:2:1");
+    pipeline.run();
+  }
+```
+
+TESTE 91
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 230-237
+```java
+public void keyBasedOnCountFnFewElementsExtraShards() {
+    long countValue = (long) WriteWithShardingFactory.MIN_SHARDS_FOR_LOG + 3;
+    CalculateShardsFn fn = new CalculateShardsFn(3);
+
+    int output = 6;
+    PAssert.that(p.apply(Create.of(countValue)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 92
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 208-215
+```java
+public void keyBasedOnCountFnFewElementsThreeShards() {
+    CalculateShardsFn fn = new CalculateShardsFn(0);
+
+    long input = 5L;
+    int output = 3;
+    PAssert.that(p.apply(Create.of(input)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 93
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 219-226
+```java
+public void keyBasedOnCountFnManyElements() {
+    DoFn<Long, Integer> fn = new CalculateShardsFn(0);
+
+    long input = (long) Math.pow(10, 10);
+    int output = 10;
+    PAssert.that(p.apply(Create.of(input)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 94
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 241-249
+```java
+public void keyBasedOnCountFnManyElementsExtraShards() {
+    CalculateShardsFn fn = new CalculateShardsFn(3);
+
+    double count = Math.pow(10, 10);
+    int output = 13;
+
+    PAssert.that(p.apply(Create.of((long) count)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 95
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 175-182
+```java
+public void keyBasedOnCountFnWithNoElements() {
+    CalculateShardsFn fn = new CalculateShardsFn(0);
+
+    long input = 0L;
+    int output = 1;
+    PAssert.that(p.apply(Create.of(input)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 96
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 186-193
+```java
+public void keyBasedOnCountFnWithOneElement() {
+    CalculateShardsFn fn = new CalculateShardsFn(0);
+
+    long input = 1L;
+    int output = 1;
+    PAssert.that(p.apply(Create.of(input)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 97
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+LINHAS: 197-204
+```java
+public void keyBasedOnCountFnWithTwoElements() {
+    CalculateShardsFn fn = new CalculateShardsFn(0);
+
+    long input = 2L;
+    int output = 2;
+    PAssert.that(p.apply(Create.of(input)).apply(ParDo.of(fn))).containsInAnyOrder(output);
+    p.run().waitUntilFinish();
+  }
+```
+
+TESTE 98
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+LINHAS: 277-288
+```java
+@Test
+  public void shouldDetectMalformedPortBatch() {
+    FlinkPipelineOptions options = getDefaultPipelineOptions();
+    options.setRunner(FlinkRunner.class);
+    options.setFlinkMaster("host:p0rt");
+
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage("Unparseable port number");
+
+    FlinkExecutionEnvironments.createBatchExecutionEnvironment(options);
+  }
+```
+
+TESTE 99
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+LINHAS: 289-300
+```java
+@Test
+  public void shouldDetectMalformedPortStreaming() {
+    FlinkPipelineOptions options = getDefaultPipelineOptions();
+    options.setRunner(FlinkRunner.class);
+    options.setFlinkMaster("host:p0rt");
+
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage("Unparseable port number");
+
+    FlinkExecutionEnvironments.createStreamExecutionEnvironment(options);
+  }
+```
+
+TESTE 100
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+LINHAS: 301-314
+```java
+@Test
+  public void shouldSupportIPv4Batch() {
+    FlinkPipelineOptions options = getDefaultPipelineOptions();
+    options.setRunner(FlinkRunner.class);
+
+    options.setFlinkMaster("192.168.1.1:1234");
+    ExecutionEnvironment bev = FlinkExecutionEnvironments.createBatchExecutionEnvironment(options);
+    checkHostAndPort(bev, "192.168.1.1", 1234);
+
+    options.setFlinkMaster("192.168.1.1");
+    bev = FlinkExecutionEnvironments.createBatchExecutionEnvironment(options);
+    checkHostAndPort(bev, "192.168.1.1", RestOptions.PORT.defaultValue());
+  }
+```
+

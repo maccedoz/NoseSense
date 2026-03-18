@@ -1,0 +1,2207 @@
+TESTE 1
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/BigQueryConvertersTest.java
+LINHAS: 510-527
+```java
+@Test
+  public void testColumnToValueTimestampInvalid() {
+    TableFieldSchema column =
+        new TableFieldSchema().setName(invalidTimestampField).setType("TIMESTAMP");
+    Record record =
+        generateSingleFieldAvroRecord(
+            invalidTimestampField,
+            "long",
+            invalidTimestampFieldDesc,
+            invalidTimestampFieldValueNanos);
+    boolean isThrown = false;
+    try {
+      Value value = BigQueryConverters.columnToValue(column, record.get(invalidTimestampField));
+    } catch (IllegalArgumentException e) {
+      isThrown = true;
+    }
+    assertTrue(isThrown);
+  }
+```
+
+TESTE 2
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/BigQueryConvertersTest.java
+LINHAS: 356-369
+```java
+@Test
+  public void testValidateKeyColumnStringShort() {
+    TableFieldSchema column = new TableFieldSchema().setName(shortStringField).setType("STRING");
+    Record record =
+        generateSingleFieldAvroRecord(
+            shortStringField, "string", shortStringFieldDesc, shortStringFieldValue);
+    boolean isThrown = false;
+    try {
+      BigQueryConverters.validateKeyColumn(column, record.get(shortStringField));
+    } catch (IllegalArgumentException e) {
+      isThrown = true;
+    }
+    assertFalse(isThrown);
+  }
+```
+
+TESTE 3
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/coordinate/CoordinateTransactionTest.java
+LINHAS: 149-162
+```java
+@Test
+    void multiKeyTest() throws Throwable
+    {
+        try (MockCluster cluster = MockCluster.builder().nodes(6).maxKey(600).build())
+        {
+            Node node = cluster.get(1);
+            assertNotNull(node);
+
+            TxnId txnId1 = coordinate(node, 100, keys(50, 350, 550));
+            TxnId txnId2 = coordinate(node, 150, keys(250, 350, 450));
+            TxnId txnId3 = coordinate(node, 125, keys(50, 60, 70, 80, 350, 550));
+        }
+    }
+```
+
+TESTE 4
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/messages/PreAcceptTest.java
+LINHAS: 127-149
+```java
+@Test
+    void nackTest() throws ExecutionException
+    {
+        RecordingMessageSink messageSink = new RecordingMessageSink(ID1, Network.BLACK_HOLE);
+        Clock clock = new Clock(100);
+        Node node = createNode(ID1, TOPOLOGY, messageSink, clock);
+        try
+        {
+            Raw key = IntKey.key(10);
+            CommandStore commandStore = node.unsafeForKey(key.toUnseekable());
+            Assertions.assertFalse(inMemory(commandStore).hasCommandsForKey(key.toUnseekable()));
+
+            TxnId txnId = clock.idForNode(1, ID2);
+            Txn txn = writeTxn(Keys.of(key));
+            PreAccept preAccept = preAccept(txnId, txn, key.toUnseekable());
+            preAccept.process(node, ID2, REPLY_CONTEXT);
+        }
+        finally
+        {
+            node.shutdown();
+        }
+    }
+```
+
+TESTE 5
+PROJETO: account-provisioning-for-google-apps
+ARQUIVO: /home/magno-macedo/.jnose_projects/account-provisioning-for-google-apps/src/test/java/apps/provisioning/CommandsTest.java
+LINHAS: 85-98
+```java
+@Test
+  public void testPortArgInvalidValue() {
+    String expectedPort = "string";
+    String[] args = {"-port", expectedPort};
+    createCommands(args);
+
+    try {
+      commands.getCommandIntValue(Commands.PORT_COMMAND_OPTION);
+      Assert.fail("Should have failed to parse the invalid port value.");
+    } catch (NumberFormatException e) {
+      // This is expected. Test should pass.
+    }
+  }
+```
+
+TESTE 6
+PROJETO: account-provisioning-for-google-apps
+ARQUIVO: /home/magno-macedo/.jnose_projects/account-provisioning-for-google-apps/src/test/java/apps/provisioning/config/ConfigDataTest.java
+LINHAS: 125-133
+```java
+@Test
+  public final void testBadKeyPath() throws Exception {
+    try {
+      new ConfigData("./test/bad-key-path.properties");
+      fail("This should fail because the file doesn't exist.");
+    } catch (FileNotFoundException e) {
+      assertEquals("File declared in apis.GoogleAPIs.keyPath doesn't exist.", e.getMessage());
+    }
+  }
+```
+
+TESTE 7
+PROJETO: account-provisioning-for-google-apps
+ARQUIVO: /home/magno-macedo/.jnose_projects/account-provisioning-for-google-apps/src/test/java/apps/provisioning/config/ConfigDataTest.java
+LINHAS: 142-150
+```java
+@Test
+  public final void testBadKeyStorePath() throws IOException, Exception {
+    try {
+      new ConfigData("./test/bad-key-store-path.properties");
+      fail("This should fail because the file doesn't exist.");
+    } catch (FileNotFoundException e) {
+      assertEquals("File declared in security.ssl.keyStorePath doesn't exist.", e.getMessage());
+    }
+  }
+```
+
+TESTE 8
+PROJETO: account-provisioning-for-google-apps
+ARQUIVO: /home/magno-macedo/.jnose_projects/account-provisioning-for-google-apps/src/test/java/apps/provisioning/data/H2DataSourceTest.java
+LINHAS: 61-75
+```java
+@Test
+  public void testInsertSameTwice() throws SQLException, Exception {
+    String email = "user";
+    dataSource.insert(email);
+    try {
+      dataSource.insert(email);
+      Assert.fail("Inserting the same email should not be allowed.");
+    } catch (JdbcSQLException e) {
+      // This exception is expected. Test should pass.
+      return;
+    } catch (Exception e) {
+      Assert.fail("Unexpected exception was thrown: " + e);
+    }
+  }
+```
+
+TESTE 9
+PROJETO: account-provisioning-for-google-apps
+ARQUIVO: /home/magno-macedo/.jnose_projects/account-provisioning-for-google-apps/src/test/java/apps/provisioning/server/account/data/LockedDirectoryTest.java
+LINHAS: 87-96
+```java
+@Test
+  public final void testAddExisting() throws Exception {
+    lockedDirectory.insert(input);
+    try {
+      lockedDirectory.insert(input);
+      fail("The username already existed but added again.");
+    } catch (Exception e) {
+      assertEquals("Username alrealy exists in Locked Directory.", e.getMessage());
+    }
+  }
+```
+
+TESTE 10
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/message/AMQPMessageIdHelperTest.java
+LINHAS: 60-68
+```java
+@Test
+    public void testToBaseMessageIdStringThrowsIAEWithUnexpectedType() {
+        try {
+            messageIdHelper.toBaseMessageIdString(new Object());
+            fail("expected exception not thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected
+        }
+    }
+```
+
+TESTE 11
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/message/AMQPMessageIdHelperTest.java
+LINHAS: 341-351
+```java
+@Test
+    public void testToIdObjectWithStringContainingBinaryHexThrowsWithUnevenLengthString() {
+        String unevenHead = AMQPMessageIdHelper.AMQP_BINARY_PREFIX + "123";
+
+        try {
+            messageIdHelper.toIdObject(unevenHead);
+            fail("expected exception was not thrown");
+        } catch (AmqpProtocolException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 12
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/ClassLoadingAwareObjectInputStreamTest.java
+LINHAS: 49-62
+```java
+@Test
+    public void testReadObject() throws Exception {
+        // Expect to succeed
+        doTestReadObject(new SimplePojo(name.getMethodName()), ACCEPTS_ALL_FILTER);
+
+        // Expect to fail
+        try {
+            doTestReadObject(new SimplePojo(name.getMethodName()), ACCEPTS_NONE_FILTER);
+            fail("Should have failed to read");
+        } catch (ClassNotFoundException cnfe) {
+            // Expected
+        }
+    }
+```
+
+TESTE 13
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-jaas/src/test/java/org/apache/activemq/jaas/CertificateLoginModuleTest.java
+LINHAS: 106-115
+```java
+public void testLoginSuccess() throws IOException {
+        try {
+            loginWithCredentials(USER_NAME, new HashSet<String>(GROUP_NAMES));
+        } catch (Exception e) {
+            fail("Unable to login: " + e.getMessage());
+        }
+
+        checkPrincipalsMatch(subject);
+    }
+```
+
+TESTE 14
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-jaas/src/test/java/org/apache/activemq/jaas/LDAPLoginModuleTest.java
+LINHAS: 194-217
+```java
+@Test
+    public void testAuthenticatedViaBindOnAnonConnection() throws Exception {
+        LoginContext context = new LoginContext("AnonBindCheckUserLDAPLogin", new CallbackHandler() {
+            @Override
+            public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+                for (int i = 0; i < callbacks.length; i++) {
+                    if (callbacks[i] instanceof NameCallback) {
+                        ((NameCallback) callbacks[i]).setName("first");
+                    } else if (callbacks[i] instanceof PasswordCallback) {
+                        ((PasswordCallback) callbacks[i]).setPassword("wrongSecret".toCharArray());
+                    } else {
+                        throw new UnsupportedCallbackException(callbacks[i]);
+                    }
+                }
+            }
+        });
+        try {
+            context.login();
+            fail("Should have failed authenticating");
+        } catch (FailedLoginException expected) {
+        }
+    }
+```
+
+TESTE 15
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-jaas/src/test/java/org/apache/activemq/jaas/LDAPLoginModuleTest.java
+LINHAS: 168-193
+```java
+@Test
+    public void testUnauthenticated() throws LoginException {
+        LoginContext context = new LoginContext("UnAuthenticatedLDAPLogin", new CallbackHandler() {
+            @Override
+            public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+                for (int i = 0; i < callbacks.length; i++) {
+                    if (callbacks[i] instanceof NameCallback) {
+                        ((NameCallback) callbacks[i]).setName("first");
+                    } else if (callbacks[i] instanceof PasswordCallback) {
+                        ((PasswordCallback) callbacks[i]).setPassword("secret".toCharArray());
+                    } else {
+                        throw new UnsupportedCallbackException(callbacks[i]);
+                    }
+                }
+            }
+        });
+        try {
+            context.login();
+        } catch (LoginException le) {
+            assertEquals(le.getCause().getMessage(), "Empty password is not allowed");
+            return;
+        }
+        fail("Should have failed authenticating");
+    }
+```
+
+TESTE 16
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-stomp/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
+LINHAS: 991-1001
+```java
+public void testConnectNotAuthenticatedWrongPassword() throws Exception {
+
+        String frame = "CONNECT\n" + "login:system\n" + "passcode: dejanb\n\n" + Stomp.NULL;
+        stompConnection.sendFrame(frame);
+
+        try {
+            String f = stompConnection.receiveFrame();
+            assertTrue(f.startsWith("ERROR"));
+            assertFalse("no stack trace impl leak:" + f, f.contains("at "));
+        } catch (IOException socketMayBeClosedFirstByBroker) {}
+    }
+```
+
+TESTE 17
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-stomp/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
+LINHAS: 979-988
+```java
+public void testConnectNotAuthenticatedWrongUser() throws Exception {
+        String frame = "CONNECT\n" + "login: dejanb\n" + "passcode:manager\n\n" + Stomp.NULL;
+        stompConnection.sendFrame(frame);
+
+        try {
+            String f = stompConnection.receiveFrame();
+            assertTrue(f.startsWith("ERROR"));
+            assertFalse("no stack trace impl leak:" + f, f.contains("at "));
+        } catch (IOException socketMayBeClosedFirstByBroker) {}
+    }
+```
+
+TESTE 18
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/addr/src/test/java/org/apache/cxf/ws/addressing/soap/MAPCodecTest.java
+LINHAS: 201-212
+```java
+@Test
+    public void testResponderOutboundInvalidMAP() throws Exception {
+        SoapMessage message = setUpMessage(false, true, true);
+        try {
+            codec.handleMessage(message);
+            fail("expected SOAPFaultException on invalid MAP");
+        } catch (SoapFault sfe) {
+            assertEquals("unexpected fault string", "Duplicate Message ID urn:uuid:12345", sfe.getMessage());
+        }
+        verifyMessage(message, false, true, true);
+    }
+```
+
+TESTE 19
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/client/src/test/java/org/apache/cxf/jaxrs/client/cache/ClientTest.java
+LINHAS: 35-47
+```java
+@Test
+    public void testClientClosed() {
+        Client client = ClientBuilder.newClient();
+        try {
+            WebTarget target = client.target(ADDRESS);
+            client.close();
+            target.resolveTemplatesFromEncoded(new HashMap<String, Object>());
+            fail("IllegalStateException is expected");
+        } catch (java.lang.IllegalStateException e) {
+            assertTrue(e.getMessage().contains("client is closed"));
+        }
+    }
+```
+
+TESTE 20
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/coloc/src/test/java/org/apache/cxf/binding/coloc/ColocOutInterceptorTest.java
+LINHAS: 93-103
+```java
+@Test
+    public void testColocOutInvalidBus() throws Exception {
+        try {
+            colocOut.handleMessage(msg);
+            fail("Should have thrown a fault");
+        } catch (Fault f) {
+            assertEquals("Bus not created or not set as default bus.",
+                         f.getMessage());
+        }
+    }
+```
+
+TESTE 21
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/coloc/src/test/java/org/apache/cxf/binding/coloc/ColocOutInterceptorTest.java
+LINHAS: 117-132
+```java
+@Test
+    public void testColocOutInvalidEndpoint() throws Exception {
+
+        Bus bus = setupBus();
+        ServerRegistry sr = mock(ServerRegistry.class);
+        when(bus.getExtension(ServerRegistry.class)).thenReturn(sr);
+
+        try {
+            colocOut.handleMessage(msg);
+            fail("Should have thrown a fault");
+        } catch (Fault f) {
+            assertEquals("Consumer Endpoint not found in exchange.",
+                         f.getMessage());
+        }
+    }
+```
+
+TESTE 22
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/coloc/src/test/java/org/apache/cxf/binding/coloc/ColocOutInterceptorTest.java
+LINHAS: 133-151
+```java
+@Test
+    public void testColocOutInvalidOperation() throws Exception {
+
+        Bus bus = setupBus();
+        ServerRegistry sr = mock(ServerRegistry.class);
+        when(bus.getExtension(ServerRegistry.class)).thenReturn(sr);
+
+        Endpoint ep = mock(Endpoint.class);
+        ex.put(Endpoint.class, ep);
+
+        try {
+            colocOut.handleMessage(msg);
+            fail("Should have thrown a fault");
+        } catch (Fault f) {
+            assertEquals("Operation not found in exchange.",
+                         f.getMessage());
+        }
+    }
+```
+
+TESTE 23
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/coloc/src/test/java/org/apache/cxf/binding/coloc/ColocOutInterceptorTest.java
+LINHAS: 104-116
+```java
+@Test
+    public void testColocOutInvalidServiceRegistry() throws Exception {
+
+        setupBus();
+        try {
+            colocOut.handleMessage(msg);
+            fail("Should have thrown a fault");
+        } catch (Fault f) {
+            assertEquals("Server Registry not registered with bus.",
+                         f.getMessage());
+        }
+    }
+```
+
+TESTE 24
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/tools/common/src/test/java/org/apache/cxf/tools/common/toolspec/AbstractToolContainerTest.java
+LINHAS: 52-61
+```java
+@Test
+    public void testInit() {
+        try {
+            dummyTool.init();
+        } catch (ToolException e) {
+            assertEquals("Tool specification has to be set before initializing", e.getMessage());
+            return;
+        }
+    }
+```
+
+TESTE 25
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentDeserializerTest.java
+LINHAS: 896-907
+```java
+@Test
+    public void testCXF8706followUrl() {
+        System.setProperty(AttachmentUtil.ATTACHMENT_XOP_FOLLOW_URLS_PROPERTY, "true");
+        try {
+            final DataSource ds = AttachmentUtil
+                .getAttachmentDataSource("cid:http://image.com/1.gif", Collections.emptyList());
+            assertThat(ds, instanceOf(URLDataSource.class));
+        } finally {
+            System.clearProperty(AttachmentUtil.ATTACHMENT_XOP_FOLLOW_URLS_PROPERTY);
+        }
+    }
+```
+
+TESTE 26
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 236-243
+```java
+@Test
+    public void byteAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, Byte.MAX_VALUE)) {
+            assertEquals(Byte.MAX_VALUE, cos.getThreshold());
+        }
+    }
+```
+
+TESTE 27
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 220-227
+```java
+@Test
+    public void integerAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, Integer.MAX_VALUE)) {
+            assertEquals(Integer.MAX_VALUE, cos.getThreshold());
+        }
+    }
+```
+
+TESTE 28
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 212-219
+```java
+@Test
+    public void longAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, Long.MAX_VALUE)) {
+            assertEquals(Long.MAX_VALUE, cos.getThreshold());
+        }
+    }
+```
+
+TESTE 29
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 325-330
+```java
+public void nonNumberStringAsAttachmentMaxSize() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(AttachmentDeserializer.ATTACHMENT_MAX_SIZE,
+                "test")) {
+            // Will throw exception
+        }
+    }
+```
+
+TESTE 30
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 254-259
+```java
+public void nonNumberStringAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, "test")) {
+            // Will throw exception
+        }
+    }
+```
+
+TESTE 31
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 361-366
+```java
+public void objectAsAttachmentDirectory() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(AttachmentDeserializer.ATTACHMENT_DIRECTORY,
+                new Object())) {
+            // Will throw exception
+        }
+    }
+```
+
+TESTE 32
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 333-338
+```java
+public void objectAsAttachmentMaxSize() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(AttachmentDeserializer.ATTACHMENT_MAX_SIZE,
+                new Object())) {
+            // Will throw exception
+        }
+    }
+```
+
+TESTE 33
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 262-267
+```java
+public void objectAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, new Object())) {
+            // Will throw exception
+        }
+    }
+```
+
+TESTE 34
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/attachment/AttachmentUtilTest.java
+LINHAS: 228-235
+```java
+@Test
+    public void shortAsAttachmentMemoryThreshold() throws IOException {
+        try (CachedOutputStream cos = testSetStreamedAttachmentProperties(
+                AttachmentDeserializer.ATTACHMENT_MEMORY_THRESHOLD, Short.MAX_VALUE)) {
+            assertEquals(Short.MAX_VALUE, cos.getThreshold());
+        }
+    }
+```
+
+TESTE 35
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/common/annotation/AnnotationProcessorTest.java
+LINHAS: 120-131
+```java
+@Test
+    public void testProcessorInvalidAcceptArg() {
+
+        try {
+            processor.accept(null);
+            fail("did not get expected exception");
+        } catch (IllegalArgumentException e) {
+            // happy
+        }
+
+    }
+```
+
+TESTE 36
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/common/annotation/AnnotationProcessorTest.java
+LINHAS: 108-119
+```java
+@Test
+    public void testProcessorInvalidConstructorArgs() {
+
+        try {
+            new AnnotationProcessor(null);
+            fail("did not get expected argument");
+        } catch (IllegalArgumentException e) {
+            // happy
+        }
+
+    }
+```
+
+TESTE 37
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/databinding/jaxb/src/test/java/org/apache/cxf/jaxb/JAXBDataBindingTest.java
+LINHAS: 280-290
+```java
+@Test
+    public void testDeclaredNamespaceMappingInternalNoAsm() throws Exception {
+        try {
+            doNamespaceMappingTest(true, false);
+            fail("Internal needs ASM");
+        } catch (AssertionError er) {
+            assertTrue(er.getMessage().contains("Failed to map namespace")
+                || er.getMessage().contains("Internal needs ASM"));
+        }
+    }
+```
+
+TESTE 38
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/AsyncResponseImplTest.java
+LINHAS: 154-173
+```java
+@Test
+    public void testNullContinutaion() {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        AsyncContext asyncCtx = mock(AsyncContext.class);
+        Message msg = new MessageImpl();
+        msg.setExchange(new ExchangeImpl());
+
+        when(req.startAsync()).thenReturn(asyncCtx);
+
+        AsyncResponse impl;
+        try {
+            impl = new AsyncResponseImpl(msg);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Continuation not supported. " 
+                             + "Please ensure that all servlets and servlet filters support async operations",
+                         e.getMessage());
+            return;
+        }
+        Assert.fail("Expected IllegalArgumentException, but instead got valid AsyncResponse, " + impl);
+    }
+```
+
+TESTE 39
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/LinkBuilderImplTest.java
+LINHAS: 132-142
+```java
+@Test
+    public void testInvalidString() throws Exception {
+        try {
+            Link.Builder linkBuilder = Link.fromMethod(TestResource.class, "consumesAppJson");
+            linkBuilder.link("</cxf>>");
+            fail("IllegalArgumentException is expected");
+        } catch (java.lang.IllegalArgumentException e) {
+            // expected
+        }
+    }
+```
+
+TESTE 40
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/MediaTypeHeaderProviderTest.java
+LINHAS: 121-130
+```java
+@Test
+    public void testBadParameter() {
+        try {
+            new MediaTypeHeaderProvider().fromString("text/html;*");
+            fail("Parse exception must've been thrown");
+        } catch (IllegalArgumentException pe) {
+            // expected
+        }
+    }
+```
+
+TESTE 41
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/MediaTypeHeaderProviderTest.java
+LINHAS: 110-120
+```java
+@Test
+    public void testBadType() {
+        try {
+            new MediaTypeHeaderProvider().fromString("texthtml");
+            fail("Parse exception must've been thrown");
+        } catch (IllegalArgumentException pe) {
+            // expected
+        }
+
+    }
+```
+
+TESTE 42
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/ResponseImplTest.java
+LINHAS: 181-195
+```java
+@Test
+    public void testGetHeaderStringUsingHeaderDelegate() throws Exception {
+        StringBean bean = new StringBean("s3");
+        RuntimeDelegate original = RuntimeDelegate.getInstance();
+        RuntimeDelegate.setInstance(new StringBeanRuntimeDelegate(original));
+        try {
+            Response response = Response.ok().header(bean.get(), bean).build();
+            String header = response.getHeaderString(bean.get());
+            assertTrue(header.contains(bean.get()));
+        } finally {
+            RuntimeDelegate.setInstance(original);
+            StringBeanRuntimeDelegate.assertNotStringBeanRuntimeDelegate();
+        }
+    }
+```
+
+TESTE 43
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1340-1349
+```java
+@Test
+    public void testInvalidHost() {
+        try {
+            UriBuilder.fromUri("http://localhost:8080/some/path?name=foo").host("").build();
+            fail("Should be IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            //expected
+        }
+    }
+```
+
+TESTE 44
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1323-1333
+```java
+@Test
+    public void testInvalidPort() {
+        try {
+            UriBuilder.fromUri("http://localhost:8080/some/path?name=foo").port(-10).build();
+            fail("Should be IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            //expected
+        }
+    }
+```
+
+TESTE 45
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1301-1311
+```java
+@Test
+    public void testInvalidUriReplacement() throws Exception {
+        UriBuilder builder = UriBuilder.fromUri(new URI("news:comp.lang.java"));
+        try {
+            builder.uri("").build();
+            fail("IAE exception is expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+```
+
+TESTE 46
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1191-1202
+```java
+@Test
+    public void testNullPathValue() {
+        String value = null;
+        String path = "{arg1}";
+        try {
+            UriBuilder.fromPath(path).build(value);
+            fail("Should be IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            //expected
+        }
+    }
+```
+
+TESTE 47
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 946-955
+```java
+@Test
+    public void testNullQueryParamValues() {
+        try {
+            UriBuilder.fromPath("http://localhost:8080").queryParam("hello", (Object[])null);
+            fail("Should be IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            //expected
+        }
+    }
+```
+
+TESTE 48
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1312-1322
+```java
+@Test
+    public void testNullSegment() {
+        try {
+            UriBuilder.fromPath("/").segment((String)null).build();
+            fail("Should be IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            //expected
+        }
+    }
+```
+
+TESTE 49
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/JAXRSUtilsTest.java
+LINHAS: 1007-1037
+```java
+@Test
+    public void testCustomerParameter() throws Exception {
+        Message messageImpl = createMessage();
+        ServerProviderFactory.getInstance(messageImpl).registerUserProvider(
+            new CustomerParameterHandler());
+        Class<?>[] argType = {Customer.class, Customer[].class, Customer2.class};
+        Method m = Customer.class.getMethod("testCustomerParam", argType);
+
+        messageImpl.put(Message.QUERY_STRING, "p1=Fred&p2=Barry&p3=Jack&p4=John");
+        List<Object> params = JAXRSUtils.processParameters(new OperationResourceInfo(m,
+                                                               new ClassResourceInfo(Customer.class)),
+                                                           null,
+                                                           messageImpl);
+        assertEquals(3, params.size());
+        Customer c = (Customer)params.get(0);
+        assertEquals("Fred", c.getName());
+        Customer c2 = ((Customer[])params.get(1))[0];
+        assertEquals("Barry", c2.getName());
+        Customer2 c3 = (Customer2)params.get(2);
+        assertEquals("Jack", c3.getName());
+
+        try {
+            messageImpl.put(Message.QUERY_STRING, "p3=noName");
+            JAXRSUtils.processParameters(new OperationResourceInfo(m, null), null, messageImpl);
+            fail("Customer2 constructor does not accept names starting with lower-case chars");
+        } catch (Exception ex) {
+            // expected
+        }
+
+    }
+```
+
+TESTE 50
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/JAXRSUtilsTest.java
+LINHAS: 1134-1151
+```java
+@Test
+    public void testExceptionDuringConstruction() throws Exception {
+        Class<?>[] argType = {CustomerGender.class};
+        Method m = Customer.class.getMethod("testWrongType2", argType);
+        Message messageImpl = createMessage();
+        messageImpl.put(Message.QUERY_STRING, "p1=3");
+        try {
+            JAXRSUtils.processParameters(new OperationResourceInfo(m,
+                                             new ClassResourceInfo(Customer.class)),
+                                         null,
+                                         messageImpl);
+            fail("CustomerGender have no instance with name 3");
+        } catch (WebApplicationException ex) {
+            assertEquals(404, ex.getResponse().getStatus());
+        }
+
+    }
+```
+
+TESTE 51
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/JAXRSUtilsTest.java
+LINHAS: 1113-1133
+```java
+@Test
+    public void testWrongType() throws Exception {
+        Class<?>[] argType = {HashMap.class};
+        Method m = Customer.class.getMethod("testWrongType", argType);
+        Message messageImpl = createMessage();
+        messageImpl.put(Message.QUERY_STRING, "p1=1");
+        try {
+            JAXRSUtils.processParameters(new OperationResourceInfo(m,
+                                             new ClassResourceInfo(Customer.class)),
+                                         null,
+                                         messageImpl);
+            fail("HashMap can not be handled as parameter");
+        } catch (WebApplicationException ex) {
+            assertEquals(500, ex.getResponse().getStatus());
+            assertEquals("Parameter Class java.util.HashMap has no constructor with "
+                         + "single String parameter, static valueOf(String) or fromString(String) methods",
+                         ex.getResponse().getEntity().toString());
+        }
+
+    }
+```
+
+TESTE 52
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/JAXWSMethodInvokerTest.java
+LINHAS: 110-130
+```java
+@Test
+    public void testFaultAvoidHeadersCopy() throws Throwable {
+        ExceptionService serviceObject = new ExceptionService();
+        Method serviceMethod = ExceptionService.class.getMethod("invoke", new Class[]{});
+
+        Exchange ex = new ExchangeImpl();
+        prepareInMessage(ex, false);
+
+
+        JAXWSMethodInvoker jaxwsMethodInvoker = prepareJAXWSMethodInvoker(ex, serviceObject, serviceMethod);
+        try {
+            jaxwsMethodInvoker.invoke(ex, new MessageContentsList(new Object[]{}));
+            fail("Expected fault");
+        } catch (Fault fault) {
+            Message outMsg = ex.getOutMessage();
+            assertNull(outMsg);
+        }
+        
+        verify(factory, atLeastOnce()).release(ex, serviceObject);
+    }
+```
+
+TESTE 53
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwk/JwkUtilsTest.java
+LINHAS: 210-223
+```java
+@Test
+    public void testEcLeadingZeros() throws Exception {
+        try (InputStream inputStream = this.getClass().getResourceAsStream("cert.pem")) {
+            ECPublicKey publicKey = (ECPublicKey) CertificateFactory.getInstance("X.509")
+                    .generateCertificate(inputStream).getPublicKey();
+            JsonWebKey jwk = JwkUtils.fromECPublicKey(publicKey, "P-256");
+            String x = (String)jwk.getProperty(JsonWebKey.EC_X_COORDINATE);
+            String y = (String)jwk.getProperty(JsonWebKey.EC_Y_COORDINATE);
+            int xLength = Base64UrlUtility.decode(x).length;
+            int yLength = Base64UrlUtility.decode(y).length;
+            assertEquals(xLength, yLength);
+        }
+    }
+```
+
+TESTE 54
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwt/JwtUtilsTest.java
+LINHAS: 36-52
+```java
+public void testExpiredToken() throws Exception {
+        // Create the JWT Token
+        JwtClaims claims = new JwtClaims();
+        claims.setSubject("alice");
+        claims.setIssuer("DoubleItSTSIssuer");
+
+        // Set the expiry date to be yesterday
+        ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L);
+        claims.setExpiryTime(dateTime.toEpochSecond());
+
+        try {
+            JwtUtils.validateJwtExpiry(claims, 0, true);
+            fail("Failure expected on an expired token");
+        } catch (JwtException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 55
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwt/JwtUtilsTest.java
+LINHAS: 55-71
+```java
+public void testFutureToken() throws Exception {
+        // Create the JWT Token
+        JwtClaims claims = new JwtClaims();
+        claims.setSubject("alice");
+        claims.setIssuer("DoubleItSTSIssuer");
+
+        // Set the issued date to be in the future
+        ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC).plusDays(1L);
+        claims.setIssuedAt(dateTime.toEpochSecond());
+
+        try {
+            JwtUtils.validateJwtIssuedAt(claims, 300, 0, true);
+            fail("Failure expected on a token issued in the future");
+        } catch (JwtException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 56
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwt/JwtUtilsTest.java
+LINHAS: 119-141
+```java
+public void testIssuedAtTTL() throws Exception {
+        // Create the JWT Token
+        JwtClaims claims = new JwtClaims();
+        claims.setSubject("alice");
+        claims.setIssuer("DoubleItSTSIssuer");
+
+        // Set the issued date to be now
+        ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC);
+        claims.setIssuedAt(dateTime.toEpochSecond());
+
+        // Now test the TTL
+        JwtUtils.validateJwtIssuedAt(claims, 60, 0, true);
+
+        // Now create the token 70 seconds ago
+        claims.setIssuedAt(dateTime.minusSeconds(70L).toEpochSecond());
+
+        try {
+            JwtUtils.validateJwtIssuedAt(claims, 60, 0, true);
+            fail("Failure expected on an expired token");
+        } catch (JwtException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 57
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwt/JwtUtilsTest.java
+LINHAS: 74-93
+```java
+public void testNearFutureToken() throws Exception {
+        // Create the JWT Token
+        JwtClaims claims = new JwtClaims();
+        claims.setSubject("alice");
+        claims.setIssuer("DoubleItSTSIssuer");
+
+        // Set the issued date to be in the near future
+        ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC).plusSeconds(30L);
+        claims.setIssuedAt(dateTime.toEpochSecond());
+
+        try {
+            JwtUtils.validateJwtIssuedAt(claims, 0, 0, true);
+            fail("Failure expected on a token issued in the future");
+        } catch (JwtException ex) {
+            // expected
+        }
+
+        // Now set the clock offset
+        JwtUtils.validateJwtIssuedAt(claims, 0, 60, true);
+    }
+```
+
+TESTE 58
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/jose-parent/jose/src/test/java/org/apache/cxf/rs/security/jose/jwt/JwtUtilsTest.java
+LINHAS: 96-116
+```java
+public void testNotBefore() throws Exception {
+        // Create the JWT Token
+        JwtClaims claims = new JwtClaims();
+        claims.setSubject("alice");
+        claims.setIssuer("DoubleItSTSIssuer");
+
+        // Set the issued date to be in the near future
+        ZonedDateTime dateTime = ZonedDateTime.now(ZoneOffset.UTC);
+        claims.setIssuedAt(dateTime.toEpochSecond());
+        claims.setNotBefore(dateTime.plusSeconds(30L).toEpochSecond());
+
+        try {
+            JwtUtils.validateJwtNotBefore(claims, 0, true);
+            fail("Failure expected on not before");
+        } catch (JwtException ex) {
+            // expected
+        }
+
+        // Now set the clock offset
+        JwtUtils.validateJwtNotBefore(claims, 60, true);
+    }
+```
+
+TESTE 59
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 172-197
+```java
+@Test
+    public void testIllegalInvoke() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("portName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("targetNamespace", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("BindingType", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+        when(scriptMock.get("invoke", scriptMock))
+            .thenReturn("string");
+
+        AbstractDOMProvider adp = new DOMMessageProvider(scriptMock, scriptMock,
+                                                         epAddr, true, true);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.ILLEGAL_INVOKE_TYPE, ex.getMessage());
+        }
+    }
+```
+
+TESTE 60
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 120-143
+```java
+@Test
+    public void testNoAddr() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("portName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("targetNamespace", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("EndpointAddress", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMPayloadProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_EP_ADDR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 61
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 144-171
+```java
+@Test
+    public void testNoInvoke() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("portName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("targetNamespace", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("EndpointAddress", scriptMock))
+            .thenReturn(epAddr);
+        when(scriptMock.get("BindingType", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+        when(scriptMock.get("invoke", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMPayloadProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_INVOKE, ex.getMessage());
+        }
+    }
+```
+
+TESTE 62
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 78-97
+```java
+@Test
+    public void testNoPortName() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("portName", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMMessageProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_PORT_NAME, ex.getMessage());
+        }
+    }
+```
+
+TESTE 63
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 60-77
+```java
+@Test
+    public void testNoSvcName() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMPayloadProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_SERVICE_NAME, ex.getMessage());
+        }
+    }
+```
+
+TESTE 64
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 98-119
+```java
+@Test
+    public void testNoTgtNamespace() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("serviceName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("portName", scriptMock))
+            .thenReturn("found");
+        when(scriptMock.get("targetNamespace", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMMessageProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_TGT_NAMESPACE, ex.getMessage());
+        }
+    }
+```
+
+TESTE 65
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/AbstractDOMProviderTest.java
+LINHAS: 44-59
+```java
+@Test
+    public void testNoWsdlLocation() throws Exception {
+        when(scriptMock.get("wsdlLocation", scriptMock))
+            .thenReturn(Scriptable.NOT_FOUND);
+
+        AbstractDOMProvider adp = new DOMMessageProvider(scriptMock, scriptMock,
+                                                         null, false, false);
+        try {
+            adp.publish();
+            fail("expected exception did not occur");
+        } catch (AbstractDOMProvider.JSDOMProviderException ex) {
+            assertEquals("wrong exception message",
+                         AbstractDOMProvider.NO_WSDL_LOCATION, ex.getMessage());
+        }
+    }
+```
+
+TESTE 66
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 95-106
+```java
+@Test
+    public void testBrokenOptionA() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {"-a", "not-a-url"};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertEquals("wrong exception message", ServerApp.WRONG_ADDR_ERR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 67
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 119-130
+```java
+@Test
+    public void testBrokenOptionB() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {"-b", "not-a-url"};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertEquals("wrong exception message", ServerApp.WRONG_BASE_ERR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 68
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 83-94
+```java
+@Test
+    public void testMissingOptionA() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {"-a"};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertEquals("wrong exception message", ServerApp.WRONG_ADDR_ERR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 69
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 107-118
+```java
+@Test
+    public void testMissingOptionB() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {"-b"};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertEquals("wrong exception message", ServerApp.WRONG_BASE_ERR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 70
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 59-70
+```java
+@Test
+    public void testNoArgs() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertEquals("wrong exception message", ServerApp.NO_FILES_ERR, ex.getMessage());
+        }
+    }
+```
+
+TESTE 71
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/js/src/test/java/org/apache/cxf/js/rhino/ServerAppTest.java
+LINHAS: 71-82
+```java
+@Test
+    public void testUknownOption() {
+        try {
+            ServerApp app = createServerApp();
+            String[] args = {"-x"};
+            app.start(args);
+            fail("expected exception did not occur");
+        } catch (Exception ex) {
+            assertTrue(ex.getMessage().startsWith(ServerApp.UNKNOWN_OPTION));
+        }
+    }
+```
+
+TESTE 72
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/security/oauth-parent/oauth2/src/test/java/org/apache/cxf/rs/security/oauth2/grants/jwt/AbstractJwtHandlerTest.java
+LINHAS: 70-79
+```java
+@Test
+    public void testValidateSignatureWithInvalidSignature() {
+        when(signatureVerifier.verify(headers, UNSIGNED_TEXT, SIGNATURE)).thenReturn(false);
+        try {
+            handler.validateSignature(headers, UNSIGNED_TEXT, SIGNATURE);
+            fail("OAuthServiceException expected");
+        } catch (OAuthServiceException expected) {
+        }
+    }
+```
+
+TESTE 73
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/policy/src/test/java/org/apache/cxf/ws/policy/attachment/wsdl11/Wsdl11AttachmentPolicyProviderTest.java
+LINHAS: 348-366
+```java
+@Test
+    public void testResolveLocal() {
+
+        Policy ep;
+
+        // service has one extension of type PolicyReference, reference can be resolved locally
+        ep = app.getElementPolicy(services[16]);
+        assertNotNull(ep);
+        verifyAssertionsOnly(ep, 2);
+
+        // port has one extension of type PolicyReference, reference cannot be resolved locally
+        try {
+            app.getElementPolicy(endpoints[16]);
+            fail("Expected PolicyException not thrown.");
+        } catch (PolicyException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 74
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 91-104
+```java
+@Test
+    public void testReadMalformedJson() throws Exception {
+        MessageBodyReader<Tags> p = new JSONProvider<>();
+        byte[] bytes = "junk".getBytes();
+
+        try {
+            p.readFrom(Tags.class, null, null,
+                                           null, null, new ByteArrayInputStream(bytes));
+            fail("404 is expected");
+        } catch (WebApplicationException ex) {
+            assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex.getResponse().getStatus());
+        }
+    }
+```
+
+TESTE 75
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/jsrjsonp/JsrJsonpProviderTest.java
+LINHAS: 94-107
+```java
+@Test
+    public void testReadMalformedJson() throws Exception {
+        byte[] bytes = "junk".getBytes();
+
+        try {
+            provider.readFrom(JsonStructure.class, null, null, null, null,
+                new ByteArrayInputStream(bytes));
+            fail("400 BAD REQUEST is expected");
+        } catch (WebApplicationException ex) {
+            assertThat(ex.getResponse().getStatus(),
+                equalTo(Response.Status.BAD_REQUEST.getStatusCode()));
+        }
+    }
+```
+
+TESTE 76
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/rm/src/test/java/org/apache/cxf/ws/rm/AbstractRMInterceptorTest.java
+LINHAS: 116-130
+```java
+@Test
+    public void testHandleMessageRMException() {
+        RMInterceptor interceptor = new RMInterceptor();
+        Message message = mock(Message.class);
+        RMException rme = mock(RMException.class);
+        interceptor.setRMException(rme);
+
+        try {
+            interceptor.handleMessage(message);
+            fail("Expected Fault not thrown.");
+        } catch (Fault f) {
+            assertSame(rme, f.getCause());
+        }
+    }
+```
+
+TESTE 77
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/rm/src/test/java/org/apache/cxf/ws/rm/AbstractRMInterceptorTest.java
+LINHAS: 68-87
+```java
+@Test
+    public void testHandleMessageSequenceFaultNoBinding() {
+        RMInterceptor interceptor = new RMInterceptor();
+        Message message = mock(Message.class);
+        SequenceFault sf = mock(SequenceFault.class);
+        interceptor.setSequenceFault(sf);
+        Exchange ex = mock(Exchange.class);
+        when(message.getExchange()).thenReturn(ex);
+        Endpoint e = mock(Endpoint.class);
+        when(ex.getEndpoint()).thenReturn(e);
+        when(e.getBinding()).thenReturn(null);
+
+        try {
+            interceptor.handleMessage(message);
+            fail("Expected Fault not thrown.");
+        } catch (Fault f) {
+            assertSame(sf, f.getCause());
+        }
+    }
+```
+
+TESTE 78
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/rm/src/test/java/org/apache/cxf/ws/rm/DestinationTest.java
+LINHAS: 107-128
+```java
+@Test
+    public void testAcknowledgeUnknownSequence() throws RMException, IOException {
+        Message message = setupMessage();
+        RMProperties rmps = mock(RMProperties.class);
+        when(message.get(RMMessageConstants.RM_PROPERTIES_INBOUND)).thenReturn(rmps);
+        when(RMContextUtils.getProtocolVariation(message))
+            .thenReturn(ProtocolVariation.RM10WSA200408);
+        SequenceType st = mock(SequenceType.class);
+        when(rmps.getSequence()).thenReturn(st);
+        Identifier id = mock(Identifier.class);
+        when(st.getIdentifier()).thenReturn(id);
+        String sid = "sid";
+        when(id.getValue()).thenReturn(sid);
+        try {
+            destination.acknowledge(message);
+            fail("Expected SequenceFault not thrown.");
+        } catch (SequenceFault ex) {
+            assertEquals(RM10Constants.UNKNOWN_SEQUENCE_FAULT_QNAME, ex.getFaultCode());
+        }
+        verify(st, times(2)).getIdentifier();
+    }
+```
+
+TESTE 79
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/ws/rm/src/test/java/org/apache/cxf/ws/rm/RMInInterceptorTest.java
+LINHAS: 207-238
+```java
+@Test
+    public void testProcessAcknowledgments() throws RMException {
+        interceptor = new RMInInterceptor();
+        manager = mock(RMManager.class);
+        Source source = mock(Source.class);
+        rme = mock(RMEndpoint.class);
+        when(rme.getSource()).thenReturn(source);
+        interceptor.setManager(manager);
+        SequenceAcknowledgement ack1 = mock(SequenceAcknowledgement.class);
+        SequenceAcknowledgement ack2 = mock(SequenceAcknowledgement.class);
+        Collection<SequenceAcknowledgement> acks = new ArrayList<>();
+        acks.add(ack1);
+        acks.add(ack2);
+        when(rmps.getAcks()).thenReturn(acks);
+        Identifier id1 = mock(Identifier.class);
+        when(ack1.getIdentifier()).thenReturn(id1);
+        SourceSequence ss1 = mock(SourceSequence.class);
+        when(source.getSequence(id1)).thenReturn(ss1);
+
+        Identifier id2 = mock(Identifier.class);
+        when(ack2.getIdentifier()).thenReturn(id2);
+        when(source.getSequence(id2)).thenReturn(null);
+        try {
+            interceptor.processAcknowledgments(rme, rmps, ProtocolVariation.RM10WSA200408);
+            fail("Expected SequenceFault not thrown");
+        } catch (SequenceFault sf) {
+            assertEquals(RM10Constants.UNKNOWN_SEQUENCE_FAULT_QNAME, sf.getFaultCode());
+        }
+
+        verify(ss1, times(1)).setAcknowledged(ack1);
+    }
+```
+
+TESTE 80
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/search/src/test/java/org/apache/cxf/jaxrs/ext/search/fiql/FiqlParserTest.java
+LINHAS: 472-482
+```java
+@Test
+    public void testWildcard() throws SearchParseException {
+        SearchCondition<Condition> filter = parser.parse("name==*");
+        try {
+            filter.isMet(new Condition("foobaz", 0, null));
+            fail("Failure expected on an invalid search condition");
+        } catch (SearchParseException ex) {
+            // expected
+        }
+    }
+```
+
+TESTE 81
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStabilityVerifierTest.java
+LINHAS: 303-315
+```java
+@Test
+    public void testApiCompareWithoutRecordFailure() throws Exception {
+        AssignOperator op = newAssign(newVar(), newMutable(newVarRef(newVar())));
+        Mutable<ILogicalOperator> opRef = newMutable(op);
+
+        try {
+            verifier.comparePlanSignature(opRef);
+            Assert.fail("Expected to catch " + IllegalStateException.class.getName());
+        } catch (IllegalStateException e) {
+            // expected
+        }
+    }
+```
+
+TESTE 82
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStabilityVerifierTest.java
+LINHAS: 236-253
+```java
+@Test
+    public void testCycleBeforeRecord() {
+        AssignOperator op1 = newAssign(newVar(), newMutable(ConstantExpression.TRUE));
+        Mutable<ILogicalOperator> opRef1 = newMutable(op1);
+
+        AssignOperator op2 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+        Mutable<ILogicalOperator> opRef2 = newMutable(op2);
+
+        op1.getInputs().add(opRef2);
+        op2.getInputs().add(opRef1);
+
+        try {
+            verifier.recordPlanSignature(opRef1);
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("cycle"));
+        }
+    }
+```
+
+TESTE 83
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 237-255
+```java
+@Test
+    public void testCycle() {
+        AssignOperator op1 = newAssign(newVar(), newMutable(ConstantExpression.TRUE));
+        Mutable<ILogicalOperator> opRef1 = newMutable(op1);
+
+        AssignOperator op2 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+        Mutable<ILogicalOperator> opRef2 = newMutable(op2);
+
+        op1.getInputs().add(opRef2);
+        op2.getInputs().add(opRef1);
+
+        try {
+            verifier.verifyPlanStructure(opRef1);
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("cycle"));
+        }
+    }
+```
+
+TESTE 84
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 256-278
+```java
+@Test
+    public void testNoSchema() {
+        EmptyTupleSourceOperator ets = newETS();
+        ets.recomputeSchema();
+
+        AssignOperator op1 = newAssign(newVar(), newMutable(ConstantExpression.TRUE));
+        op1.getInputs().add(newMutable(ets));
+        op1.recomputeSchema();
+
+        op1.getInputs().clear();
+
+        AssignOperator op2 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+        // no schema
+        op1.getInputs().add(newMutable(op2));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op1));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("missing schema"));
+        }
+    }
+```
+
+TESTE 85
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 279-306
+```java
+@Test
+    public void testNoTypeEnvironment() throws Exception {
+        EmptyTupleSourceOperator ets = newETS();
+        computeAndSetTypeEnvironmentForOperator(ets);
+        ets.recomputeSchema();
+
+        SelectOperator op1 = new SelectOperator(newMutable(ConstantExpression.TRUE));
+        op1.getInputs().add(newMutable(ets));
+        computeAndSetTypeEnvironmentForOperator(op1);
+        op1.recomputeSchema();
+
+        op1.getInputs().clear();
+
+        SelectOperator op2 = new SelectOperator(newMutable(ConstantExpression.FALSE));
+        op2.getInputs().add(newMutable(ets));
+        op2.recomputeSchema();
+        // no type env
+
+        op1.getInputs().add(newMutable(op2));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op1));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("missing output type environment"));
+        }
+    }
+```
+
+TESTE 86
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 117-140
+```java
+@Test
+    public void testSharedExpressionBetweenOps() {
+        LogicalVariable v1 = newVar();
+        AssignOperator op1 = newAssign(v1, newMutable(ConstantExpression.TRUE));
+
+        ILogicalExpression v1Ref = newVarRef(v1);
+
+        AssignOperator op2 = newAssign(newVar(), newMutable(v1Ref));
+        op2.getInputs().add(newMutable(op1));
+
+        AssignOperator op3 = newAssign(newVar(), newMutable(v1Ref));
+        op3.getInputs().add(newMutable(op2));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op3));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared expression instance"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("(" + printVar(v1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op2)));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op3)));
+        }
+    }
+```
+
+TESTE 87
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 73-92
+```java
+@Test
+    public void testSharedExpressionInSameOp() {
+        LogicalVariable v1 = newVar();
+        AssignOperator op1 = newAssign(v1, newMutable(ConstantExpression.TRUE));
+
+        ILogicalExpression v1Ref = newVarRef(v1);
+
+        AssignOperator op2 = newAssign(newVar(), newMutable(v1Ref), newVar(), newMutable(v1Ref));
+        op2.getInputs().add(newMutable(op1));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op2));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared expression instance"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("(" + printVar(v1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("in " + printOp(op2)));
+        }
+    }
+```
+
+TESTE 88
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 93-116
+```java
+@Test
+    public void testSharedExpressionReferenceBetweenOps() {
+        LogicalVariable v1 = newVar();
+        AssignOperator op1 = newAssign(v1, newMutable(ConstantExpression.TRUE));
+
+        Mutable<ILogicalExpression> v1Ref = newMutable(newVarRef(v1));
+
+        AssignOperator op2 = newAssign(newVar(), v1Ref);
+        op2.getInputs().add(newMutable(op1));
+
+        AssignOperator op3 = newAssign(newVar(), v1Ref);
+        op3.getInputs().add(newMutable(op2));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op3));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared expression reference"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("to (" + printVar(v1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op2)));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op3)));
+        }
+    }
+```
+
+TESTE 89
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 53-72
+```java
+@Test
+    public void testSharedExpressionReferenceInSameOp() {
+        LogicalVariable v1 = newVar();
+        AssignOperator op1 = newAssign(v1, newMutable(ConstantExpression.TRUE));
+
+        Mutable<ILogicalExpression> v1Ref = newMutable(newVarRef(v1));
+
+        AssignOperator op2 = newAssign(newVar(), v1Ref, newVar(), v1Ref);
+        op2.getInputs().add(newMutable(op1));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op2));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared expression reference"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("to (" + printVar(v1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("in " + printOp(op2)));
+        }
+    }
+```
+
+TESTE 90
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 208-236
+```java
+@Test
+    public void testSharedOperatorBetweenOps() {
+        InnerJoinOperator op1 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+
+        InnerJoinOperator op2 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+        op1.getInputs().add(newMutable(op2));
+
+        InnerJoinOperator op3 = new InnerJoinOperator(newMutable(ConstantExpression.FALSE));
+        op1.getInputs().add(newMutable(op3));
+
+        AssignOperator op4 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+
+        op2.getInputs().add(newMutable(op4));
+        op2.getInputs().add(newMutable(newAssign(newVar(), newMutable(ConstantExpression.MISSING))));
+
+        op3.getInputs().add(newMutable(op4));
+        op3.getInputs().add(newMutable(newAssign(newVar(), newMutable(ConstantExpression.MISSING))));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op1));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared operator instance"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("(" + printOp(op4) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op2)));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op3)));
+        }
+    }
+```
+
+TESTE 91
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 160-177
+```java
+@Test
+    public void testSharedOperatorInSameOp() {
+        AssignOperator op1 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+
+        InnerJoinOperator op2 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+        op2.getInputs().add(newMutable(op1));
+        op2.getInputs().add(newMutable(op1));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op2));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared operator instance"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("(" + printOp(op1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("in " + printOp(op2)));
+        }
+    }
+```
+
+TESTE 92
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 178-207
+```java
+@Test
+    public void testSharedOperatorReferenceBetweenOps() {
+        InnerJoinOperator op1 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+
+        InnerJoinOperator op2 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+        op1.getInputs().add(newMutable(op2));
+
+        InnerJoinOperator op3 = new InnerJoinOperator(newMutable(ConstantExpression.FALSE));
+        op1.getInputs().add(newMutable(op3));
+
+        AssignOperator op4 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+        Mutable<ILogicalOperator> opRef4 = newMutable(op4);
+
+        op2.getInputs().add(opRef4);
+        op2.getInputs().add(newMutable(newAssign(newVar(), newMutable(ConstantExpression.MISSING))));
+
+        op3.getInputs().add(opRef4);
+        op3.getInputs().add(newMutable(newAssign(newVar(), newMutable(ConstantExpression.MISSING))));
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op1));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared operator reference"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("to (" + printOp(op4) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op2)));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains(printOp(op3)));
+        }
+    }
+```
+
+TESTE 93
+PROJETO: asterixdb
+ARQUIVO: /home/magno-macedo/.jnose_projects/asterixdb/hyracks-fullstack/algebricks/algebricks-core/src/test/java/org/apache/hyracks/algebricks/core/algebra/plan/PlanStructureVerifierTest.java
+LINHAS: 141-159
+```java
+@Test
+    public void testSharedOperatorReferenceInSameOp() {
+        AssignOperator op1 = newAssign(newVar(), newMutable(ConstantExpression.FALSE));
+        Mutable<ILogicalOperator> opRef1 = newMutable(op1);
+
+        InnerJoinOperator op2 = new InnerJoinOperator(newMutable(ConstantExpression.TRUE));
+        op2.getInputs().add(opRef1);
+        op2.getInputs().add(opRef1);
+
+        try {
+            verifier.verifyPlanStructure(newMutable(op2));
+            Assert.fail("Expected to catch " + AlgebricksException.class.getName());
+        } catch (AlgebricksException e) {
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("shared operator reference"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("to (" + printOp(op1) + ")"));
+            Assert.assertTrue(e.getMessage(), e.getMessage().contains("in " + printOp(op2)));
+        }
+    }
+```
+
+TESTE 94
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/all/src/test/java/org/apache/bookkeeper/clients/StorageClientImplTest.java
+LINHAS: 217-233
+```java
+@Test
+    public void testOpenPTableIllegalOp() throws Exception {
+        StreamProperties streamProps = StreamProperties.newBuilder(STREAM_PROPERTIES)
+            .setStreamConf(StreamConfiguration.newBuilder(DEFAULT_STREAM_CONF)
+                .setStorageType(StorageType.STREAM)
+                .build())
+            .build();
+        when(client.getStreamProperties(anyString(), anyString()))
+            .thenReturn(FutureUtils.value(streamProps));
+
+        try {
+            FutureUtils.result(client.openPTable(STREAM_NAME));
+            fail("Should fail #openTable on opening a non-table storage entity");
+        } catch (ApiException sae) {
+            // expected exception
+        }
+    }
+```
+
+TESTE 95
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/base/src/test/java/org/apache/bookkeeper/clients/impl/internal/TestLocationClientImpl.java
+LINHAS: 174-189
+```java
+@Test
+    public void testLocateStorageContainersInvalidArgs() throws Exception {
+        CompletableFuture<List<OneStorageContainerEndpointResponse>> future =
+            locationClient.locateStorageContainers(Lists.newArrayList());
+        try {
+            future.get();
+            fail("Should fail with invalid arguments");
+        } catch (ExecutionException ee) {
+            Throwable cause = ee.getCause();
+            assertTrue(
+                "Unexpected exception : " + cause,
+                cause instanceof StatusRuntimeException);
+            assertEquals(Status.INVALID_ARGUMENT, ((StatusRuntimeException) cause).getStatus());
+        }
+    }
+```
+
+TESTE 96
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/base/src/test/java/org/apache/bookkeeper/clients/impl/internal/TestProtocolInternalUtils.java
+LINHAS: 103-133
+```java
+@Test
+    public void testCreateActiveRangesInvalidKeyRange() {
+        GetActiveRangesResponse.Builder responseBuilder = GetActiveRangesResponse.newBuilder();
+        responseBuilder.addRanges(
+            RelatedRanges.newBuilder()
+                .setProps(RangeProperties.newBuilder()
+                    .setStartHashKey(Long.MIN_VALUE)
+                    .setEndHashKey(0L)
+                    .setRangeId(1L)
+                    .setStorageContainerId(1L))
+                .setType(RelationType.PARENTS)
+                .addRelatedRanges(INVALID_RANGE_ID)
+        ).addRanges(
+            RelatedRanges.newBuilder()
+                .setProps(RangeProperties.newBuilder()
+                    .setStartHashKey(1L)
+                    .setEndHashKey(Long.MAX_VALUE)
+                    .setRangeId(2L)
+                    .setStorageContainerId(2L))
+                .setType(RelationType.PARENTS)
+                .addRelatedRanges(INVALID_RANGE_ID));
+        try {
+            createActiveRanges(responseBuilder.build());
+            fail("Should fail with invalid key range");
+        } catch (IllegalStateException ise) {
+            assertEquals(
+                String.format("Invalid range key found : expected = %d, actual = %d", 0L, 1L),
+                ise.getMessage());
+        }
+    }
+```
+
+TESTE 97
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/base/src/test/java/org/apache/bookkeeper/clients/impl/internal/TestProtocolInternalUtils.java
+LINHAS: 134-164
+```java
+@Test
+    public void testCreateActiveRangesMissingKeyRange() {
+        GetActiveRangesResponse.Builder responseBuilder = GetActiveRangesResponse.newBuilder();
+        responseBuilder.addRanges(
+            RelatedRanges.newBuilder()
+                .setProps(RangeProperties.newBuilder()
+                    .setStartHashKey(Long.MIN_VALUE)
+                    .setEndHashKey(0L)
+                    .setRangeId(1L)
+                    .setStorageContainerId(1L))
+                .setType(RelationType.PARENTS)
+                .addRelatedRanges(INVALID_RANGE_ID)
+        ).addRanges(
+            RelatedRanges.newBuilder()
+                .setProps(RangeProperties.newBuilder()
+                    .setStartHashKey(0L)
+                    .setEndHashKey(1234L)
+                    .setRangeId(2L)
+                    .setStorageContainerId(2L))
+                .setType(RelationType.PARENTS)
+                .addRelatedRanges(INVALID_RANGE_ID));
+        try {
+            createActiveRanges(responseBuilder.build());
+            fail("Should fail with missing key range");
+        } catch (IllegalStateException ise) {
+            assertEquals(
+                String.format("Missing key range [%d - %d)", 1234L, Long.MAX_VALUE),
+                ise.getMessage());
+        }
+    }
+```
+
+TESTE 98
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/base/src/test/java/org/apache/bookkeeper/clients/utils/GrpcChannelsTest.java
+LINHAS: 55-68
+```java
+@Test
+    public void testZKServiceUri() {
+        String serviceUri = "zk://127.0.0.1/stream/servers";
+        try {
+            GrpcChannels.createChannelBuilder(
+                serviceUri,
+                StorageClientSettings.newBuilder().serviceUri(serviceUri).build()
+            );
+            fail("Should fail to create grpc channel because `bk-grpc-name-resolver` is not in the classpath");
+        } catch (RuntimeException re) {
+            assertTrue(re.getCause() instanceof ClassNotFoundException);
+        }
+    }
+```
+
+TESTE 99
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/stream/clients/java/base/src/test/java/org/apache/bookkeeper/clients/utils/ListenableFutureRpcProcessorTest.java
+LINHAS: 78-97
+```java
+@Test
+    public void testFailToConnect() {
+        CompletableFuture<StorageServerChannel> serverFuture = new CompletableFuture<>();
+        when(scChannel.getStorageContainerChannelFuture()).thenReturn(serverFuture);
+
+        CompletableFuture<String> resultFuture = processor.process();
+        verify(scChannel, times(1)).getStorageContainerChannelFuture();
+
+        // inject channel failure
+        Exception testExc = new Exception("test-exception");
+        serverFuture.completeExceptionally(testExc);
+
+        try {
+            FutureUtils.result(resultFuture);
+            fail("Should fail the process if failed to connect to storage server");
+        } catch (Exception e) {
+            assertSame(testExc, e);
+        }
+    }
+```
+
+TESTE 100
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/bookkeeper-server/src/test/java/org/apache/bookkeeper/bookie/BookieShellTest.java
+LINHAS: 155-168
+```java
+@Test
+    public void testRecoverCmdMissingArgument() throws Exception {
+        RecoverCmd cmd = (RecoverCmd) shell.commands.get("recover");
+        CommandLine cmdLine = parseCommandLine(cmd);
+        try {
+            cmd.runCmd(cmdLine);
+            fail("should fail running command when the arguments are missing");
+        } catch (MissingArgumentException e) {
+            // expected
+        }
+        bookKeeperAdminMockedStatic.verify(() -> BookKeeperAdmin.newBookKeeperAdmin(any(ClientConfiguration.class)),
+                never());
+    }
+```
+

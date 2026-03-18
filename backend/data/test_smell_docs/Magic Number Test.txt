@@ -1,0 +1,2086 @@
+TESTE 1
+PROJETO: pekko-platform-guide
+ARQUIVO: /home/magno-macedo/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/02-shopping-cart-service-java/src/test/java/shopping/cart/IntegrationTest.java
+LINHAS: 154-184
+```java
+@Test
+  public void updateFromDifferentNodesViaGrpc() throws Exception {
+    // add from client1
+    CompletionStage<Cart> response1 =
+        testNode1
+            .getClient()
+            .addItem(
+                AddItemRequest.newBuilder()
+                    .setCartId("cart-1")
+                    .setItemId("foo")
+                    .setQuantity(42)
+                    .build());
+    Cart updatedCart1 = response1.toCompletableFuture().get(requestTimeout.getSeconds(), SECONDS);
+    assertEquals("foo", updatedCart1.getItems(0).getItemId());
+    assertEquals(42, updatedCart1.getItems(0).getQuantity());
+
+    // add from client2
+    CompletionStage<Cart> response2 =
+        testNode2
+            .getClient()
+            .addItem(
+                AddItemRequest.newBuilder()
+                    .setCartId("cart-2")
+                    .setItemId("bar")
+                    .setQuantity(17)
+                    .build());
+    Cart updatedCart2 = response2.toCompletableFuture().get(requestTimeout.getSeconds(), SECONDS);
+    assertEquals("bar", updatedCart2.getItems(0).getItemId());
+    assertEquals(17, updatedCart2.getItems(0).getQuantity());
+  }
+```
+
+TESTE 2
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/aggregators/metrics/sink/SparkMetricsSinkTest.java
+LINHAS: 57-72
+```java
+@Test
+  public void testInBatchMode() throws Exception {
+    assertThat(InMemoryMetrics.valueOf("emptyLines"), is(nullValue()));
+
+    final PCollection<String> output =
+        pipeline
+            .apply(Create.of(WORDS).withCoder(StringUtf8Coder.of()))
+            .apply(new WordCount.CountWords())
+            .apply(MapElements.via(new WordCount.FormatAsTextFn()));
+
+    PAssert.that(output).containsInAnyOrder(EXPECTED_COUNTS);
+    pipeline.run();
+
+    assertThat(InMemoryMetrics.valueOf("emptyLines"), is(1d));
+  }
+```
+
+TESTE 3
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+LINHAS: 163-181
+```java
+@Test
+  public void testGroupByKey() {
+    List<KV<Integer, Integer>> elems =
+        shuffleRandomly(
+            KV.of(1, 1), KV.of(1, 3), KV.of(1, 5), KV.of(2, 2), KV.of(2, 4), KV.of(2, 6));
+
+    PCollection<KV<Integer, Iterable<Integer>>> input =
+        pipeline.apply(Create.of(elems)).apply(GroupByKey.create());
+
+    PAssert.thatMap(input)
+        .satisfies(
+            results -> {
+              assertThat(results.get(1), containsInAnyOrder(1, 3, 5));
+              assertThat(results.get(2), containsInAnyOrder(2, 4, 6));
+              return null;
+            });
+    pipeline.run();
+  }
+```
+
+TESTE 4
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 149-159
+```java
+@Test
+  public void testInvokeProcessElementOutputBounded() throws Exception {
+    SplittableProcessElementInvoker<Void, String, OffsetRange, Long, Void>.Result res =
+        runTest(10000, Duration.ZERO, Integer.MAX_VALUE, Duration.ZERO);
+    assertFalse(res.getContinuation().shouldResume());
+    OffsetRange residualRange = res.getResidualRestriction();
+    // Should process the first 100 elements.
+    assertEquals(1000, residualRange.getFrom());
+    assertEquals(10000, residualRange.getTo());
+  }
+```
+
+TESTE 5
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 160-172
+```java
+@Test
+  public void testInvokeProcessElementTimeBounded() throws Exception {
+    SplittableProcessElementInvoker<Void, String, OffsetRange, Long, Void>.Result res =
+        runTest(10000, Duration.ZERO, Integer.MAX_VALUE, Duration.millis(100));
+    assertFalse(res.getContinuation().shouldResume());
+    OffsetRange residualRange = res.getResidualRestriction();
+    // Should process ideally around 30 elements - but due to timing flakiness, we can't enforce
+    // that precisely. Just test that it's not egregiously off.
+    assertThat(residualRange.getFrom(), greaterThan(10L));
+    assertThat(residualRange.getFrom(), lessThan(100L));
+    assertEquals(10000, residualRange.getTo());
+  }
+```
+
+TESTE 6
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 173-184
+```java
+@Test
+  public void testInvokeProcessElementTimeBoundedWithStartupDelay() throws Exception {
+    SplittableProcessElementInvoker<Void, String, OffsetRange, Long, Void>.Result res =
+        runTest(10000, Duration.standardSeconds(3), Integer.MAX_VALUE, Duration.millis(100));
+    assertFalse(res.getContinuation().shouldResume());
+    OffsetRange residualRange = res.getResidualRestriction();
+    // Same as above, but this time it counts from the time of the first tryClaim() call
+    assertThat(residualRange.getFrom(), greaterThan(10L));
+    assertThat(residualRange.getFrom(), lessThan(100L));
+    assertEquals(10000, residualRange.getTo());
+  }
+```
+
+TESTE 7
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+LINHAS: 193-200
+```java
+@Test
+  public void testInvokeProcessElementVoluntaryReturnResume() throws Exception {
+    SplittableProcessElementInvoker<Void, String, OffsetRange, Long, Void>.Result res =
+        runTest(10, Duration.ZERO, 5, Duration.millis(100));
+    assertTrue(res.getContinuation().shouldResume());
+    assertEquals(new OffsetRange(5, 10), res.getResidualRestriction());
+  }
+```
+
+TESTE 8
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SplittableParDoProcessFnTest.java
+LINHAS: 472-500
+```java
+@Test
+  public void testResumeCarriesOverState() throws Exception {
+    DoFn<Integer, String> fn = new CounterFn(1);
+    Instant base = Instant.now();
+    dateTimeProvider.setDateTimeFixed(base.getMillis());
+    ProcessFnTester<Integer, String, OffsetRange, Long, Void> tester =
+        new ProcessFnTester<>(
+            base,
+            fn,
+            BigEndianIntegerCoder.of(),
+            SerializableCoder.of(OffsetRange.class),
+            VoidCoder.of(),
+            MAX_OUTPUTS_PER_BUNDLE,
+            MAX_BUNDLE_DURATION);
+
+    tester.startElement(42, new OffsetRange(0, 3));
+    assertThat(tester.takeOutputElements(), contains("42"));
+    assertTrue(tester.advanceProcessingTimeBy(Duration.standardSeconds(1)));
+    assertThat(tester.takeOutputElements(), contains("43"));
+    assertTrue(tester.advanceProcessingTimeBy(Duration.standardSeconds(1)));
+    assertThat(tester.takeOutputElements(), contains("44"));
+    // Should not resume the null residual.
+    assertFalse(tester.advanceProcessingTimeBy(Duration.standardSeconds(1)));
+    // After outputting all 3 items, should not output anything more.
+    assertEquals(0, tester.takeOutputElements().size());
+    // Should also not ask to resume.
+    assertFalse(tester.advanceProcessingTimeBy(Duration.standardSeconds(1)));
+  }
+```
+
+TESTE 9
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 824-835
+```java
+@Test
+  public void testAddSingletonToTrie() {
+    BoundedTrieData trie = new BoundedTrieData(ImmutableList.of("a", "b"));
+    trie.add(ImmutableList.of("a", "c"));
+    assertEquals(2, trie.size());
+    assertEquals(
+        BoundedTrieResult.create(
+            ImmutableSet.of(
+                ImmutableList.of("a", "b", "false"), ImmutableList.of("a", "c", "false"))),
+        trie.extractResult());
+  }
+```
+
+TESTE 10
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 875-883
+```java
+@Test
+  public void testClear() {
+    BoundedTrieData trie = new BoundedTrieData();
+    trie.add(ImmutableList.of("a", "b"));
+    trie.clear();
+    assertEquals(0, trie.size());
+    assertTrue(trie.extractResult().getResult().isEmpty());
+  }
+```
+
+TESTE 11
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 836-847
+```java
+@Test
+  public void testCombineEmptyTrie() {
+    BoundedTrieData trie1 = new BoundedTrieData();
+    BoundedTrieData trie2 = new BoundedTrieData();
+    trie2.add(ImmutableList.of("a", "b"));
+    trie1 = trie1.combine(trie2);
+    assertEquals(1, trie1.size());
+    assertEquals(
+        BoundedTrieResult.create(ImmutableSet.of(ImmutableList.of("a", "b", "false"))),
+        trie1.extractResult());
+  }
+```
+
+TESTE 12
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 864-874
+```java
+@Test
+  public void testCombineWithItself() {
+    BoundedTrieData trie = new BoundedTrieData();
+    trie.add(ImmutableList.of("a", "b"));
+    trie = trie.combine(trie);
+    assertEquals(1, trie.size());
+    assertEquals(
+        BoundedTrieResult.create(ImmutableSet.of(ImmutableList.of("a", "b", "false"))),
+        trie.extractResult());
+  }
+```
+
+TESTE 13
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 848-863
+```java
+@Test
+  public void testCombineWithSingleton() {
+    BoundedTrieData trie1 = new BoundedTrieData();
+    trie1.add(ImmutableList.of("a", "b"));
+
+    BoundedTrieData trie2 = new BoundedTrieData(ImmutableList.of("c", "d"));
+
+    trie1 = trie1.combine(trie2);
+    assertEquals(2, trie1.size());
+    assertEquals(
+        BoundedTrieResult.create(
+            ImmutableSet.of(
+                ImmutableList.of("a", "b", "false"), ImmutableList.of("c", "d", "false"))),
+        trie1.extractResult());
+  }
+```
+
+TESTE 14
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 805-811
+```java
+@Test
+  public void testEmptyTrie() {
+    BoundedTrieData trie = new BoundedTrieData();
+    assertEquals(0, trie.size());
+    assertTrue(trie.extractResult().getResult().isEmpty());
+  }
+```
+
+TESTE 15
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 728-749
+```java
+@Test
+  public void testFromProto() {
+    org.apache.beam.model.pipeline.v1.MetricsApi.BoundedTrieNode.Builder builder =
+        org.apache.beam.model.pipeline.v1.MetricsApi.BoundedTrieNode.newBuilder();
+    builder.putChildren(
+        "a",
+        org.apache.beam.model.pipeline.v1.MetricsApi.BoundedTrieNode.newBuilder()
+            .putChildren(
+                "b",
+                org.apache.beam.model.pipeline.v1.MetricsApi.BoundedTrieNode.newBuilder()
+                    .putChildren(
+                        "c",
+                        org.apache.beam.model.pipeline.v1.MetricsApi.BoundedTrieNode.newBuilder()
+                            .build())
+                    .build())
+            .build());
+    BoundedTrieNode root = BoundedTrieNode.fromProto(builder.build());
+    assertEquals(1, root.getSize());
+    assertTrue(root.contains(Arrays.asList("a", "b", "c")));
+    assertFalse(root.isTruncated());
+  }
+```
+
+TESTE 16
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 985-992
+```java
+@Test
+  public void testGetCumulativeEmptyTrie() {
+    BoundedTrieData trie = new BoundedTrieData();
+    BoundedTrieData cumulativeTrie = trie.getCumulative();
+    assertEquals(cumulativeTrie, trie);
+    assertEquals(0, cumulativeTrie.size());
+  }
+```
+
+TESTE 17
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 993-1006
+```java
+@Test
+  public void testGetCumulativeSingleton() {
+    List<String> singletonList = ImmutableList.of("a", "b");
+    BoundedTrieData trie = new BoundedTrieData(singletonList);
+    BoundedTrieData cumulativeTrie = trie.getCumulative();
+    assertEquals(cumulativeTrie, trie);
+    assertNotSame(cumulativeTrie, trie);
+    // assert that the data in them are different
+    cumulativeTrie.add(ImmutableList.of("g", "h"));
+    assertTrue(cumulativeTrie.contains(ImmutableList.of("g", "h")));
+    assertFalse(trie.contains(ImmutableList.of("g", "h")));
+    assertEquals(1, trie.size());
+  }
+```
+
+TESTE 18
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 579-600
+```java
+@Test
+  public void testMerge() {
+    BoundedTrieNode root1 = new BoundedTrieNode();
+    root1.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "c"),
+                Arrays.asList("a", "b", "d"),
+                Arrays.asList("a", "e"))));
+
+    BoundedTrieNode root2 = new BoundedTrieNode();
+    root2.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "f"),
+                Arrays.asList("a", "g"),
+                Collections.singletonList("h"))));
+
+    assertEquals(3, root1.merge(root2));
+    assertEquals(6, root1.getSize());
+  }
+```
+
+TESTE 19
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 648-663
+```java
+@Test
+  public void testMergeOnEmptyNode() {
+    BoundedTrieNode root1 = new BoundedTrieNode();
+    BoundedTrieNode root2 = new BoundedTrieNode();
+    root2.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "c"),
+                Arrays.asList("a", "b", "d"),
+                Arrays.asList("a", "e"))));
+
+    assertEquals(2, root1.merge(root2));
+    assertEquals(3, root1.getSize());
+    assertFalse(root1.isTruncated());
+  }
+```
+
+TESTE 20
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 631-647
+```java
+@Test
+  public void testMergeWithEmptyNode() {
+    BoundedTrieNode root1 = new BoundedTrieNode();
+    root1.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "c"),
+                Arrays.asList("a", "b", "d"),
+                Arrays.asList("a", "e"))));
+
+    BoundedTrieNode root2 = new BoundedTrieNode();
+
+    assertEquals(0, root1.merge(root2));
+    assertEquals(3, root1.getSize());
+    assertFalse(root1.isTruncated());
+  }
+```
+
+TESTE 21
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 601-630
+```java
+@Test
+  public void testMergeWithTruncatedNode() {
+    BoundedTrieNode root1 = new BoundedTrieNode();
+    root1.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "c"),
+                Arrays.asList("a", "b", "d"),
+                Arrays.asList("a", "e"))));
+
+    BoundedTrieNode root2 = new BoundedTrieNode();
+    root2.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "f"),
+                Arrays.asList("a", "g"),
+                Collections.singletonList("h"))));
+    root2.trim();
+    List<List<String>> expected =
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", BoundedTrieNode.TRUNCATED_TRUE),
+                Arrays.asList("h", BoundedTrieNode.TRUNCATED_FALSE)));
+    assertEquals(expected, root2.flattened());
+
+    assertEquals(-1, root1.merge(root2));
+    assertEquals(2, root1.getSize());
+    assertEquals(expected, root1.flattened());
+  }
+```
+
+TESTE 22
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 812-823
+```java
+@Test
+  public void testSingleton() {
+    List<String> path = ImmutableList.of("a", "b", "c");
+    BoundedTrieData trie = new BoundedTrieData(path);
+    assertEquals(1, trie.size());
+    assertEquals(
+        BoundedTrieResult.create(ImmutableSet.of(ImmutableList.of("a", "b", "c", "false"))),
+        trie.extractResult());
+    assertTrue(trie.contains(path));
+    assertFalse(trie.contains(ImmutableList.of("a", "b")));
+  }
+```
+
+TESTE 23
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+LINHAS: 556-578
+```java
+@Test
+  public void testTrim() {
+    BoundedTrieNode root = new BoundedTrieNode();
+    root.addAll(
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", "c"),
+                Arrays.asList("a", "b", "d"),
+                Arrays.asList("a", "e"))));
+    assertEquals(3, root.getSize());
+    assertEquals(-1, root.trim());
+    assertEquals(2, root.getSize());
+    List<List<String>> flattened = root.flattened();
+    assertEquals(2, flattened.size());
+    assertFalse(root.isTruncated());
+    assertEquals(
+        flattened,
+        new ArrayList<>(
+            Arrays.asList(
+                Arrays.asList("a", "b", BoundedTrieNode.TRUNCATED_TRUE),
+                Arrays.asList("a", "e", BoundedTrieNode.TRUNCATED_FALSE))));
+  }
+```
+
+TESTE 24
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/UnboundedReadEvaluatorFactoryTest.java
+LINHAS: 423-430
+```java
+public void emptySource() throws Exception {
+    TestUnboundedSource.readerClosedCount = 0;
+    final TestUnboundedSource<String> source = new TestUnboundedSource<>(StringUtf8Coder.of());
+    source.advanceWatermarkToInfinity = true;
+    processElement(source);
+    assertEquals(1, TestUnboundedSource.readerClosedCount);
+    TestUnboundedSource.readerClosedCount = 0; // reset
+  }
+```
+
+TESTE 25
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkStreamingPipelineTranslatorTest.java
+LINHAS: 144-154
+```java
+@Test
+  public void testStatefulParDoAfterCombineChaining() {
+    final JobGraph stablePartitioning = getStatefulParDoAfterCombineChainingJobGraph(true);
+    final JobGraph unstablePartitioning = getStatefulParDoAfterCombineChainingJobGraph(false);
+    // We expect an extra shuffle stage for unstable partitioning.
+    Assert.assertEquals(
+        1,
+        Iterables.size(unstablePartitioning.getVertices())
+            - Iterables.size(stablePartitioning.getVertices()));
+  }
+```
+
+TESTE 26
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkStreamingPipelineTranslatorTest.java
+LINHAS: 176-186
+```java
+@Test
+  public void testStatefulParDoAfterGroupByKeyChaining() {
+    final JobGraph stablePartitioning = getStatefulParDoAfterGroupByKeyChainingJobGraph(true);
+    final JobGraph unstablePartitioning = getStatefulParDoAfterGroupByKeyChainingJobGraph(false);
+    // We expect an extra shuffle stage for unstable partitioning.
+    Assert.assertEquals(
+        1,
+        Iterables.size(unstablePartitioning.getVertices())
+            - Iterables.size(stablePartitioning.getVertices()));
+  }
+```
+
+TESTE 27
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/translation/functions/ImpulseSourceFunctionTest.java
+LINHAS: 64-69
+```java
+@Test
+  public void testInstanceOfSourceFunction() {
+    // should be a non-parallel source function
+    assertThat(new ImpulseSourceFunction(0), instanceOf(SourceFunction.class));
+  }
+```
+
+TESTE 28
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 596-620
+```java
+@Test
+  public void testDiskSizeGbConfig() throws IOException {
+    final Integer diskSizeGb = 1234;
+
+    DataflowPipelineOptions options = buildPipelineOptions();
+    options.setDiskSizeGb(diskSizeGb);
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    assertEquals(diskSizeGb, job.getEnvironment().getWorkerPools().get(0).getDiskSizeGb());
+  }
+```
+
+TESTE 29
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 348-372
+```java
+@Test
+  public void testNetworkConfig() throws IOException {
+    final String testNetwork = "test-network";
+
+    DataflowPipelineOptions options = buildPipelineOptions();
+    options.setNetwork(testNetwork);
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    assertEquals(testNetwork, job.getEnvironment().getWorkerPools().get(0).getNetwork());
+  }
+```
+
+TESTE 30
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 373-394
+```java
+@Test
+  public void testNetworkConfigMissing() throws IOException {
+    DataflowPipelineOptions options = buildPipelineOptions();
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    assertNull(job.getEnvironment().getWorkerPools().get(0).getNetwork());
+  }
+```
+
+TESTE 31
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 442-473
+```java
+@Test
+  public void testScalingAlgorithmMissing() throws IOException {
+    DataflowPipelineOptions options = buildPipelineOptions();
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    // Autoscaling settings are always set.
+    assertNull(
+        job.getEnvironment().getWorkerPools().get(0).getAutoscalingSettings().getAlgorithm());
+    assertEquals(
+        0,
+        job.getEnvironment()
+            .getWorkerPools()
+            .get(0)
+            .getAutoscalingSettings()
+            .getMaxNumWorkers()
+            .intValue());
+  }
+```
+
+TESTE 32
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 1600-1625
+```java
+@Test
+  public void testSetSdkContainerImageInPipelineProto() throws Exception {
+    DataflowPipelineOptions options = buildPipelineOptions();
+    String containerImage = "gcr.io/image:foo";
+    options.as(DataflowPipelineOptions.class).setSdkContainerImage(containerImage);
+
+    Pipeline p = Pipeline.create(options);
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline proto = PipelineTranslation.toProto(p, sdkComponents, true);
+    JobSpecification specification =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                proto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList());
+    RunnerApi.Pipeline pipelineProto = specification.getPipelineProto();
+
+    assertEquals(1, pipelineProto.getComponents().getEnvironmentsCount());
+    Environment defaultEnvironment =
+        Iterables.getOnlyElement(pipelineProto.getComponents().getEnvironmentsMap().values());
+
+    DockerPayload payload = DockerPayload.parseFrom(defaultEnvironment.getPayload());
+    assertEquals(DataflowRunner.getContainerImageForJob(options), payload.getContainerImage());
+  }
+```
+
+TESTE 33
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 1568-1593
+```java
+@Test
+  public void testSetWorkerHarnessContainerImageInPipelineProto() throws Exception {
+    DataflowPipelineOptions options = buildPipelineOptions();
+    String containerImage = "gcr.io/image:foo";
+    options.as(DataflowPipelineOptions.class).setWorkerHarnessContainerImage(containerImage);
+
+    Pipeline p = Pipeline.create(options);
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline proto = PipelineTranslation.toProto(p, sdkComponents, true);
+    JobSpecification specification =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                proto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList());
+    RunnerApi.Pipeline pipelineProto = specification.getPipelineProto();
+
+    assertEquals(1, pipelineProto.getComponents().getEnvironmentsCount());
+    Environment defaultEnvironment =
+        Iterables.getOnlyElement(pipelineProto.getComponents().getEnvironmentsMap().values());
+
+    DockerPayload payload = DockerPayload.parseFrom(defaultEnvironment.getPayload());
+    assertEquals(DataflowRunner.getContainerImageForJob(options), payload.getContainerImage());
+  }
+```
+
+TESTE 34
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 395-419
+```java
+@Test
+  public void testSubnetworkConfig() throws IOException {
+    final String testSubnetwork = "regions/REGION/subnetworks/SUBNETWORK";
+
+    DataflowPipelineOptions options = buildPipelineOptions();
+    options.setSubnetwork(testSubnetwork);
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    assertEquals(testSubnetwork, job.getEnvironment().getWorkerPools().get(0).getSubnetwork());
+  }
+```
+
+TESTE 35
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 420-441
+```java
+@Test
+  public void testSubnetworkConfigMissing() throws IOException {
+    DataflowPipelineOptions options = buildPipelineOptions();
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+    assertNull(job.getEnvironment().getWorkerPools().get(0).getSubnetwork());
+  }
+```
+
+TESTE 36
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineTranslatorTest.java
+LINHAS: 569-595
+```java
+@Test
+  public void testWorkerMachineTypeConfig() throws IOException {
+    final String testMachineType = "test-machine-type";
+
+    DataflowPipelineOptions options = buildPipelineOptions();
+    options.setWorkerMachineType(testMachineType);
+
+    Pipeline p = buildPipeline(options);
+    p.traverseTopologically(new RecordingPipelineVisitor());
+    SdkComponents sdkComponents = createSdkComponents(options);
+    RunnerApi.Pipeline pipelineProto = PipelineTranslation.toProto(p, sdkComponents, true);
+    Job job =
+        DataflowPipelineTranslator.fromOptions(options)
+            .translate(
+                p,
+                pipelineProto,
+                sdkComponents,
+                DataflowRunner.fromOptions(options),
+                Collections.emptyList())
+            .getJob();
+
+    assertEquals(1, job.getEnvironment().getWorkerPools().size());
+
+    WorkerPool workerPool = job.getEnvironment().getWorkerPools().get(0);
+    assertEquals(testMachineType, workerPool.getMachineType());
+  }
+```
+
+TESTE 37
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/DataflowWorkProgressUpdaterTest.java
+LINHAS: 131-146
+```java
+@Test
+  public void workProgressSendsAnUpdate() throws Exception {
+    when(workItemStatusClient.reportUpdate(isNull(DynamicSplitResult.class), isA(Duration.class)))
+        .thenReturn(generateServiceState(null, 1000));
+    progressUpdater.startReportingProgress();
+    executor.runNextRunnable();
+
+    // The initial update should be sent at startTime + 300 ms.
+    assertEquals(clock.currentTimeMillis(), startTime + 300);
+
+    verify(workItemStatusClient, atLeastOnce())
+        .reportUpdate(isNull(DynamicSplitResult.class), isA(Duration.class));
+
+    progressUpdater.stopReportingProgress();
+  }
+```
+
+TESTE 38
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/IntrinsicMapTaskExecutorTest.java
+LINHAS: 378-390
+```java
+@Test
+  public void testValidOperations() throws Exception {
+    TestOutputReceiver receiver =
+        new TestOutputReceiver(counterSet, NameContextsForTests.nameContextForTest());
+    List<Operation> operations =
+        Arrays.<Operation>asList(new TestReadOperation(receiver, createContext("ReadOperation")));
+    ExecutionStateTracker stateTracker = ExecutionStateTracker.newForTest();
+    try (IntrinsicMapTaskExecutor executor =
+        IntrinsicMapTaskExecutor.withSharedCounterSet(operations, counterSet, stateTracker)) {
+      Assert.assertEquals(operations.get(0), executor.getReadOperation());
+    }
+  }
+```
+
+TESTE 39
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/MetricsToPerStepNamespaceMetricsConverterTest.java
+LINHAS: 154-176
+```java
+@Test
+  public void testConvert_skipInvalidMetricNameSpaces() {
+    Map<MetricName, LabeledMetricNameUtils.ParsedMetricName> parsedMetricNames = new HashMap<>();
+
+    Map<MetricName, Long> counters = new HashMap<>();
+    Map<MetricName, Long> emptyGauges = new HashMap<MetricName, Long>();
+    MetricName invalidNameSpace1 = MetricName.named("Unsupported", "baseLabel1");
+    counters.put(invalidNameSpace1, 5L);
+
+    Map<MetricName, LockFreeHistogram.Snapshot> histograms = new HashMap<>();
+    MetricName invalidNameSpace2 = MetricName.named("Unsupported", "baseLabel2");
+    LockFreeHistogram nonEmptyLinearHistogram =
+        new LockFreeHistogram(invalidNameSpace2, lienarBuckets);
+    nonEmptyLinearHistogram.update(-5.0);
+    histograms.put(invalidNameSpace2, nonEmptyLinearHistogram.getSnapshotAndReset().get());
+
+    Collection<PerStepNamespaceMetrics> conversionResult =
+        MetricsToPerStepNamespaceMetricsConverter.convert(
+            "testStep", counters, emptyGauges, histograms, parsedMetricNames);
+    assertThat(conversionResult.size(), equalTo(0));
+    assertThat(parsedMetricNames.size(), equalTo(0));
+  }
+```
+
+TESTE 40
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/MetricsToPerStepNamespaceMetricsConverterTest.java
+LINHAS: 132-153
+```java
+@Test
+  public void testConvert_skipInvalidMetricNames() {
+    Map<MetricName, LabeledMetricNameUtils.ParsedMetricName> parsedMetricNames = new HashMap<>();
+
+    Map<MetricName, Long> counters = new HashMap<>();
+    Map<MetricName, Long> emptyGauges = new HashMap<MetricName, Long>();
+    MetricName invalidName1 = MetricName.named("BigQuerySink", "**");
+    counters.put(invalidName1, 5L);
+
+    Map<MetricName, LockFreeHistogram.Snapshot> histograms = new HashMap<>();
+    MetricName invalidName2 = MetricName.named("BigQuerySink", "****");
+    LockFreeHistogram nonEmptyLinearHistogram = new LockFreeHistogram(invalidName2, lienarBuckets);
+    nonEmptyLinearHistogram.update(-5.0);
+    histograms.put(invalidName2, nonEmptyLinearHistogram.getSnapshotAndReset().get());
+
+    Collection<PerStepNamespaceMetrics> conversionResult =
+        MetricsToPerStepNamespaceMetricsConverter.convert(
+            "testStep", counters, emptyGauges, histograms, parsedMetricNames);
+    assertThat(conversionResult.size(), equalTo(0));
+    assertThat(parsedMetricNames.size(), equalTo(0));
+  }
+```
+
+TESTE 41
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/MetricsToPerStepNamespaceMetricsConverterTest.java
+LINHAS: 284-303
+```java
+@Test
+  public void testConvert_skipUnknownHistogramBucketType() {
+    Map<MetricName, LabeledMetricNameUtils.ParsedMetricName> parsedMetricNames = new HashMap<>();
+
+    String step = "testStep";
+    Map<MetricName, Long> emptyCounters = new HashMap<>();
+    Map<MetricName, LockFreeHistogram.Snapshot> histograms = new HashMap<>();
+
+    MetricName bigQueryMetric1 = MetricName.named("BigQuerySink", "baseLabel");
+    LockFreeHistogram histogram = new LockFreeHistogram(bigQueryMetric1, new TestBucketType());
+    histogram.update(1.0, 2.0);
+    histograms.put(bigQueryMetric1, histogram.getSnapshotAndReset().get());
+
+    Collection<PerStepNamespaceMetrics> conversionResult =
+        MetricsToPerStepNamespaceMetricsConverter.convert(
+            step, emptyCounters, emptyCounters, histograms, parsedMetricNames);
+    assertThat(conversionResult.size(), equalTo(0));
+    assertThat(parsedMetricNames.size(), equalTo(0));
+  }
+```
+
+TESTE 42
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingDataflowWorkerTest.java
+LINHAS: 3448-3473
+```java
+@Test
+  public void testActiveWorkRefresh() throws Exception {
+    List<ParallelInstruction> instructions =
+        Arrays.asList(
+            makeSourceInstruction(StringUtf8Coder.of()),
+            makeDoFnInstruction(new SlowDoFn(), 0, StringUtf8Coder.of()),
+            makeSinkInstruction(StringUtf8Coder.of(), 0));
+
+    StreamingDataflowWorker worker =
+        makeWorker(
+            defaultWorkerParams("--activeWorkRefreshPeriodMillis=100")
+                .setInstructions(instructions)
+                .publishCounters()
+                .build());
+    worker.start();
+
+    server.whenGetWorkCalled().thenReturn(makeInput(0, TimeUnit.MILLISECONDS.toMicros(0)));
+    server.waitForAndGetCommits(1);
+
+    worker.stop();
+
+    // This graph will not normally produce any GetData calls, so all such calls are from active
+    // work refreshes.
+    assertThat(server.numGetDataRequests(), greaterThan(0));
+  }
+```
+
+TESTE 43
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingGroupAlsoByWindowFnsTest.java
+LINHAS: 121-138
+```java
+@Test
+  public void testEmpty() throws Exception {
+    TupleTag<KV<String, Iterable<String>>> outputTag = new TupleTag<>();
+    ListOutputManager outputManager = new ListOutputManager();
+    DoFnRunner<KeyedWorkItem<String, String>, KV<String, Iterable<String>>> runner =
+        makeRunner(
+            output -> outputManager.output(outputTag, output),
+            WindowingStrategy.of(FixedWindows.of(Duration.millis(10))));
+
+    runner.startBundle();
+
+    runner.finishBundle();
+
+    List<?> result = outputManager.getOutput(outputTag);
+
+    assertThat(result.size(), equalTo(0));
+  }
+```
+
+TESTE 44
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingGroupAlsoByWindowsReshuffleDoFnTest.java
+LINHAS: 85-100
+```java
+@Test
+  public void testEmpty() throws Exception {
+    TupleTag<KV<String, Iterable<String>>> outputTag = new TupleTag<>();
+    ListOutputManager outputManager = new ListOutputManager();
+    DoFnRunner<KeyedWorkItem<String, String>, KV<String, Iterable<String>>> runner =
+        makeRunner(outputTag, outputManager);
+
+    runner.startBundle();
+
+    runner.finishBundle();
+
+    List<?> result = outputManager.getOutput(outputTag);
+
+    assertEquals(0, result.size());
+  }
+```
+
+TESTE 45
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
+LINHAS: 352-361
+```java
+@Test
+  public void populateCounterUpdatesEmptyOutputCounters() throws Exception {
+    // When worker.getOutputCounters == null, there should be no counters.
+    WorkItemStatus status = new WorkItemStatus();
+    statusClient.setWorker(worker, executionContext);
+    when(worker.extractMetricUpdates()).thenReturn(Collections.emptyList());
+    statusClient.populateCounterUpdates(status);
+    assertThat(status.getCounterUpdates(), hasSize(0));
+  }
+```
+
+TESTE 46
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/WeightBoundedQueueTest.java
+LINHAS: 89-106
+```java
+@Test
+  public void testPoll() {
+    WeightedSemaphore<Integer> weightedSemaphore =
+        WeightedSemaphore.create(MAX_WEIGHT, i -> Math.min(MAX_WEIGHT, i));
+    WeightedBoundedQueue<Integer> queue = WeightedBoundedQueue.create(weightedSemaphore);
+
+    int insertedValue1 = 1;
+    int insertedValue2 = 2;
+
+    queue.put(insertedValue1);
+    queue.put(insertedValue2);
+
+    assertEquals(insertedValue1 + insertedValue2, weightedSemaphore.currentWeight());
+    assertEquals(2, queue.size());
+    assertEquals(insertedValue1, (int) queue.poll());
+    assertEquals(1, queue.size());
+  }
+```
+
+TESTE 47
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/WeightBoundedQueueTest.java
+LINHAS: 36-50
+```java
+@Test
+  public void testPut_hasCapacity() {
+    WeightedSemaphore<Integer> weightedSemaphore =
+        WeightedSemaphore.create(MAX_WEIGHT, i -> Math.min(MAX_WEIGHT, i));
+    WeightedBoundedQueue<Integer> queue = WeightedBoundedQueue.create(weightedSemaphore);
+
+    int insertedValue = 1;
+
+    queue.put(insertedValue);
+
+    assertEquals(insertedValue, weightedSemaphore.currentWeight());
+    assertEquals(1, queue.size());
+    assertEquals(insertedValue, (int) queue.poll());
+  }
+```
+
+TESTE 48
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/util/common/worker/MapTaskExecutorTest.java
+LINHAS: 374-385
+```java
+@Test
+  public void testValidOperations() throws Exception {
+    TestOutputReceiver receiver =
+        new TestOutputReceiver(counterSet, NameContextsForTests.nameContextForTest());
+    List<Operation> operations =
+        Arrays.<Operation>asList(new TestReadOperation(receiver, createContext("ReadOperation")));
+    ExecutionStateTracker stateTracker = ExecutionStateTracker.newForTest();
+    try (MapTaskExecutor executor = new MapTaskExecutor(operations, counterSet, stateTracker)) {
+      Assert.assertEquals(operations.get(0), executor.getReadOperation());
+    }
+  }
+```
+
+TESTE 49
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/util/common/worker/WorkProgressUpdaterTest.java
+LINHAS: 216-241
+```java
+@Test
+  public void requestCheckpointSucceeds() throws Exception {
+    // Set the initial lease expiration to 20s so that the first update occurs at 10s, ie before
+    // the periodic checkpoint.
+    // Do one update.
+    initialLeaseExpirationMs = clock.currentTimeMillis() + 20 * 1000L;
+    when(progressHelper.reportProgress(any(NativeReader.DynamicSplitResult.class)))
+        .thenReturn(4 * 1000L);
+
+    progressUpdater.startReportingProgress();
+    executor.runNextRunnable();
+
+    assertEquals(startTimeMs + 10 * 1000L, clock.currentTimeMillis());
+
+    // Now asynchronously request a checkpoint that actually succeeds.
+    when(workExecutor.requestCheckpoint()).thenReturn(checkpointPos);
+    when(progressHelper.reportProgress(any(NativeReader.DynamicSplitResult.class)))
+        .thenReturn(4 * 1000L);
+
+    progressUpdater.requestCheckpoint();
+
+    verify(workExecutor).requestCheckpoint();
+    verify(progressHelper).reportProgress(checkpointPos);
+
+    progressUpdater.stopReportingProgress();
+  }
+```
+
+TESTE 50
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/client/grpc/GrpcWindmillServerTest.java
+LINHAS: 835-853
+```java
+@Test
+  public void testStreamingCommit() throws Exception {
+    ConcurrentHashMap<Long, WorkItemCommitRequest> commitRequests = new ConcurrentHashMap<>();
+    serviceRegistry.addService(
+        new CloudWindmillServiceV1Alpha1ImplBase() {
+          @Override
+          public StreamObserver<StreamingCommitWorkRequest> commitWorkStream(
+              StreamObserver<StreamingCommitResponse> responseObserver) {
+            return getTestCommitStreamObserver(responseObserver, commitRequests);
+          }
+        });
+
+    // Make the commit requests, waiting for each of them to be verified and acknowledged.
+    CommitWorkStream stream = client.commitWorkStream();
+    commitWorkTestHelper(stream, commitRequests, 0, 500);
+    stream.halfClose();
+    assertTrue(stream.awaitTermination(30, TimeUnit.SECONDS));
+  }
+```
+
+TESTE 51
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/client/grpc/stubs/IsolationChannelTest.java
+LINHAS: 405-431
+```java
+@Test
+  public void testAwaitTermination() throws Exception {
+    ManagedChannel mockChannel = mock(ManagedChannel.class);
+    when(channelSupplier.get()).thenReturn(mockChannel);
+
+    IsolationChannel isolationChannel = IsolationChannel.create(channelSupplier);
+
+    assertFalse(isolationChannel.awaitTermination(1, TimeUnit.MILLISECONDS));
+
+    when(mockChannel.shutdown()).thenReturn(mockChannel);
+    when(mockChannel.isTerminated()).thenReturn(false, false, false, true, true);
+    when(mockChannel.awaitTermination(longThat(l -> l < 2_000_000), eq(TimeUnit.NANOSECONDS)))
+        .thenReturn(false, true);
+
+    isolationChannel.shutdown();
+    assertFalse(isolationChannel.awaitTermination(1, TimeUnit.MILLISECONDS));
+    assertTrue(isolationChannel.awaitTermination(1, TimeUnit.MILLISECONDS));
+
+    assertTrue(isolationChannel.isTerminated());
+
+    verify(channelSupplier, times(1)).get();
+    verify(mockChannel, times(1)).shutdown();
+    verify(mockChannel, times(5)).isTerminated();
+    verify(mockChannel, times(2))
+        .awaitTermination(longThat(l -> l < 2_000_000), eq(TimeUnit.NANOSECONDS));
+  }
+```
+
+TESTE 52
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateCacheTest.java
+LINHAS: 228-242
+```java
+@Test
+  public void testEviction() throws Exception {
+    WindmillStateCache.ForKeyAndFamily keyCache =
+        cache.forComputation(COMPUTATION).forKey(COMPUTATION_KEY, 0L, 1L).forFamily(STATE_FAMILY);
+    keyCache.put(windowNamespace(0), new TestStateTag("tag2"), new TestState("w2"), 2);
+    keyCache.put(triggerNamespace(0, 0), new TestStateTag("tag3"), new TestState("t3"), 2000000000);
+    keyCache.persist();
+    assertEquals(0, cache.getWeight());
+
+    // Eviction is atomic across the whole window.
+    keyCache =
+        cache.forComputation(COMPUTATION).forKey(COMPUTATION_KEY, 0L, 2L).forFamily(STATE_FAMILY);
+    assertEquals(Optional.empty(), keyCache.get(windowNamespace(0), new TestStateTag("tag2")));
+    assertEquals(Optional.empty(), keyCache.get(triggerNamespace(0, 0), new TestStateTag("tag3")));
+  }
+```
+
+TESTE 53
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateCacheTest.java
+LINHAS: 204-225
+```java
+@Test
+  public void testInvalidation() throws Exception {
+    WindmillStateCache.ForKeyAndFamily keyCache =
+        cache.forComputation(COMPUTATION).forKey(COMPUTATION_KEY, 0L, 1L).forFamily(STATE_FAMILY);
+    assertEquals(
+        Optional.empty(), keyCache.get(StateNamespaces.global(), new TestStateTag("tag1")));
+    keyCache.put(StateNamespaces.global(), new TestStateTag("tag1"), new TestState("g1"), 2);
+    keyCache.persist();
+
+    keyCache =
+        cache.forComputation(COMPUTATION).forKey(COMPUTATION_KEY, 0L, 2L).forFamily(STATE_FAMILY);
+    assertEquals(207, cache.getWeight());
+    assertEquals(
+        Optional.of(new TestState("g1")),
+        keyCache.get(StateNamespaces.global(), new TestStateTag("tag1")));
+
+    keyCache =
+        cache.forComputation(COMPUTATION).forKey(COMPUTATION_KEY, 1L, 3L).forFamily(STATE_FAMILY);
+    assertEquals(
+        Optional.empty(), keyCache.get(StateNamespaces.global(), new TestStateTag("tag1")));
+    assertEquals(207, cache.getWeight());
+  }
+```
+
+TESTE 54
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateCacheTest.java
+LINHAS: 198-201
+```java
+@Test
+  public void testMaxWeight() throws Exception {
+    assertEquals(400 * MEGABYTES, cache.getMaxWeight());
+  }
+```
+
+TESTE 55
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateInternalsTest.java
+LINHAS: 766-786
+```java
+@Test
+  public void testMultimapGet() {
+    final String tag = "multimap";
+    StateTag<MultimapState<byte[], Integer>> addr =
+        StateTags.multimap(tag, ByteArrayCoder.of(), VarIntCoder.of());
+    MultimapState<byte[], Integer> multimapState = underTest.state(NAMESPACE, addr);
+
+    final byte[] key = "key".getBytes(StandardCharsets.UTF_8);
+    SettableFuture<Iterable<Integer>> future = SettableFuture.create();
+    when(mockReader.multimapFetchSingleEntryFuture(
+            encodeWithCoder(key, ByteArrayCoder.of()),
+            key(NAMESPACE, tag),
+            STATE_FAMILY,
+            VarIntCoder.of()))
+        .thenReturn(future);
+
+    ReadableState<Iterable<Integer>> result = multimapState.get(dup(key)).readLater();
+    waitAndSet(future, Arrays.asList(1, 2, 3), 30);
+    assertThat(result.read(), Matchers.containsInAnyOrder(1, 2, 3));
+  }
+```
+
+TESTE 56
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateInternalsTest.java
+LINHAS: 931-954
+```java
+@Test
+  public void testMultimapRemoveThenPut() {
+    final String tag = "multimap";
+    StateTag<MultimapState<byte[], Integer>> addr =
+        StateTags.multimap(tag, ByteArrayCoder.of(), VarIntCoder.of());
+    MultimapState<byte[], Integer> multimapState = underTest.state(NAMESPACE, addr);
+
+    final byte[] key = "key".getBytes(StandardCharsets.UTF_8);
+    SettableFuture<Iterable<Integer>> future = SettableFuture.create();
+    when(mockReader.multimapFetchSingleEntryFuture(
+            encodeWithCoder(key, ByteArrayCoder.of()),
+            key(NAMESPACE, tag),
+            STATE_FAMILY,
+            VarIntCoder.of()))
+        .thenReturn(future);
+
+    ReadableState<Iterable<Integer>> result = multimapState.get(key).readLater();
+    waitAndSet(future, Arrays.asList(1, 2, 3), 30);
+    multimapState.remove(dup(key));
+    multimapState.put(key, 4);
+    multimapState.put(dup(key), 5);
+    assertThat(result.read(), Matchers.containsInAnyOrder(4, 5));
+  }
+```
+
+TESTE 57
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/state/WindmillStateReaderTest.java
+LINHAS: 1751-1756
+```java
+@Test
+  public void testCachingWithinBatch() throws Exception {
+    underTest.watermarkFuture(STATE_KEY_1, STATE_FAMILY);
+    underTest.watermarkFuture(STATE_KEY_1, STATE_FAMILY);
+    assertEquals(1, underTest.pendingLookups.size());
+  }
+```
+
+TESTE 58
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/java-fn-execution/src/test/java/org/apache/beam/runners/fnexecution/ServerFactoryTest.java
+LINHAS: 99-113
+```java
+@Test
+  public void defaultServerWithPortSupplier() throws Exception {
+    Endpoints.ApiServiceDescriptor apiServiceDescriptor =
+        runTestUsing(
+            ServerFactory.createWithPortSupplier(() -> 65535),
+            ManagedChannelFactory.createDefault());
+    HostAndPort hostAndPort = HostAndPort.fromString(apiServiceDescriptor.getUrl());
+    assertThat(
+        hostAndPort.getHost(),
+        anyOf(
+            equalTo(InetAddress.getLoopbackAddress().getHostName()),
+            equalTo(InetAddress.getLoopbackAddress().getHostAddress())));
+    assertThat(hostAndPort.getPort(), is(65535));
+  }
+```
+
+TESTE 59
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/java-fn-execution/src/test/java/org/apache/beam/runners/fnexecution/artifact/ArtifactStagingServiceTest.java
+LINHAS: 151-168
+```java
+@Test
+  public void testStageArtifacts() throws InterruptedException, ExecutionException {
+    List<String> contentsList =
+        ImmutableList.of("a", "bb", Strings.repeat("xyz", TEST_BUFFER_SIZE * 3 / 4));
+    stagingService.registerJob(
+        "stagingToken",
+        ImmutableMap.of(
+            "env1",
+            Lists.transform(contentsList, FakeArtifactRetrievalService::resolvedArtifact),
+            "env2",
+            Lists.transform(contentsList, FakeArtifactRetrievalService::unresolvedArtifact)));
+    ArtifactStagingService.offer(new FakeArtifactRetrievalService(), stagingStub, "stagingToken");
+    Map<String, List<RunnerApi.ArtifactInformation>> staged =
+        stagingService.getStagedArtifacts("stagingToken");
+    assertEquals(2, staged.size());
+    checkArtifacts(contentsList, staged.get("env1"));
+    checkArtifacts(contentsList, staged.get("env2"));
+  }
+```
+
+TESTE 60
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/local-java/src/test/java/org/apache/beam/runners/local/StructuralKeyTest.java
+LINHAS: 59-64
+```java
+@Test
+  public void objectEqualsTrueKeyEquals() {
+    StructuralKey<Integer> original = StructuralKey.of(1234, VarIntCoder.of());
+    assertThat(StructuralKey.of(1234, VarIntCoder.of()), Matchers.equalTo(original));
+  }
+```
+
+TESTE 61
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/aggregators/metrics/sink/SparkMetricsSinkTest.java
+LINHAS: 70-84
+```java
+@Test
+  public void testInBatchMode() throws Exception {
+    assertThat(InMemoryMetrics.valueOf("emptyLines"), is(nullValue()));
+
+    final PCollection<String> output =
+        pipeline
+            .apply(Create.of(WORDS).withCoder(StringUtf8Coder.of()))
+            .apply(new WordCount.CountWords())
+            .apply(MapElements.via(new WordCount.FormatAsTextFn()));
+    PAssert.that(output).containsInAnyOrder(EXPECTED_COUNTS);
+    pipeline.run().waitUntilFinish();
+
+    assertThat(InMemoryMetrics.<Double>valueOf("emptyLines"), is(1d));
+  }
+```
+
+TESTE 62
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/io/ReaderToIteratorAdapterTest.java
+LINHAS: 115-139
+```java
+@Test
+  public void testHasNextIdempotencyCombo() throws Exception {
+    assertThat(readerIterator.hasNext(), is(true));
+    assertThat(readerIterator.hasNext(), is(true));
+
+    assertThat(readerIterator.next().getValue(), is(1));
+
+    assertThat(readerIterator.hasNext(), is(true));
+    assertThat(readerIterator.hasNext(), is(true));
+    assertThat(readerIterator.hasNext(), is(true));
+
+    assertThat(readerIterator.next().getValue(), is(2));
+    assertThat(readerIterator.next().getValue(), is(3));
+
+    // drained
+
+    assertThat(readerIterator.hasNext(), is(false));
+    assertThat(readerIterator.hasNext(), is(false));
+
+    // no next to give
+
+    exception.expect(NoSuchElementException.class);
+    readerIterator.next();
+  }
+```
+
+TESTE 63
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/SparkCombineFnTest.java
+LINHAS: 85-103
+```java
+@Test
+  public void testGlobalCombineFn() throws Exception {
+    SparkCombineFn<Integer, Integer, Long, Long> sparkCombineFn =
+        SparkCombineFn.globally(
+            combineFn, opts, Collections.emptyMap(), WindowingStrategy.globalDefault());
+
+    WindowedValue<Integer> first = inputValue(1, Instant.now());
+    WindowedValue<Integer> second = inputValue(2, Instant.now());
+    WindowedValue<Integer> third = inputValue(3, Instant.now());
+    SparkCombineFn.WindowedAccumulator<Integer, Integer, Long, ?> c1 =
+        sparkCombineFn.createCombiner(first);
+    SparkCombineFn.WindowedAccumulator<Integer, Integer, Long, ?> c2 =
+        sparkCombineFn.createCombiner(third);
+    sparkCombineFn.mergeValue(c1, second);
+    SparkCombineFn.WindowedAccumulator<Integer, Integer, Long, ?> c3 =
+        sparkCombineFn.mergeCombiners(c1, c2);
+    assertEquals(6, (long) Iterables.getOnlyElement(sparkCombineFn.extractOutput(c3)).getValue());
+  }
+```
+
+TESTE 64
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/SparkCombineFnTest.java
+LINHAS: 66-84
+```java
+@Test
+  public void testGlobalWindowCombineFn() throws Exception {
+    SparkCombineFn<KV<String, Integer>, Integer, Long, Long> sparkCombineFn =
+        SparkCombineFn.keyed(
+            combineFn, opts, Collections.emptyMap(), WindowingStrategy.globalDefault());
+
+    WindowedValue<KV<String, Integer>> first = input("key", 1, Instant.now());
+    WindowedValue<KV<String, Integer>> second = input("key", 2, Instant.now());
+    WindowedValue<KV<String, Integer>> third = input("key", 3, Instant.now());
+    SparkCombineFn.WindowedAccumulator<KV<String, Integer>, Integer, Long, ?> c1 =
+        sparkCombineFn.createCombiner(first);
+    SparkCombineFn.WindowedAccumulator<KV<String, Integer>, Integer, Long, ?> c2 =
+        sparkCombineFn.createCombiner(third);
+    sparkCombineFn.mergeValue(c1, second);
+    SparkCombineFn.WindowedAccumulator<KV<String, Integer>, Integer, Long, ?> c3 =
+        sparkCombineFn.mergeCombiners(c1, c2);
+    assertEquals(6, (long) Iterables.getOnlyElement(sparkCombineFn.extractOutput(c3)).getValue());
+  }
+```
+
+TESTE 65
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/TransformTranslatorTest.java
+LINHAS: 70-80
+```java
+@Test
+  public void testIteratorFlatten() {
+    List<Integer> first = Arrays.asList(1, 2, 3);
+    List<Integer> second = Arrays.asList(4, 5, 6);
+    List<Integer> result = new ArrayList<>();
+    Iterators.addAll(
+        result,
+        TransformTranslator.flatten(Arrays.asList(first.iterator(), second.iterator()).iterator()));
+    assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), result);
+  }
+```
+
+TESTE 66
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/streaming/TrackStreamingSourcesTest.java
+LINHAS: 86-113
+```java
+@Test
+  public void testTrackFlattened() {
+    SparkPipelineOptions options = sparkContext.createPipelineOptions();
+    options.setRunner(SparkRunner.class);
+    JavaSparkContext jsc = sparkContext.getSparkContext();
+    JavaStreamingContext jssc =
+        new JavaStreamingContext(
+            jsc, new org.apache.spark.streaming.Duration(options.getBatchIntervalMillis()));
+
+    Pipeline p = Pipeline.create(options);
+
+    CreateStream<Integer> queueStream1 =
+        CreateStream.of(VarIntCoder.of(), Duration.millis(options.getBatchIntervalMillis()))
+            .emptyBatch();
+    CreateStream<Integer> queueStream2 =
+        CreateStream.of(VarIntCoder.of(), Duration.millis(options.getBatchIntervalMillis()))
+            .emptyBatch();
+
+    PCollection<Integer> pcol1 = p.apply(queueStream1);
+    PCollection<Integer> pcol2 = p.apply(queueStream2);
+    PCollection<Integer> flattened =
+        PCollectionList.of(pcol1).and(pcol2).apply(Flatten.pCollections());
+    flattened.apply(ParDo.of(new PassthroughFn<>()));
+
+    p.traverseTopologically(new StreamingSourceTracker(jssc, p, ParDo.MultiOutput.class, 0, 1));
+    assertThat(StreamingSourceTracker.numAssertions, equalTo(1));
+  }
+```
+
+TESTE 67
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/streaming/TrackStreamingSourcesTest.java
+LINHAS: 65-85
+```java
+@Test
+  public void testTrackSingle() {
+    SparkPipelineOptions options = sparkContext.createPipelineOptions();
+    options.setRunner(SparkRunner.class);
+    JavaSparkContext jsc = sparkContext.getSparkContext();
+    JavaStreamingContext jssc =
+        new JavaStreamingContext(
+            jsc, new org.apache.spark.streaming.Duration(options.getBatchIntervalMillis()));
+
+    Pipeline p = Pipeline.create(options);
+
+    CreateStream<Integer> emptyStream =
+        CreateStream.of(VarIntCoder.of(), Duration.millis(options.getBatchIntervalMillis()))
+            .emptyBatch();
+
+    p.apply(emptyStream).apply(ParDo.of(new PassthroughFn<>()));
+
+    p.traverseTopologically(new StreamingSourceTracker(jssc, p, ParDo.MultiOutput.class, 0));
+    assertThat(StreamingSourceTracker.numAssertions, equalTo(1));
+  }
+```
+
+TESTE 68
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/IsmFormatTest.java
+LINHAS: 100-112
+```java
+@Test
+  public void testFooterCoder() throws Exception {
+    Footer footerA = Footer.of(1, 2, 3);
+    Footer footerB = Footer.of(1, 2, 3);
+    CoderProperties.coderDecodeEncodeEqual(FooterCoder.of(), footerA);
+    CoderProperties.coderDeterministic(FooterCoder.of(), footerA, footerB);
+    CoderProperties.coderConsistentWithEquals(FooterCoder.of(), footerA, footerB);
+    CoderProperties.coderSerializable(FooterCoder.of());
+    CoderProperties.structuralValueConsistentWithEquals(FooterCoder.of(), footerA, footerB);
+    assertTrue(FooterCoder.of().isRegisterByteSizeObserverCheap(footerA));
+    assertEquals(25, FooterCoder.of().getEncodedElementByteSize(footerA));
+  }
+```
+
+TESTE 69
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/IsmFormatTest.java
+LINHAS: 170-190
+```java
+@Test
+  public void testIsmRecordCoderHashWithinExpectedRanges() throws Exception {
+    IsmRecordCoder<String> coder =
+        IsmRecordCoder.of(
+            2,
+            0,
+            ImmutableList.<Coder<?>>of(StringUtf8Coder.of(), StringUtf8Coder.of()),
+            StringUtf8Coder.of());
+    IsmRecordCoder<String> coderWithMetadata =
+        IsmRecordCoder.of(
+            2,
+            2,
+            ImmutableList.<Coder<?>>of(
+                MetadataKeyCoder.of(StringUtf8Coder.of()), StringUtf8Coder.of()),
+            StringUtf8Coder.of());
+
+    assertTrue(coder.hash(ImmutableList.of("A", "B")) < IsmFormat.SHARD_BITS + 1);
+    int hash = coderWithMetadata.hash(ImmutableList.of(IsmFormat.getMetadataKey(), "B"));
+    assertTrue(hash > IsmFormat.SHARD_BITS && hash < (IsmFormat.SHARD_BITS + 1) * 2);
+  }
+```
+
+TESTE 70
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/IsmFormatTest.java
+LINHAS: 86-99
+```java
+@Test
+  public void testKeyPrefixCoder() throws Exception {
+    KeyPrefix keyPrefixA = KeyPrefix.of(5, 7);
+    KeyPrefix keyPrefixB = KeyPrefix.of(5, 7);
+    CoderProperties.coderDecodeEncodeEqual(KeyPrefixCoder.of(), keyPrefixA);
+    CoderProperties.coderDeterministic(KeyPrefixCoder.of(), keyPrefixA, keyPrefixB);
+    CoderProperties.coderConsistentWithEquals(KeyPrefixCoder.of(), keyPrefixA, keyPrefixB);
+    CoderProperties.coderSerializable(KeyPrefixCoder.of());
+    CoderProperties.structuralValueConsistentWithEquals(
+        KeyPrefixCoder.of(), keyPrefixA, keyPrefixB);
+    assertTrue(KeyPrefixCoder.of().isRegisterByteSizeObserverCheap(keyPrefixA));
+    assertEquals(2, KeyPrefixCoder.of().getEncodedElementByteSize(keyPrefixA));
+  }
+```
+
+TESTE 71
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 609-613
+```java
+@Test
+  public void primitiveDECIMALFieldToString() {
+    assertEquals("1337.37", BeamRowToBigtableFn.primitiveFieldToString(TypeName.DECIMAL, 1337.37));
+  }
+```
+
+TESTE 72
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 619-623
+```java
+@Test
+  public void primitiveDOUBLEFieldToString() {
+    assertEquals("1337.37", BeamRowToBigtableFn.primitiveFieldToString(TypeName.DOUBLE, 1337.37));
+  }
+```
+
+TESTE 73
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 614-618
+```java
+@Test
+  public void primitiveFLOATFieldToString() {
+    assertEquals("1337.37", BeamRowToBigtableFn.primitiveFieldToString(TypeName.FLOAT, 1337.37));
+  }
+```
+
+TESTE 74
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 594-598
+```java
+@Test
+  public void primitiveINT16FieldToString() {
+    assertEquals("200", BeamRowToBigtableFn.primitiveFieldToString(TypeName.INT16, 200));
+  }
+```
+
+TESTE 75
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 599-603
+```java
+@Test
+  public void primitiveINT32FieldToString() {
+    assertEquals("200", BeamRowToBigtableFn.primitiveFieldToString(TypeName.INT32, 200));
+  }
+```
+
+TESTE 76
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/BeamRowToBigtableFnTest.java
+LINHAS: 604-608
+```java
+@Test
+  public void primitiveINT64FieldToString() {
+    assertEquals("200", BeamRowToBigtableFn.primitiveFieldToString(TypeName.INT64, 200));
+  }
+```
+
+TESTE 77
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/BigQueryConvertersTest.java
+LINHAS: 443-450
+```java
+@Test
+  public void testColumnToValueFloat() {
+    TableFieldSchema column = new TableFieldSchema().setName(floatField).setType("FLOAT");
+    Record record =
+        generateSingleFieldAvroRecord(floatField, "float", floatFieldDesc, floatFieldValue);
+    Value value = BigQueryConverters.columnToValue(column, record.get(floatField));
+    assertEquals(floatFieldValue, value.getDoubleValue(), 0.001);
+  }
+```
+
+TESTE 78
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/BigQueryConvertersTest.java
+LINHAS: 456-463
+```java
+@Test
+  public void testColumnToValueFloat64() {
+    TableFieldSchema column = new TableFieldSchema().setName(float64Field).setType("FLOAT64");
+    Record record =
+        generateSingleFieldAvroRecord(float64Field, "float", float64FieldDesc, float64FieldValue);
+    Value value = BigQueryConverters.columnToValue(column, record.get(float64Field));
+    assertEquals(float64FieldValue, value.getDoubleValue(), 0.001);
+  }
+```
+
+TESTE 79
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/DatastoreConvertersTest.java
+LINHAS: 121-125
+```java
+@Test
+  public void testEntityToJson() throws Exception {
+    List<String> doFnJson = DoFnTester.of(new EntityToJson()).processBundle(entities);
+    Assert.assertEquals(entitiesJson.get(0), doFnJson.get(0));
+  }
+```
+
+TESTE 80
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/templates/common/DatastoreConvertersTest.java
+LINHAS: 153-157
+```java
+@Test
+  public void testJsonToKey() throws Exception {
+    List<Key> keys = DoFnTester.of(new JsonToKey()).processBundle(entitiesJson);
+    Assert.assertEquals(entities.get(0).getKey(), keys.get(0));
+  }
+```
+
+TESTE 81
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/datastream-to-spanner/src/test/java/com/google/cloud/teleport/v2/templates/datastream/ChangeEventTypeConvertorTest.java
+LINHAS: 224-230
+```java
+public void cannotConvertRandomStringToDouble() throws Exception {
+    JSONObject changeEvent = new JSONObject();
+    changeEvent.put("field1", "asd123456.789");
+    JsonNode ce = getJsonNode(changeEvent.toString());
+    assertEquals(ChangeEventTypeConvertor.toDouble(ce, "field1", /*requiredField=*/true),
+        new Long(123457));
+  }
+```
+
+TESTE 82
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/datastream-to-spanner/src/test/java/com/google/cloud/teleport/v2/templates/datastream/ChangeEventTypeConvertorTest.java
+LINHAS: 168-174
+```java
+public void cannotConvertRandomStringToLong() throws Exception {
+    JSONObject changeEvent = new JSONObject();
+    changeEvent.put("field1", "asd123456.789");
+    JsonNode ce = getJsonNode(changeEvent.toString());
+    assertEquals(ChangeEventTypeConvertor.toLong(ce, "field1", /*requiredField=*/true),
+        new Long(123457));
+  }
+```
+
+TESTE 83
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/datastream-to-spanner/src/test/java/com/google/cloud/teleport/v2/templates/spanner/ProcessInformationSchemaIntegrationTest.java
+LINHAS: 105-134
+```java
+@Test
+  public void canCreateShadowTablesForAllDataTables() throws Exception {
+    SpannerConfig sourceConfig = spannerServer.getSpannerConfig(testDb);
+    Ddl testDdl = getTestDdlBuilder().build();
+    createDb(testDdl);
+
+    testPipeline.apply(
+        "Process Information Schema",
+        new ProcessInformationSchema(
+            sourceConfig, /*shouldCreateShadowTables=*/ true, "shadow", "oracle"));
+    PipelineResult testResult = testPipeline.run();
+    testResult.waitUntilFinish();
+    Ddl finalDdl = readDdl(testDb);
+
+    Table shadowTable = finalDdl.table("shadow_Table");
+    Table shadowTableInterleaved = finalDdl.table("shadow_Table_interleaved");
+    assertNotNull(shadowTable);
+    assertNotNull(shadowTableInterleaved);
+    assertEquals(4, finalDdl.allTables().size());
+
+    assertThat(shadowTable.primaryKeys(), is(testDdl.table("Table").primaryKeys()));
+    assertEquals(shadowTable.columns().size(), testDdl.table("Table").primaryKeys().size() + 2);
+
+    assertThat(
+        shadowTableInterleaved.primaryKeys(), is(testDdl.table("Table_interleaved").primaryKeys()));
+    assertEquals(
+        shadowTableInterleaved.columns().size(),
+        testDdl.table("Table_interleaved").primaryKeys().size() + 2);
+  }
+```
+
+TESTE 84
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/datastream-to-spanner/src/test/java/com/google/cloud/teleport/v2/templates/spanner/ProcessInformationSchemaIntegrationTest.java
+LINHAS: 135-155
+```java
+@Test
+  public void canFlagProtectShadowTableCreation() throws Exception {
+    SpannerConfig sourceConfig = spannerServer.getSpannerConfig(testDb);
+    Ddl testDdl = getTestDdlBuilder().build();
+    createDb(testDdl);
+
+    testPipeline.apply(
+        "Read Information Schema",
+        new ProcessInformationSchema(
+            sourceConfig, /*shouldCreateShadowTables=*/ false, "shadow", "oracle"));
+    PipelineResult testResult = testPipeline.run();
+    testResult.waitUntilFinish();
+    Ddl finalDdl = readDdl(testDb);
+
+    Table shadowTable = finalDdl.table("shadow_Table");
+    Table shadowTableInterleaved = finalDdl.table("shadow_Table_interleaved");
+    assertNull(shadowTable);
+    assertNull(shadowTableInterleaved);
+    assertEquals(2, finalDdl.allTables().size());
+  }
+```
+
+TESTE 85
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/MobileShepherd/InsufficientTLS/app/src/test/java/com/mobshep/insufficienttls/ExampleUnitTest.java
+LINHAS: 9-13
+```java
+@Test
+  public void addition_isCorrect() throws Exception {
+    assertEquals(4, 2 + 2);
+  }
+```
+
+TESTE 86
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/infra/url/type/absolutepath/src/test/java/org/apache/shardingsphere/infra/url/absolutepath/AbsolutePathURLLoaderTest.java
+LINHAS: 34-36
+```java
+void assertGetContentOnLinux() {
+        assertGetContent(1783);
+    }
+```
+
+TESTE 87
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/infra/url/type/absolutepath/src/test/java/org/apache/shardingsphere/infra/url/absolutepath/AbsolutePathURLLoaderTest.java
+LINHAS: 40-42
+```java
+void assertGetContentOnWindows() {
+        assertGetContent(1839);
+    }
+```
+
+TESTE 88
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/infra/context/src/test/java/org/apache/shardingsphere/infra/connection/kernel/KernelProcessorTest.java
+LINHAS: 61-77
+```java
+@Test
+    void assertGenerateExecutionContext() {
+        SQLStatementContext sqlStatementContext = new CommonSQLStatementContext(new SelectStatement(databaseType));
+        ConnectionContext connectionContext = mock(ConnectionContext.class);
+        when(connectionContext.getCurrentDatabaseName()).thenReturn(Optional.of("foo_db"));
+        ShardingSphereMetaData metaData = mock(ShardingSphereMetaData.class);
+        ResourceMetaData resourceMetaData = mock(ResourceMetaData.class, RETURNS_DEEP_STUBS);
+        when(resourceMetaData.getStorageUnits()).thenReturn(Collections.singletonMap("ds_0", mock(StorageUnit.class, RETURNS_DEEP_STUBS)));
+        ShardingSphereDatabase database = new ShardingSphereDatabase("foo_db", databaseType, resourceMetaData, new RuleMetaData(mockRules()), Collections.emptyList());
+        when(metaData.containsDatabase("foo_db")).thenReturn(true);
+        when(metaData.getDatabase("foo_db")).thenReturn(database);
+        QueryContext queryContext = new QueryContext(sqlStatementContext, "SELECT * FROM tbl", Collections.emptyList(), new HintValueContext(), connectionContext, metaData);
+        ConfigurationProperties props = new ConfigurationProperties(PropertiesBuilder.build(new Property(ConfigurationPropertyKey.SQL_SHOW.getKey(), Boolean.TRUE.toString())));
+        ExecutionContext actual = new KernelProcessor().generateExecutionContext(queryContext, new RuleMetaData(mockRules()), props);
+        assertThat(actual.getExecutionUnits().size(), is(1));
+    }
+```
+
+TESTE 89
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/codec/FirebirdPacketCodecEngineTest.java
+LINHAS: 101-114
+```java
+@Test
+    void assertDecodeMultiplePackets() {
+        ByteBuf in = mock(ByteBuf.class);
+        ByteBuf slice1 = mock(ByteBuf.class);
+        ByteBuf slice2 = mock(ByteBuf.class);
+        when(in.readableBytes()).thenReturn(16, 8, 8, 0);
+        when(in.readerIndex()).thenReturn(0);
+        when(in.getInt(0)).thenReturn(FirebirdCommandPacketType.ALLOCATE_STATEMENT.getValue());
+        when(in.readRetainedSlice(8)).thenReturn(slice1, slice2);
+        List<Object> out = new LinkedList<>();
+        new FirebirdPacketCodecEngine().decode(context, in, out);
+        assertThat(out.size(), is(2));
+    }
+```
+
+TESTE 90
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/codec/FirebirdPacketCodecEngineTest.java
+LINHAS: 115-129
+```java
+@Test
+    void assertDecodeWithPartialPacket() {
+        ByteBuf in = mock(ByteBuf.class);
+        ByteBuf slice = mock(ByteBuf.class);
+        when(in.readableBytes()).thenReturn(8, 8);
+        when(in.readerIndex()).thenReturn(0);
+        when(in.getInt(0)).thenReturn(FirebirdCommandPacketType.TRANSACTION.getValue());
+        when(in.writerIndex()).thenReturn(8);
+        when(in.capacity()).thenReturn(16);
+        when(in.readRetainedSlice(8)).thenReturn(slice);
+        List<Object> out = new LinkedList<>();
+        new FirebirdPacketCodecEngine().decode(context, in, out);
+        assertThat(out.size(), is(1));
+    }
+```
+
+TESTE 91
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/codec/FirebirdPacketCodecEngineTest.java
+LINHAS: 81-85
+```java
+@Test
+    void assertIsInvalidHeader() {
+        assertFalse(new FirebirdPacketCodecEngine().isValidHeader(3));
+    }
+```
+
+TESTE 92
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/codec/FirebirdPacketCodecEngineTest.java
+LINHAS: 76-80
+```java
+@Test
+    void assertIsValidHeader() {
+        assertTrue(new FirebirdPacketCodecEngine().isValidHeader(50));
+    }
+```
+
+TESTE 93
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/constant/FirebirdArchTypeTest.java
+LINHAS: 29-34
+```java
+@Test
+    void assertValueOf() {
+        assertThat(FirebirdArchType.valueOf(29), is(FirebirdArchType.ARCH_INTEL_32));
+        assertThrows(NullPointerException.class, () -> FirebirdArchType.valueOf(999));
+    }
+```
+
+TESTE 94
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/constant/FirebirdUserDataTypeTest.java
+LINHAS: 27-32
+```java
+@Test
+    void assertValueOf() {
+        assertThat(FirebirdUserDataType.valueOf(1), is(FirebirdUserDataType.CNCT_USER));
+        assertThrows(NullPointerException.class, () -> FirebirdUserDataType.valueOf(999));
+    }
+```
+
+TESTE 95
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/constant/buffer/type/FirebirdDatabaseParameterBufferTypeTest.java
+LINHAS: 31-36
+```java
+@Test
+    void assertValueOf() {
+        assertThat(FirebirdDatabaseParameterBufferType.valueOf(4), is(FirebirdDatabaseParameterBufferType.PAGE_SIZE));
+        assertThrows(NullPointerException.class, () -> FirebirdDatabaseParameterBufferType.valueOf(999));
+    }
+```
+
+TESTE 96
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/constant/buffer/type/FirebirdTransactionParameterBufferTypeTest.java
+LINHAS: 35-39
+```java
+@Test
+    void assertIsTraditionalType() {
+        assertTrue(FirebirdTransactionParameterBufferType.isTraditionalType(1));
+    }
+```
+
+TESTE 97
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/constant/buffer/type/FirebirdTransactionParameterBufferTypeTest.java
+LINHAS: 29-34
+```java
+@Test
+    void assertValueOf() {
+        assertThat(FirebirdTransactionParameterBufferType.valueOf(1), is(FirebirdTransactionParameterBufferType.CONSISTENCY));
+        assertThrows(NullPointerException.class, () -> FirebirdTransactionParameterBufferType.valueOf(999));
+    }
+```
+
+TESTE 98
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/packet/command/query/info/FirebirdInfoPacketTest.java
+LINHAS: 43-48
+```java
+@Test
+    void assertGetLength() {
+        when(payload.getBufferLength(12)).thenReturn(8);
+        assertThat(FirebirdInfoPacket.getLength(payload), is(24));
+    }
+```
+
+TESTE 99
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/packet/command/query/statement/FirebirdAllocateStatementPacketTest.java
+LINHAS: 44-48
+```java
+@Test
+    void assertGetLength() {
+        assertThat(FirebirdAllocateStatementPacket.getLength(), is(8));
+    }
+```
+
+TESTE 100
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/.jnose_projects/shardingsphere/database/protocol/dialect/firebird/src/test/java/org/apache/shardingsphere/database/protocol/firebird/packet/command/query/statement/FirebirdFetchStatementPacketTest.java
+LINHAS: 60-66
+```java
+@Test
+    void assertGetLength() {
+        when(payload.getBufferLength(8)).thenReturn(20);
+        assertThat(FirebirdFetchStatementPacket.getLength(payload), is(36));
+        verify(payload).getBufferLength(8);
+    }
+```
+

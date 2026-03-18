@@ -1,0 +1,2427 @@
+TESTE 1
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/SparkStructuredStreamingRunnerRegistrarTest.java
+LINHAS: 48-58
+```java
+@Test
+  public void testServiceLoaderForOptions() {
+    for (PipelineOptionsRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineOptionsRegistrar.class).iterator())) {
+      if (registrar instanceof SparkStructuredStreamingRunnerRegistrar.Options) {
+        return;
+      }
+    }
+    fail("Expected to find " + SparkStructuredStreamingRunnerRegistrar.Options.class);
+  }
+```
+
+TESTE 2
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/SparkStructuredStreamingRunnerRegistrarTest.java
+LINHAS: 59-69
+```java
+@Test
+  public void testServiceLoaderForRunner() {
+    for (PipelineRunnerRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineRunnerRegistrar.class).iterator())) {
+      if (registrar instanceof SparkStructuredStreamingRunnerRegistrar.Runner) {
+        return;
+      }
+    }
+    fail("Expected to find " + SparkStructuredStreamingRunnerRegistrar.Runner.class);
+  }
+```
+
+TESTE 3
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoConstantsTest.java
+LINHAS: 40-54
+```java
+@Test
+  public void testUniqueUrnsDefinedForAllSpecs() {
+    Multimap<String, MonitoringInfoSpecs.Enum> urnToEnum = ArrayListMultimap.create();
+    for (MonitoringInfoSpecs.Enum value : MonitoringInfoSpecs.Enum.values()) {
+      if (value != MonitoringInfoSpecs.Enum.UNRECOGNIZED) {
+        urnToEnum.put(extractUrn(value), value);
+      }
+    }
+    for (String urn : ImmutableSet.copyOf(urnToEnum.keySet())) {
+      if (urnToEnum.get(urn).size() == 1) {
+        urnToEnum.removeAll(urn);
+      }
+    }
+    assertThat(urnToEnum.entries(), Matchers.empty());
+  }
+```
+
+TESTE 4
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRegistrarTest.java
+LINHAS: 50-60
+```java
+@Test
+  public void testServiceLoaderForOptions() {
+    for (PipelineOptionsRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineOptionsRegistrar.class).iterator())) {
+      if (registrar instanceof Options) {
+        return;
+      }
+    }
+    fail("Expected to find " + Options.class);
+  }
+```
+
+TESTE 5
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRegistrarTest.java
+LINHAS: 61-71
+```java
+@Test
+  public void testServiceLoaderForRunner() {
+    for (PipelineRunnerRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineRunnerRegistrar.class).iterator())) {
+      if (registrar instanceof Runner) {
+        return;
+      }
+    }
+    fail("Expected to find " + Runner.class);
+  }
+```
+
+TESTE 6
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+LINHAS: 682-711
+```java
+public void testTwoPOutputsInPipelineWithCascade() throws InterruptedException {
+
+    StaticQueue<Integer> start = StaticQueue.of("start", VarIntCoder.of());
+    StaticQueue<Integer> messages = StaticQueue.of("messages", VarIntCoder.of());
+
+    Pipeline pipeline = getPipeline(false);
+    pipeline.begin().apply("outputStartSignal", outputStartTo(start));
+    PCollection<Integer> result =
+        pipeline
+            .apply("processMessages", messages.read())
+            .apply(
+                Window.<Integer>into(new GlobalWindows())
+                    .triggering(AfterWatermark.pastEndOfWindow())
+                    .discardingFiredPanes()
+                    .withAllowedLateness(Duration.ZERO))
+            .apply(Sum.integersGlobally());
+
+    // the result should be 6, after the data will have been written
+    PAssert.that(result).containsInAnyOrder(6);
+
+    PipelineResult run = pipeline.run();
+
+    // wait until a message has been written to the start queue
+    while (start.take() == null) {}
+
+    // and publish messages
+    messages.add(1).add(2).add(3).terminate();
+
+    run.waitUntilFinish();
+  }
+```
+
+TESTE 7
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkStreamingPipelineTranslatorTest.java
+LINHAS: 130-143
+```java
+@Test
+  public void testAutoBalanceShardKeyCacheMaxSize() throws Exception {
+
+    FlinkAutoBalancedShardKeyShardingFunction<String, String> fn =
+        new FlinkAutoBalancedShardKeyShardingFunction<>(2, 2, StringUtf8Coder.of());
+
+    for (int i = 0; i < FlinkAutoBalancedShardKeyShardingFunction.CACHE_MAX_SIZE * 2; i++) {
+      fn.assignShardKey(UUID.randomUUID().toString(), "one", 2);
+    }
+
+    assertThat(
+        fn.getCache().size(), equalTo(FlinkAutoBalancedShardKeyShardingFunction.CACHE_MAX_SIZE));
+  }
+```
+
+TESTE 8
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineRegistrarTest.java
+LINHAS: 49-59
+```java
+@Test
+  public void testServiceLoaderForOptions() {
+    for (PipelineOptionsRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineOptionsRegistrar.class).iterator())) {
+      if (registrar instanceof DataflowPipelineRegistrar.Options) {
+        return;
+      }
+    }
+    fail("Expected to find " + DataflowPipelineRegistrar.Options.class);
+  }
+```
+
+TESTE 9
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowPipelineRegistrarTest.java
+LINHAS: 60-70
+```java
+@Test
+  public void testServiceLoaderForRunner() {
+    for (PipelineRunnerRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineRunnerRegistrar.class).iterator())) {
+      if (registrar instanceof DataflowPipelineRegistrar.Runner) {
+        return;
+      }
+    }
+    fail("Expected to find " + DataflowPipelineRegistrar.Runner.class);
+  }
+```
+
+TESTE 10
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+LINHAS: 2028-2047
+```java
+@Test
+  public void testGetContainerImageForJobFromOption() {
+    DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
+
+    String[] testCases = {
+      "some-container",
+
+      // It is important that empty string is preserved, as
+      // dataflowWorkerJar relies on being passed an empty value vs
+      // not providing the container image option at all.
+      "",
+    };
+
+    for (String testCase : testCases) {
+      // When image option is set, should use that exact image.
+      options.setSdkContainerImage(testCase);
+      assertThat(getContainerImageForJob(options), equalTo(testCase));
+    }
+  }
+```
+
+TESTE 11
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+LINHAS: 1846-1863
+```java
+@Test
+  public void testSettingConflictingEnableAndDisableExperimentsThrowsException() throws Exception {
+    for (String experiment :
+        ImmutableList.of(
+            "beam_fn_api", "use_runner_v2", "use_unified_worker", "use_portable_job_submission")) {
+      for (String disabledExperiment :
+          ImmutableList.of(
+              "disable_runner_v2", "disable_runner_v2_until_2023", "disable_prime_runner_v2")) {
+        DataflowPipelineOptions options = buildPipelineOptions();
+        ExperimentalOptions.addExperiment(options, experiment);
+        ExperimentalOptions.addExperiment(options, disabledExperiment);
+        Pipeline p = Pipeline.create(options);
+        p.apply(Create.of("A"));
+        assertThrows("Runner V2 both disabled and enabled", IllegalArgumentException.class, p::run);
+      }
+    }
+  }
+```
+
+TESTE 12
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+LINHAS: 1576-1589
+```java
+@Test
+  public void testValidJobName() throws IOException {
+    List<String> names =
+        Arrays.asList("ok", "Ok", "A-Ok", "ok-123", "this-one-is-fairly-long-01234567890123456789");
+
+    for (String name : names) {
+      DataflowPipelineOptions options = buildPipelineOptions();
+      options.setJobName(name);
+
+      DataflowRunner runner = DataflowRunner.fromOptions(options);
+      assertNotNull(runner);
+    }
+  }
+```
+
+TESTE 13
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingDataflowWorkerTest.java
+LINHAS: 4077-4093
+```java
+@Test
+  public void testDefaultNumCommitThreads() {
+    if (streamingEngine) {
+      runNumCommitThreadsTest(1, 1);
+      runNumCommitThreadsTest(2, 2);
+      runNumCommitThreadsTest(3, 3);
+      runNumCommitThreadsTest(0, 1);
+      runNumCommitThreadsTest(-1, 1);
+    } else {
+      runNumCommitThreadsTest(1, 1);
+      runNumCommitThreadsTest(2, 1);
+      runNumCommitThreadsTest(3, 1);
+      runNumCommitThreadsTest(0, 1);
+      runNumCommitThreadsTest(-1, 1);
+    }
+  }
+```
+
+TESTE 14
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/windmill/client/WindmillStreamPoolTest.java
+LINHAS: 90-108
+```java
+@Test
+  public void testGetStream_returnsAndCachesNewStream_whenOldStreamTimedOutAndDrained() {
+    Duration streamTimeout = Duration.ZERO;
+    Instant expired = Instant.EPOCH;
+    // Populate the stream data.
+    for (int i = 0; i < DEFAULT_NUM_STREAMS; i++) {
+      WindmillStreamPool.StreamData<TestWindmillStream> streamData =
+          new WindmillStreamPool.StreamData<>(new TestWindmillStream(expired));
+      streams.set(i, streamData);
+      holds.put(streamData.stream, streamData);
+    }
+
+    WindmillStreamPool<TestWindmillStream> streamPool =
+        WindmillStreamPool.forTesting(
+            streamTimeout, () -> new TestWindmillStream(Instant.now()), streams, holds);
+    TestWindmillStream stream = streamPool.getStream();
+    assertEquals(NEW_STREAM_HOLDS, holds.get(stream).holds);
+  }
+```
+
+TESTE 15
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/java-fn-execution/src/test/java/org/apache/beam/runners/fnexecution/wire/ByteStringCoderTest.java
+LINHAS: 120-127
+```java
+@Test
+  public void testEncodedElementByteSize() throws Throwable {
+    for (ByteString value : TEST_VALUES) {
+      byte[] encoded = CoderUtils.encodeToByteArray(TEST_CODER, value, Context.NESTED);
+      assertEquals(encoded.length, TEST_CODER.getEncodedElementByteSize(value));
+    }
+  }
+```
+
+TESTE 16
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkRunnerRegistrarTest.java
+LINHAS: 48-58
+```java
+@Test
+  public void testServiceLoaderForOptions() {
+    for (PipelineOptionsRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineOptionsRegistrar.class).iterator())) {
+      if (registrar instanceof SparkRunnerRegistrar.Options) {
+        return;
+      }
+    }
+    fail("Expected to find " + SparkRunnerRegistrar.Options.class);
+  }
+```
+
+TESTE 17
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkRunnerRegistrarTest.java
+LINHAS: 59-69
+```java
+@Test
+  public void testServiceLoaderForRunner() {
+    for (PipelineRunnerRegistrar registrar :
+        Lists.newArrayList(ServiceLoader.load(PipelineRunnerRegistrar.class).iterator())) {
+      if (registrar instanceof SparkRunnerRegistrar.Runner) {
+        return;
+      }
+    }
+    fail("Expected to find " + SparkRunnerRegistrar.Runner.class);
+  }
+```
+
+TESTE 18
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/GroupNonMergingWindowsFunctionsTest.java
+LINHAS: 104-114
+```java
+public void testGbkIteratorValuesCannotBeReiterated() throws Coder.NonDeterministicException {
+    GroupByKeyIterator<String, Integer, GlobalWindow> iteratorUnderTest = createGbkIterator();
+    WindowedValue<KV<String, Iterable<Integer>>> firstEl = iteratorUnderTest.next();
+    Iterable<Integer> value = firstEl.getValue().getValue();
+    for (Integer ignored : value) {
+      // first iteration
+    }
+    for (Integer ignored : value) {
+      // second iteration should throw IllegalStateException
+    }
+  }
+```
+
+TESTE 19
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/TransformTranslatorTest.java
+LINHAS: 139-170
+```java
+@Test
+  public void testSingleOutputParDoHasNoFilter() {
+    Pipeline p = Pipeline.create();
+    SparkPipelineOptions options = contextRule.createPipelineOptions();
+    TransformTranslator.Translator translator = new TransformTranslator.Translator();
+
+    PTransform<PBegin, PCollection<String>> createTransform = Create.of("foo", "bar");
+
+    PassThrough.SingleOutput<String> passThroughTransform =
+        PassThrough.ofSingleOutput(StringUtf8Coder.of());
+
+    PCollection<String> pCollection =
+        p.apply("Create Values", createTransform)
+            .apply("Single Output PassThrough", passThroughTransform);
+
+    p.replaceAll(SparkTransformOverrides.getDefaultOverrides(false));
+
+    EvaluationContext ctxt = new EvaluationContext(contextRule.getSparkContext(), p, options);
+    SparkRunner.initAccumulators(options, ctxt.getSparkContext());
+
+    p.traverseTopologically(new SparkRunner.Evaluator(translator, ctxt));
+
+    @SuppressWarnings("unchecked")
+    BoundedDataset<String> dataset = (BoundedDataset<String>) ctxt.borrowDataset(pCollection);
+    JavaRDD<WindowedValue<String>> rdd = dataset.getRDD();
+
+    List<RDDNode> parsed = RDDTreeParser.parse(rdd.toDebugString());
+    for (RDDNode node : parsed) {
+      assertNotEquals("filter", node.getOperator());
+    }
+  }
+```
+
+TESTE 20
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 773-782
+```java
+@Test
+  public void testFindPlayerByIdWithBadUserId() {
+    String userId = new String("DOES NOT EXIST");
+    if (!Getter.findPlayerById(applicationRoot, userId)) {
+      return;
+    } else {
+      fail("Found Player That Does Not Exist");
+    }
+  }
+```
+
+TESTE 21
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 783-797
+```java
+@Test
+  public void testGetAllModuleInfo() {
+    ArrayList<String[]> modules = Getter.getAllModuleInfo(applicationRoot);
+    if (modules.size()
+        > 75) // Shepherd v3.0 has 76 Modules. If less than All are Returned, then there is a
+    // problem with the Open Modules Function or the Retrieve data function
+    {
+      log.debug("PASS: Found " + modules.size() + " modules");
+      return;
+    } else {
+      log.fatal("Too Few Modules Returned to Pass Test: " + modules.size());
+      fail("Only " + modules.size() + "/~76 modules returned from function");
+    }
+  }
+```
+
+TESTE 22
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 900-916
+```java
+@Test
+  public void testGetClassInfoString() throws SQLException {
+
+    findCreateClassId("NewClassForGetInfo");
+    ResultSet rs = Getter.getClassInfo(applicationRoot);
+    if (rs.next()) {
+      if (!rs.getString(1).isEmpty()) {
+        log.debug("PASS: Class Information was returned");
+      } else {
+        fail("Data in Class Info Result Set was Blank");
+      }
+    } else {
+      fail("No Rows In Class Info Result Set");
+    }
+    rs.close();
+  }
+```
+
+TESTE 23
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2116-2126
+```java
+@Test
+  public void testGetModuleKeyTypeEncryptedKey() {
+    String csrfChallengeThree = new String("5ca9115f3279b9b9f3308eb6a59a4fcd374846d6");
+    if (!Getter.getModuleKeyType(applicationRoot, csrfChallengeThree)) {
+      log.debug("PASS: Encrypted Key Detected on Encrypted Level");
+    } else {
+      log.fatal("Hardcoded Key Detected On Encrypted Key Module");
+      fail("Hardcoded Key Detected On Encrypted Key Module");
+    }
+  }
+```
+
+TESTE 24
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2127-2137
+```java
+@Test
+  public void testGetModuleKeyTypeHardcodedKey() {
+    String insecureCryptoLesson = new String("201ae6f8c55ba3f3b5881806387fbf34b15c30c2");
+    if (Getter.getModuleKeyType(applicationRoot, insecureCryptoLesson)) {
+      log.debug("PASS: Hardcoded Key Detected on Hardcoded Level");
+    } else {
+      log.fatal("Encrypted Key Detected On Hardcoded Key Module");
+      fail("Encrypted Key Detected On Hardcoded Key Module");
+    }
+  }
+```
+
+TESTE 25
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2160-2175
+```java
+@Test
+  public void testGetModuleResult() {
+    String insecureCryptoLesson = new String("201ae6f8c55ba3f3b5881806387fbf34b15c30c2");
+    String knownStoredResult =
+        new String("base64isNotEncryptionBase64isEncodingBase64HidesNothingFromYou");
+    String methodReturnResult = Getter.getModuleResult(applicationRoot, insecureCryptoLesson);
+    if (knownStoredResult.compareTo(methodReturnResult) != 0) {
+      log.fatal(
+          "Known Result ("
+              + knownStoredResult
+              + ") did not match returned result ("
+              + methodReturnResult
+              + ")");
+      fail("Stored and Known Results Differed");
+    }
+  }
+```
+
+TESTE 26
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2178-2195
+```java
+@Test
+  public void testGetModuleResultFromHash() {
+    String insecureCryptoLessonHash =
+        new String("if38ebb58ea2d245fa792709370c00ca655fded295c90ef36f3a6c5146c29ef2");
+    String knownStoredResult =
+        new String("base64isNotEncryptionBase64isEncodingBase64HidesNothingFromYou");
+    String methodReturnResult =
+        Getter.getModuleResultFromHash(applicationRoot, insecureCryptoLessonHash);
+    if (knownStoredResult.compareTo(methodReturnResult) != 0) {
+      log.fatal(
+          "Known Result ("
+              + knownStoredResult
+              + ") did not match returned result ("
+              + methodReturnResult
+              + ")");
+      fail("Stored and Known Results Differed");
+    }
+  }
+```
+
+TESTE 27
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2227-2241
+```java
+@Test
+  public void testGetModuleSolution() {
+    String insecureDirectObjectReferenceLesson =
+        new String("0dbea4cb5811fff0527184f99bd5034ca9286f11");
+    String[] moduleSolution =
+        Getter.getModuleSolution(applicationRoot, insecureDirectObjectReferenceLesson, locale);
+    if (moduleSolution == null) {
+      fail("Could not retrieve module solution");
+    } else if (moduleSolution[1].indexOf("Stop the request") == -1) {
+      log.fatal(
+          "Could not find 'Stop the request' in the following solution: " + moduleSolution[1]);
+      fail("Could not find english string in solution");
+    }
+  }
+```
+
+TESTE 28
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2198-2209
+```java
+@Test
+  public void testGetModulesInOptionTags() {
+    String insecureCryptoLesson = new String("201ae6f8c55ba3f3b5881806387fbf34b15c30c2");
+    String modules = Getter.getModulesInOptionTags(applicationRoot);
+    if (modules.indexOf(insecureCryptoLesson) == -1) {
+      log.fatal("Insecure Crypto Lesson ID Ommited from list: " + modules);
+      fail("Entire List of Modules not returned");
+    } else if (modules.indexOf("option") == -1) {
+      log.fatal("No Options Tags Detected in List: " + modules);
+      fail("No Options Tags Detected in List");
+    }
+  }
+```
+
+TESTE 29
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2210-2226
+```java
+@Test
+  public void testGetModulesInOptionTagsCTF() {
+    String lowestRankLevel = new String("0dbea4cb5811fff0527184f99bd5034ca9286f11");
+    String modules = Getter.getModulesInOptionTagsCTF(applicationRoot);
+    if (modules.indexOf(lowestRankLevel) == -1) {
+      log.fatal("Insecure Crypto Lesson ID Ommited from list: " + modules);
+      fail("Entire List of Modules not returned");
+    } else if (modules.indexOf("option") == -1) {
+      log.fatal("No Options Tags Detected in List: " + modules);
+      fail("No Options Tags Detected in List");
+    } else if (!modules.startsWith("<option value='" + lowestRankLevel)) {
+      log.fatal(
+          "Wrong Module Listed First. Should be module with lowest incremental Rank: " + modules);
+      fail("First option tag was not the lowest ranking level");
+    }
+  }
+```
+
+TESTE 30
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 2485-2497
+```java
+@Test
+  public void testGetOpenCloseCategoryMenu() {
+    String moduleCategory =
+        "Injection"; // This will need to be updated to a locale key when this method is
+    // enhansed to support localisation
+    String categoryMenu = Getter.getOpenCloseCategoryMenu(applicationRoot);
+    if (categoryMenu.indexOf("option") == -1) {
+      fail("Category Menu does not have any option tags");
+    } else if (categoryMenu.indexOf(moduleCategory) == -1) {
+      fail("Category Menu does not have the " + categoryMenu + " category");
+    }
+  }
+```
+
+TESTE 31
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 3011-3031
+```java
+@Test
+  public void testIsModuleOpen() {
+    String csrfChallengeTwo =
+        new String("94cd2de560d89ef59fc450ecc647ff4d4a55c15d"); // CSRF Challenge 2 (Should
+    // have CSRF Counter of 0
+    // for new user
+    // Open all Modules First so that the Module Can Be Opened
+    if (Setter.openAllModules(applicationRoot, false)
+        && Setter.openAllModules(applicationRoot, true)) {
+      if (!Getter.isModuleOpen(applicationRoot, csrfChallengeTwo)) {
+        fail("isModuleOpen returned False when the module should have been open");
+      }
+      Setter.closeAllModules(applicationRoot);
+      if (Getter.isModuleOpen(applicationRoot, csrfChallengeTwo)) {
+        fail("isModuleOpen returned True when the module should have been closed");
+      }
+    } else {
+      fail("Could not mark All Modules as Opened");
+    }
+  }
+```
+
+TESTE 32
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/SetterTest.java
+LINHAS: 280-296
+```java
+@Test
+  public void testSetCsrfChallengeFourCsrfToken() throws SQLException {
+    String userName = new String("csrfFourUser");
+
+    if (GetterTest.verifyTestUser(applicationRoot, userName, userName)) {
+      String userId = Getter.getUserIdFromName(applicationRoot, userName);
+      String csrfTokenValue = new String("CsrfTokenTest");
+      String csrfToken =
+          Setter.setCsrfChallengeFourCsrfToken(userId, csrfTokenValue, applicationRoot);
+      if (csrfToken.compareTo(csrfTokenValue) != 0) {
+        fail("Retrieved CSRF token did not Match the Set Value");
+      }
+    } else {
+      fail("Could not Verify User");
+    }
+  }
+```
+
+TESTE 33
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/SetterTest.java
+LINHAS: 297-311
+```java
+@Test
+  public void testSetCsrfChallengeSevenCsrfToken() throws SQLException {
+    String userName = new String("csrfSevenUser");
+
+    if (GetterTest.verifyTestUser(applicationRoot, userName, userName)) {
+      String userId = Getter.getUserIdFromName(applicationRoot, userName);
+      String csrfToken = new String("CsrfTokenTest");
+      if (!Setter.setCsrfChallengeSevenCsrfToken(userId, csrfToken, applicationRoot)) {
+        fail("Could not Set CSRF Challenge 7 Token");
+      }
+    } else {
+      fail("Could not Verify User");
+    }
+  }
+```
+
+TESTE 34
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/utils/SortedArraysTest.java
+LINHAS: 57-74
+```java
+@Test
+    public void testRemapperParial()
+    {
+        qt().forAll(remappedPartialSubset(sortedUniqueIntegerArray(0))).check(p -> {
+            Integer[] src = p.src;
+            Integer[] trg = p.trg;
+            // use false so null is never returned
+            int[] result = SortedArrays.remapToSuperset(src, src.length, trg, trg.length, int[]::new);
+            if (src.length == trg.length)
+            {
+                Assertions.assertNull(result, "should be null since src == trg");
+                return;
+            }
+            for (int i = 0; i < result.length; i++)
+                assertRemapperProperty(i, src, trg, result);
+        });
+    }
+```
+
+TESTE 35
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/utils/SortedArraysTest.java
+LINHAS: 45-56
+```java
+@Test
+    public void testRemapperSequential()
+    {
+        qt().forAll(remapperSequentialSubset(sortedUniqueIntegerArray(1))).check(p -> {
+            Integer[] src = p.src;
+            Integer[] trg = p.trg;
+            // use false so null is never returned
+            int[] result = SortedArrays.remapToSuperset(src, src.length, trg, trg.length, int[]::new);
+            for (int i = 0; i < result.length; i++)
+                assertRemapperProperty(i, src, trg, result);
+        });
+    }
+```
+
+TESTE 36
+PROJETO: accumulo-fluo
+ARQUIVO: /home/magno-macedo/.jnose_projects/accumulo-fluo/modules/accumulo/src/test/java/org/apache/fluo/accumulo/iterators/NotificationIteratorTest.java
+LINHAS: 296-321
+```java
+@Test
+  public void testLots() {
+    IteratorScope scope = IteratorScope.scan;
+
+    Random rand = new Random(42L);
+
+    TestData input = new TestData();
+    for (int i = 0; i < 1000; i++) {
+      int maxTs = Math.max(1, rand.nextInt(50));
+      for (int j = 0; j < maxTs; j++) {
+        input.add("row" + i + " ntfy foo:baz " + j, "");
+      }
+    }
+
+    TestData output = new TestData(newNI(input, scope, true));
+
+    rand = new Random(42L);
+    TestData expected = new TestData();
+    for (int i = 0; i < 1000; i++) {
+      int maxTs = Math.max(1, rand.nextInt(50)) - 1;
+      expected.add("row" + i + " ntfy foo:baz " + maxTs, "");
+    }
+
+    Assert.assertEquals(expected, output);
+  }
+```
+
+TESTE 37
+PROJETO: accumulo-fluo
+ARQUIVO: /home/magno-macedo/.jnose_projects/accumulo-fluo/modules/accumulo/src/test/java/org/apache/fluo/accumulo/util/ColumnTypeTest.java
+LINHAS: 56-62
+```java
+@Test
+  public void testPrefix() {
+    for (long l : new long[] {0, 2, 13, 19 * 19L, 1L << 50, 1L << 50 + 1L << 48}) {
+      EPM.forEach((prefix, colType) -> assertEquals(prefix | l, colType.encode(l)));
+    }
+  }
+```
+
+TESTE 38
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-broker/src/test/java/org/apache/activemq/broker/interceptor/MessageInterceptorTest.java
+LINHAS: 138-165
+```java
+public void testInterceptorAll() throws Exception {
+        MessageInterceptorRegistry registry = MessageInterceptorRegistry.getInstance().get(BrokerRegistry.getInstance().findFirst());
+        registry.addMessageInterceptorForTopic(topic.getTopicName(), new MessageInterceptor() {
+            @Override
+            public void intercept(ProducerBrokerExchange producerExchange, Message message) {
+                //just ignore
+            }
+        });
+
+        final CountDownLatch latch = new CountDownLatch(messageCount);
+
+        consumer.setMessageListener(new MessageListener() {
+            @Override
+            public void onMessage(jakarta.jms.Message message) {
+                latch.countDown();
+
+            }
+        });
+        for (int i  = 0; i < messageCount; i++){
+            jakarta.jms.Message message = producerSession.createTextMessage("test: " + i);
+            producer.send(message);
+        }
+
+        latch.await(timeOutInSeconds, TimeUnit.SECONDS);
+        assertEquals(messageCount,latch.getCount());
+
+    }
+```
+
+TESTE 39
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/URISupportTest.java
+LINHAS: 214-221
+```java
+@Test
+    public void testIsCompositeURINoQueryNoSlashes() throws URISyntaxException {
+        URI[] compositeURIs = new URI[] { new URI("test:(part1://host,part2://(sub1://part,sube2:part))"), new URI("test:(path)/path") };
+        for (URI uri : compositeURIs) {
+            assertTrue(uri + " must be detected as composite URI", URISupport.isCompositeURI(uri));
+        }
+    }
+```
+
+TESTE 40
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/URISupportTest.java
+LINHAS: 227-235
+```java
+@Test
+    public void testIsCompositeURINoQueryWithSlashes() throws URISyntaxException {
+        URI[] compositeURIs = new URI[] { new URI("failover://(tcp://bla:61616,tcp://bla:61617)"),
+                new URI("failover://(tcp://localhost:61616,ssl://anotherhost:61617)") };
+        for (URI uri : compositeURIs) {
+            assertTrue(uri + " must be detected as composite URI", URISupport.isCompositeURI(uri));
+        }
+    }
+```
+
+TESTE 41
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/URISupportTest.java
+LINHAS: 206-213
+```java
+@Test
+    public void testIsCompositeURIWithQueryAndSlashes() throws URISyntaxException {
+        URI[] compositeURIs = new URI[] { new URI("test://(part1://host?part1=true)?outside=true"), new URI("broker://(tcp://localhost:61616)?name=foo") };
+        for (URI uri : compositeURIs) {
+            assertTrue(uri + " must be detected as composite URI", URISupport.isCompositeURI(uri));
+        }
+    }
+```
+
+TESTE 42
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/URISupportTest.java
+LINHAS: 198-205
+```java
+@Test
+    public void testIsCompositeURIWithQueryNoSlashes() throws URISyntaxException {
+        URI[] compositeURIs = new URI[] { new URI("test:(part1://host?part1=true)?outside=true"), new URI("broker:(tcp://localhost:61616)?name=foo") };
+        for (URI uri : compositeURIs) {
+            assertTrue(uri + " must be detected as composite URI", URISupport.isCompositeURI(uri));
+        }
+    }
+```
+
+TESTE 43
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-jms-pool/src/test/java/org/apache/activemq/jms/pool/PooledConnectionFactoryTest.java
+LINHAS: 322-345
+```java
+public void testCreateSessionDoesNotBlockWhenNotConfiguredTo() throws Exception {
+        // using separate thread for testing so that we can interrupt the test
+        // if the call to get a new session blocks.
+
+        // start test runner thread
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        final Future<Boolean> result = executor.submit(new TestRunner());
+
+        boolean testPassed = Wait.waitFor(new Wait.Condition() {
+
+            @Override
+            public boolean isSatisified() throws Exception {
+                return result.isDone() && result.get();
+            }
+        }, TimeUnit.SECONDS.toMillis(10), TimeUnit.MILLISECONDS.toMillis(50));
+
+        if (!testPassed) {
+            PooledConnectionFactoryTest.LOG.error("2nd call to createSession() " +
+                                                  "is blocking but should have returned an error instead.");
+            executor.shutdownNow();
+            fail("SessionPool inside PooledConnectionFactory is blocking if " +
+                 "limit is exceeded but should return an exception instead.");
+        }
+    }
+```
+
+TESTE 44
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-stomp/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
+LINHAS: 2258-2262
+```java
+public void testDisconnectDoesNotDeadlockBroker() throws Exception {
+        for (int i = 0; i < 20; ++i) {
+            doTestConnectionLeak();
+        }
+    }
+```
+
+TESTE 45
+PROJETO: agera
+ARQUIVO: /home/magno-macedo/.jnose_projects/agera/agera/src/test/java/com/google/android/agera/ObservablesTest.java
+LINHAS: 350-367
+```java
+@Test
+  public void shouldHandleManyObservables() {
+    final int numberOfObservables = 10;
+    for (int passes = 0; passes < 3; passes++) {
+      List<MockUpdatable> mockUpdatables = new ArrayList<>(numberOfObservables);
+      for (int i = 0; i < numberOfObservables; i++) {
+        MockUpdatable mockUpdatable = mockUpdatable();
+        mockUpdatables.add(mockUpdatable);
+        mockUpdatable.addToObservable(updateDispatcher);
+      }
+      Collections.shuffle(mockUpdatables);
+      for (MockUpdatable mockUpdatable : mockUpdatables) {
+        mockUpdatable.removeFromObservables();
+        looper.runToEndOfTasks();
+      }
+    }
+  }
+```
+
+TESTE 46
+PROJETO: servicecomb-pack
+ARQUIVO: /home/magno-macedo/.jnose_projects/servicecomb-pack/alpha/alpha-core/src/test/java/org/apache/servicecomb/pack/alpha/core/TxConsistentServiceTest.java
+LINHAS: 105-120
+```java
+@Test
+  public void persistEventOnArrival() throws Exception {
+    TxEvent[] events = {
+        newEvent(SagaStartedEvent),
+        newEvent(TxStartedEvent),
+        newEvent(TxEndedEvent),
+        newEvent(TxCompensatedEvent),
+        newEvent(SagaEndedEvent)};
+
+    for (TxEvent event : events) {
+      consistentService.handle(event);
+    }
+
+    assertThat(this.events, contains(events));
+  }
+```
+
+TESTE 47
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/controller/logging/UtilsTest.java
+LINHAS: 138-169
+```java
+@Test
+  public void testLogErrorMsgAndThrowableWaitDefault() throws Exception {
+    final String expectedErrorMessage = "This is a test error message!";
+    final Exception expectedException = new Exception("test exception");
+
+    EasyMockSupport mockSupport =
+      new EasyMockSupport();
+
+    Logger loggerMock =
+      mockSupport.createMock(Logger.class);
+
+    AtomicInteger testAtomicInteger = new AtomicInteger(0);
+
+    Capture<Exception> exceptionCaptureOne = EasyMock.newCapture();
+
+    // expect that the the call to the logger is only
+    // executed once in this test
+    loggerMock.error(eq(expectedErrorMessage), capture(exceptionCaptureOne));
+    expectLastCall().times(1);
+
+    mockSupport.replayAll();
+
+    for (int i = 0; i < 1000; i++) {
+      Utils.logErrorMessageWithThrowableWithCounter(loggerMock, testAtomicInteger, expectedErrorMessage, expectedException);
+    }
+
+    assertSame("Exception passed to Logger should have been the same instance passed into the Utils method",
+      expectedException, exceptionCaptureOne.getValue());
+
+    mockSupport.verifyAll();
+  }
+```
+
+TESTE 48
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/controller/logging/UtilsTest.java
+LINHAS: 205-236
+```java
+@Test
+  public void testLogErrorMsgAndThrowableWithCustomWaitMax() throws Exception {
+    final String expectedErrorMessage = "This is a test error message!";
+    final Exception expectedException = new Exception("test exception");
+
+    EasyMockSupport mockSupport =
+      new EasyMockSupport();
+
+    Logger loggerMock =
+      mockSupport.createMock(Logger.class);
+
+    AtomicInteger testAtomicInteger = new AtomicInteger(0);
+
+    Capture<Exception> exceptionCaptureOne = EasyMock.newCapture();
+
+    // expect that the the call to the logger is only
+    // executed once in this test
+    loggerMock.error(eq(expectedErrorMessage), capture(exceptionCaptureOne));
+    expectLastCall().times(1);
+
+    mockSupport.replayAll();
+
+    for (int i = 0; i < 5; i++) {
+      Utils.logErrorMessageWithThrowableWithCounter(loggerMock, testAtomicInteger, expectedErrorMessage, expectedException, 5);
+    }
+
+    assertSame("Exception passed to Logger should have been the same instance passed into the Utils method",
+      expectedException, exceptionCaptureOne.getValue());
+
+    mockSupport.verifyAll();
+  }
+```
+
+TESTE 49
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/stack/RepoUtilTest.java
+LINHAS: 65-86
+```java
+@Test public void testAddServiceReposToOperatingSystemEntities_RepoAlreadExists() {
+    List<RepoOsEntity> operatingSystems = new ArrayList<>();
+    for (String os: OPERATING_SYSTEMS) {
+      RepoDefinitionEntity repo1 = repoEntity("HDP", "HDP-2.3", "http://hdp.org/2.3");
+      RepoDefinitionEntity repo2 = repoEntity("HDP-UTILS", "HDP-UTILS-1.1.0", "http://hdp.org/utils/1.1.0");
+      RepoDefinitionEntity repo3 = repoEntity("MSFT_R", "MSFT_R-8.1", "http://msft.r.ORIGINAL");
+      operatingSystems.add(osEntity(os, repo1, repo2, repo3));
+    }
+    ListMultimap<String, RepositoryInfo> serviceRepos = serviceRepos(ImmutableList.of("redhat6"),
+        "MSFT_R", "MSFT_R-8.2", "http://msft.r.NEW");
+
+    RepoUtil.addServiceReposToOperatingSystemEntities(operatingSystems, serviceRepos);
+
+    // Verify results. Service repo should not be added second time.
+    for (RepoOsEntity os : operatingSystems) {
+      Optional<RepoDefinitionEntity> msft_r_orig = findRepoEntityById(os.getRepoDefinitionEntities(), "MSFT_R-8.1");
+      Optional<RepoDefinitionEntity> msft_r_new = findRepoEntityById(os.getRepoDefinitionEntities(), "MSFT_R-8.2");
+      Assert.assertTrue("Original repo is missing", msft_r_orig.isPresent());
+      Assert.assertTrue("Service repo with duplicate name should not have been added", !msft_r_new.isPresent());
+    }
+  }
+```
+
+TESTE 50
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/stack/RepoUtilTest.java
+LINHAS: 42-64
+```java
+@Test public void testAddServiceReposToOperatingSystemEntities_SimpleCase() {
+    List<RepoOsEntity> operatingSystems = new ArrayList<>();
+    for (String os: OPERATING_SYSTEMS) {
+      RepoDefinitionEntity repo1 = repoEntity("HDP", "HDP-2.3", "http://hdp.org/2.3");
+      RepoDefinitionEntity repo2 = repoEntity("HDP-UTILS", "HDP-UTILS-1.1.0", "http://hdp.org/utils/1.1.0");
+      operatingSystems.add(osEntity(os, repo1, repo2));
+    }
+    ListMultimap<String, RepositoryInfo> serviceRepos = serviceRepos(ImmutableList.of("redhat5", "redhat6", "sles11"),
+        "MSFT_R", "MSFT_R-8.1", "http://msft.r");
+
+    RepoUtil.addServiceReposToOperatingSystemEntities(operatingSystems, serviceRepos);
+
+    // Verify results. Service repos should be added only to redhat6 and sles11
+    for (RepoOsEntity os : operatingSystems) {
+      Assert.assertNotSame("Redhat5 should not be added as new operating system.", "redhat5", os.getFamily());
+      Optional<RepoDefinitionEntity> msft_r = findRepoEntityById(os.getRepoDefinitionEntities(), "MSFT_R-8.1");
+      Assert.assertTrue(
+          String.format("Only redhat6 and sles11 should contain the service repo. os: %s, repo: %s", os.getFamily(), msft_r),
+          findRepoEntityById(os.getRepoDefinitionEntities(), "MSFT_R-8.1").isPresent() == ImmutableList.of("redhat6", "sles11").contains(os.getFamily()));
+    }
+  }
+```
+
+TESTE 51
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/stack/RepoUtilTest.java
+LINHAS: 103-117
+```java
+@Test public void testAsRepositoryResponses() {
+    List<RepositoryInfo> repos = Lists.newArrayList(repoInfo("HDP", "HDP-2.3", "redhat6"),
+        repoInfo("HDP-UTILS", "HDP-UTILS-1.1.0.20", "redhat6"),
+        repoInfo("HDP", "HDP-2.3", "redhat5"),
+        repoInfo("HDP-UTILS", "HDP-UTILS-1.1.0.20", "redhat5"));
+    List<RepositoryResponse> responses = RepoUtil.asResponses(repos, "HDP-2.3", "HDP", "2.3");
+
+    Assert.assertEquals("Wrong number of responses", repos.size(), responses.size());
+    for (RepositoryResponse response: responses) {
+      Assert.assertEquals("Unexpected version definition id", "HDP-2.3", response.getVersionDefinitionId());
+      Assert.assertEquals("Unexpected stack name", "HDP", response.getStackName());
+      Assert.assertEquals("Unexpected stack version", "2.3", response.getStackVersion());
+    }
+  }
+```
+
+TESTE 52
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/state/alerts/AlertDefinitionHashTest.java
+LINHAS: 348-370
+```java
+@Test
+  public void testHashingAlgorithm() throws Exception {
+    List<String> uuids = new ArrayList<>();
+    uuids.add(m_hdfsService.getHash());
+    uuids.add(m_hdfsHost.getHash());
+
+    for (AlertDefinitionEntity entity : m_agentDefinitions) {
+      uuids.add(entity.getHash());
+    }
+
+    Collections.sort(uuids);
+
+    MessageDigest digest = MessageDigest.getInstance("MD5");
+    for (String uuid : uuids) {
+      digest.update(uuid.getBytes());
+    }
+
+    byte[] hashBytes = digest.digest();
+    String expected = Hex.encodeHexString(hashBytes);
+
+    assertEquals(expected, m_hash.getHash(CLUSTERNAME, HOSTNAME));
+  }
+```
+
+TESTE 53
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/state/cluster/ClustersTest.java
+LINHAS: 507-525
+```java
+@Test
+  public void testNullHostNamesInTopologyRequests() throws AmbariException {
+    final String hostName = "myhost";
+    final String clusterName = "mycluster";
+
+    Cluster cluster = createCluster(clusterName);
+    addHostToCluster(hostName, clusterName);
+    addHostToCluster(hostName + "2", clusterName);
+    addHostToCluster(hostName + "3", clusterName);
+
+    createTopologyRequest(cluster, hostName);
+    clusters.deleteHost(hostName);
+    for(Host h : cluster.getHosts()) {
+      if(hostName.equals(h.getHostName())) {
+        Assert.fail("Host is expected to be deleted");
+      }
+    }
+  }
+```
+
+TESTE 54
+PROJETO: cassandra-analytics
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-analytics/analytics-sidecar-client/src/testFixtures/java/org/apache/cassandra/sidecar/client/SidecarClientTest.java
+LINHAS: 1755-1774
+```java
+@Test
+    public void testStreamsStats() throws Exception
+    {
+        StreamsProgressStats stats = new StreamsProgressStats(7, 7, 15088, 15088, 2, 2, 1024, 1024);
+        StreamStatsResponse mockResp = new StreamStatsResponse("NORMAL", stats);
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedResponse = mapper.writeValueAsString(mockResp);
+        MockResponse response = new MockResponse()
+                                .setResponseCode(OK.code())
+                                .setBody(expectedResponse);
+        enqueue(response);
+        for (MockWebServer server : servers)
+        {
+            SidecarInstanceImpl sidecarInstance = RequestExecutorTest.newSidecarInstance(server);
+            StreamStatsResponse result = client.streamsStats(sidecarInstance).get(30, TimeUnit.SECONDS);
+            assertThat(mapper.writeValueAsString(result)).isEqualTo(expectedResponse);
+            validateResponseServed(server, ApiEndpointsV1.STREAM_STATS_ROUTE, req -> {});
+        }
+    }
+```
+
+TESTE 55
+PROJETO: cassandra-analytics
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-analytics/cassandra-analytics-common/src/test/java/org/apache/cassandra/spark/utils/RandomUtilsTest.java
+LINHAS: 60-68
+```java
+@Test
+    public void testRandomAscii()
+    {
+        for (int i = 0; i < 1000000; i++)
+        {
+            assertThat(ALPHANUMERIC_CHARS.contains(RandomUtils.randomAsciiAlphanumeric())).isTrue();
+        }
+    }
+```
+
+TESTE 56
+PROJETO: android-kerberos-authenticator
+ARQUIVO: /home/magno-macedo/.jnose_projects/android-kerberos-authenticator/src/main/javatests/com/google/android/apps/work/kerberosauthenticator/AccountConfigurationTest.java
+LINHAS: 68-79
+```java
+@Test
+  public void testPartialConfigSetupIsConsideredFalse() {
+    Set<String> testKeys = Sets.newHashSet("adDomain", "adController", "username");
+    for (String key : testKeys) {
+      restrictionsBundle = TestHelper.makeRestrictionsBundle();
+      restrictionsBundle.remove(key);
+      shadowOf(restrictionsManager).setApplicationRestrictions(restrictionsBundle);
+      accConfig = new AccountConfiguration(context);
+      assertFalse(accConfig.hasManagedConfigs());
+    }
+  }
+```
+
+TESTE 57
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/api/src/test/java/org/apache/cloudstack/acl/RoleTypeTest.java
+LINHAS: 79-91
+```java
+@Test
+    public void testGetAccountTypeByRoleWhenRoleIsNull() {
+        for (Account.Type accountType: Arrays.asList(
+                Account.Type.NORMAL,
+                Account.Type.ADMIN,
+                Account.Type.DOMAIN_ADMIN,
+                Account.Type.RESOURCE_DOMAIN_ADMIN,
+                Account.Type.PROJECT,
+                null)) {
+            Assert.assertEquals(RoleType.getAccountTypeByRole(null, accountType), accountType);
+        }
+    }
+```
+
+TESTE 58
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/api/src/test/java/org/apache/cloudstack/api/command/admin/storage/DownloadImageStoreObjectCmdTest.java
+LINHAS: 62-87
+```java
+@Test
+    public void testGetPath() {
+        List<Pair<String, String>> pair = List.of(
+                new Pair<>("", null),
+                new Pair<>("", ""),
+                new Pair<>("", "/"),
+                new Pair<>("etc", "etc"),
+                new Pair<>("etc", "/etc"),
+                new Pair<>("etc/passwd", "etc/passwd"),
+                new Pair<>("etc/passwd", "//etc/passwd"),
+                new Pair<>("", "/etc/passwd/../../.."),
+                new Pair<>("etc/passwd", "../../etc/passwd"),
+                new Pair<>("etc/passwd", "/../../etc/passwd"),
+                new Pair<>("etc/passwd", ";../../../etc/passwd"),
+                new Pair<>("etc/passwd", "///etc/passwd"),
+                new Pair<>("etc/passwd", "/abc/xyz/../../../etc/passwd")
+        );
+
+        for (Pair<String, String> p : pair) {
+            String expectedPath = p.first();
+            String path = p.second();
+            ReflectionTestUtils.setField(cmd, "path", path);
+            Assert.assertEquals(expectedPath, cmd.getPath());
+        }
+    }
+```
+
+TESTE 59
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/plugins/network-elements/globodns/src/test/java/com/globo/globodns/cloudstack/resource/GloboDnsResourceTest.java
+LINHAS: 411-432
+```java
+@Test
+    public void testRemoveDomainWithSuccessWhenDomainExistsAndThereAreOnlyNSRecordsAndOverrideIsFalse() throws Exception {
+        String domainName = "domain.name.com";
+
+        Domain domain = generateFakeDomain(domainName, false);
+        List<Record> recordList = new ArrayList<Record>();
+        for (int i = 0; i < 10; i++) {
+            Record record = new Record();
+            record.getTypeNSRecordAttributes().setDomainId(domain.getId());
+            record.getTypeNSRecordAttributes().setId(sequenceId++);
+            record.getTypeNSRecordAttributes().setType("NS");
+            recordList.add(record);
+        }
+        when(_recordApi.listAll(domain.getId())).thenReturn(recordList);
+
+        Answer answer = _globoDnsResource.execute(new RemoveDomainCommand(domainName, false));
+
+        assertEquals(true, answer.getResult());
+        verify(_domainApi, times(1)).removeDomain(eq(domain.getId()));
+        verify(_exportApi, times(1)).scheduleExport();
+    }
+```
+
+TESTE 60
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/plugins/network-elements/globodns/src/test/java/com/globo/globodns/cloudstack/resource/GloboDnsResourceTest.java
+LINHAS: 433-454
+```java
+@Test
+    public void testRemoveDomainWithSuccessWhenDomainExistsAndThereAreRecordsAndOverrideIsTrue() throws Exception {
+        String domainName = "domain.name.com";
+
+        Domain domain = generateFakeDomain(domainName, false);
+        List<Record> recordList = new ArrayList<Record>();
+        for (int i = 0; i < 10; i++) {
+            Record record = new Record();
+            record.getTypeNSRecordAttributes().setDomainId(domain.getId());
+            record.getTypeNSRecordAttributes().setId(sequenceId++);
+            record.getTypeNSRecordAttributes().setType(new String[] {"A", "NS", "PTR"}[i % 3]);
+            recordList.add(record);
+        }
+        when(_recordApi.listAll(domain.getId())).thenReturn(recordList);
+
+        Answer answer = _globoDnsResource.execute(new RemoveDomainCommand(domainName, true));
+
+        assertEquals(true, answer.getResult());
+        verify(_domainApi, times(1)).removeDomain(eq(domain.getId()));
+        verify(_exportApi, times(1)).scheduleExport();
+    }
+```
+
+TESTE 61
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/plugins/hypervisors/hyperv/src/test/java/com/cloud/hypervisor/hyperv/test/HypervDirectConnectResourceTest.java
+LINHAS: 372-385
+```java
+@Test
+    public final void testInitialize() {
+        StartupCommand[] startCmds = s_hypervresource.initialize();
+        Command[] cmds = new Command[] {startCmds[0], startCmds[1]};
+        String result = s_gson.toJson(cmds);
+        if (result == null) {
+            result = "NULL";
+        }
+        logger.debug("TestInitialize returned " + result);
+        logger.debug("TestInitialize expected " + _setTestJsonResultStr);
+        Assert.assertTrue("StartupCommand[] not what we expected", _setTestJsonResultStr.equals(result));
+        return;
+    }
+```
+
+TESTE 62
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/plugins/network-elements/netris/src/test/java/org/apache/cloudstack/resource/NetrisResourceTest.java
+LINHAS: 95-124
+```java
+@Test
+    public void testExecuteRequest() {
+        List<Command> commands = Arrays.asList(createNetrisVpcCommand, createNetrisVnetCommand, deleteNetrisVnetCommand,
+                deleteNetrisVpcCommand, setupNetrisPublicRangeCommand, deleteNetrisNatRuleCommand, createNetrisACLCommand,
+                deleteNetrisACLCommand, addOrUpdateNetrisStaticRouteCommand, deleteNetrisStaticRouteCommand,
+                releaseNatIpCommand, createOrUpdateNetrisLoadBalancerRuleCommand, deleteNetrisLoadBalancerRuleCommand);
+
+        for (boolean res : new boolean[]{true, false}) {
+            setMocksToValue(res);
+            for (Command command : commands) {
+                Answer answer = netrisResource.executeRequest(command);
+                Assert.assertEquals(res, answer.getResult());
+            }
+        }
+
+        Mockito.verify(netrisApiClient, Mockito.times(2)).createVpc(createNetrisVpcCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).createVnet(createNetrisVnetCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteVnet(deleteNetrisVnetCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteVpc(deleteNetrisVpcCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).setupZoneLevelPublicRange(setupNetrisPublicRangeCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteNatRule(deleteNetrisNatRuleCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).addOrUpdateAclRule(Mockito.eq(createNetrisACLCommand), Mockito.anyBoolean());
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteAclRule(Mockito.eq(deleteNetrisACLCommand), Mockito.anyBoolean());
+        Mockito.verify(netrisApiClient, Mockito.times(2)).addOrUpdateStaticRoute(addOrUpdateNetrisStaticRouteCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteStaticRoute(deleteNetrisStaticRouteCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).releaseNatIp(releaseNatIpCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).createOrUpdateLbRule(createOrUpdateNetrisLoadBalancerRuleCommand);
+        Mockito.verify(netrisApiClient, Mockito.times(2)).deleteLbRule(deleteNetrisLoadBalancerRuleCommand);
+    }
+```
+
+TESTE 63
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/utils/src/test/java/com/cloud/utils/net/NetUtilsTest.java
+LINHAS: 451-465
+```java
+@Test
+    public void test31BitPrefixIpRangesOverlapd() {
+        final String gw = "192.168.0.0";
+        String ip1;
+        String ip2;
+
+        for (int i = 1, j = 2; i <= 254; i++, j++) {
+            ip1 = "192.168.0." + i;
+            ip2 = "192.168.0." + j;
+
+            final boolean doesOverlap = NetUtils.ipRangesOverlap(ip1, ip2, gw, gw);
+            assertFalse("It should overlap, but it's a 31-bit ip", doesOverlap);
+        }
+    }
+```
+
+TESTE 64
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/utils/src/test/java/com/cloud/utils/net/NetUtilsTest.java
+LINHAS: 466-481
+```java
+@Test
+    public void test31BitPrefixIpRangesOverlapdFail() {
+        String gw;
+        String ip1;
+        String ip2;
+
+        for (int i = 10, j = 12; i <= 254; i++, j++) {
+            gw = "192.168.0." + i;
+            ip1 = "192.168.0." + i;
+            ip2 = "192.168.0." + j;
+
+            final boolean doesOverlap = NetUtils.ipRangesOverlap(ip1, ip2, gw, gw);
+            assertTrue("It overlaps!", doesOverlap);
+        }
+    }
+```
+
+TESTE 65
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/.jnose_projects/cloudstack/utils/src/test/java/com/cloud/utils/script/ScriptTest.java
+LINHAS: 72-80
+```java
+@Test
+    public void testGetExecutableAbsolutePath() {
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            return;
+        }
+        String result = Script.getExecutableAbsolutePath("ls");
+        Assert.assertTrue(List.of("/usr/bin/ls", "/bin/ls").contains(result));
+    }
+```
+
+TESTE 66
+PROJETO: graphicsfuzz
+ARQUIVO: /home/magno-macedo/.jnose_projects/graphicsfuzz/ast/src/test/java/com/graphicsfuzz/common/tool/PrettyPrinterVisitorTest.java
+LINHAS: 63-132
+```java
+@Test
+  public void testLiteralUniformDefines() throws Exception {
+    final String shaderWithBindings = ""
+        + "layout(set = 0, binding = 0) uniform buf0 { int _GLF_uniform_int_values[2]; };"
+        + "layout(set = 0, binding = 1) uniform buf1 { uint _GLF_uniform_uint_values[1]; };"
+        + "layout(set = 0, binding = 2) uniform buf2 { float _GLF_uniform_float_values[3]; };"
+        + "layout(set = 0, binding = 3) uniform sampler2D tex;"
+        + "void main() { "
+        + "int a = _GLF_uniform_int_values[0];"
+        + "int b = _GLF_uniform_int_values[1];"
+        + "uint c = _GLF_uniform_uint_values[0];"
+        + "float d = _GLF_uniform_float_values[0];"
+        + "float e = _GLF_uniform_float_values[1];"
+        + "float f = _GLF_uniform_float_values[2];"
+        + "}";
+
+    final String shaderPrettyPrinted = ""
+        + "#define _int_0 _GLF_uniform_int_values[0]\n"
+        + "#define _int_2 _GLF_uniform_int_values[1]\n"
+        + "#define _uint_72 _GLF_uniform_uint_values[0]\n"
+        + "#define _float_0_0 _GLF_uniform_float_values[0]\n"
+        + "#define _float_22_4 _GLF_uniform_float_values[1]\n"
+        + "#define _float_11_3 _GLF_uniform_float_values[2]\n"
+        + "\n"
+        + "// Contents of _GLF_uniform_int_values: [0, 2]\n"
+        + "layout(set = 0, binding = 0) uniform buf0 {\n"
+        + " int _GLF_uniform_int_values[2];\n"
+        + "};\n"
+
+        + "// Contents of _GLF_uniform_uint_values: 72\n"
+        + "layout(set = 0, binding = 1) uniform buf1 {\n"
+        + " uint _GLF_uniform_uint_values[1];\n"
+        + "};\n"
+
+        + "// Contents of _GLF_uniform_float_values: [0.0, 22.4, 11.3]\n"
+        + "layout(set = 0, binding = 2) uniform buf2 {\n"
+        + " float _GLF_uniform_float_values[3];\n"
+        + "};\n"
+
+        + "layout(set = 0, binding = 3) uniform sampler2D tex;\n\n"
+
+        + "void main()\n"
+        + "{\n"
+
+        + " int a = _int_0;\n"
+        + " int b = _int_2;\n"
+        + " uint c = _uint_72;\n"
+        + " float d = _float_0_0;\n"
+        + " float e = _float_22_4;\n"
+        + " float f = _float_11_3;\n"
+        + "}\n";
+
+    UniformValueSupplier uniformValues = name -> {
+      if (name.equals("_GLF_uniform_int_values")) {
+        return Optional.of(Arrays.asList("0", "2"));
+      } else if (name.equals("_GLF_uniform_float_values")) {
+        return Optional.of(Arrays.asList("0.0", "22.4", "11.3"));
+      } else if (name.equals("_GLF_uniform_uint_values")) {
+        return Optional.of(Arrays.asList("72"));
+      } else if (name.equals("tex")) {
+        throw new RuntimeException("The value of a sampler uniform should not be requested.");
+      }
+      return Optional.empty();
+    };
+
+    assertEquals(shaderPrettyPrinted,
+        PrettyPrinterVisitor.prettyPrintAsString(ParseHelper.parse(shaderWithBindings),
+            uniformValues));
+  }
+```
+
+TESTE 67
+PROJETO: graphicsfuzz
+ARQUIVO: /home/magno-macedo/.jnose_projects/graphicsfuzz/ast/src/test/java/com/graphicsfuzz/common/tool/PrettyPrinterVisitorTest.java
+LINHAS: 171-246
+```java
+@Test
+  public void testUniformArrayContentsInComments() throws Exception {
+
+    final String shader = ""
+        + "uniform int a[3], b[2], X[1], Y[22], Z[1];"
+        + "uniform float _GLF_uniform_float_values[3], D;"
+        + "uniform uint _GLF_uniform_uint_values[2], E[33];"
+        + "uniform int test[5], test2[1], A;"
+        + "void main()"
+        + "{"
+        + "  float a = _GLF_uniform_float_values[0];"
+        + "  float b = _GLF_uniform_float_values[1];"
+        + "  int c = _GLF_uniform_int_values[0];"
+        + "  int d = _GLF_uniform_int_values[1];"
+        + "  int e = _GLF_uniform_int_values[2];"
+        + "  int f = _GLF_uniform_uint_values[0];"
+        + "  int g = _GLF_uniform_uint_values[1];"
+        + "}";
+
+    final String shaderPrettyPrinted = ""
+        + "#define _uint_2 _GLF_uniform_uint_values[0]\n"
+        + "#define _uint_11 _GLF_uniform_uint_values[1]\n"
+        + "#define _uint_22 _GLF_uniform_uint_values[2]\n"
+        + "#define _float_0_0 _GLF_uniform_float_values[0]\n"
+        + "#define _float_1_4 _GLF_uniform_float_values[1]\n"
+        + "#define _float_22_2 _GLF_uniform_float_values[2]\n"
+        + "\n"
+        + "// Contents of a: [0, 1, 2]\n"
+        + "// Contents of b: [3, 4, 5]\n"
+        + "// Contents of Z: 77\n"
+        + "uniform int a[3], b[2], X[1], Y[22], Z[1];\n"
+        + "\n"
+        + "// Contents of _GLF_uniform_float_values: [0.0, 1.4, 22.2]\n"
+        + "uniform float _GLF_uniform_float_values[3], D;\n"
+        + "\n"
+        + "// Contents of _GLF_uniform_uint_values: [2, 11, 22]\n"
+        + "uniform uint _GLF_uniform_uint_values[2], E[33];\n"
+        + "\n"
+        + "// Contents of test2: 66\n"
+        + "uniform int test[5], test2[1], A;\n"
+        + "\n"
+        + "void main()\n"
+        + "{\n"
+        + " float a = _float_0_0;\n"
+        + " float b = _float_1_4;\n"
+        + " int c = _GLF_uniform_int_values[0];\n"
+        + " int d = _GLF_uniform_int_values[1];\n"
+        + " int e = _GLF_uniform_int_values[2];\n"
+        + " int f = _uint_2;\n"
+        + " int g = _uint_11;\n"
+        + "}\n";
+
+    final List<TranslationUnit> shaders = new ArrayList<>();
+    shaders.add(ParseHelper.parse(shader, ShaderKind.FRAGMENT));
+
+    UniformValueSupplier uniformValues = name -> {
+      if (name.equals("a")) {
+        return Optional.of(Arrays.asList("0", "1", "2"));
+      } else if (name.equals("b")) {
+        return Optional.of(Arrays.asList("3", "4", "5"));
+      } else if (name.equals("_GLF_uniform_uint_values")) {
+        return Optional.of(Arrays.asList("2", "11", "22"));
+      } else if (name.equals("_GLF_uniform_float_values")) {
+        return Optional.of(Arrays.asList("0.0", "1.4", "22.2"));
+      } else if (name.equals("test2")) {
+        return Optional.of(Arrays.asList("66"));
+      } else if (name.equals("Z")) {
+        return Optional.of(Arrays.asList("77"));
+      }
+      return Optional.empty();
+    };
+
+    assertEquals(shaderPrettyPrinted,
+        PrettyPrinterVisitor.prettyPrintAsString(ParseHelper.parse(shader), uniformValues));
+  }
+```
+
+TESTE 68
+PROJETO: graphicsfuzz
+ARQUIVO: /home/magno-macedo/.jnose_projects/graphicsfuzz/ast/src/test/java/com/graphicsfuzz/common/tool/PrettyPrinterVisitorTest.java
+LINHAS: 133-170
+```java
+@Test
+  public void testUniformBlockContentsInComments() throws Exception {
+    final String shaderWithBindings = ""
+        + "layout(set = 0, binding = 0) uniform buf0 { int _GLF_uniform_int_values[2]; };"
+        + "layout(set = 0, binding = 1) uniform buf1 { float _GLF_uniform_float_values[1]; };"
+        + "void main() { }";
+
+    final String shaderPrettyPrinted = ""
+        + "#define _int_0 _GLF_uniform_int_values[0]\n"
+        + "#define _int_1 _GLF_uniform_int_values[1]\n"
+        + "#define _float_3_0 _GLF_uniform_float_values[0]\n"
+        + "\n"
+        + "// Contents of _GLF_uniform_int_values: [0, 1]\n"
+        + "layout(set = 0, binding = 0) uniform buf0 {\n"
+        + " int _GLF_uniform_int_values[2];\n"
+        + "};\n"
+        + "// Contents of _GLF_uniform_float_values: 3.0\n"
+        + "layout(set = 0, binding = 1) uniform buf1 {\n"
+        + " float _GLF_uniform_float_values[1];\n"
+        + "};\n"
+        + "void main()\n"
+        + "{\n"
+        + "}\n";
+
+    UniformValueSupplier uniformValues = name -> {
+      if (name.equals("_GLF_uniform_int_values")) {
+        return Optional.of(Arrays.asList("0", "1"));
+      } else if (name.equals("_GLF_uniform_float_values")) {
+        return Optional.of(Collections.singletonList("3.0"));
+      }
+      return Optional.empty();
+    };
+
+    assertEquals(shaderPrettyPrinted,
+        PrettyPrinterVisitor.prettyPrintAsString(ParseHelper.parse(shaderWithBindings),
+            uniformValues));
+  }
+```
+
+TESTE 69
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-audit/audit-sdk/src/test/java/org/apache/inlong/audit/util/AuditManagerUtilsTest.java
+LINHAS: 166-178
+```java
+@Test
+    public void getAllCdcIdInformationWithAuditType() {
+        String auditType = "MYSQL";
+        List<AuditInformation> cdcIdInfoList = AuditManagerUtils.getAllCdcIdInformation(auditType);
+        assertNotNull("CDC ID information list should not be null", cdcIdInfoList);
+        assertFalse("CDC ID information list should not be empty", cdcIdInfoList.isEmpty());
+
+        for (AuditInformation info : cdcIdInfoList) {
+            assertTrue("Name should contain audit type",
+                    info.getNameInEnglish().toUpperCase().contains(auditType));
+        }
+    }
+```
+
+TESTE 70
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-audit/audit-sdk/src/test/java/org/apache/inlong/audit/util/AuditManagerUtilsTest.java
+LINHAS: 179-191
+```java
+@Test
+    public void getAllCdcIdInformationWithAuditTypeAndFlowType() {
+        String auditType = "MYSQL";
+        FlowType flowType = FlowType.INPUT;
+        List<AuditInformation> cdcIdInfoList = AuditManagerUtils.getAllCdcIdInformation(auditType, flowType);
+        assertNotNull("CDC ID information list should not be null", cdcIdInfoList);
+
+        for (AuditInformation info : cdcIdInfoList) {
+            assertTrue("Name should contain receive for input flow",
+                    info.getNameInEnglish().toLowerCase().contains("receive"));
+        }
+    }
+```
+
+TESTE 71
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-service/src/test/java/org/apache/inlong/manager/service/tenant/InlongTenantServiceTest.java
+LINHAS: 86-98
+```java
+public void testPage() {
+        InlongTenantRequest request = new InlongTenantRequest();
+        int size = 5;
+        for (int i = 0; i < size; i++) {
+            request.setName("test" + i);
+            tenantService.save(request);
+        }
+        InlongTenantPageRequest pageRequest = new InlongTenantPageRequest();
+        pageRequest.setKeyword("test");
+        PageResult<InlongTenantInfo> infoPage = tenantService.listByCondition(pageRequest,
+                LoginUserUtils.getLoginUser());
+        Assertions.assertEquals(size, infoPage.getList().size());
+    }
+```
+
+TESTE 72
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-service/src/test/java/org/apache/inlong/manager/service/user/TenantRoleServiceTest.java
+LINHAS: 98-111
+```java
+public void testList() {
+        int max = 5;
+        TenantRoleRequest request = new TenantRoleRequest();
+        request.setTenant("public");
+        request.setRoleCode(UserRoleCode.TENANT_OPERATOR);
+        for (int i = 0; i < max; i++) {
+            request.setUsername("testName" + i);
+            service.save(request, LoginUserUtils.getLoginUser().getName());
+        }
+        TenantRolePageRequest pageRequest = new TenantRolePageRequest();
+        pageRequest.setKeyword("pub");
+        PageResult<TenantRoleInfo> infos = service.listByCondition(pageRequest);
+        Assertions.assertEquals(max, infos.getTotal());
+    }
+```
+
+TESTE 73
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/auth/src/test/java/org/apache/rocketmq/auth/authentication/AuthenticationEvaluatorTest.java
+LINHAS: 76-88
+```java
+@Test
+    public void evaluate2() {
+        if (MixAll.isMac()) {
+            return;
+        }
+        DefaultAuthenticationContext context = new DefaultAuthenticationContext();
+        context.setRpcCode("11");
+        context.setUsername("test");
+        context.setContent("test".getBytes(StandardCharsets.UTF_8));
+        context.setSignature("DJRRXBXlCVuKh6ULoN87847QX+Y=");
+        Assert.assertThrows(AuthenticationException.class, () -> this.evaluator.evaluate(context));
+    }
+```
+
+TESTE 74
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/auth/src/test/java/org/apache/rocketmq/auth/authentication/AuthenticationEvaluatorTest.java
+LINHAS: 89-104
+```java
+@Test
+    public void evaluate3() {
+        if (MixAll.isMac()) {
+            return;
+        }
+        User user = User.of("test", "test");
+        this.authenticationMetadataManager.createUser(user);
+
+        DefaultAuthenticationContext context = new DefaultAuthenticationContext();
+        context.setRpcCode("11");
+        context.setUsername("test");
+        context.setContent("test".getBytes(StandardCharsets.UTF_8));
+        context.setSignature("test");
+        Assert.assertThrows(AuthenticationException.class, () -> this.evaluator.evaluate(context));
+    }
+```
+
+TESTE 75
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/BrokerOuterAPITest.java
+LINHAS: 259-275
+```java
+@Test
+    public void testLookupAddressByDomain() throws Exception {
+        init();
+        brokerOuterAPI.start();
+        Class<BrokerOuterAPI> clazz = BrokerOuterAPI.class;
+        Method method = clazz.getDeclaredMethod("dnsLookupAddressByDomain", String.class);
+        method.setAccessible(true);
+        List<String> addressList = (List<String>) method.invoke(brokerOuterAPI, "localhost:6789");
+        AtomicBoolean result = new AtomicBoolean(false);
+        addressList.forEach(s -> {
+            if (s.contains("127.0.0.1:6789")) {
+                result.set(true);
+            }
+        });
+        Assert.assertTrue(result.get());
+    }
+```
+
+TESTE 76
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/offset/RocksDBConsumerOffsetManagerTest.java
+LINHAS: 82-90
+```java
+@Test
+    public void cleanOffsetByTopic_Exist() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        consumerOffsetManager.cleanOffsetByTopic("FooBar");
+        assertThat(!consumerOffsetManager.getOffsetTable().containsKey(KEY)).isTrue();
+    }
+```
+
+TESTE 77
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/offset/RocksDBConsumerOffsetManagerTest.java
+LINHAS: 73-81
+```java
+@Test
+    public void cleanOffsetByTopic_NotExist() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        consumerOffsetManager.cleanOffsetByTopic("InvalidTopic");
+        assertThat(consumerOffsetManager.getOffsetTable().containsKey(KEY)).isTrue();
+    }
+```
+
+TESTE 78
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/processor/PeekMessageProcessorTest.java
+LINHAS: 103-118
+```java
+@Test
+    public void testProcessRequest() throws RemotingCommandException {
+        RemotingCommand request = createPeekMessageRequest("group","topic",0);
+        GetMessageResult getMessageResult = new GetMessageResult();
+        getMessageResult.setStatus(GetMessageStatus.FOUND);
+        ByteBuffer bb = ByteBuffer.allocate(64);
+        bb.putLong(MessageDecoder.MESSAGE_STORE_TIMESTAMP_POSITION, System.currentTimeMillis());
+        SelectMappedBufferResult mappedBufferResult1 = new SelectMappedBufferResult(0, bb, 64, null);
+        for (int i = 0; i < 10;i++) {
+            getMessageResult.addMessage(mappedBufferResult1);
+        }
+        when(messageStore.getMessage(anyString(),anyString(),anyInt(),anyLong(),anyInt(),any())).thenReturn(getMessageResult);
+        RemotingCommand response = peekMessageProcessor.processRequest(handlerContext, request);
+        assertThat(response.getCode()).isEqualTo(ResponseCode.SUCCESS);
+    }
+```
+
+TESTE 79
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 91-116
+```java
+@Test
+    public void testAddUnsupportedKeyOnCreating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String unsupportedKey = "key4";
+        String topicName = "testAddUnsupportedKeyOnCreating-" + System.currentTimeMillis();
+
+        supportAttributes(asList(
+            new EnumAttribute("enum.key", true, newHashSet("enum-1", "enum-2", "enum-3"), "enum-1"),
+            new BooleanAttribute("bool.key", false, false),
+            new LongRangeAttribute("long.range.key", true, 10, 20, 15)
+        ));
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("+enum.key", "enum-2");
+        attributes.put("+" + unsupportedKey, "value1");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topicName);
+        topicConfig.setAttributes(attributes);
+
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("unsupported key: " + unsupportedKey, runtimeException.getMessage());
+    }
+```
+
+TESTE 80
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 117-140
+```java
+@Test
+    public void testAddWrongFormatKeyOnCreating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String topicName = "testAddWrongFormatKeyOnCreating-" + System.currentTimeMillis();
+
+        supportAttributes(asList(
+            new EnumAttribute("enum.key", true, newHashSet("enum-1", "enum-2", "enum-3"), "enum-1"),
+            new BooleanAttribute("bool.key", false, false),
+            new LongRangeAttribute("long.range.key", true, 10, 20, 15)
+        ));
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("++enum.key", "value1");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topicName);
+        topicConfig.setAttributes(attributes);
+
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("kv string format wrong.", runtimeException.getMessage());
+    }
+```
+
+TESTE 81
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 166-183
+```java
+@Test
+    public void testAddWrongValueOnCreating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String topicName = "testAddWrongValueOnCreating-" + System.currentTimeMillis();
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("+" + TopicAttributes.QUEUE_TYPE_ATTRIBUTE.getName(), "wrong-value");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topicName);
+        topicConfig.setAttributes(attributes);
+
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("value is not in set: [SimpleCQ, BatchCQ]", runtimeException.getMessage());
+    }
+```
+
+TESTE 82
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 141-165
+```java
+@Test
+    public void testDeleteKeyOnCreating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String topicName = "testDeleteKeyOnCreating-" + System.currentTimeMillis();
+
+        String key = "enum.key";
+        supportAttributes(asList(
+            new EnumAttribute("enum.key", true, newHashSet("enum-1", "enum-2", "enum-3"), "enum-1"),
+            new BooleanAttribute("bool.key", false, false),
+            new LongRangeAttribute("long.range.key", true, 10, 20, 15)
+        ));
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("-" + key, "");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topicName);
+        topicConfig.setAttributes(attributes);
+
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("only add attribute is supported while creating topic. key: " + key, runtimeException.getMessage());
+    }
+```
+
+TESTE 83
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 247-278
+```java
+@Test
+    public void testDeleteNonexistentKeyOnUpdating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String key = "nonexisting.key";
+        String topicName = "testDeleteNonexistentKeyOnUpdating-" + System.currentTimeMillis();
+
+        supportAttributes(asList(
+            new EnumAttribute("enum.key", true, newHashSet("enum-1", "enum-2", "enum-3"), "enum-1"),
+            new BooleanAttribute("bool.key", false, false),
+            new LongRangeAttribute("long.range.key", true, 10, 20, 15)
+        ));
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("+enum.key", "enum-2");
+        attributes.put("+bool.key", "true");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topicName);
+        topicConfig.setAttributes(attributes);
+
+        topicConfigManager.updateTopicConfig(topicConfig);
+
+        attributes = new HashMap<>();
+        attributes.clear();
+        attributes.put("-" + key, "");
+        topicConfig.setAttributes(attributes);
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("attempt to delete a nonexistent key: " + key, runtimeException.getMessage());
+    }
+```
+
+TESTE 84
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/topic/RocksdbTopicConfigManagerTest.java
+LINHAS: 313-340
+```java
+@Test
+    public void testNormalUpdateUnchangeableKeyOnUpdating() {
+        if (notToBeExecuted()) {
+            return;
+        }
+        String topic = "testNormalUpdateUnchangeableKeyOnUpdating-" + System.currentTimeMillis();
+
+        supportAttributes(asList(
+            new EnumAttribute("enum.key", true, newHashSet("enum-1", "enum-2", "enum-3"), "enum-1"),
+            new BooleanAttribute("bool.key", true, false),
+            new LongRangeAttribute("long.range.key", false, 10, 20, 15)
+        ));
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("+long.range.key", "14");
+
+        TopicConfig topicConfig = new TopicConfig();
+        topicConfig.setTopicName(topic);
+        topicConfig.setAttributes(attributes);
+
+        topicConfigManager.updateTopicConfig(topicConfig);
+
+        attributes.put("+long.range.key", "16");
+        topicConfig.setAttributes(attributes);
+        RuntimeException runtimeException = Assert.assertThrows(RuntimeException.class, () -> topicConfigManager.updateTopicConfig(topicConfig));
+        Assert.assertEquals("attempt to update an unchangeable attribute. key: long.range.key", runtimeException.getMessage());
+    }
+```
+
+TESTE 85
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 926-949
+```java
+@Test
+    public void testGetBulkCommitLogData() {
+        if (notExecuted()) {
+            return;
+        }
+        RocksDBMessageStore defaultMessageStore = (RocksDBMessageStore) messageStore;
+
+        messageBody = new byte[2 * 1024 * 1024];
+
+        for (int i = 0; i < 10; i++) {
+            MessageExtBrokerInner msg1 = buildMessage();
+            messageStore.putMessage(msg1);
+        }
+
+        List<SelectMappedBufferResult> bufferResultList = defaultMessageStore.getBulkCommitLogData(0, (int) defaultMessageStore.getMaxPhyOffset());
+        List<MessageExt> msgList = new ArrayList<>();
+        for (SelectMappedBufferResult bufferResult : bufferResultList) {
+            msgList.addAll(MessageDecoder.decodesBatch(bufferResult.getByteBuffer(), true, false, false));
+            bufferResult.release();
+        }
+
+        assertThat(msgList.size()).isEqualTo(10);
+    }
+```
+
+TESTE 86
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 373-392
+```java
+@Test
+    public void testGetMessageStoreTimeStamp() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = 0;
+        String topic = "FooBar";
+        AppendMessageResult[] appendMessageResults = putMessages(totalCount, topic, queueId, false);
+        //Thread.sleep(10);
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+
+        ConsumeQueueInterface consumeQueue = getDefaultMessageStore().findConsumeQueue(topic, queueId);
+        int minOffsetInQueue = (int) consumeQueue.getMinOffsetInQueue();
+        for (int i = minOffsetInQueue; i < consumeQueue.getMaxOffsetInQueue(); i++) {
+            long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, queueId, i);
+            assertThat(messageStoreTimeStamp).isEqualTo(appendMessageResults[i].getStoreTimestamp());
+        }
+    }
+```
+
+TESTE 87
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 317-335
+```java
+@Test
+    public void testGetOffsetInQueueByTime_ConsumeQueueNotFound1() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = 0;
+        int wrongQueueId = 1;
+        String topic = "FooBar";
+        AppendMessageResult[] appendMessageResults = putMessages(totalCount, topic, queueId, false);
+        //Thread.sleep(10);
+
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+
+        long offset = messageStore.getOffsetInQueueByTime(topic, wrongQueueId, appendMessageResults[0].getStoreTimestamp());
+
+        assertThat(offset).isEqualTo(0);
+    }
+```
+
+TESTE 88
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 336-353
+```java
+@Test
+    public void testGetOffsetInQueueByTime_ConsumeQueueNotFound2() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = 0;
+        int wrongQueueId = 1;
+        String topic = "FooBar";
+        putMessages(totalCount, topic, queueId, false);
+        //Thread.sleep(10);
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+
+        long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, wrongQueueId, 0);
+
+        assertThat(messageStoreTimeStamp).isEqualTo(-1);
+    }
+```
+
+TESTE 89
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 354-372
+```java
+@Test
+    public void testGetOffsetInQueueByTime_ConsumeQueueOffsetNotExist() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = 0;
+        int wrongQueueId = 1;
+        String topic = "FooBar";
+        putMessages(totalCount, topic, queueId, true);
+        //Thread.sleep(10);
+
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+
+        long messageStoreTimeStamp = messageStore.getMessageStoreTimeStamp(topic, wrongQueueId, -1);
+
+        assertThat(messageStoreTimeStamp).isEqualTo(-1);
+    }
+```
+
+TESTE 90
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 403-422
+```java
+@Test
+    public void testGetStoreTime_EverythingIsOk() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = 0;
+        String topic = "FooBar";
+        AppendMessageResult[] appendMessageResults = putMessages(totalCount, topic, queueId, false);
+        //Thread.sleep(10);
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+        ConsumeQueueInterface consumeQueue = messageStore.getConsumeQueue(topic, queueId);
+
+        for (int i = 0; i < totalCount; i++) {
+            CqUnit cqUnit = consumeQueue.get(i);
+            long storeTime = getStoreTime(cqUnit);
+            assertThat(storeTime).isEqualTo(appendMessageResults[i].getStoreTimestamp());
+        }
+    }
+```
+
+TESTE 91
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 393-402
+```java
+@Test
+    public void testGetStoreTime_ParamIsNull() {
+        if (notExecuted()) {
+            return;
+        }
+        long storeTime = getStoreTime(null);
+
+        assertThat(storeTime).isEqualTo(-1);
+    }
+```
+
+TESTE 92
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 423-435
+```java
+@Test
+    public void testGetStoreTime_PhyOffsetIsLessThanCommitLogMinOffset() {
+        if (notExecuted()) {
+            return;
+        }
+        long phyOffset = -10;
+        int size = 138;
+        CqUnit cqUnit = new CqUnit(0, phyOffset, size, 0);
+        long storeTime = getStoreTime(cqUnit);
+
+        assertThat(storeTime).isEqualTo(-1);
+    }
+```
+
+TESTE 93
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 585-604
+```java
+@Test
+    public void testGroupCommit() {
+        if (notExecuted()) {
+            return;
+        }
+        long totalMessages = 10;
+        queueTotal = 1;
+        messageBody = storeMessage.getBytes();
+        for (long i = 0; i < totalMessages; i++) {
+            messageStore.putMessage(buildMessage());
+        }
+
+        for (long i = 0; i < totalMessages; i++) {
+            GetMessageResult result = messageStore.getMessage("GROUP_A", "TOPIC_A", 0, i, 1024 * 1024, null);
+            assertThat(result).isNotNull();
+            result.release();
+        }
+        verifyThatMasterIsFunctional(totalMessages, messageStore);
+    }
+```
+
+TESTE 94
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 219-235
+```java
+@Test
+    public void testLookMessageByOffset_OffsetIsLast() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = new Random().nextInt(10);
+        String topic = "FooBar";
+        AppendMessageResult[] appendMessageResultArray = putMessages(totalCount, topic, queueId);
+        int lastIndex = totalCount - 1;
+        AppendMessageResult lastResult = appendMessageResultArray[lastIndex];
+
+        MessageExt messageExt = getDefaultMessageStore().lookMessageByOffset(lastResult.getWroteOffset(), lastResult.getWroteBytes());
+
+        assertThat(new String(messageExt.getBody())).isEqualTo(buildMessageBodyByOffset(storeMessage, lastIndex));
+    }
+```
+
+TESTE 95
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 236-251
+```java
+@Test
+    public void testLookMessageByOffset_OffsetIsOutOfBound() {
+        if (notExecuted()) {
+            return;
+        }
+        final int totalCount = 10;
+        int queueId = new Random().nextInt(10);
+        String topic = "FooBar";
+        AppendMessageResult[] appendMessageResultArray = putMessages(totalCount, topic, queueId);
+        long lastOffset = getMaxOffset(appendMessageResultArray);
+
+        MessageExt messageExt = getDefaultMessageStore().lookMessageByOffset(lastOffset);
+
+        assertThat(messageExt).isNull();
+    }
+```
+
+TESTE 96
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 852-863
+```java
+@Test
+    public void testPutMsgExceedsMaxLength() {
+        if (notExecuted()) {
+            return;
+        }
+        messageBody = new byte[4 * 1024 * 1024 + 1];
+        MessageExtBrokerInner msg = buildMessage();
+
+        PutMessageResult result = messageStore.putMessage(msg);
+        assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.MESSAGE_ILLEGAL);
+    }
+```
+
+TESTE 97
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 906-925
+```java
+@Test
+    public void testPutMsgWhenAdaptiveDegradation() {
+        if (notExecuted()) {
+            return;
+        }
+        MessageStoreConfig messageStoreConfig = this.messageStore.getMessageStoreConfig();
+        messageStoreConfig.setBrokerRole(BrokerRole.SYNC_MASTER);
+        messageStoreConfig.setTotalReplicas(2);
+        messageStoreConfig.setInSyncReplicas(2);
+        messageStoreConfig.setEnableAutoInSyncReplicas(true);
+        ((RocksDBMessageStore) this.messageStore).getBrokerConfig().setEnableSlaveActingMaster(true);
+        this.messageStore.setAliveReplicaNumInGroup(1);
+
+        MessageExtBrokerInner msg = buildMessage();
+        PutMessageResult result = this.messageStore.putMessage(msg);
+        assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.PUT_OK);
+        ((RocksDBMessageStore) this.messageStore).getBrokerConfig().setEnableSlaveActingMaster(false);
+        messageStoreConfig.setEnableAutoInSyncReplicas(false);
+    }
+```
+
+TESTE 98
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 887-905
+```java
+@Test
+    public void testPutMsgWhenReplicasNotEnough() {
+        if (notExecuted()) {
+            return;
+        }
+        MessageStoreConfig messageStoreConfig = this.messageStore.getMessageStoreConfig();
+        messageStoreConfig.setBrokerRole(BrokerRole.SYNC_MASTER);
+        messageStoreConfig.setTotalReplicas(2);
+        messageStoreConfig.setInSyncReplicas(2);
+        messageStoreConfig.setEnableAutoInSyncReplicas(false);
+        ((RocksDBMessageStore) this.messageStore).getBrokerConfig().setEnableSlaveActingMaster(true);
+        this.messageStore.setAliveReplicaNumInGroup(1);
+
+        MessageExtBrokerInner msg = buildMessage();
+        PutMessageResult result = this.messageStore.putMessage(msg);
+        assertThat(result.getPutMessageStatus()).isEqualTo(PutMessageStatus.IN_SYNC_REPLICAS_NOT_ENOUGH);
+        ((RocksDBMessageStore) this.messageStore).getBrokerConfig().setEnableSlaveActingMaster(false);
+    }
+```
+
+TESTE 99
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/store/src/test/java/org/apache/rocketmq/store/RocksDBMessageStoreTest.java
+LINHAS: 172-199
+```java
+@Test
+    public void testWriteAndRead() {
+        if (notExecuted()) {
+            return;
+        }
+        long ipv4HostMessages = 10;
+        long ipv6HostMessages = 10;
+        long totalMessages = ipv4HostMessages + ipv6HostMessages;
+        queueTotal = 1;
+        messageBody = storeMessage.getBytes();
+        for (long i = 0; i < ipv4HostMessages; i++) {
+            messageStore.putMessage(buildMessage());
+        }
+
+        for (long i = 0; i < ipv6HostMessages; i++) {
+            messageStore.putMessage(buildIPv6HostMessage());
+        }
+
+        StoreTestUtil.waitCommitLogReput((RocksDBMessageStore) messageStore);
+
+        for (long i = 0; i < totalMessages; i++) {
+            GetMessageResult result = messageStore.getMessage("GROUP_A", "FooBar", 0, i, 1024 * 1024, null);
+            assertThat(result).isNotNull();
+            result.release();
+        }
+        verifyThatMasterIsFunctional(totalMessages, messageStore);
+    }
+```
+
+TESTE 100
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/tieredstore/src/test/java/org/apache/rocketmq/tieredstore/util/MessageFormatUtilTest.java
+LINHAS: 121-137
+```java
+@Test
+    public void getOffsetIdTest() {
+        ByteBuffer buffer = buildMockedMessageBuffer();
+        InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1", 65535);
+        ByteBuffer address = ByteBuffer.allocate(Long.BYTES);
+        address.put(inetSocketAddress.getAddress().getAddress(), 0, 4);
+        address.putInt(inetSocketAddress.getPort());
+        address.flip();
+        for (int i = 0; i < address.remaining(); i++) {
+            buffer.put(MessageFormatUtil.STORE_HOST_POSITION + i, address.get(i));
+        }
+        String excepted = MessageDecoder.createMessageId(
+            ByteBuffer.allocate(MessageFormatUtil.MSG_ID_LENGTH), address, 7);
+        String offsetId = MessageFormatUtil.getOffsetId(buffer);
+        Assert.assertEquals(excepted, offsetId);
+    }
+```
+

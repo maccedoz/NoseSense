@@ -1,0 +1,2893 @@
+TESTE 1
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 155-167
+```java
+private void testCanceledPipeline(final SparkStructuredStreamingPipelineOptions options)
+      throws Exception {
+
+    final Pipeline pipeline = getPipeline(options);
+
+    final SparkStructuredStreamingPipelineResult result =
+        (SparkStructuredStreamingPipelineResult) pipeline.run();
+
+    result.cancel();
+
+    assertThat(result.getState(), is(PipelineResult.State.CANCELLED));
+  }
+```
+
+TESTE 2
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 168-180
+```java
+private void testRunningPipeline(final SparkStructuredStreamingPipelineOptions options)
+      throws Exception {
+
+    final Pipeline pipeline = getPipeline(options);
+
+    final SparkStructuredStreamingPipelineResult result =
+        (SparkStructuredStreamingPipelineResult) pipeline.run();
+
+    assertThat(result.getState(), is(PipelineResult.State.RUNNING));
+
+    result.cancel();
+  }
+```
+
+TESTE 3
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 194-197
+```java
+@Test
+  public void testStreamingPipelineCanceledState() throws Exception {
+    testCanceledPipeline(getStreamingOptions());
+  }
+```
+
+TESTE 4
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 205-208
+```java
+@Test
+  public void testStreamingPipelineFailedState() throws Exception {
+    testFailedPipeline(getStreamingOptions());
+  }
+```
+
+TESTE 5
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 183-186
+```java
+@Test
+  public void testStreamingPipelineRunningState() throws Exception {
+    testRunningPipeline(getStreamingOptions());
+  }
+```
+
+TESTE 6
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 216-219
+```java
+@Test
+  public void testStreamingPipelineTimeoutState() throws Exception {
+    testTimeoutPipeline(getStreamingOptions());
+  }
+```
+
+TESTE 7
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+LINHAS: 140-154
+```java
+private void testTimeoutPipeline(final SparkStructuredStreamingPipelineOptions options)
+      throws Exception {
+
+    final Pipeline pipeline = getPipeline(options);
+
+    final SparkStructuredStreamingPipelineResult result =
+        (SparkStructuredStreamingPipelineResult) pipeline.run();
+
+    result.waitUntilFinish(Duration.millis(1));
+
+    assertThat(result.getState(), is(PipelineResult.State.RUNNING));
+
+    result.cancel();
+  }
+```
+
+TESTE 8
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/streaming/SimpleSourceTest.java
+LINHAS: 48-56
+```java
+@Ignore
+  @Test
+  public void testUnboundedSource() {
+    // produces an unbounded PCollection of longs from 0 to Long.MAX_VALUE which elements
+    // have processing time as event timestamps.
+    pipeline.apply(GenerateSequence.from(0L));
+    pipeline.run();
+  }
+```
+
+TESTE 9
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ExecutorServiceParallelExecutorTest.java
+LINHAS: 60-95
+```java
+public void ensureMetricsThreadDoesntLeak() throws ExecutionException, InterruptedException {
+    final DirectGraph graph =
+        DirectGraph.create(
+            emptyMap(), emptyMap(), LinkedListMultimap.create(), emptySet(), emptyMap());
+    final ExecutorService metricsExecutorService =
+        Executors.newSingleThreadExecutor(
+            new ThreadFactoryBuilder()
+                .setDaemon(false)
+                .setNameFormat("dontleak_" + getClass().getName() + "#" + testName.getMethodName())
+                .build());
+
+    // fake a metrics usage
+    metricsExecutorService.submit(() -> {}).get();
+
+    final EvaluationContext context =
+        EvaluationContext.create(
+            MockClock.fromInstant(Instant.now()),
+            CloningBundleFactory.create(),
+            graph,
+            emptySet(),
+            metricsExecutorService);
+    ExecutorServiceParallelExecutor.create(
+            2,
+            TransformEvaluatorRegistry.javaSdkNativeRegistry(
+                context, PipelineOptionsFactory.create().as(DirectOptions.class)),
+            emptyMap(),
+            context,
+            metricsExecutorService)
+        .stop();
+    try {
+      metricsExecutorService.awaitTermination(10L, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(e);
+    }
+  }
+```
+
+TESTE 10
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ExecutorServiceParallelExecutorTest.java
+LINHAS: 99-102
+```java
+public void testNoThreadsLeakInPipelineExecution() {
+    pipeline.apply(GenerateSequence.from(0).to(NUM_ELEMENTS)).apply(ParDo.of(new CountingDoFn()));
+    pipeline.run();
+  }
+```
+
+TESTE 11
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WatermarkManagerTest.java
+LINHAS: 791-819
+```java
+public void updateWatermarkWithDifferentWindowedValueInstances() {
+    manager.updateWatermarks(
+        null,
+        TimerUpdate.empty(),
+        graph.getProducer(impulse),
+        null,
+        Collections.<CommittedBundle<?>>singleton(
+            bundleFactory
+                .createBundle(impulse)
+                .add(WindowedValues.valueInGlobalWindow(new byte[1]))
+                .commit(Instant.now())),
+        BoundedWindow.TIMESTAMP_MAX_VALUE);
+
+    CommittedBundle<byte[]> impulseBundle =
+        bundleFactory
+            .createBundle(impulse)
+            .add(WindowedValues.valueInGlobalWindow(new byte[1]))
+            .commit(Instant.now());
+    manager.updateWatermarks(
+        impulseBundle,
+        TimerUpdate.empty(),
+        graph.getProducer(keyed),
+        impulseBundle.withElements(Collections.emptyList()),
+        Collections.emptyList(),
+        null);
+    manager.refreshAll();
+    TransformWatermarks onTimeWatermarks = manager.getWatermarks(graph.getProducer(keyed));
+    assertThat(onTimeWatermarks.getInputWatermark(), equalTo(BoundedWindow.TIMESTAMP_MAX_VALUE));
+  }
+```
+
+TESTE 12
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkRequiresStableInputTest.java
+LINHAS: 116-118
+```java
+public void testParDoRequiresStableInputStateful() throws Exception {
+    testParDoRequiresStableInputStateful(false);
+  }
+```
+
+TESTE 13
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/translation/types/CoderTypeSerializerTest.java
+LINHAS: 54-63
+```java
+};
+
+    testWriteAndReadConfigSnapshot(anonymousClassCoder);
+  }
+
+  @Test
+  public void shouldWriteAndReadSnapshotForConcreteClassCoder() throws Exception {
+    Coder<String> concreteClassCoder = StringUtf8Coder.of();
+    testWriteAndReadConfigSnapshot(concreteClassCoder);
+  }
+```
+
+TESTE 14
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/BatchStatefulParDoOverridesTest.java
+LINHAS: 119-135
+```java
+public void testFnApiMultiOutputOverrideNonCrashing() throws Exception {
+    DataflowPipelineOptions options = buildPipelineOptions();
+    options.setRunner(DataflowRunner.class);
+    Pipeline pipeline = Pipeline.create(options);
+
+    TupleTag<Integer> mainOutputTag = new TupleTag<Integer>() {};
+    TupleTag<Integer> sideOutputTag = new TupleTag<Integer>() {};
+
+    DummyStatefulDoFn fn = new DummyStatefulDoFn();
+    pipeline
+        .apply(Create.of(KV.of(1, 2)))
+        .apply(ParDo.of(fn).withOutputTags(mainOutputTag, TupleTagList.of(sideOutputTag)));
+
+    DataflowRunner runner = DataflowRunner.fromOptions(options);
+    runner.replaceV1Transforms(pipeline);
+    assertThat(findBatchStatefulDoFn(pipeline), equalTo((DoFn) fn));
+  }
+```
+
+TESTE 15
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/ConcatReaderTest.java
+LINHAS: 245-252
+```java
+private void testReadersOfSizes(int... recordsPerReader) throws Exception {
+    List<String> expected = new ArrayList<>();
+    ConcatReader<String> concatReader = createConcatReadersOfSizes(expected, recordsPerReader);
+    assertThat(readAllFromReader(concatReader), containsInAnyOrder(expected.toArray()));
+    assertEquals(recordedReaders.size(), recordsPerReader.length);
+    assertAllOpenReadersClosed(recordedReaders);
+  }
+```
+
+TESTE 16
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingDataflowWorkerTest.java
+LINHAS: 2950-3004
+```java
+public void testMaxThreadMetric() throws Exception {
+    int maxThreads = 2;
+    int threadExpiration = 60;
+    // setting up actual implementation of executor instead of mocking to keep track of
+    // active thread count.
+    BoundedQueueExecutor executor =
+        new BoundedQueueExecutor(
+            maxThreads,
+            threadExpiration,
+            TimeUnit.SECONDS,
+            maxThreads,
+            MAXIMUM_BYTES_OUTSTANDING,
+            new ThreadFactoryBuilder()
+                .setNameFormat("DataflowWorkUnits-%d")
+                .setDaemon(true)
+                .build(),
+            /*useFairMonitor=*/ false);
+
+    ComputationState computationState =
+        new ComputationState(
+            "computation",
+            defaultMapTask(Collections.singletonList(makeSourceInstruction(StringUtf8Coder.of()))),
+            executor,
+            ImmutableMap.of(),
+            null);
+
+    ShardedKey key1Shard1 = ShardedKey.create(ByteString.copyFromUtf8("key1"), 1);
+
+    // overriding definition of MockWork to add sleep, which will help us keep track of how
+    // long each work item takes to process and therefore let us manipulate how long the time
+    // at which we're at max threads is.
+    Consumer<Work> sleepProcessWorkFn =
+        unused -> {
+          try {
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
+        };
+
+    ExecutableWork m2 = createMockWork(key1Shard1, 2, sleepProcessWorkFn);
+    ExecutableWork m3 = createMockWork(key1Shard1, 3, sleepProcessWorkFn);
+
+    assertTrue(computationState.activateWork(m2));
+    assertTrue(computationState.activateWork(m3));
+    executor.execute(m2, m2.getWorkItem().getSerializedSize());
+
+    executor.execute(m3, m3.getWorkItem().getSerializedSize());
+
+    // Will get close to 1000ms that both work items are processing (sleeping, really)
+    // give or take a few ms.
+    long i = 990L;
+    assertTrue(executor.allThreadsActiveTime() >= i);
+    executor.shutdown();
+  }
+```
+
+TESTE 17
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkPipelineStateTest.java
+LINHAS: 102-108
+```java
+private void testCanceledPipeline(boolean isStreaming) throws Exception {
+    Pipeline pipeline = createPipeline(isStreaming, null);
+    SparkPipelineResult result = (SparkPipelineResult) pipeline.run();
+    result.cancel();
+    assertThat(result.getState(), is(PipelineResult.State.CANCELLED));
+  }
+```
+
+TESTE 18
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkPipelineStateTest.java
+LINHAS: 80-91
+```java
+private void testFailedPipeline(boolean isStreaming) throws Exception {
+    Pipeline pipeline = createPipeline(isStreaming, new FailAlways());
+    SparkPipelineResult result = (SparkPipelineResult) pipeline.run();
+
+    PipelineExecutionException e =
+        assertThrows(PipelineExecutionException.class, () -> result.waitUntilFinish());
+    assertThat(e.getCause(), instanceOf(CustomException.class));
+    assertThat(e.getCause().getMessage(), is(FAILED_THE_BATCH_INTENTIONALLY));
+    assertThat(result.getState(), is(PipelineResult.State.FAILED));
+    result.cancel();
+  }
+```
+
+TESTE 19
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkPipelineStateTest.java
+LINHAS: 109-115
+```java
+private void testRunningPipeline(boolean isStreaming) throws Exception {
+    Pipeline pipeline = createPipeline(isStreaming, null);
+    SparkPipelineResult result = (SparkPipelineResult) pipeline.run();
+    assertThat(result.getState(), is(PipelineResult.State.RUNNING));
+    result.cancel();
+  }
+```
+
+TESTE 20
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkPipelineStateTest.java
+LINHAS: 92-101
+```java
+private void testWaitUntilFinishedTimeout(boolean isStreaming) throws Exception {
+    Pipeline pipeline = createPipeline(isStreaming, null);
+    SparkPipelineResult result = (SparkPipelineResult) pipeline.run();
+    result.waitUntilFinish(millis(1));
+
+    // Wait timed out, pipeline is still running
+    assertThat(result.getState(), is(PipelineResult.State.RUNNING));
+    result.cancel();
+  }
+```
+
+TESTE 21
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/streaming/ResumeFromCheckpointStreamingTest.java
+LINHAS: 149-251
+```java
+public void testWithResume() throws Exception {
+    // write to Kafka
+    produce(
+        ImmutableMap.of(
+            "k1", new Instant(100),
+            "k2", new Instant(200),
+            "k3", new Instant(300),
+            "k4", new Instant(400)));
+
+    MetricsFilter metricsFilter =
+        MetricsFilter.builder()
+            .addNameFilter(MetricNameFilter.inNamespace(ResumeFromCheckpointStreamingTest.class))
+            .build();
+
+    // first run should expect EOT matching the last injected element.
+    SparkPipelineResult res = run(Optional.of(new Instant(400)), 0);
+
+    assertThat(
+        res.metrics().queryMetrics(metricsFilter).getCounters(),
+        hasItem(
+            attemptedMetricsResult(
+                ResumeFromCheckpointStreamingTest.class.getName(),
+                "allMessages",
+                "EOFShallNotPassFn",
+                4L)));
+    assertThat(
+        res.metrics().queryMetrics(metricsFilter).getCounters(),
+        hasItem(
+            attemptedMetricsResult(
+                ResumeFromCheckpointStreamingTest.class.getName(),
+                "processedMessages",
+                "EOFShallNotPassFn",
+                4L)));
+
+    // --- between executions:
+
+    // - clear state.
+    clean();
+
+    // - write a bit more.
+    produce(
+        ImmutableMap.of(
+            "k5", new Instant(499),
+            "EOF", new Instant(500) // to be dropped from [0, 500).
+            ));
+
+    // recovery should resume from last read offset, and read the second batch of input.
+    res = runAgain(1);
+    // assertions 2:
+    assertThat(
+        res.metrics().queryMetrics(metricsFilter).getCounters(),
+        hasItem(
+            attemptedMetricsResult(
+                ResumeFromCheckpointStreamingTest.class.getName(),
+                "processedMessages",
+                "EOFShallNotPassFn",
+                5L)));
+    assertThat(
+        res.metrics().queryMetrics(metricsFilter).getCounters(),
+        hasItem(
+            attemptedMetricsResult(
+                ResumeFromCheckpointStreamingTest.class.getName(),
+                "allMessages",
+                "EOFShallNotPassFn",
+                6L)));
+    long successAssertions = 0;
+    Iterable<MetricResult<Long>> counterResults =
+        res.metrics()
+            .queryMetrics(
+                MetricsFilter.builder()
+                    .addNameFilter(
+                        MetricNameFilter.named(
+                            PAssertWithoutFlatten.class, PAssert.SUCCESS_COUNTER))
+                    .build())
+            .getCounters();
+    for (MetricResult<Long> counter : counterResults) {
+      if (counter.getAttempted() > 0) {
+        successAssertions++;
+      }
+    }
+    assertThat(
+        String.format("Expected %d successful assertions, but found %d.", 1L, successAssertions),
+        successAssertions,
+        is(1L));
+    // validate assertion didn't fail.
+    long failedAssertions = 0;
+    Iterable<MetricResult<Long>> failCounterResults =
+        res.metrics()
+            .queryMetrics(
+                MetricsFilter.builder()
+                    .addNameFilter(
+                        MetricNameFilter.named(
+                            PAssertWithoutFlatten.class, PAssert.FAILURE_COUNTER))
+                    .build())
+            .getCounters();
+    for (MetricResult<Long> counter : failCounterResults) {
+      if (counter.getAttempted() > 0) {
+        failedAssertions++;
+      }
+    }
+    assertThat(
+        String.format("Found %d failed assertions.", failedAssertions), failedAssertions, is(0L));
+  }
+```
+
+TESTE 22
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/translation/streaming/StreamingTransformTranslatorTest.java
+LINHAS: 129-185
+```java
+public void testStreamingSideInputAsIterableView() {
+    final PipelineFunction pipelineFunction =
+        (PipelineOptions options) -> {
+          final Instant baseTimestamp = new Instant(0);
+          final Pipeline p = Pipeline.create(options);
+
+          final PCollectionView<Iterable<Long>> streamingSideInput =
+              p.apply(
+                  "Streaming Side Input As Iterable View",
+                  new StreamingSideInputAsIterableView(baseTimestamp));
+          final PAssertFn pAssertFn = new PAssertFn();
+          pAssertFn.streamingSideInputAsIterableView = streamingSideInput;
+          p.apply(
+                  "Main Input",
+                  GenerateSequence.from(0)
+                      .withRate(1, Duration.millis(500))
+                      .withTimestampFn(e -> baseTimestamp.plus(Duration.millis(e * 100))))
+              .apply(
+                  "StreamingSideInputAssert",
+                  ParDo.of(pAssertFn).withSideInput("streaming-side-input", streamingSideInput));
+
+          return p;
+        };
+
+    final PipelineResult result = run(pipelineFunction, Optional.of(new Instant(1000)), true);
+    final Iterable<MetricResult<DistributionResult>> distributions =
+        result
+            .metrics()
+            .queryMetrics(
+                MetricsFilter.builder()
+                    .addNameFilter(MetricNameFilter.inNamespace(PAssertFn.class))
+                    .build())
+            .getDistributions();
+
+    final MetricResult<DistributionResult> streamingIterSideInputMetricResult =
+        Iterables.find(
+            distributions,
+            dist -> dist.getName().getName().equals("streaming_iter_side_input_distribution"));
+
+    final DistributionResult attempted = streamingIterSideInputMetricResult.getAttempted();
+
+    // The distribution metrics for the iterable side input are calculated based on only
+    // processing values [0, 1] to maintain consistent test behavior.
+    // Since we're only processing the pair [0, 1], the DistributionResult values will be:
+    // sum = count/2 (since we're summing the sequence [0, 1], [0, 1], ...)
+    // count = total number of elements processed
+    // min = 0
+    // max = 1
+    assertThat(
+        streamingIterSideInputMetricResult,
+        is(
+            attemptedMetricsResult(
+                PAssertFn.class.getName(),
+                "streaming_iter_side_input_distribution",
+                "StreamingSideInputAssert",
+                DistributionResult.create(attempted.getCount() / 2, attempted.getCount(), 0, 1))));
+  }
+```
+
+TESTE 23
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/bigtable/CassandraRowMapperFnTest.java
+LINHAS: 404-409
+```java
+@Test
+  @Ignore
+  public void testTupleColumn() {
+    throw new UnsupportedOperationException();
+  }
+```
+
+TESTE 24
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/cdc-parent/cdc-change-applier/src/test/java/com/google/cloud/dataflow/cdc/applier/BigQueryStatementIssuingFnTest.java
+LINHAS: 25-32
+```java
+@Test
+  void testMakeJobId() {
+    String jobId =
+        BigQueryStatementIssuingFn.makeJobId("my_prefix", "SELECT my, bq, statement FROM pipeline");
+
+    assertThat(jobId, matchesPattern("my_prefix_[0-9]+_2[0-9_]+UTC_[0-9a-f-]+"));
+  }
+```
+
+TESTE 25
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/cdc-parent/cdc-change-applier/src/test/java/com/google/cloud/dataflow/cdc/applier/MergeStatementBuildingFnTest.java
+LINHAS: 48-62
+```java
+@Test
+  void testGetMaximumTimestampPerPrimaryKey() {
+    String getMaximumTsPkQuery =
+        MergeStatementBuildingFn.buildQueryGetMaximumTimestampPerPrimaryKey(
+            TABLE_ID, PRIMARY_KEY_COLUMNS, PROJECT_ID, CHANGELOG_DATASET_ID);
+
+    assertThat(
+        getMaximumTsPkQuery,
+        equalTo(
+            String.join(
+                "",
+                "SELECT pk1, pk2, MAX(timestampMs) as max_ts_ms FROM ",
+                "`myProject.myChangelogDataset.myTable` GROUP BY pk1, pk2")));
+  }
+```
+
+TESTE 26
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/common/src/test/java/com/google/cloud/teleport/v2/cdc/sources/DataStreamIOTest.java
+LINHAS: 41-55
+```java
+@Ignore
+  @Test
+  public void testFullContinuous() {
+    Pipeline pipeline = Pipeline.create();
+    DataStreamIO dsIo = new DataStreamIO(null, BUCKET, "avro", null, null);
+
+    pipeline.apply(dsIo);
+
+    PAssert.that(dsIo.directories)
+        .containsInAnyOrder(
+            "gs://ds-fileio-tests/path-with-files/HR_JOBS/2020/07/14/11/03/",
+            "gs://ds-fileio-tests/path-with-files/HR_JOBS/2020/07/14/12/16/");
+    pipeline.run().waitUntilFinish();
+  }
+```
+
+TESTE 27
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/common/src/test/java/com/google/cloud/teleport/v2/transforms/PythonTextTransformerTest.java
+LINHAS: 108-163
+```java
+public void testFailsafePythonValidInput() {
+    // Test input
+    final String fileSystemPath = TRANSFORM_FILE_PATH;
+    final String functionName = "transform";
+
+    final String payload = "{\"ticker\": \"GOOGL\", \"price\": 1006.94}";
+    final Map<String, String> attributes = ImmutableMap.of("id", "0xDb12", "type", "stock");
+    final PubsubMessage message = new PubsubMessage(payload.getBytes(), attributes);
+
+    final FailsafeElement<PubsubMessage, String> input = FailsafeElement.of(message, payload);
+
+    // Register the coder for the pipeline. This prevents having to invoke .setCoder() on
+    // many transforms.
+    FailsafeElementCoder<PubsubMessage, String> coder =
+        FailsafeElementCoder.of(PubsubMessageWithAttributesCoder.of(), StringUtf8Coder.of());
+
+    CoderRegistry coderRegistry = pipeline.getCoderRegistry();
+    coderRegistry.registerCoderForType(coder.getEncodedTypeDescriptor(), coder);
+
+    // Build the pipeline
+    PCollectionTuple output =
+        pipeline
+            .apply("CreateInput", Create.of(input).withCoder(coder))
+            .apply(
+                "InvokeUdf",
+                FailsafePythonUdf.<PubsubMessage>newBuilder()
+                    .setFileSystemPath(fileSystemPath)
+                    .setFunctionName(functionName)
+                    .setRuntimeVersion(PYTHON_VERSION)
+                    .setSuccessTag(SUCCESS_TAG)
+                    .setFailureTag(FAILURE_TAG)
+                    .build());
+    output.get(SUCCESS_TAG).setCoder(coder);
+    output.get(FAILURE_TAG).setCoder(coder);
+
+    // Assert
+    PAssert.that(output.get(SUCCESS_TAG))
+        .satisfies(
+            collection -> {
+              FailsafeElement<PubsubMessage, String> result = collection.iterator().next();
+              PubsubMessage resultMessage = result.getOriginalPayload();
+              String expectedPayload =
+                  "{\"ticker\": \"GOOGL\", \"price\": 1006.94, \"someProp\": \"someValue\"}";
+              assertThat(new String(resultMessage.getPayload()), is(equalTo(payload)));
+              assertThat(resultMessage.getAttributeMap(), is(equalTo(attributes)));
+              assertThat(result.getPayload(), is(equalTo(expectedPayload)));
+              assertThat(result.getErrorMessage(), is(nullValue()));
+              assertThat(result.getStacktrace(), is(nullValue()));
+              return null;
+            });
+
+    PAssert.that(output.get(FAILURE_TAG)).empty();
+
+    // Execute the test
+    pipeline.run();
+  }
+```
+
+TESTE 28
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/common/src/test/java/com/google/cloud/teleport/v2/transforms/PythonTextTransformerTest.java
+LINHAS: 82-102
+```java
+@Ignore
+  @Test
+  public void testInvokeGood() throws Exception {
+    PythonRuntime pythonRuntime =
+        PythonRuntime.newBuilder()
+            .setFileSystemPath(TRANSFORM_FILE_PATH)
+            .setFunctionName("transform")
+            .setRuntimeVersion(PYTHON_VERSION)
+            .build();
+
+    File tempFile = File.createTempFile("temp_file.json", null);
+    BufferedWriter dataWriter = new BufferedWriter(new FileWriter(tempFile.getAbsolutePath()));
+    String sendData = "{\"answerToLife\": 42}";
+    dataWriter.write(sendData);
+    dataWriter.flush();
+    dataWriter.close();
+    List<String> expectedJson =
+        Arrays.asList("{\"answerToLife\": 42, \"someProp\": \"someValue\"}");
+    List<String> data = pythonRuntime.invoke(tempFile, 5);
+    Assert.assertEquals(expectedJson, data);
+  }
+```
+
+TESTE 29
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/common/src/test/java/com/google/cloud/teleport/v2/utils/DataStreamClientTest.java
+LINHAS: 68-88
+```java
+@Ignore
+  @Test
+  public void testDataStreamClientDiscoverOracleTableSchema()
+      throws IOException, GeneralSecurityException {
+    String projectId = "dataflow-bigstream-integration";
+    String streamName =
+        "projects/dataflow-bigstream-integration/locations/us-central1/streams/dfstream1";
+    String schemaName = "HR";
+    String tableName = "JOBS";
+
+    DataStreamClient datastream = new DataStreamClient(null);
+    SourceConfig sourceConnProfile = datastream.getSourceConnectionProfile(streamName);
+    OracleTable table =
+        datastream.discoverOracleTableSchema(streamName, schemaName, tableName, sourceConnProfile);
+
+    String columnName = table.getOracleColumns().get(0).getColumnName();
+    Boolean isPrimaryKey = table.getOracleColumns().get(0).getPrimaryKey();
+
+    assertEquals(columnName, "JOB_TITLE");
+    assertEquals(isPrimaryKey, null);
+  }
+```
+
+TESTE 30
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/common/src/test/java/com/google/cloud/teleport/v2/utils/DataStreamClientTest.java
+LINHAS: 47-62
+```java
+@Ignore
+  @Test
+  public void testDataStreamClientGetSourceConnectionProfileName()
+      throws IOException, GeneralSecurityException {
+    String projectId = "dataflow-bigstream-integration";
+    String streamName =
+        "projects/dataflow-bigstream-integration/locations/us-central1/streams/dfstream1";
+    String connProfileName = "projects/402074789819/locations/us-central1/connectionProfiles/cp-1";
+
+    DataStreamClient datastream = new DataStreamClient(null);
+
+    SourceConfig sourceConnProfile = datastream.getSourceConnectionProfile(streamName);
+    String sourceConnProfileName = sourceConnProfile.getSourceConnectionProfileName();
+
+    assertEquals(sourceConnProfileName, connProfileName);
+  }
+```
+
+TESTE 31
+PROJETO: SecurityShepherd
+ARQUIVO: /home/magno-macedo/.jnose_projects/SecurityShepherd/src/test/java/dbProcs/GetterTest.java
+LINHAS: 338-369
+```java
+@Test
+  @Ignore
+  public void testAuthUserCorrectEmojiUsername() {
+    // Here is a very non-latin username
+    String userName = new String("üòÉüòÖüòçüí©üëç‚Äåùëì·∂ÉÊàëÁíÉ·Äô·Äπ·Äö·ÄÄ·Äπ‚Äå");
+    String password = new String("goodEmojiPassword");
+
+    log.debug("Attempting to authenticate as " + userName);
+    String user[] = Getter.authUser(applicationRoot, userName, password);
+    if (user == null || user[0].isEmpty()) {
+      log.debug("User not found in DB. Adding user to DB and Retesting before giving up");
+
+      try {
+        Setter.userCreate(
+            applicationRoot, null, userName, password, "player", userName + "@test.com", false);
+      } catch (SQLException e) {
+        String message = "Could not create user " + userName + ": " + e.toString();
+        log.debug(message);
+        throw new RuntimeException(e);
+      }
+      log.debug("Created user " + userName);
+      user = Getter.authUser(applicationRoot, userName, password);
+    }
+    if (user != null && !user[0].isEmpty()) {
+      log.debug("PASS: Successfully signed in as " + userName);
+      return;
+    } else {
+      log.debug("FAIL: Successfully signed in as " + userName);
+      fail("Could not Authenticate as " + userName);
+    }
+  }
+```
+
+TESTE 32
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/burn/random/RandomRangeTest.java
+LINHAS: 35-37
+```java
+{
+        test((ignore, min, max) -> new IntRange(min, max));
+    }
+```
+
+TESTE 33
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/primitives/RangeDepsTest.java
+LINHAS: 105-115
+```java
+Set<TxnId> testOverlaps(Range range)
+        {
+            List<TxnId> uniq = new ArrayList<>();
+            test.forEachUniqueTxnId(range, uniq::add);
+            Set<TxnId> set = new TreeSet<>();
+            test.forEach(range, set::add);
+            assertThat(uniq).doesNotHaveDuplicates()
+                            .containsExactlyInAnyOrderElementsOf(set);
+            return set;
+        }
+```
+
+TESTE 34
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/primitives/RangeDepsTest.java
+LINHAS: 136-147
+```java
+Set<TxnId> testSlice(Ranges ranges)
+        {
+            RangeDeps slice = test.slice(ranges);
+            List<TxnId> uniq = new ArrayList<>();
+            slice.forEachUniqueTxnId(ranges, uniq::add);
+            Set<TxnId> set = new TreeSet<>();
+            slice.forEach((AbstractRanges) ranges, null, (ignored, txnId) -> set.add(txnId));
+            assertThat(uniq).doesNotHaveDuplicates()
+                            .containsExactlyInAnyOrderElementsOf(set);
+            return set;
+        }
+```
+
+TESTE 35
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/utils/async/AsyncChainsTest.java
+LINHAS: 238-253
+```java
+@Test
+    void test3()
+    {
+        AtomicReference<Boolean> sawFailure = new AtomicReference<>(null);
+        AtomicBoolean sawCallback = new AtomicBoolean(false);
+        AsyncChains.failure(new NullPointerException("just kidding"))
+                .beginAsResult()
+                .invokeIfSuccess(() -> sawCallback.set(true))
+                .begin((success, failure) -> {
+                    if (failure != null) sawFailure.set(true);
+                    else sawFailure.set(false);
+                });
+        Assertions.assertEquals(Boolean.TRUE, sawFailure.get());
+        Assertions.assertFalse(sawCallback.get());
+    }
+```
+
+TESTE 36
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/AmqpAndStompInteropTest.java
+LINHAS: 89-92
+```java
+public void testSendFromAMQPToSTOMP() throws Exception {
+        sendMessageToQueueUsingAmqp();
+        readMessageFromQueueUsingStomp();
+    }
+```
+
+TESTE 37
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/AmqpAndStompInteropTest.java
+LINHAS: 96-99
+```java
+public void testSendFromSTOMPToAMQP() throws Exception {
+        sendMessageToQueueUsingStomp();
+        readMessageFromQueueUsingAmqp();
+    }
+```
+
+TESTE 38
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/interop/OpenWireToAmqpConcurrentStoreAndDispatchTest.java
+LINHAS: 89-181
+```java
+public void testNoErrorOnSend() throws Exception {
+
+        final int numIterations = 100;
+        int numConsumers = 3;
+        final int numProducers = 10;
+        final int numMessages = 2000;
+        final AtomicBoolean done = new AtomicBoolean(false);
+        final AtomicInteger sent = new AtomicInteger();
+        final AtomicInteger received = new AtomicInteger();
+        final AtomicBoolean errorOnSend = new AtomicBoolean(false);
+
+        final AtomicInteger toSend = new AtomicInteger(numMessages);
+
+        final Random random = new Random();
+        for (int i=0; i<numIterations; i++) {
+            done.set(false);
+            sent.set(0);
+            received.set(0);
+            toSend.set(numMessages);
+
+            ExecutorService executorService = Executors.newCachedThreadPool();
+            for (int j = 0; j < numConsumers; j++) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        AmqpConnection connection = null;
+                        try {
+                            AmqpClient client = createAmqpClient();
+                            connection = trackConnection(client.connect());
+                            AmqpSession session = connection.createSession();
+
+                            AmqpReceiver receiver = session.createReceiver("queue://" + getTestName(), null, false, true);
+
+                            while (!done.get() && received.get() < numMessages) {
+                                receiver.flow(1);
+                                AmqpMessage message = receiver.receive(5, TimeUnit.SECONDS);
+                                if (message != null) {
+                                    received.incrementAndGet();
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (connection != null) {
+                                connection.close();
+                            }
+                        }
+                    }
+                });
+            }
+
+            final byte[] payload = new byte[100];
+            for (int k = 0; k < numProducers; k++) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Connection connection = null;
+                        try {
+                            ActiveMQConnectionFactory connectionFactory =
+                                    new ActiveMQConnectionFactory(brokerService.getTransportConnectorByScheme("tcp").getPublishableConnectString());
+                            connection = connectionFactory.createConnection();
+                            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+                            MessageProducer producer = session.createProducer(new ActiveMQQueue(getTestName()));
+                            BytesMessage bytesMessage = session.createBytesMessage();
+                            bytesMessage.writeBytes(payload);
+                            bytesMessage.setStringProperty("PP", "VALUE");
+                            while (!done.get() && toSend.decrementAndGet() >= 0) {
+                                producer.send(bytesMessage);
+                                sent.incrementAndGet();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            errorOnSend.set(true);
+                        } finally {
+                            if (connection != null) {
+                                try {
+                                    connection.close();
+                                } catch (JMSException ignored) {}
+                            }
+                        }
+                    }
+                });
+            }
+
+            executorService.shutdown();
+            executorService.awaitTermination(30, TimeUnit.SECONDS);
+
+            done.set(true);
+            assertEquals("[" + i + "] sent all requested", numMessages, sent.get());
+            assertEquals("[" + i + "] got all sent", numMessages, received.get());
+            assertFalse("[" + i + "] no error on send", errorOnSend.get());
+        }
+    }
+```
+
+TESTE 39
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/profile/QueueBrowserStressTest.java
+LINHAS: 46-90
+```java
+@Test
+    public void testBrowserLeak() throws JMSException, InterruptedException {
+        connection = createConnection();
+
+        Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
+        Queue queue = session.createQueue(getDestinationName());
+        session.close();
+
+        for (int i = 1; i <= NUM_ITERATIONS; ++i) {
+            // When recreating session, memory leak does occurs on the client but memory leak still occurs on the server
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            QueueBrowser browser = session.createBrowser(queue, "JMSXGroupSeq=0");
+
+            int j = 1;
+
+            Enumeration<?> enums = browser.getEnumeration();
+            if (!enums.hasMoreElements()) {
+                LOG.debug("No messages in {}", queue.getQueueName());
+            } else {
+                Message message = (Message) enums.nextElement();
+                if (message != null) {
+                    LOG.debug("Received {} message : {} from {}", new Object[] {j++, message, queue.getQueueName()});
+                }
+            }
+
+            LOG.debug("close browser for {}", queue.getQueueName());
+            try {
+                browser.close();
+            } catch (JMSException e) {
+                LOG.error("Error on browser close: {}", e);
+            }
+            browser = null;
+
+            LOG.debug("close session for {}", queue.getQueueName());
+            try {
+                session.close();
+            } catch (JMSException e) {
+                LOG.error("Error on session close: {}", e);
+            }
+            session = null;
+        }
+
+        LOG.info("Task complete, capture heap dump now");
+        TimeUnit.MINUTES.sleep(5);
+    }
+```
+
+TESTE 40
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-amqp/src/test/java/org/apache/activemq/transport/amqp/protocol/AmqpTransferTagGeneratorTest.java
+LINHAS: 169-185
+```java
+@Test
+    public void testTagGeneratorOverTime() {
+        final AmqpTransferTagGenerator tagGen = new AmqpTransferTagGenerator(true);
+        final int tagLoop = AmqpTransferTagGenerator.DEFAULT_TAG_POOL_SIZE;
+        final ArrayList<byte[]> tags = new ArrayList<>(tagLoop);
+
+        for (int i = 0; i < Short.MAX_VALUE * 16; ++i) {
+            // Checkout all the tags the pool will create
+            for (int j = 0; j < tagLoop; ++j) {
+                tags.add(tagGen.getNextTag());
+            }
+
+            // Return them and then clear
+            tags.forEach((tag) -> tagGen.returnTag(tag));
+            tags.clear();
+        }
+    }
+```
+
+TESTE 41
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/broker/scheduler/CronParserTest.java
+LINHAS: 416-424
+```java
+private void testGetNextSingle(String cronExp, String now, String expected) throws MessageFormatException {
+
+        LocalDateTime nowDate = LocalDateTime.parse(now);
+        LocalDateTime expDate = LocalDateTime.parse(expected);
+        long next = CronParser.getNextScheduledTime(cronExp, nowDate.toInstant(OffsetDateTime.now().getOffset()).toEpochMilli());
+
+        assertEquals(expDate, LocalDateTime.ofInstant(Instant.ofEpochMilli(next), ZoneId.systemDefault()));
+    }
+```
+
+TESTE 42
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/openwire/OpenWireValidationTest.java
+LINHAS: 113-144
+```java
+pc.setData("bytes".getBytes(StandardCharsets.UTF_8));
+        testUnmarshal(pc, tightEncoding);
+    }
+
+    private void testUnmarshal(Command command, boolean tightEncoding) throws Exception {
+        var format = setupWireFormat(tightEncoding);
+        ByteSequence bss = format.marshal(command);
+        try {
+            // We should get an exception from an invalid size value that is too large
+            // Test OpenWireFormat#unmarshal(ByteSequence) method
+            format.unmarshal(bss);
+            fail("Should have received an IOException");
+        } catch (IOException io) {
+            assertTrue(io.getMessage().contains("Estimated allocated buffer size"));
+            assertTrue(io.getMessage().contains("is larger than frame size"));
+        }
+        // Verify thread local is cleared even after exception
+        assertNull(format.getMarshallingContext());
+
+        try {
+            // We should get an exception from an invalid size value that is too large
+            // Test OpenWireFormat#unmarshal(DataInput) method
+            format.unmarshal(new DataInputStream(new NIOInputStream(
+                ByteBuffer.wrap(bss.toArray()))));
+            fail("Should have received an IOException");
+        } catch (IOException io) {
+            assertTrue(io.getMessage().contains("Estimated allocated buffer size"));
+            assertTrue(io.getMessage().contains("is larger than frame size"));
+        }
+        // Verify thread local is cleared even after exception
+        assertNull(format.getMarshallingContext());
+    }
+```
+
+TESTE 43
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-http/src/test/java/org/apache/activemq/transport/ws/StompWSSubProtocolTest.java
+LINHAS: 140-151
+```java
+public void testConnectInvalid() throws Exception {
+        connect("invalid");
+
+        String connectFrame = "STOMP\n" +
+                              "accept-version:1.2\n" +
+                              "host:localhost\n" +
+                              "\n" + Stomp.NULL;
+
+        wsStompConnection.sendRawFrame(connectFrame);
+
+        assertSubProtocol("stomp");
+    }
+```
+
+TESTE 44
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-http/src/test/java/org/apache/activemq/transport/ws/StompWSSubProtocolTest.java
+LINHAS: 109-121
+```java
+public void testConnectNone() throws Exception {
+
+        connect(null);
+
+        String connectFrame = "STOMP\n" +
+                              "accept-version:1.2\n" +
+                              "host:localhost\n" +
+                              "\n" + Stomp.NULL;
+
+        wsStompConnection.sendRawFrame(connectFrame);
+
+        assertSubProtocol("stomp");
+    }
+```
+
+TESTE 45
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-http/src/test/java/org/apache/activemq/transport/ws/WSTransportTest.java
+LINHAS: 140-142
+```java
+public void testGet() throws Exception {
+        testGet("http://127.0.0.1:" + port, null);
+    }
+```
+
+TESTE 46
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-http/src/test/java/org/apache/activemq/transport/wss/WSSTransportHttpTraceTest.java
+LINHAS: 42-48
+```java
+public void testHttpTraceEnabled() throws Exception {
+        SslContextFactory.Client factory = new SslContextFactory.Client();
+        factory.setEndpointIdentificationAlgorithm(null);       // service cert does not contain a SAN
+        factory.setSslContext(broker.getSslContext().getSSLContext());
+
+        HttpTraceTestSupport.testHttpTraceEnabled("https://127.0.0.1:61623", expectedStatus, factory);
+    }
+```
+
+TESTE 47
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-http/src/test/java/org/apache/activemq/transport/wss/WSSTransportTest.java
+LINHAS: 50-56
+```java
+public void testGet() throws Exception {
+        SslContextFactory.Client factory = new SslContextFactory.Client();
+        factory.setEndpointIdentificationAlgorithm(null);       // service cert does not contain a SAN
+        factory.setSslContext(broker.getSslContext().getSSLContext());
+
+        testGet("https://127.0.0.1:" + port, factory);
+    }
+```
+
+TESTE 48
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-mqtt/src/test/java/org/apache/activemq/transport/mqtt/MQTTConnectTest.java
+LINHAS: 88-116
+```java
+public void testParallelConnectPlain() throws Exception {
+        final int THREAD_COUNT = 16;
+        final int CONNECTION_COUNT = 100;
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+        final AtomicInteger clientIdGemeratpr = new AtomicInteger();
+        for (int i = 0; i < CONNECTION_COUNT; i++) {
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        MQTT mqtt = createMQTTConnection();
+                        mqtt.setClientId("client-" + clientIdGemeratpr.incrementAndGet());
+                        mqtt.setCleanSession(true);
+
+                        BlockingConnection connection = mqtt.blockingConnection();
+                        connection.connect();
+                        connection.disconnect();
+                    } catch (Exception e) {
+                        LOG.error("unexpected exception on connect/disconnect", e);
+                        exceptions.add(e);
+                    }
+                }
+            });
+        }
+
+        executorService.shutdown();
+        assertTrue("executor done on time", executorService.awaitTermination(60, TimeUnit.SECONDS));
+    }
+```
+
+TESTE 49
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-mqtt/src/test/java/org/apache/activemq/transport/mqtt/MQTTTest.java
+LINHAS: 1204-1224
+```java
+private void testPublishWildcard(String version) throws Exception {
+        MQTT mqttPub = createMQTTConnection("MQTTPub-Client", true);
+        mqttPub.setVersion(version);
+        BlockingConnection blockingConnection = mqttPub.blockingConnection();
+        blockingConnection.connect();
+        String payload = "Test Message";
+        try {
+            blockingConnection.publish("foo/#", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+            fail("Should not be able to publish with wildcard in topic.");
+        } catch (Exception ex) {
+            LOG.info("Exception expected on publish with wildcard in topic name");
+        }
+        try {
+            blockingConnection.publish("foo/+", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+            fail("Should not be able to publish with wildcard in topic.");
+        } catch (Exception ex) {
+            LOG.info("Exception expected on publish with wildcard in topic name");
+        }
+        blockingConnection.disconnect();
+    }
+```
+
+TESTE 50
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-mqtt/src/test/java/org/apache/activemq/transport/mqtt/PahoMQTTTest.java
+LINHAS: 332-335
+```java
+public void testClientIdSpecialChars() throws Exception {
+        testClientIdSpecialChars(MqttConnectOptions.MQTT_VERSION_3_1);
+        testClientIdSpecialChars(MqttConnectOptions.MQTT_VERSION_3_1_1);
+    }
+```
+
+TESTE 51
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-ra/src/test/java/org/apache/activemq/ra/MessageEndpointProxyTest.java
+LINHAS: 68-76
+```java
+public void testSuccessfulCallSequence() throws Exception {
+        setupBeforeDeliverySuccessful();
+        setupOnMessageSuccessful();
+        setupAfterDeliverySuccessful();
+
+        doBeforeDeliveryExpectSuccess();
+        doOnMessageExpectSuccess();
+        doAfterDeliveryExpectSuccess();
+    }
+```
+
+TESTE 52
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-runtime-config/src/test/java/org/apache/activemq/SpringBeanTest.java
+LINHAS: 36-68
+```java
+public void testModifiable() throws Exception {
+        final String brokerConfig =  "SpringBeanTest-broker";
+        applyNewConfig(brokerConfig, "emptyUpdatableConfig1000-spring-bean");
+        startBroker(brokerConfig);
+        assertTrue("broker alive", brokerService.isStarted());
+
+        // apply via jmx
+        ObjectName objectName =
+                new ObjectName(brokerService.getBrokerObjectName().toString() +
+                        RuntimeConfigurationBroker.objectNamePropsAppendage);
+        RuntimeConfigurationViewMBean runtimeConfigurationView =
+                (RuntimeConfigurationViewMBean) brokerService.getManagementContext().newProxyInstance(objectName,
+                        RuntimeConfigurationViewMBean.class, false);
+
+        String propOfInterest = "modified";
+        HashMap<String, String> props = new HashMap<String, String>();
+        IntrospectionSupport.getProperties(runtimeConfigurationView, props, null);
+        LOG.info("mbean attributes before: " + props);
+
+        assertNotEquals("unknown", props.get(propOfInterest));
+
+        String result = runtimeConfigurationView.updateNow();
+        
+        LOG.info("Result from update: " + result);
+
+        assertTrue("got sensible result", result.contains("No material change"));
+
+        HashMap<String, String> propsAfter = new HashMap<String, String>();
+        IntrospectionSupport.getProperties(runtimeConfigurationView, propsAfter, null);
+        LOG.info("mbean attributes after: " + propsAfter);
+
+        assertEquals("modified is same", props.get(propOfInterest), propsAfter.get(propOfInterest));
+    }
+```
+
+TESTE 53
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-spring/src/test/java/org/apache/bugs/LoadBalanceTest.java
+LINHAS: 234-337
+```java
+public void does_xml_multicast_load_balance_between_consumers() throws Exception {
+        final int total = 100;
+        final AtomicInteger broker1Count = new AtomicInteger(0);
+        final AtomicInteger broker2Count = new AtomicInteger(0);
+        final ExecutorService pool = Executors.newSingleThreadExecutor();
+        final CountDownLatch startProducer = new CountDownLatch(1);
+        final String xmlConfig = getClass().getPackage().getName().replace('.','/') + "/loadbalancetest.xml";
+        System.setProperty("lbt.networkBridgePrefetch", String.valueOf(networkBridgePrefetch));
+        System.setProperty("lbt.brokerName", "one");
+        final ActiveMQConnectionFactory connectionFactory1 = new ActiveMQConnectionFactory(
+                "vm://one?brokerConfig=xbean:" + xmlConfig);
+        final SingleConnectionFactory singleConnectionFactory1 = new SingleConnectionFactory(
+                connectionFactory1);
+        singleConnectionFactory1.setReconnectOnException(true);
+        final DefaultMessageListenerContainer container1 = new DefaultMessageListenerContainer();
+        container1.setConnectionFactory(singleConnectionFactory1);
+        container1.setMaxConcurrentConsumers(1);
+        container1.setDestination(new ActiveMQQueue(TESTING_QUEUE));
+        container1.setMessageListener(new MessageListener() {
+
+            @Override
+            public void onMessage(final Message message) {
+                broker1Count.incrementAndGet();
+            }
+        });
+        container1.afterPropertiesSet();
+        container1.start();
+        pool.submit(new Callable<Object>() {
+
+            @Override
+            public Object call() throws Exception {
+                System.setProperty("lbt.brokerName", "two");
+                final ActiveMQConnectionFactory connectionFactory2 = new ActiveMQConnectionFactory(
+                        "vm://two?brokerConfig=xbean:" + xmlConfig);
+                final SingleConnectionFactory singleConnectionFactory2 = new SingleConnectionFactory(
+                        connectionFactory2);
+                singleConnectionFactory2.setReconnectOnException(true);
+                final DefaultMessageListenerContainer container2 = new DefaultMessageListenerContainer();
+                container2.setConnectionFactory(singleConnectionFactory2);
+                container2.setMaxConcurrentConsumers(1);
+                container2.setDestination(new ActiveMQQueue(TESTING_QUEUE));
+                container2.setMessageListener(new MessageListener() {
+
+                    @Override
+                    public void onMessage(final Message message) {
+                        broker2Count.incrementAndGet();
+                    }
+                });
+                container2.afterPropertiesSet();
+                container2.start();
+
+
+                assertTrue("wait for start signal", startProducer.await(20, TimeUnit.SECONDS));
+
+                final CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(
+                        singleConnectionFactory2);
+                final JmsTemplate template = new JmsTemplate(
+                        cachingConnectionFactory);
+                final ActiveMQQueue queue = new ActiveMQQueue(TESTING_QUEUE);
+                for (int i = 0; i < total; i++) {
+                    template.send(queue, new MessageCreator() {
+
+                        @Override
+                        public Message createMessage(final Session session)
+                                throws JMSException {
+                            final TextMessage message = session
+                                    .createTextMessage();
+                            message.setText("Hello World!");
+                            return message;
+                        }
+                    });
+                }
+                return null;
+            }
+        });
+
+        // give network a chance to build, needs advisories
+        waitForBridgeFormation();
+        startProducer.countDown();
+
+        pool.shutdown();
+        pool.awaitTermination(10, TimeUnit.SECONDS);
+
+        LOG.info("broker1Count " + broker1Count.get() + ", broker2Count " + broker2Count.get());
+
+        int count = 0;
+        // give it 10 seconds
+        while (count++ < 10 && broker1Count.get() + broker2Count.get() != total) {
+            LOG.info("broker1Count " + broker1Count.get() + ", broker2Count " + broker2Count.get());
+            Thread.sleep(1000);
+        }
+        if (broker1Count.get() < 25 || broker2Count.get() < 25) {
+            fail("Each broker should have gotten at least 25 messages but instead broker1 got "
+                    + broker1Count.get()
+                    + " and broker2 got "
+                    + broker2Count.get());
+        }
+
+
+        BrokerService broker = BrokerRegistry.getInstance().lookup("one");
+        broker.stop();
+        broker = BrokerRegistry.getInstance().lookup("two");
+        broker.stop();
+    }
+```
+
+TESTE 54
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/databinding/aegis/src/test/java/org/apache/cxf/aegis/integration/SchemaValidationTest.java
+LINHAS: 58-66
+```java
+@Test
+    public void testInvalidArray() throws Exception {
+        assertTrue(testInvalidArray(Boolean.TRUE));
+        assertTrue(testInvalidArray(SchemaValidationType.BOTH));
+        assertTrue(testInvalidArray(SchemaValidationType.IN));
+        assertFalse(testInvalidArray(SchemaValidationType.OUT));
+        assertFalse(testInvalidArray(Boolean.FALSE));
+    }
+```
+
+TESTE 55
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/LinkBuilderImplTest.java
+LINHAS: 108-116
+```java
+public void testNoArgsThrowsUriBuilderExceptionTest() {
+        Link.Builder builder = Link.fromUri("http://:@");
+        try {
+            Link link = builder.build();
+            fail("No exception has been thrown for link " + link);
+        } catch (UriBuilderException e) {
+            //expected
+        }
+    }
+```
+
+TESTE 56
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/handler/LogicalHandlerInterceptorTest.java
+LINHAS: 111-151
+```java
+public void xtestReturnFalseClientSide() throws Exception {
+        @SuppressWarnings("rawtypes")
+        List<Handler> list = new ArrayList<>();
+        list.add(new LogicalHandler<LogicalMessageContext>() {
+            public void close(MessageContext arg0) {
+            }
+
+            public boolean handleFault(LogicalMessageContext messageContext) {
+                return true;
+            }
+
+            public boolean handleMessage(LogicalMessageContext messageContext) {
+                LogicalMessage msg = messageContext.getMessage();
+                AddNumbersResponse resp = new AddNumbersResponse();
+                resp.setReturn(11);
+                msg.setPayload(resp, null);
+                return false;
+            }
+        });
+        HandlerChainInvoker invoker1 = new HandlerChainInvoker(list);
+
+        Binding binding1 = mock(Binding.class);
+        @SuppressWarnings("rawtypes")
+        List<Handler> hList = CastUtils.cast(list);
+        when(binding1.getHandlerChain()).thenReturn(hList);
+        Exchange exchange1 = mock(Exchange.class);
+        when(exchange1.get(HandlerChainInvoker.class)).thenReturn(invoker1);
+        Message outMessage = new MessageImpl();
+        outMessage.setExchange(exchange1);
+        InterceptorChain chain = spy(InterceptorChain.class);
+        outMessage.setInterceptorChain(chain);
+        chain.abort();
+        MessageObserver observer = spy(MessageObserver.class);
+        when(exchange1.get(MessageObserver.class)).thenReturn(observer);
+        observer.onMessage(isA(Message.class));
+
+        LogicalHandlerInInterceptor li = new LogicalHandlerInInterceptor(binding1);
+        li.handleMessage(outMessage);
+        verify(chain, atLeastOnce()).abort();
+        verify(observer, atLeastOnce()).onMessage(isA(Message.class));
+    }
+```
+
+TESTE 57
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spring/SpringBeansTest.java
+LINHAS: 195-225
+```java
+private void testInterceptors(ClassPathXmlApplicationContext ctx) {
+        EndpointImpl ep;
+        ep = (EndpointImpl) ctx.getBean("epWithInterceptors");
+        assertNotNull(ep);
+        List<Interceptor<? extends Message>> inInterceptors = ep.getInInterceptors();
+        boolean saaj = false;
+        boolean logging = false;
+        for (Interceptor<? extends Message> i : inInterceptors) {
+            if (i instanceof SAAJInInterceptor) {
+                saaj = true;
+            } else if (i instanceof LoggingInInterceptor) {
+                logging = true;
+            }
+        }
+        assertTrue(saaj);
+        assertTrue(logging);
+
+        saaj = false;
+        logging = false;
+        for (Interceptor<?> i : ep.getOutInterceptors()) {
+            if (i instanceof SAAJOutInterceptor) {
+                saaj = true;
+            } else if (i instanceof LoggingOutInterceptor) {
+                logging = true;
+            }
+        }
+        assertTrue(saaj);
+        assertTrue(logging);
+    }
+```
+
+TESTE 58
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/soap/src/test/java/org/apache/cxf/binding/soap/ReadHeaderInterceptorTest.java
+LINHAS: 152-163
+```java
+private boolean testNoClosingEnvTag(Object validationType) {
+        soapMessage = TestUtil.createEmptySoapMessage(Soap12.getInstance(), chain);
+        InputStream in = getClass().getResourceAsStream("test-no-endenv.xml");
+        assertNotNull(in);
+
+        soapMessage.put(Message.SCHEMA_VALIDATION_ENABLED, validationType);
+        soapMessage.setContent(XMLStreamReader.class, StaxUtils.createXMLStreamReader(in));
+
+        soapMessage.getInterceptorChain().doIntercept(soapMessage);
+        return soapMessage.getContent(Exception.class) != null;
+    }
+```
+
+TESTE 59
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/soap/src/test/java/org/apache/cxf/binding/soap/saaj/ParseBodyTest.java
+LINHAS: 130-144
+```java
+private void testUsingStaxUtilsCopyWithSAAJWriter(int n) throws Exception {
+        prepare(n);
+        StaxUtils.copy(xmlReader, new SAAJStreamWriter(soapMessage.getSOAPPart(), soapMessage.getSOAPPart()
+            .getEnvelope().getBody()), true, true);
+
+        DOMSource bodySource = new DOMSource(soapMessage.getSOAPPart().getEnvelope().getBody());
+        xmlReader = StaxUtils.createXMLStreamReader(bodySource);
+
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        StaxUtils.copy(xmlReader, buf);
+        String result = buf.toString();
+        //System.out.println("UsingStaxUtilsCopyWithSAAJWriter: " + result);
+        assertEquals(DATA[n], result);
+    }
+```
+
+TESTE 60
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/services/xkms/xkms-x509-handlers/src/test/java/org/apache/cxf/xkms/x509/utils/X509UtilsTest.java
+LINHAS: 41-48
+```java
+public void extractValidatingCertsOK() throws JAXBException {
+        InputStream is = this.getClass().getResourceAsStream("/validateRequestOK.xml");
+        @SuppressWarnings("unchecked")
+        JAXBElement<ValidateRequestType> request = (JAXBElement<ValidateRequestType>)unmarshaller.unmarshal(is);
+        List<X509Certificate> certs = ValidateRequestParser.parse(request.getValue());
+        Assert.assertEquals("Exactly one certificate should be found", 1, certs.size());
+        Assert.assertEquals("Unexcpected certificate DN", CERT_DN, certs.get(0).getSubjectDN().getName());
+    }
+```
+
+TESTE 61
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/sources/TestSQLServerSource.java
+LINHAS: 162-192
+```java
+testHandleConsumerEvent();
+        TestReadDataFromSource();
+        TestReadEmptyFromSource();
+    }
+
+    // test DebeziumEngine get one recode from SQLServer
+    private void testHandleConsumerEvent() throws Exception {
+        List<ChangeEvent<String, String>> records = new ArrayList<>();
+        records.add(new ChangeEvent<String, String>() {
+
+            @Override
+            public String key() {
+                return "KEY";
+            }
+
+            @Override
+            public String value() {
+                return "VALUE";
+            }
+
+            @Override
+            public String destination() {
+                return null;
+            }
+        });
+        Method handleConsumerEvent = SQLServerSource.class.getDeclaredMethod("handleConsumerEvent", List.class,
+                DebeziumEngine.RecordCommitter.class);
+        handleConsumerEvent.setAccessible(true);
+        handleConsumerEvent.invoke(source, records, committer);
+        assertEquals(1, queue.size());
+    }
+```
+
+TESTE 62
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/sources/TestSQLServerSource.java
+LINHAS: 163-192
+```java
+TestReadDataFromSource();
+        TestReadEmptyFromSource();
+    }
+
+    // test DebeziumEngine get one recode from SQLServer
+    private void testHandleConsumerEvent() throws Exception {
+        List<ChangeEvent<String, String>> records = new ArrayList<>();
+        records.add(new ChangeEvent<String, String>() {
+
+            @Override
+            public String key() {
+                return "KEY";
+            }
+
+            @Override
+            public String value() {
+                return "VALUE";
+            }
+
+            @Override
+            public String destination() {
+                return null;
+            }
+        });
+        Method handleConsumerEvent = SQLServerSource.class.getDeclaredMethod("handleConsumerEvent", List.class,
+                DebeziumEngine.RecordCommitter.class);
+        handleConsumerEvent.setAccessible(true);
+        handleConsumerEvent.invoke(source, records, committer);
+        assertEquals(1, queue.size());
+    }
+```
+
+TESTE 63
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/utils/TestUtils.java
+LINHAS: 83-129
+```java
+*/
+        testCutDirectoryByWildcard("/data/123/YYYYMMDDhhmm.log",
+                Arrays.asList("/data/123", "", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcard("/data/YYYYMMDDhhmm/test.log",
+                Arrays.asList("/data/YYYYMMDDhhmm", "", "test.log"));
+        testCutDirectoryByWildcard("/data/YYYYMMDDhhmm*/test.log",
+                Arrays.asList("/data", "YYYYMMDDhhmm*", "test.log"));
+        testCutDirectoryByWildcard("/data/log_minute/minute_YYYYMMDDhh*/mm.log_[0-9]+",
+                Arrays.asList("/data/log_minute", "minute_YYYYMMDDhh*", "mm.log_[0-9]+"));
+        testCutDirectoryByWildcard("/data/123+/YYYYMMDDhhmm.log",
+                Arrays.asList("/data", "123+", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcard("/data/2024112610*/test.log",
+                Arrays.asList("/data", "2024112610*", "test.log"));
+
+        /*
+         * 1 cut the file name 2 cut the path contains wildcard or date expression
+         */
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                Arrays.asList("/data", "YYYYMM/YYYaaMM", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYY/test.log",
+                Arrays.asList("/data", "YYYY", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/123*/MMDD/test.log",
+                Arrays.asList("/data", "123*/MMDD", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMMDD/123*/test.log",
+                Arrays.asList("/data", "YYYYMMDD/123*", "test.log"));
+
+        /*
+         * get the string before the first wildcard
+         */
+        testGetBeforeFirstWildcard("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                "/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm");
+        testGetBeforeFirstWildcard("/data/123*/MMDD/test.log",
+                "/data/123");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/123*/test.log",
+                "/data/YYYYMMDD/123");
+        testGetBeforeFirstWildcard("test/65535_YYYYMMDD_hh00.log",
+                "test/65535_YYYYMMDD_hh00");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/*123/test.log",
+                "/data/YYYYMMDD/");
+    }
+
+    private void testReplaceDateExpression(String src, String dst) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        Long dataTime = DateTransUtils.timeStrConvertToMillSec("202406251007", "m");
+        calendar.setTimeInMillis(dataTime);
+        Assert.assertEquals(DateUtils.replaceDateExpression(calendar, src), dst);
+    }
+```
+
+TESTE 64
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/utils/TestUtils.java
+LINHAS: 99-129
+```java
+*/
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                Arrays.asList("/data", "YYYYMM/YYYaaMM", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYY/test.log",
+                Arrays.asList("/data", "YYYY", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/123*/MMDD/test.log",
+                Arrays.asList("/data", "123*/MMDD", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMMDD/123*/test.log",
+                Arrays.asList("/data", "YYYYMMDD/123*", "test.log"));
+
+        /*
+         * get the string before the first wildcard
+         */
+        testGetBeforeFirstWildcard("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                "/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm");
+        testGetBeforeFirstWildcard("/data/123*/MMDD/test.log",
+                "/data/123");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/123*/test.log",
+                "/data/YYYYMMDD/123");
+        testGetBeforeFirstWildcard("test/65535_YYYYMMDD_hh00.log",
+                "test/65535_YYYYMMDD_hh00");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/*123/test.log",
+                "/data/YYYYMMDD/");
+    }
+
+    private void testReplaceDateExpression(String src, String dst) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        Long dataTime = DateTransUtils.timeStrConvertToMillSec("202406251007", "m");
+        calendar.setTimeInMillis(dataTime);
+        Assert.assertEquals(DateUtils.replaceDateExpression(calendar, src), dst);
+    }
+```
+
+TESTE 65
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/utils/TestUtils.java
+LINHAS: 111-129
+```java
+*/
+        testGetBeforeFirstWildcard("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                "/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm");
+        testGetBeforeFirstWildcard("/data/123*/MMDD/test.log",
+                "/data/123");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/123*/test.log",
+                "/data/YYYYMMDD/123");
+        testGetBeforeFirstWildcard("test/65535_YYYYMMDD_hh00.log",
+                "test/65535_YYYYMMDD_hh00");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/*123/test.log",
+                "/data/YYYYMMDD/");
+    }
+
+    private void testReplaceDateExpression(String src, String dst) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        Long dataTime = DateTransUtils.timeStrConvertToMillSec("202406251007", "m");
+        calendar.setTimeInMillis(dataTime);
+        Assert.assertEquals(DateUtils.replaceDateExpression(calendar, src), dst);
+    }
+```
+
+TESTE 66
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-agent/agent-plugins/src/test/java/org/apache/inlong/agent/plugin/utils/TestUtils.java
+LINHAS: 68-129
+```java
+*/
+        testReplaceDateExpression("/YYYYMMDDhhmm.log", "/202406251007.log");
+        testReplaceDateExpression("/YYYY.log", "/2024.log");
+        testReplaceDateExpression("/YYYYhhmm.log", "/20241007.log");
+        testReplaceDateExpression("/YYYY/YYYYMMDDhhmm.log", "/2024/202406251007.log");
+        testReplaceDateExpression("/YYYY/MMDD/hhmm.log", "/2024/0625/1007.log");
+        testReplaceDateExpression("/data/YYYYMMDD.hh/mm.log_[0-9]+", "/data/20240625.10/07.log_[0-9]+");
+        // error cases
+        testReplaceDateExpression("/YYY.log", "/YYY.log");
+        testReplaceDateExpression("/MMDDhhmm.log", "/MMDDhhmm.log");
+        testReplaceDateExpression("/MMDD/hhmm.log", "/MMDD/hhmm.log");
+        testReplaceDateExpression("/data/YYYYMMDD..hh/mm.log_[0-9]+", "/data/20240625..hh/mm.log_[0-9]+");
+
+        /*
+         * 1 cut the file name 2 cut the path contains wildcard
+         */
+        testCutDirectoryByWildcard("/data/123/YYYYMMDDhhmm.log",
+                Arrays.asList("/data/123", "", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcard("/data/YYYYMMDDhhmm/test.log",
+                Arrays.asList("/data/YYYYMMDDhhmm", "", "test.log"));
+        testCutDirectoryByWildcard("/data/YYYYMMDDhhmm*/test.log",
+                Arrays.asList("/data", "YYYYMMDDhhmm*", "test.log"));
+        testCutDirectoryByWildcard("/data/log_minute/minute_YYYYMMDDhh*/mm.log_[0-9]+",
+                Arrays.asList("/data/log_minute", "minute_YYYYMMDDhh*", "mm.log_[0-9]+"));
+        testCutDirectoryByWildcard("/data/123+/YYYYMMDDhhmm.log",
+                Arrays.asList("/data", "123+", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcard("/data/2024112610*/test.log",
+                Arrays.asList("/data", "2024112610*", "test.log"));
+
+        /*
+         * 1 cut the file name 2 cut the path contains wildcard or date expression
+         */
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                Arrays.asList("/data", "YYYYMM/YYYaaMM", "YYYYMMDDhhmm.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYY/test.log",
+                Arrays.asList("/data", "YYYY", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/123*/MMDD/test.log",
+                Arrays.asList("/data", "123*/MMDD", "test.log"));
+        testCutDirectoryByWildcardAndDateExpression("/data/YYYYMMDD/123*/test.log",
+                Arrays.asList("/data", "YYYYMMDD/123*", "test.log"));
+
+        /*
+         * get the string before the first wildcard
+         */
+        testGetBeforeFirstWildcard("/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm.log",
+                "/data/YYYYMM/YYYaaMM/YYYYMMDDhhmm");
+        testGetBeforeFirstWildcard("/data/123*/MMDD/test.log",
+                "/data/123");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/123*/test.log",
+                "/data/YYYYMMDD/123");
+        testGetBeforeFirstWildcard("test/65535_YYYYMMDD_hh00.log",
+                "test/65535_YYYYMMDD_hh00");
+        testGetBeforeFirstWildcard("/data/YYYYMMDD/*123/test.log",
+                "/data/YYYYMMDD/");
+    }
+
+    private void testReplaceDateExpression(String src, String dst) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        Long dataTime = DateTransUtils.timeStrConvertToMillSec("202406251007", "m");
+        calendar.setTimeInMillis(dataTime);
+        Assert.assertEquals(DateUtils.replaceDateExpression(calendar, src), dst);
+    }
+```
+
+TESTE 67
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-csv/src/test/java/org/apache/inlong/sort/formats/csv/CsvDeserializationSchemaTest.java
+LINHAS: 129-156
+```java
+"10,field1\\,field2,field3,field4".getBytes());
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "10,field1\\\\,field2,field3".getBytes());
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\"", "field2", "field3"),
+                "10,field1\\\",field2,field3".getBytes());
+    }
+
+    @Test
+    public void testQuote() throws Exception {
+        Consumer<CsvDeserializationSchema.Builder> config =
+                builder -> builder.setEscapeCharacter('\\').setQuoteCharacter('\"');
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1,field2", "field3", "field4"),
+                "10,\"field1,field2\",field3,field4".getBytes());
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "10,\"field1\\\",field2,field3".getBytes());
+    }
+```
+
+TESTE 68
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-csv/src/test/java/org/apache/inlong/sort/formats/csv/CsvSerializationSchemaTest.java
+LINHAS: 67-104
+```java
+};
+
+        testBasicSerialization(config, StringFormatInfo.INSTANCE, "hello", "hello");
+        testBasicSerialization(config, BooleanFormatInfo.INSTANCE, true, "true");
+        testBasicSerialization(config, ByteFormatInfo.INSTANCE, (byte) 124, "124");
+        testBasicSerialization(config, ShortFormatInfo.INSTANCE, (short) 10000, "10000");
+        testBasicSerialization(config, IntFormatInfo.INSTANCE, 1234567, "1234567");
+        testBasicSerialization(config, LongFormatInfo.INSTANCE, 12345678910L, "12345678910");
+        testBasicSerialization(config, FloatFormatInfo.INSTANCE, 0.33333334f, "0.33333334");
+        testBasicSerialization(config, DoubleFormatInfo.INSTANCE, 0.33333333332, "0.33333333332");
+        testBasicSerialization(config, DecimalFormatInfo.INSTANCE, new BigDecimal("1234.0000000000000000000000001"),
+                "1234.0000000000000000000000001");
+        testBasicSerialization(config, new DateFormatInfo("dd/MM/yyyy"), Date.valueOf("2020-03-22"), "22/03/2020");
+        testBasicSerialization(config, new TimeFormatInfo("ss/mm/hh"), Time.valueOf("11:12:13"), "13/12/11");
+        testBasicSerialization(config, new TimestampFormatInfo("dd/MM/yyyy hh:mm:ss"),
+                Timestamp.valueOf("2020-03-22 11:12:13"), "22/03/2020 11:12:13");
+    }
+
+    @Test
+    public void testNullLiteral() {
+        String nullLiteral = "n/a";
+
+        Consumer<CsvSerializationSchema.Builder> config =
+                builder -> builder.setNullLiteral(nullLiteral);
+
+        testBasicSerialization(config, StringFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, BooleanFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, ByteFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, ShortFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, IntFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, LongFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, FloatFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, DoubleFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, DecimalFormatInfo.INSTANCE, null, nullLiteral);
+        testBasicSerialization(config, new DateFormatInfo("dd/MM/yyyy"), null, nullLiteral);
+        testBasicSerialization(config, new TimeFormatInfo("ss/mm/hh"), null, nullLiteral);
+        testBasicSerialization(config, new TimestampFormatInfo("dd/MM/yyyy hh:mm:ss"), null, nullLiteral);
+    }
+```
+
+TESTE 69
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-csv/src/test/java/org/apache/inlong/sort/formats/csv/CsvSerializationSchemaTest.java
+LINHAS: 125-145
+```java
+"10,field1\\,field2,field3,field4".getBytes());
+        testRowSerialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "10,field1\\\\,field2,field3".getBytes());
+        testRowSerialization(
+                config,
+                Row.of(10, "field1\"", "field2", "field3"),
+                "10,field1\\\",field2,field3".getBytes());
+    }
+
+    @Test
+    public void testQuote() {
+        Consumer<CsvSerializationSchema.Builder> config =
+                builder -> builder.setQuoteCharacter('\"');
+
+        testRowSerialization(
+                config,
+                Row.of(10, "field1,field2", "field3", "field4"),
+                "10,field1\",\"field2,field3,field4".getBytes());
+    }
+```
+
+TESTE 70
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-inlongmsg-csv/src/test/java/org/apache/inlong/sort/formats/inlongmsgcsv/InLongMsgCsvFormatDeserializerTest.java
+LINHAS: 171-214
+```java
+"field23");
+
+        testRowDeserialization(
+                deserializer,
+                inLongMsg.buildArray(),
+                Arrays.asList(expectedRow1, expectedRow2));
+    }
+
+    @Test
+    public void testExceptionHandler() throws Exception {
+        TestFailureHandler errorHandler = new TestFailureHandler();
+        InLongMsgCsvFormatDeserializer deserializer =
+                new InLongMsgCsvFormatDeserializer(
+                        TEST_ROW_INFO,
+                        "inlongmsg_time",
+                        "inlongmsg_attributes",
+                        DEFAULT_CHARSET,
+                        DEFAULT_DELIMITER,
+                        null,
+                        null,
+                        null,
+                        null,
+                        DEFAULT_DELETE_HEAD_DELIMITER,
+                        errorHandler);
+
+        InLongMsg inLongMsg = InLongMsg.newInLongMsg();
+        String attrs = "m=0&streamId=testInterfaceId&t=20200322&__addcol1__=1&__addcol2__=2";
+        String body1 = "test,field11,field12,field13";
+        String body2 = "123,field21,field22,field23";
+        inLongMsg.addMsg(attrs, body1.getBytes());
+        inLongMsg.addMsg(attrs, body2.getBytes());
+
+        List<Row> actualRows = new ArrayList<>();
+        Collector<Row> collector = new ListCollector<>(actualRows);
+        deserializer.flatMap(inLongMsg.buildArray(), collector);
+        assertEquals(0, errorHandler.getRowCount());
+
+        InLongMsg inLongMsg2 = InLongMsg.newInLongMsg();
+        String abNormalAttrs = "m=0&streamId=testInterfaceId&__addcol1__=1&__addcol2__=2";
+        inLongMsg2.addMsg(abNormalAttrs, body1.getBytes());
+        inLongMsg2.addMsg(abNormalAttrs, body2.getBytes());
+        deserializer.flatMap(inLongMsg2.buildArray(), collector);
+        assertEquals(1, errorHandler.getHeadCount());
+    }
+```
+
+TESTE 71
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-inlongmsg-kv/src/test/java/org/apache/inlong/sort/formats/inlongmsgkv/InLongMsgKvFormatDeserializerTest.java
+LINHAS: 141-192
+```java
+.build();
+        testRowDeserialization(
+                deserializer, inLongMsg.buildArray(),
+                Arrays.asList(expectedRow1, expectedRow2));
+    }
+
+    @Test
+    public void testNullField() throws Exception {
+
+        InLongMsg inLongMsg = InLongMsg.newInLongMsg();
+        String attrs = "m=0&streamId=testInterfaceId&t=20200322&__addcol1__=1&__addcol2__=2";
+        String body1 = "f1=123&f2=field11&f3=field12";
+        String body2 = "f1=123&f2=field21&f4=field23&f5=field24&=";
+        inLongMsg.addMsg(attrs, body1.getBytes());
+        inLongMsg.addMsg(attrs, body2.getBytes());
+
+        Map<String, String> expectedAttributes = new HashMap<>();
+        expectedAttributes.put("m", "0");
+        expectedAttributes.put("streamId", "testInterfaceId");
+        expectedAttributes.put("t", "20200322");
+        expectedAttributes.put("__addcol1__", "1");
+        expectedAttributes.put("__addcol2__", "2");
+
+        Row expectedRow1 = Row.of(
+                Timestamp.valueOf("2020-03-22 00:00:00"),
+                expectedAttributes,
+                1,
+                2,
+                123,
+                "field11",
+                "field12",
+                null);
+
+        Row expectedRow2 = Row.of(
+                Timestamp.valueOf("2020-03-22 00:00:00"),
+                expectedAttributes,
+                1,
+                2,
+                123,
+                "field21",
+                null,
+                "field23");
+
+        InLongMsgKvFormatDeserializer deserializer =
+                new InLongMsgKvFormatDeserializer.Builder(TEST_ROW_INFO)
+                        .setTimeFieldName("inlongmsg_time")
+                        .setAttributesFieldName("inlongmsg_attributes")
+                        .build();
+        testRowDeserialization(
+                deserializer, inLongMsg.buildArray(),
+                Arrays.asList(expectedRow1, expectedRow2));
+    }
+```
+
+TESTE 72
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-inlongmsg-rowdata-csv/src/test/java/org/apache/inlong/sort/formats/inlongmsgcsv/InLongMsgCsvFormatDeserializerTest.java
+LINHAS: 576-617
+```java
+expectList.add(expectRowData2);
+        testRowDeserialization(
+                deserializer,
+                inLongMsg.buildArray(),
+                expectList);
+    }
+
+    @Test
+    public void testDeleteHeadDelimiter() throws Exception {
+        InLongMsgCsvFormatDeserializer deserializer =
+                new InLongMsgCsvFormatDeserializer.Builder(TEST_ROW_INFO)
+                        .setTimeFieldName("inlongmsg_time")
+                        .setAttributesFieldName("inlongmsg_attributes")
+                        .setDeleteHeadDelimiter(true)
+                        .build();
+
+        InLongMsg inLongMsg = InLongMsg.newInLongMsg();
+        String attrs = "m=0&streamId=testInterfaceId&t=20200322";
+        String body = ",1,2,3,field1,field2,field3";
+
+        inLongMsg.addMsg(attrs, body.getBytes());
+
+        Map<String, String> expectedAttributes = new HashMap<>();
+        expectedAttributes.put("m", "0");
+        expectedAttributes.put("streamId", "testInterfaceId");
+        expectedAttributes.put("t", "20200322");
+
+        GenericRowData expectRowData = new GenericRowData(8);
+        expectRowData.setField(0, TimestampData.fromTimestamp(Timestamp.valueOf("2020-03-22 00:00:00")));
+        expectRowData.setField(1, mapConvert.convert(expectedAttributes));
+        expectRowData.setField(2, 1);
+        expectRowData.setField(3, 2);
+        expectRowData.setField(4, 3);
+        expectRowData.setField(5, StringData.fromString("field1"));
+        expectRowData.setField(6, StringData.fromString("field2"));
+        expectRowData.setField(7, StringData.fromString("field3"));
+
+        testRowDeserialization(
+                deserializer,
+                inLongMsg.buildArray(),
+                Collections.singletonList(expectRowData));
+    }
+```
+
+TESTE 73
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-inlongmsg-rowdata-kv/src/test/java/org/apache/inlong/sort/formats/inlongmsgkv/InLongMsgKvFormatDeserializerTest.java
+LINHAS: 151-204
+```java
+.build();
+        testRowDeserialization(
+                deserializer,
+                inLongMsg.buildArray(),
+                Arrays.asList(expectRowData1, expectRowData2));
+    }
+
+    @Test
+    public void testNullField() throws Exception {
+
+        InLongMsg inLongMsg = InLongMsg.newInLongMsg();
+        String attrs = "m=0&iname=testInterfaceId&t=20200322&__addcol1__=1&__addcol2__=2";
+        String body1 = "f1=123&f2=field11&f3=field12";
+        String body2 = "f1=123&f2=field21&f4=field23&f5=field24&=";
+        inLongMsg.addMsg(attrs, body1.getBytes());
+        inLongMsg.addMsg(attrs, body2.getBytes());
+
+        Map<String, String> expectedAttributes = new HashMap<>();
+        expectedAttributes.put("m", "0");
+        expectedAttributes.put("iname", "testInterfaceId");
+        expectedAttributes.put("t", "20200322");
+        expectedAttributes.put("__addcol1__", "1");
+        expectedAttributes.put("__addcol2__", "2");
+
+        GenericRowData expectRowData1 = new GenericRowData(8);
+        expectRowData1.setField(0, TimestampData.fromTimestamp(Timestamp.valueOf("2020-03-22 00:00:00")));
+        expectRowData1.setField(1, mapConvert.convert(expectedAttributes));
+        expectRowData1.setField(2, 1);
+        expectRowData1.setField(3, 2);
+        expectRowData1.setField(4, 123);
+        expectRowData1.setField(5, StringData.fromString("field11"));
+        expectRowData1.setField(6, StringData.fromString("field12"));
+        expectRowData1.setField(7, null);
+
+        GenericRowData expectRowData2 = new GenericRowData(8);
+        expectRowData2.setField(0, TimestampData.fromTimestamp(Timestamp.valueOf("2020-03-22 00:00:00")));
+        expectRowData2.setField(1, mapConvert.convert(expectedAttributes));
+        expectRowData2.setField(2, 1);
+        expectRowData2.setField(3, 2);
+        expectRowData2.setField(4, 123);
+        expectRowData2.setField(5, StringData.fromString("field21"));
+        expectRowData2.setField(6, null);
+        expectRowData2.setField(7, StringData.fromString("field23"));
+
+        InLongMsgKvFormatDeserializer deserializer =
+                new InLongMsgKvFormatDeserializer.Builder(TEST_ROW_INFO)
+                        .setTimeFieldName("inlongmsg_time")
+                        .setAttributesFieldName("inlongmsg_attributes")
+                        .build();
+        testRowDeserialization(
+                deserializer,
+                inLongMsg.buildArray(),
+                Arrays.asList(expectRowData1, expectRowData2));
+    }
+```
+
+TESTE 74
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvDeserializationSchemaTest.java
+LINHAS: 119-148
+```java
+.setQuoteCharacter('\"');
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1&field2", "field3", "field4"),
+                "f1=10&f2=field1\\&field2&f3=field3&f4=field4".getBytes());
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "f1=10&f2=field1\\\\&f3=field2&f4=field3".getBytes());
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\"", "field2", "field3"),
+                "f1=10&f2=field1\\\"&f3=field2&f4=field3".getBytes());
+    }
+
+    @Test
+    public void testQuote() throws Exception {
+        Consumer<KvDeserializationSchema.Builder> config = builder -> builder.setEscapeCharacter('\\')
+                .setQuoteCharacter('\"');
+
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1&field2", "field3", "field4"),
+                "f1=10&f2=\"field1&field2\"&f3=field3&f4=field4".getBytes());
+        testRowDeserialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "f1=10&f2=\"field1\\\"&f3=field2&f4=field3".getBytes());
+    }
+```
+
+TESTE 75
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvSerializationSchemaTest.java
+LINHAS: 67-103
+```java
+};
+
+        testBasicSerialization(config, StringFormatInfo.INSTANCE, "hello", "f=hello");
+        testBasicSerialization(config, BooleanFormatInfo.INSTANCE, true, "f=true");
+        testBasicSerialization(config, ByteFormatInfo.INSTANCE, (byte) 124, "f=124");
+        testBasicSerialization(config, ShortFormatInfo.INSTANCE, (short) 10000, "f=10000");
+        testBasicSerialization(config, IntFormatInfo.INSTANCE, 1234567, "f=1234567");
+        testBasicSerialization(config, LongFormatInfo.INSTANCE, 12345678910L, "f=12345678910");
+        testBasicSerialization(config, FloatFormatInfo.INSTANCE, 0.33333334f, "f=0.33333334");
+        testBasicSerialization(config, DoubleFormatInfo.INSTANCE, 0.33333333332, "f=0.33333333332");
+        testBasicSerialization(config, DecimalFormatInfo.INSTANCE, new BigDecimal("1234.0000000000000000000000001"),
+                "f=1234.0000000000000000000000001");
+        testBasicSerialization(config, new DateFormatInfo("dd/MM/yyyy"), Date.valueOf("2020-03-22"), "f=22/03/2020");
+        testBasicSerialization(config, new TimeFormatInfo("ss/mm/hh"), Time.valueOf("11:12:13"), "f=13/12/11");
+        testBasicSerialization(config, new TimestampFormatInfo("dd/MM/yyyy hh:mm:ss"),
+                Timestamp.valueOf("2020-03-22 11:12:13"), "f=22/03/2020 11:12:13");
+    }
+
+    @Test
+    public void testNullIteral() {
+        String nullLiteral = "n/a";
+        String nullField = "f=n/a";
+        Consumer<KvSerializationSchema.Builder> config = builder -> builder.setNullLiteral(nullLiteral);
+
+        testBasicSerialization(config, StringFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, BooleanFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, ByteFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, ShortFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, IntFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, LongFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, FloatFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, DoubleFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, DecimalFormatInfo.INSTANCE, null, nullField);
+        testBasicSerialization(config, new DateFormatInfo("dd/MM/yyyy"), null, nullField);
+        testBasicSerialization(config, new TimeFormatInfo("ss/mm/hh"), null, nullField);
+        testBasicSerialization(config, new TimestampFormatInfo("dd/MM/yyyy hh:mm:ss"), null, nullField);
+    }
+```
+
+TESTE 76
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-row/format-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvSerializationSchemaTest.java
+LINHAS: 118-142
+```java
+.setQuoteCharacter('\"');
+
+        testRowSerialization(
+                config,
+                Row.of(10, "field1&field2", "field3", "field4"),
+                "f1=10&f2=field1\\&field2&f3=field3&f4=field4".getBytes());
+        testRowSerialization(
+                config,
+                Row.of(10, "field1\\", "field2", "field3"),
+                "f1=10&f2=field1\\\\&f3=field2&f4=field3".getBytes());
+        testRowSerialization(
+                config,
+                Row.of(10, "field1\"", "field2", "field3"),
+                "f1=10&f2=field1\\\"&f3=field2&f4=field3".getBytes());
+    }
+
+    @Test
+    public void testQuote() {
+        Consumer<KvSerializationSchema.Builder> config = builder -> builder.setQuoteCharacter('\"');
+
+        testRowSerialization(
+                config,
+                Row.of(10, "field1&field2", "field3", "field4"),
+                "f1=10&f2=field1\"&\"field2&f3=field3&f4=field4".getBytes());
+    }
+```
+
+TESTE 77
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-rowdata-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvFormatFactoryTest.java
+LINHAS: 69-78
+```java
+testSerializationSchema(tableOptions);
+        testDeserializationSchema(tableOptions);
+    }
+
+    private Map<String, String> getModifiedOptions(
+            Consumer<Map<String, String>> optionModifier) {
+        Map<String, String> options = getAllOptions();
+        optionModifier.accept(options);
+        return options;
+    }
+```
+
+TESTE 78
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-rowdata-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvFormatFactoryTest.java
+LINHAS: 97-111
+```java
+private void testSerializationSchema(Map<String, String> tableOptions) {
+        final KvRowDataSerializationSchema expectedSer =
+                new KvRowDataSerializationSchema.Builder(TEST_FORMAT_SCHEMA)
+                        .setEntryDelimiter('&')
+                        .setKvDelimiter('=')
+                        .setCharset(StandardCharsets.ISO_8859_1.name())
+                        .setEscapeCharacter('\\')
+                        .setQuoteCharacter('\"')
+                        .setNullLiteral("n/a")
+                        .setIgnoreErrors(true)
+                        .build();
+        SerializationSchema<RowData> actualSer = createSerializationSchema(tableOptions);
+        assertEquals(expectedSer, actualSer);
+    }
+```
+
+TESTE 79
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-rowdata-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvRowDataDeserializationSchemaTest.java
+LINHAS: 306-321
+```java
+private void testRowDeserialization(
+            Consumer<KvRowDataDeserializationSchema.Builder> config,
+            RowData expectedRow,
+            byte[] bytes) throws Exception {
+        LogicalType rowType = TableFormatUtils.deriveLogicalType(TEST_ROW_INFO);
+        TypeInformation<RowData> producedTypeInfo = InternalTypeInfo.of(rowType);
+        KvRowDataDeserializationSchema.Builder builder =
+                new KvRowDataDeserializationSchema.Builder(TEST_ROW_INFO, producedTypeInfo);
+        config.accept(builder);
+
+        KvRowDataDeserializationSchema deserializer = builder.build();
+
+        RowData row = deserializer.deserialize(bytes);
+        assertEquals(expectedRow, row);
+    }
+```
+
+TESTE 80
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-sort/sort-formats/format-rowdata/format-rowdata-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvRowDataSerializationSchemaTest.java
+LINHAS: 137-168
+```java
+"f1=10&f2=field1\\&field2&f3=field3&f4=field4".getBytes());
+        testRowSerialization(
+                config,
+                GenericRowData.of(
+                        10,
+                        fromString("field1\\"),
+                        fromString("field2"),
+                        fromString("field3")),
+                "f1=10&f2=field1\\\\&f3=field2&f4=field3".getBytes());
+        testRowSerialization(
+                config,
+                GenericRowData.of(
+                        10,
+                        fromString("field1\""),
+                        fromString("field2"),
+                        fromString("field3")),
+                "f1=10&f2=field1\\\"&f3=field2&f4=field3".getBytes());
+    }
+
+    @Test
+    public void testQuote() {
+        Consumer<KvRowDataSerializationSchema.Builder> config = builder -> builder.setQuoteCharacter('\"');
+
+        testRowSerialization(
+                config,
+                GenericRowData.of(
+                        10,
+                        fromString("field1&field2"),
+                        fromString("field3"),
+                        fromString("field4")),
+                "f1=10&f2=field1\"&\"field2&f3=field3&f4=field4".getBytes());
+    }
+```
+
+TESTE 81
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 797-809
+```java
+@Test
+    void testBindTag() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/cluster/bindTag.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(true)))));
+        BindTagRequest request = new BindTagRequest();
+        request.setClusterTag("test_cluster_tag");
+        Boolean isBind = clusterClient.bindTag(request);
+        Assertions.assertTrue(isBind);
+    }
+```
+
+TESTE 82
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 400-410
+```java
+@Test
+    void testCreateGroup() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/save.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success("1111")))));
+
+        String groupId = groupClient.createGroup(new InlongPulsarRequest());
+        Assertions.assertEquals("1111", groupId);
+    }
+```
+
+TESTE 83
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 950-960
+```java
+@Test
+    void testDeleteDataNode() {
+        stubFor(
+                delete(urlMatching("/inlong/manager/api/node/delete/1.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(true)))));
+        Boolean isUpdate = dataNodeClient.delete(1);
+        Assertions.assertTrue(isUpdate);
+    }
+```
+
+TESTE 84
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 1009-1019
+```java
+@Test
+    void testDeleteUser() {
+        stubFor(
+                delete(urlMatching("/inlong/manager/api/user/delete.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(true)))));
+        Boolean isDelete = userClient.delete(1);
+        Assertions.assertTrue(isDelete);
+    }
+```
+
+TESTE 85
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 780-796
+```java
+@Test
+    void testGetClusterTag() {
+        ClusterTagResponse tagResponse = ClusterTagResponse.builder()
+                .id(1)
+                .clusterTag("test_cluster")
+                .creator("admin")
+                .inCharges("admin")
+                .build();
+        stubFor(
+                get(urlMatching("/inlong/manager/api/cluster/tag/get/1.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(tagResponse)))));
+        ClusterTagResponse clusterTagInfo = clusterClient.getTag(1);
+        Assertions.assertNotNull(clusterTagInfo);
+    }
+```
+
+TESTE 86
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 491-520
+```java
+@Test
+    void testGetStream() {
+        InlongStreamInfo streamInfo = new InlongStreamInfo();
+        streamInfo.setId(1);
+        streamInfo.setInlongGroupId("123");
+        streamInfo.setInlongStreamId("11");
+        streamInfo.setName("name");
+        streamInfo.setFieldList(
+                Lists.newArrayList(
+                        StreamField.builder()
+                                .id(1)
+                                .inlongGroupId("123")
+                                .fieldType("string")
+                                .build(),
+                        StreamField.builder()
+                                .id(2)
+                                .inlongGroupId("123")
+                                .inlongGroupId("11")
+                                .isMetaField(1)
+                                .build()));
+
+        stubFor(
+                get(urlMatching("/inlong/manager/api/stream/get.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(streamInfo)))));
+
+        InlongStreamInfo streamInfoResult = streamClient.getStreamInfo("123", "11");
+        Assertions.assertNotNull(streamInfoResult);
+    }
+```
+
+TESTE 87
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 521-532
+```java
+@Test
+    void testGetStream4NotExist() {
+        stubFor(
+                get(urlMatching("/inlong/manager/api/stream/get.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.fail("Inlong stream does not exist/no operation permission")))));
+
+        InlongStreamInfo inlongStreamInfo = streamClient.getStreamInfo("123", "11");
+        Assertions.assertNull(inlongStreamInfo);
+    }
+```
+
+TESTE 88
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 158-167
+```java
+@Test
+    void testGroupExist() {
+        stubFor(
+                get(urlMatching("/inlong/manager/api/group/exist/123.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(true)))));
+        Boolean groupExists = groupClient.isGroupExists("123");
+        Assertions.assertTrue(groupExists);
+    }
+```
+
+TESTE 89
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 917-934
+```java
+@Test
+    void testListDataNode() {
+        List<DataNodeInfo> nodeResponses = Lists.newArrayList(
+                HiveDataNodeInfo.builder()
+                        .id(1)
+                        .type(DataNodeType.HIVE)
+                        .build());
+
+        stubFor(
+                post(urlMatching("/inlong/manager/api/node/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(new PageResult<>(nodeResponses))))));
+
+        DataNodePageRequest pageRequest = new DataNodePageRequest();
+        PageResult<DataNodeInfo> pageInfo = dataNodeClient.list(pageRequest);
+        Assertions.assertEquals(JsonUtils.toJsonString(pageInfo.getList()), JsonUtils.toJsonString(nodeResponses));
+    }
+```
+
+TESTE 90
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 196-223
+```java
+@Test
+    void testListGroup4AutoPushSource() {
+        List<InlongGroupBriefInfo> groupBriefInfos = Lists.newArrayList(
+                InlongGroupBriefInfo.builder()
+                        .id(1)
+                        .inlongGroupId("1")
+                        .name("name")
+                        .streamSources(
+                                Lists.newArrayList(
+                                        AutoPushSource.builder()
+                                                .id(22)
+                                                .inlongGroupId("1")
+                                                .inlongStreamId("2")
+                                                .sourceType(SourceType.AUTO_PUSH)
+                                                .dataProxyGroup("111")
+                                                .build()))
+                        .build());
+
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(new PageResult<>(groupBriefInfos))))));
+
+        PageResult<InlongGroupBriefInfo> pageInfo = groupClient.listGroups("keyword", 1, 1, 10);
+        Assertions.assertEquals(JsonUtils.toJsonString(groupBriefInfos),
+                JsonUtils.toJsonString(pageInfo.getList()));
+    }
+```
+
+TESTE 91
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 224-255
+```java
+@Test
+    void testListGroup4BinlogSource() {
+        List<InlongGroupBriefInfo> groupBriefInfos = Lists.newArrayList(
+                InlongGroupBriefInfo.builder()
+                        .id(1)
+                        .inlongGroupId("1")
+                        .name("name")
+                        .streamSources(
+                                Lists.newArrayList(
+                                        MySQLBinlogSource.builder()
+                                                .id(22)
+                                                .inlongGroupId("1")
+                                                .inlongStreamId("2")
+                                                .sourceType(SourceType.MYSQL_BINLOG)
+                                                .hostname("127.0.0.1")
+                                                .status(1)
+                                                .user("root")
+                                                .password("pwd")
+                                                .databaseWhiteList("")
+                                                .build()))
+                        .build());
+
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(new PageResult<>(groupBriefInfos))))));
+
+        PageResult<InlongGroupBriefInfo> pageInfo = groupClient.listGroups("keyword", 1, 1, 10);
+        Assertions.assertEquals(JsonUtils.toJsonString(groupBriefInfos),
+                JsonUtils.toJsonString(pageInfo.getList()));
+    }
+```
+
+TESTE 92
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 256-287
+```java
+@Test
+    void testListGroup4FileSource() {
+        List<InlongGroupBriefInfo> groupBriefInfos = Lists.newArrayList(
+                InlongGroupBriefInfo.builder()
+                        .id(1)
+                        .inlongGroupId("1")
+                        .name("name")
+                        .inCharges("admin")
+                        .status(1)
+                        .streamSources(
+                                Lists.newArrayList(
+                                        FileSource.builder()
+                                                .id(22)
+                                                .inlongGroupId("1")
+                                                .inlongStreamId("2")
+                                                .sourceType(SourceType.FILE)
+                                                .status(1)
+                                                .agentIp("127.0.0.1")
+                                                .pattern("pattern")
+                                                .build()))
+                        .build());
+
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(new PageResult<>(groupBriefInfos))))));
+
+        PageResult<InlongGroupBriefInfo> pageInfo = groupClient.listGroups("keyword", 1, 1, 10);
+        Assertions.assertEquals(JsonUtils.toJsonString(groupBriefInfos),
+                JsonUtils.toJsonString(pageInfo.getList()));
+    }
+```
+
+TESTE 93
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 388-399
+```java
+@Test
+    void testListGroup4NotExist() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.fail("Inlong group does not exist/no operation authority")))));
+
+        PageResult<InlongGroupBriefInfo> pageInfo = groupClient.listGroups("keyword", 1, 1, 10);
+        Assertions.assertNull(pageInfo);
+    }
+```
+
+TESTE 94
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 670-682
+```java
+@Test
+    void testListSink4AllTypeShouldThrowException() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/sink/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.fail("groupId should not empty")))));
+
+        RuntimeException exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> sinkClient.listSinks("", "11"));
+        Assertions.assertTrue(exception.getMessage().contains("groupId should not empty"));
+    }
+```
+
+TESTE 95
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 1038-1055
+```java
+@Test
+    void testParseSinkFields() {
+        List<SinkField> sinkFieldList = Lists.newArrayList(
+                SinkField.builder()
+                        .fieldName("test_name")
+                        .fieldType("string")
+                        .build());
+        stubFor(
+                post(urlMatching("/inlong/manager/api/sink/parseFields.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(Lists.newArrayList(sinkFieldList))))));
+
+        List<SinkField> responseList = sinkClient.parseFields(STATEMENT_TYPE_JSON, "{\"test_name\":\"string\"}");
+        Assertions.assertEquals(JsonUtils.toJsonString(responseList), JsonUtils.toJsonString(sinkFieldList));
+
+    }
+```
+
+TESTE 96
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 1020-1037
+```java
+@Test
+    void testParseStreamFields() {
+        List<StreamField> streamFieldList = Lists.newArrayList(
+                StreamField.builder()
+                        .fieldName("test_name")
+                        .fieldType("string")
+                        .build());
+        stubFor(
+                post(urlMatching("/inlong/manager/api/stream/parseFields.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(Lists.newArrayList(streamFieldList))))));
+
+        List<StreamField> responseList = streamClient.parseFields(STATEMENT_TYPE_JSON, "{\"test_name\":\"string\"}");
+        Assertions.assertEquals(JsonUtils.toJsonString(responseList), JsonUtils.toJsonString(streamFieldList));
+
+    }
+```
+
+TESTE 97
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 683-694
+```java
+@Test
+    void testResetGroup() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/group/reset.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(true)))));
+
+        boolean isReset = groupClient.resetGroup(new InlongGroupResetRequest());
+        Assertions.assertTrue(isReset);
+    }
+```
+
+TESTE 98
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 476-490
+```java
+@Test
+    void testStreamExist() {
+        stubFor(
+                get(urlMatching("/inlong/manager/api/stream/exist/123/11.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(Response.success(true)))));
+
+        InlongStreamInfo streamInfo = new InlongStreamInfo();
+        streamInfo.setInlongGroupId("123");
+        streamInfo.setInlongStreamId("11");
+        Boolean groupExists = streamClient.isStreamExists(streamInfo);
+
+        Assertions.assertTrue(groupExists);
+    }
+```
+
+TESTE 99
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/ClientFactoryTest.java
+LINHAS: 935-949
+```java
+@Test
+    void testUpdateDataNode() {
+        stubFor(
+                post(urlMatching("/inlong/manager/api/node/update.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(true)))));
+
+        HiveDataNodeRequest request = new HiveDataNodeRequest();
+        request.setId(1);
+        request.setName("test_hive_node");
+        Boolean isUpdate = dataNodeClient.update(request);
+        Assertions.assertTrue(isUpdate);
+    }
+```
+
+TESTE 100
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/.jnose_projects/inlong/inlong-manager/manager-client/src/test/java/org/apache/inlong/manager/client/api/inner/HeartbeatClientTest.java
+LINHAS: 118-137
+```java
+@Test
+    void testListComponent() {
+        List<ComponentHeartbeatResponse> responses = Lists.newArrayList(
+                ComponentHeartbeatResponse.builder()
+                        .component(ComponentTypeEnum.Agent.getType())
+                        .instance("127.0.0.1")
+                        .build());
+
+        stubFor(
+                post(urlMatching("/inlong/manager/api/heartbeat/component/list.*"))
+                        .willReturn(
+                                okJson(JsonUtils.toJsonString(
+                                        Response.success(new PageResult<>(responses))))));
+
+        HeartbeatPageRequest request = new HeartbeatPageRequest();
+        request.setComponent(ComponentTypeEnum.Agent.getType());
+        PageResult<ComponentHeartbeatResponse> pageResult = heartbeatClient.listComponentHeartbeat(request);
+        Assertions.assertEquals(JsonUtils.toJsonString(responses), JsonUtils.toJsonString(pageResult.getList()));
+    }
+```
+

@@ -1,0 +1,2419 @@
+TESTE 1
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/pubsub-binary-to-bigquery/src/test/java/com/google/cloud/teleport/v2/templates/PubsubProtoToBigQueryTest.java
+LINHAS: 101-113
+```java
+@Test
+  public void testApplyUdfWithPathButNoFunction() {
+    PubSubProtoToBigQueryOptions options = getOptions();
+    options.setJavascriptTextTransformGcsPath("/some/path.js");
+    PCollection<String> input = pipeline.apply(Create.of(""));
+
+    assertThrows(IllegalArgumentException.class, () -> runUdf(input, options));
+    options.setJavascriptTextTransformFunctionName("");
+    assertThrows(IllegalArgumentException.class, () -> runUdf(input, options));
+
+    pipeline.run();
+  }
+```
+
+TESTE 2
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/coordinate/PreAcceptTrackerTest.java
+LINHAS: 105-120
+```java
+@Test
+    void failure()
+    {
+        Topology subTopology = topology(topology.get(0));
+        FastPathTracker responses = new FastPathTracker(topologies(subTopology), TxnId.NONE);
+
+        responses.recordSuccess(ids[0], true);
+        assertResponseState(responses, false, false, false);
+
+        responses.recordFailure(ids[1]);
+        assertResponseState(responses, false, false, false);
+
+        responses.recordFailure(ids[2]);
+        assertResponseState(responses, false, false, true);
+    }
+```
+
+TESTE 3
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/coordinate/PreAcceptTrackerTest.java
+LINHAS: 53-68
+```java
+@Test
+    void singleShard()
+    {
+        Topology subTopology = topology(topology.get(0));
+        FastPathTracker responses = new FastPathTracker(topologies(subTopology), TxnId.NONE);
+
+        responses.recordSuccess(ids[0], false);
+        assertResponseState(responses, false, false, false);
+
+        responses.recordSuccess(ids[1], false);
+        assertResponseState(responses, true, false, false);
+
+        responses.recordSuccess(ids[2], false);
+        assertResponseState(responses, true, false, false);
+    }
+```
+
+TESTE 4
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/coordinate/PreAcceptTrackerTest.java
+LINHAS: 89-104
+```java
+@Test
+    void unexpectedResponsesAreIgnored()
+    {
+        Topology subTopology = topology(topology.get(0));
+        FastPathTracker responses = new FastPathTracker(topologies(subTopology), TxnId.NONE);
+
+        responses.recordSuccess(ids[0], false);
+        assertResponseState(responses, false, false, false);
+
+        responses.recordSuccess(ids[1], false);
+        assertResponseState(responses, true, false, false);
+
+        Assertions.assertFalse(subTopology.get(0).nodes.contains(ids[4]));
+        responses.recordSuccess(ids[4], false);
+        assertResponseState(responses, true, false, false);
+    }
+```
+
+TESTE 5
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-console/src/test/java/org/apache/activemq/console/QueryCommandTest.java
+LINHAS: 115-132
+```java
+@Test
+    public void testConnection() throws Exception {
+
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerService.getTransportConnectors().get(0).getPublishableConnectURI());
+        Connection connection = connectionFactory.createConnection();
+        connection.setClientID(CLIENT_ID);
+        connection.start();
+
+        String result = executeQuery("-QConnection=* --view ClientId");
+        assertTrue("got client id", result.contains(CLIENT_ID));
+
+        result = executeQuery("--objname type=Broker,brokerName=*,connector=clientConnectors,connectorName=* -xQNetworkConnector=*");
+        assertTrue("got named", result.contains(CONNECTOR_NAME));
+
+        result = executeQuery("-QConnector=*");
+        assertTrue("got named", result.contains(CONNECTOR_NAME));
+    }
+```
+
+TESTE 6
+PROJETO: agera
+ARQUIVO: /home/magno-macedo/.jnose_projects/agera/agera/src/test/java/com/google/android/agera/ResultTest.java
+LINHAS: 683-687
+```java
+@Test
+  public void shouldBeSingletonForFailureWithoutExplicitThrowable() {
+    assertThat(failure(), equalTo(failure()));
+  }
+```
+
+TESTE 7
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/state/quicklinksprofile/QuickLinkVisibilityControllerFactoryTest.java
+LINHAS: 57-68
+```java
+@Test
+  public void invalidProfilePassed() throws Exception {
+    String json = Resources.toString(Resources.getResource("inconsistent_quicklinks_profile.json"), Charsets.UTF_8);
+    assertTrue(
+        "An instance of " + ShowAllLinksVisibilityController.class.getSimpleName() + " should have been returned",
+        QuickLinkVisibilityControllerFactory.get(json) instanceof ShowAllLinksVisibilityController);
+
+    json = Resources.toString(Resources.getResource("inconsistent_quicklinks_profile_2.json"), Charsets.UTF_8);
+    assertTrue(
+        "An instance of " + ShowAllLinksVisibilityController.class.getSimpleName() + " should have been returned",
+        QuickLinkVisibilityControllerFactory.get(json) instanceof ShowAllLinksVisibilityController);
+  }
+```
+
+TESTE 8
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/state/quicklinksprofile/QuickLinksProfileBuilderTest.java
+LINHAS: 77-106
+```java
+@Test
+  public void testBuildProfileBothGlobalAndServiceFilters() throws Exception {
+    Set<Map<String, String>> globalFilters = newHashSet( filter(null, null, false) );
+
+    Map<String, Object> nameNode = component(
+      "NAMENODE",
+      newHashSet(
+        filter("namenode_ui", null, false),
+        filter("namenode_logs", null, "http://customlink.org/namenode_logs", true)
+      )
+    );
+
+    Map<String, Object> hdfs = service("HDFS",
+        newHashSet(nameNode),
+        newHashSet(filter(null, "sso", true)));
+
+    Set<Map<String, Object>> services = Sets.newHashSet(hdfs);
+
+    String profileJson = new QuickLinksProfileBuilder().buildQuickLinksProfile(globalFilters, services);
+
+    // verify
+    QuickLinksProfile profile = new QuickLinksProfileParser().parse(profileJson.getBytes());
+    assertFilterExists(profile, null, null, Filter.acceptAllFilter(false));
+    assertFilterExists(profile, "HDFS", "NAMENODE", Filter.linkNameFilter("namenode_ui", false));
+    assertFilterExists(profile, "HDFS", "NAMENODE", Filter.linkNameFilter("namenode_ui", false));
+    assertFilterExists(profile, "HDFS", "NAMENODE", Filter.linkNameFilter("namenode_logs",
+      "http://customlink.org/namenode_logs", true));
+    assertFilterExists(profile, "HDFS", null, Filter.linkAttributeFilter("sso", true));
+  }
+```
+
+TESTE 9
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/.jnose_projects/ambari/ambari-server/src/test/java/org/apache/ambari/server/topology/addservice/RequestValidatorTest.java
+LINHAS: 102-125
+```java
+@Test
+  public void cannotConstructInvalidRequestInfo() {
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+
+    Stack stack = simpleMockStack();
+    Map<String, Map<String, Set<String>>> newServices = someNewServices();
+    Configuration config = Configuration.newEmpty();
+
+    validator.setState(RequestValidator.State.INITIAL.with(stack));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+    validator.setState(validator.getState().with(config));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+
+    validator.setState(RequestValidator.State.INITIAL.withNewServices(newServices));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+    validator.setState(validator.getState().with(stack));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+
+    validator.setState(RequestValidator.State.INITIAL.with(config));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+    validator.setState(validator.getState().withNewServices(newServices));
+    assertThrows(IllegalStateException.class, () -> validator.createValidServiceInfo(null, null));
+  }
+```
+
+TESTE 10
+PROJETO: elasticsearch
+ARQUIVO: /home/magno-macedo/.jnose_projects/elasticsearch/modules/analysis-common/src/test/java/org/elasticsearch/analysis/common/CommonGramsTokenFilterFactoryTests.java
+LINHAS: 282-303
+```java
+public void testQueryModeCommonGramsAnalysis() throws IOException {
+        String json = "/org/elasticsearch/analysis/common/commongrams_query_mode.json";
+        Settings settings = Settings.builder()
+            .loadFromStream(json, getClass().getResourceAsStream(json), false)
+            .put(Environment.PATH_HOME_SETTING.getKey(), createHome())
+            .build();
+        {
+            IndexAnalyzers indexAnalyzers = createTestAnalysisFromSettings(settings).indexAnalyzers;
+            Analyzer analyzer = indexAnalyzers.get("commongramsAnalyzer").analyzer();
+            String source = "the quick brown is a fox or not";
+            String[] expected = new String[] { "the", "quick_brown", "brown_is", "is", "a_fox", "fox_or", "or", "not" };
+            assertTokenStreamContents(analyzer.tokenStream("test", source), expected);
+        }
+        {
+            IndexAnalyzers indexAnalyzers = createTestAnalysisFromSettings(settings).indexAnalyzers;
+            Analyzer analyzer = indexAnalyzers.get("commongramsAnalyzer_file").analyzer();
+            String source = "the quick brown is a fox or not";
+            String[] expected = new String[] { "the", "quick_brown", "brown_is", "is", "a_fox", "fox_or", "or", "not" };
+            assertTokenStreamContents(analyzer.tokenStream("test", source), expected);
+        }
+    }
+```
+
+TESTE 11
+PROJETO: elasticsearch
+ARQUIVO: /home/magno-macedo/.jnose_projects/elasticsearch/x-pack/plugin/inference/src/test/java/org/elasticsearch/xpack/inference/registry/ModelRegistryTests.java
+LINHAS: 127-140
+```java
+public void testStoreModel_ThrowsResourceAlreadyExistsException_WhenFailureIsAVersionConflict() {
+        var model = TestModel.createRandomInstance();
+        assertStoreModel(registry, model);
+
+        ResourceAlreadyExistsException exception = expectThrows(
+            ResourceAlreadyExistsException.class,
+            () -> assertStoreModel(registry, model)
+        );
+        assertThat(
+            exception.getMessage(),
+            is(format("Inference endpoint [%s] already exists", model.getConfigurations().getInferenceEntityId()))
+        );
+    }
+```
+
+TESTE 12
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/.jnose_projects/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthRequestTest.java
+LINHAS: 282-309
+```java
+@Test
+    public void testTokenAuthCodeRequestWithBasicAuthenticationMissingParameter() throws Exception {
+        HttpServletRequest request = mockOAuthTokenRequestBasicAuth(CLIENT_ID, null);
+        assertInvalidTokenRequest(request);
+
+        request = mockOAuthTokenRequestBasicAuth(null, SECRET);
+        assertInvalidTokenRequest(request);
+
+
+        // Don't allow to mix basic auth header and body params.
+        request = new OauthMockRequestBuilder()
+                .expectGrantType(GrantType.AUTHORIZATION_CODE.toString())
+                .expectHttpMethod(OAuth.HttpMethod.POST)
+                .expectContentType(OAuth.ContentType.URL_ENCODED)
+                .expectClientId(CLIENT_ID)
+                .expectClientSecret(null)
+                .expectRedirectUri(REDIRECT_URI)
+                .expectAccessGrant(ACCESS_GRANT)
+                .expectBasicAuthHeader(createBasicAuthHeader(null, SECRET))
+                .build();
+
+        replay(request);
+
+        assertInvalidTokenRequest(request);
+
+        verify(request);
+    }
+```
+
+TESTE 13
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/.jnose_projects/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthRequestTest.java
+LINHAS: 208-222
+```java
+@Test
+    public void testTokenRequestInvalidContentType() throws Exception {
+        HttpServletRequest request = mockTokenRequestInvalidContentType(GrantType.AUTHORIZATION_CODE.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidContentType(GrantType.PASSWORD.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidContentType(GrantType.REFRESH_TOKEN.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidContentType(null);
+        assertInvalidTokenRequest(request);
+    }
+```
+
+TESTE 14
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/.jnose_projects/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthRequestTest.java
+LINHAS: 180-194
+```java
+@Test
+    public void testTokenRequestInvalidMethod() throws Exception {
+        HttpServletRequest request = mockTokenRequestInvalidMethod(GrantType.AUTHORIZATION_CODE.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidMethod(GrantType.PASSWORD.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidMethod(GrantType.REFRESH_TOKEN.toString());
+        assertInvalidTokenRequest(request);
+
+        request = mockTokenRequestInvalidMethod(null);
+        assertInvalidTokenRequest(request);
+    }
+```
+
+TESTE 15
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/.jnose_projects/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthRequestTest.java
+LINHAS: 147-168
+```java
+@Test
+    public void testTokenWrongGrantType() throws Exception {
+        HttpServletRequest request = new OauthMockRequestBuilder()
+                .expectContentType(OAuth.ContentType.URL_ENCODED)
+                .expectRedirectUri(REDIRECT_URI)
+                .expectGrantType(OAuth.ContentType.URL_ENCODED)
+                .expectParam("param", "someparam")
+                .build();
+
+        replay(request);
+        assertInvalidTokenRequest(request);
+
+        request = new OauthMockRequestBuilder()
+                .expectRedirectUri(REDIRECT_URI)
+                .expectGrantType(null)
+                .expectParam("param", "someparam")
+                .build();
+
+        replay(request);
+        assertInvalidTokenRequest(request);
+    }
+```
+
+TESTE 16
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/.jnose_projects/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthRequestTest.java
+LINHAS: 53-77
+```java
+@Test
+    public void testWrongResponseGetRequestParam() throws Exception {
+        HttpServletRequest request = new OauthMockRequestBuilder()
+                .expectOauthResponseType(OAuth.ContentType.URL_ENCODED)
+                .expectRedirectUri(REDIRECT_URI)
+                .expectParam("param", "someparam")
+                .build();
+
+        replay(request);
+
+        assertInvalidOAuthRequest(request);
+
+        verify(request);
+
+        request = new OauthMockRequestBuilder()
+                .expectOauthResponseType(null)
+                .expectRedirectUri(REDIRECT_URI)
+                .expectParam("param", "someparam")
+                .build();
+        replay(request);
+
+        assertInvalidOAuthRequest(request);
+        verify(request);
+    }
+```
+
+TESTE 17
+PROJETO: aries
+ARQUIVO: /home/magno-macedo/.jnose_projects/aries/blueprint-maven-plugin/blueprint-maven-plugin/src/test/java/org/apache/aries/blueprint/plugin/BlueprintFileWriterTest.java
+LINHAS: 313-330
+```java
+@Test
+    public void testProducesNamedBeans() throws Exception {
+        Node bean1 = getBeanById("produced1");
+        assertXpathEquals(bean1, "@class", "org.apache.aries.blueprint.plugin.test.MyProduced");
+        assertXpathEquals(bean1, "@factory-ref", "myFactoryNamedBean");
+        assertXpathEquals(bean1, "@factory-method", "createBean1");
+        assertXpathEquals(bean1, "@scope", "prototype");
+
+        Node bean2 = getBeanById("produced2");
+        assertXpathEquals(bean1, "@class", "org.apache.aries.blueprint.plugin.test.MyProduced");
+        assertXpathEquals(bean2, "@factory-ref", "myFactoryNamedBean");
+        assertXpathEquals(bean2, "@factory-method", "createBean2");
+        assertXpathDoesNotExist(bean2, "@scope");
+
+        Node myBean5 = getBeanById("myBean5");
+        assertXpathEquals(myBean5, "argument[8]/@ref", "produced2");
+    }
+```
+
+TESTE 18
+PROJETO: aries
+ARQUIVO: /home/magno-macedo/.jnose_projects/aries/jmx/jmx-core/src/test/java/org/apache/aries/jmx/framework/FrameworkTest.java
+LINHAS: 275-292
+```java
+@Test
+    public void testStartBundle() throws Exception {
+        Bundle bundle = Mockito.mock(Bundle.class);
+        Mockito.when(context.getBundle(5)).thenReturn(bundle);
+        mbean.startBundle(5);
+        Mockito.verify(bundle).start();
+
+        Mockito.reset(context);
+        Mockito.when(context.getBundle(6)).thenReturn(bundle);
+        Mockito.doThrow(new BundleException("")).when(bundle).start();
+
+        assertThrows(IOException.class, () -> mbean.startBundle(6));
+
+        Mockito.when(context.getBundle(6)).thenReturn(null);
+
+        assertThrows(IOException.class, () -> mbean.startBundle(6));
+    }
+```
+
+TESTE 19
+PROJETO: aries
+ARQUIVO: /home/magno-macedo/.jnose_projects/aries/util/src/test/java/org/apache/aries/util/SingleServiceTrackerTest.java
+LINHAS: 138-154
+```java
+@Test
+  public void testAfterTheFactChoiceWithPropertiesAndFilterWithSecondMatch() {
+	  
+	  createSut("(foo=bar)");
+	  Skeleton.getSkeleton(listener).assertSkeletonNotCalled();
+	  
+	  ctx.registerService("java.lang.String", "uno", null);
+	  Skeleton.getSkeleton(listener).assertSkeletonNotCalled();
+
+	  Dictionary<String, String> props = new Hashtable<String, String>();
+	  props.put("foo", "bar");
+	  ctx.registerService("java.lang.String", "due", props);
+	  
+	  Skeleton.getSkeleton(listener).assertCalled(Arrays.asList(new MethodCall(SingleServiceListener.class, "serviceFound")), true);
+	  assertEquals("due", sut.getService());
+  }
+```
+
+TESTE 20
+PROJETO: aries
+ARQUIVO: /home/magno-macedo/.jnose_projects/aries/util/src/test/java/org/apache/aries/util/manifest/ManifestHeaderProcessorTest.java
+LINHAS: 120-149
+```java
+@Test
+  public void testParseImportString()
+  {
+    String importPackage = "com.acme.foo,come.acm.e.bar;version=\"[1.23,1.24.5]\";resolution:=mandatory;company=\"ACME\",a.b.c;version=1.2.3;company=com";
+
+    Map<String, Map<String, String>> importPackageReturn = ManifestHeaderProcessor.parseImportString(importPackage);
+
+    assertTrue("The package is not set.", importPackageReturn.containsKey("com.acme.foo"));
+    assertTrue("The package is not set.", importPackageReturn.containsKey("come.acm.e.bar"));
+    assertTrue("The package is not set.", importPackageReturn.containsKey("come.acm.e.bar"));
+    assertTrue("The package is not set.", importPackageReturn.containsKey("a.b.c"));
+    assertTrue("The package should not contain any attributes.", importPackageReturn.get("com.acme.foo").isEmpty());
+    assertEquals("The directive is not set correctly.", "[1.23,1.24.5]", importPackageReturn.get("come.acm.e.bar").get("version"));
+    assertEquals("The directive is not set correctly.", "mandatory", importPackageReturn.get("come.acm.e.bar").get("resolution:"));
+    assertEquals("The directive is not set correctly.", "ACME", importPackageReturn.get("come.acm.e.bar").get("company"));
+    assertEquals("The directive is not set correctly.", "1.2.3", importPackageReturn.get("a.b.c").get("version"));
+    assertEquals("The directive is not set correctly.", "com", importPackageReturn.get("a.b.c").get("company"));
+
+    importPackage="com.acme.foo";
+
+    assertTrue("The package is not set.", importPackageReturn.containsKey("com.acme.foo"));
+    assertTrue("The package should not contain any attributes.", importPackageReturn.get("com.acme.foo").isEmpty());
+
+    importPackage="com.acme.foo;com.acme.bar;version=2";
+    Map<String, Map<String, String>> importPackageReturn2 = ManifestHeaderProcessor.parseImportString(importPackage);
+    assertTrue("The package is not set.", importPackageReturn2.containsKey("com.acme.foo"));
+    assertTrue("The package is not set.", importPackageReturn2.containsKey("com.acme.bar"));
+    assertEquals("The directive is not set correctly.", "2", importPackageReturn2.get("com.acme.foo").get("version"));
+    assertEquals("The directive is not set correctly.", "2", importPackageReturn2.get("com.acme.bar").get("version"));
+  }
+```
+
+TESTE 21
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/bookkeeper-server/src/test/java/org/apache/bookkeeper/discover/BookieServiceInfoTest.java
+LINHAS: 60-76
+```java
+@Test
+    public void testDeserializeBookieServiceInfo() throws Exception {
+        BookieId bookieId = BookieId.parse("127.0.0.1:3181");
+        {
+            BookieServiceInfo expected = BookieServiceInfoUtils.buildLegacyBookieServiceInfo(bookieId.toString());
+            BookieServiceInfo deserialized = deserializeBookieServiceInfo(bookieId, null);
+
+            assertBookieServiceInfoEquals(expected, deserialized);
+        }
+        {
+            BookieServiceInfo expected = BookieServiceInfoUtils.buildLegacyBookieServiceInfo(bookieId.toString());
+            BookieServiceInfo deserialized = deserializeBookieServiceInfo(bookieId, new byte[]{});
+
+            assertBookieServiceInfoEquals(expected, deserialized);
+        }
+    }
+```
+
+TESTE 22
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/.jnose_projects/bookkeeper/bookkeeper-server/src/test/java/org/apache/bookkeeper/replication/TestLedgerUnderreplicationManager.java
+LINHAS: 384-414
+```java
+@Test
+    public void testGetReplicationWorkerIdRereplicatingLedger() throws Exception {
+        String missingReplica1 = "localhost:3181";
+        String missingReplica2 = "localhost:3182";
+
+        LedgerUnderreplicationManager m1 = lmf1.newLedgerUnderreplicationManager();
+
+        Long ledgerA = 0xfeadeefdacL;
+        m1.markLedgerUnderreplicated(ledgerA, missingReplica1);
+        m1.markLedgerUnderreplicated(ledgerA, missingReplica2);
+
+        // lock is not yet acquired so replicationWorkerIdRereplicatingLedger
+        // should
+        assertEquals("ReplicationWorkerId of the lock", null, m1.getReplicationWorkerIdRereplicatingLedger(ledgerA));
+
+        Future<Long> fA = getLedgerToReplicate(m1);
+        Long lA = fA.get(5, TimeUnit.SECONDS);
+        assertEquals("Should be the ledger that was just marked", lA, ledgerA);
+
+        /*
+         * ZkLedgerUnderreplicationManager.getLockData uses
+         * DNS.getDefaultHost("default") as the bookieId.
+         *
+         */
+        assertEquals("ReplicationWorkerId of the lock", DNS.getDefaultHost("default"),
+                m1.getReplicationWorkerIdRereplicatingLedger(ledgerA));
+
+        m1.markLedgerReplicated(lA);
+
+        assertEquals("ReplicationWorkerId of the lock", null, m1.getReplicationWorkerIdRereplicatingLedger(ledgerA));
+    }
+```
+
+TESTE 23
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/.jnose_projects/rocketmq/broker/src/test/java/org/apache/rocketmq/broker/failover/EscapeBridgeTest.java
+LINHAS: 156-169
+```java
+@Test
+    public void asyncPutMessageTest() {
+
+        // masterBroker is null
+        Assertions.assertThatCode(() -> escapeBridge.asyncPutMessage(messageExtBrokerInner)).doesNotThrowAnyException();
+
+        // masterBroker is not null
+        when(brokerController.peekMasterBroker()).thenReturn(brokerController);
+        Assertions.assertThatCode(() -> escapeBridge.asyncPutMessage(messageExtBrokerInner)).doesNotThrowAnyException();
+
+        when(brokerController.peekMasterBroker()).thenReturn(null);
+        Assertions.assertThatCode(() -> escapeBridge.asyncPutMessage(messageExtBrokerInner)).doesNotThrowAnyException();
+    }
+```
+
+TESTE 24
+PROJETO: qpid-broker-j
+ARQUIVO: /home/magno-macedo/.jnose_projects/qpid-broker-j/broker-core/src/test/java/org/apache/qpid/server/model/testmodels/singleton/AbstractConfiguredObjectTest.java
+LINHAS: 571-596
+```java
+@Test
+    public void testImmutableAttribute()
+    {
+        final String originalValue = "myvalue";
+
+        final Map<String, Object> attributes = Map.of(ConfiguredObject.NAME, "myName",
+                TestSingleton.IMMUTABLE_VALUE, originalValue);
+
+        final TestSingleton object = _objectFactory.create(TestSingleton.class, attributes, null);
+
+        assertEquals(originalValue, object.getImmutableValue(), "Immutable value unexpectedly changed");
+
+        // Update to the same value is allowed
+        object.setAttributes(Map.of(TestSingleton.IMMUTABLE_VALUE, originalValue));
+
+        assertThrows(IllegalConfigurationException.class,
+                () -> object.setAttributes(Map.of(TestSingleton.IMMUTABLE_VALUE, "newvalue")),
+                "Exception not thrown");
+        assertEquals(originalValue, object.getImmutableValue());
+
+        assertThrows(IllegalConfigurationException.class,
+                () -> object.setAttributes(Collections.singletonMap(TestSingleton.IMMUTABLE_VALUE, null)),
+                "Exception not thrown");
+        assertEquals(originalValue, object.getImmutableValue(), "Immutable value unexpectedly changed");
+    }
+```
+
+TESTE 25
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/cas/src/test/java/org/springframework/security/cas/web/ServicePropertiesTests.java
+LINHAS: 39-47
+```java
+@Test
+	public void nullServiceWhenAuthenticateAllTokens() throws Exception {
+		ServiceProperties sp = new ServiceProperties();
+		sp.setAuthenticateAllArtifacts(true);
+		assertThatIllegalArgumentException().isThrownBy(sp::afterPropertiesSet);
+		sp.setAuthenticateAllArtifacts(false);
+		assertThatIllegalArgumentException().isThrownBy(sp::afterPropertiesSet);
+	}
+```
+
+TESTE 26
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/config/src/test/java/org/springframework/security/config/annotation/method/configuration/AuthorizationProxyConfigurationTests.java
+LINHAS: 56-66
+```java
+@WithMockUser
+	@Test
+	public void proxyWhenNotPreAuthorizedThenDenies() {
+		this.spring.register(DefaultsConfig.class).autowire();
+		Toaster toaster = this.proxyFactory.proxy(new Toaster());
+		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(toaster::makeToast)
+			.withMessage("Access Denied");
+		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(toaster::extractBread)
+			.withMessage("Access Denied");
+	}
+```
+
+TESTE 27
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-client/src/test/java/org/springframework/security/oauth2/client/DelegatingOAuth2AuthorizedClientProviderTests.java
+LINHAS: 41-48
+```java
+@Test
+	public void constructorWhenProvidersIsEmptyThenThrowIllegalArgumentException() {
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new DelegatingOAuth2AuthorizedClientProvider(new OAuth2AuthorizedClientProvider[0]));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new DelegatingOAuth2AuthorizedClientProvider(Collections.emptyList()));
+	}
+```
+
+TESTE 28
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-client/src/test/java/org/springframework/security/oauth2/client/DelegatingReactiveOAuth2AuthorizedClientProviderTests.java
+LINHAS: 42-49
+```java
+@Test
+	public void constructorWhenProvidersIsEmptyThenThrowIllegalArgumentException() {
+		assertThatIllegalArgumentException().isThrownBy(() -> new DelegatingReactiveOAuth2AuthorizedClientProvider(
+				new ReactiveOAuth2AuthorizedClientProvider[0]));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new DelegatingReactiveOAuth2AuthorizedClientProvider(Collections.emptyList()));
+	}
+```
+
+TESTE 29
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-client/src/test/java/org/springframework/security/oauth2/client/jackson2/OAuth2AuthenticationTokenMixinTests.java
+LINHAS: 72-85
+```java
+@Test
+	public void serializeWhenMixinRegisteredThenSerializes() throws Exception {
+		// OidcUser
+		OAuth2AuthenticationToken authentication = TestOAuth2AuthenticationTokens.oidcAuthenticated();
+		String expectedJson = asJson(authentication);
+		String json = this.mapper.writeValueAsString(authentication);
+		JSONAssert.assertEquals(expectedJson, json, true);
+		// OAuth2User
+		authentication = TestOAuth2AuthenticationTokens.authenticated();
+		expectedJson = asJson(authentication);
+		json = this.mapper.writeValueAsString(authentication);
+		JSONAssert.assertEquals(expectedJson, json, true);
+	}
+```
+
+TESTE 30
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-core/src/test/java/org/springframework/security/oauth2/core/DefaultOAuth2AuthenticatedPrincipalTests.java
+LINHAS: 43-50
+```java
+@Test
+	public void constructorWhenAttributesIsNullOrEmptyThenIllegalArgumentException() {
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new DefaultOAuth2AuthenticatedPrincipal(null, this.authorities));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new DefaultOAuth2AuthenticatedPrincipal(Collections.emptyMap(), this.authorities));
+	}
+```
+
+TESTE 31
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-resource-server/src/test/java/org/springframework/security/oauth2/server/resource/authentication/JwtIssuerAuthenticationManagerResolverTests.java
+LINHAS: 282-291
+```java
+@Test
+	public void factoryWhenNullOrEmptyIssuersThenException() {
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> JwtIssuerAuthenticationManagerResolver.fromTrustedIssuers((Predicate<String>) null));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> JwtIssuerAuthenticationManagerResolver.fromTrustedIssuers((Collection<String>) null));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> JwtIssuerAuthenticationManagerResolver.fromTrustedIssuers(Collections.emptyList()));
+	}
+```
+
+TESTE 32
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-resource-server/src/test/java/org/springframework/security/oauth2/server/resource/authentication/JwtIssuerReactiveAuthenticationManagerResolverTests.java
+LINHAS: 281-290
+```java
+@Test
+	public void factoryWhenNullOrEmptyIssuersThenException() {
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> JwtIssuerReactiveAuthenticationManagerResolver.fromTrustedIssuers((Predicate<String>) null));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> JwtIssuerReactiveAuthenticationManagerResolver.fromTrustedIssuers((Collection<String>) null));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> JwtIssuerReactiveAuthenticationManagerResolver.fromTrustedIssuers(Collections.emptyList()));
+	}
+```
+
+TESTE 33
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/oauth2/oauth2-resource-server/src/test/java/org/springframework/security/oauth2/server/resource/introspection/OAuth2IntrospectionAuthenticatedPrincipalTests.java
+LINHAS: 108-115
+```java
+@Test
+	public void constructorWhenAttributesIsNullOrEmptyThenIllegalArgumentException() {
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new OAuth2IntrospectionAuthenticatedPrincipal(null, AUTHORITIES));
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> new OAuth2IntrospectionAuthenticatedPrincipal(Collections.emptyMap(), AUTHORITIES));
+	}
+```
+
+TESTE 34
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/saml2/saml2-service-provider/src/opensaml5Test/java/org/springframework/security/saml2/provider/service/authentication/OpenSaml5AuthenticationProviderTests.java
+LINHAS: 284-296
+```java
+@Test
+	public void evaluateInResponseToFailsWhenInResponseInToResponseMismatchWithRequestID() {
+		Response response = response();
+		response.setInResponseTo("BAD");
+		response.getAssertions().add(signed(assertion("SAML2")));
+		response.getAssertions().add(signed(assertion("SAML2")));
+		AbstractSaml2AuthenticationRequest mockAuthenticationRequest = mockedStoredAuthenticationRequest("SAML2");
+		Saml2AuthenticationToken token = token(response, verifying(registration()), mockAuthenticationRequest);
+		assertThatExceptionOfType(Saml2AuthenticationException.class)
+			.isThrownBy(() -> this.provider.authenticate(token))
+			.withStackTraceContaining("invalid_in_response_to");
+	}
+```
+
+TESTE 35
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/.jnose_projects/spring-security/saml2/saml2-service-provider/src/opensaml5Test/java/org/springframework/security/saml2/provider/service/authentication/OpenSaml5AuthenticationProviderTests.java
+LINHAS: 238-248
+```java
+@Test
+	public void evaluateInResponseToSucceedsWhenInResponseToInResponseAndAssertionsMatchRequestID() {
+		Response response = response();
+		response.setInResponseTo("SAML2");
+		response.getAssertions().add(signed(assertion("SAML2")));
+		response.getAssertions().add(signed(assertion("SAML2")));
+		AbstractSaml2AuthenticationRequest mockAuthenticationRequest = mockedStoredAuthenticationRequest("SAML2");
+		Saml2AuthenticationToken token = token(response, verifying(registration()), mockAuthenticationRequest);
+		this.provider.authenticate(token);
+	}
+```
+
+TESTE 36
+PROJETO: ozone
+ARQUIVO: /home/magno-macedo/.jnose_projects/ozone/hadoop-ozone/cli-admin/src/test/java/org/apache/hadoop/hdds/scm/cli/container/TestReconcileSubcommand.java
+LINHAS: 289-316
+```java
+@Test
+  public void testReconcileHandlesValidAndInvalidContainers() throws Exception {
+    mockContainer(1, 3, new ECReplicationConfig(3, 2), true);
+    mockContainer(2, 3, RatisReplicationConfig.getInstance(THREE), true);
+    mockContainer(3, 3, new ECReplicationConfig(6, 3), true);
+
+    // Mock reconcile to fail for EC containers
+    doThrow(new IOException(EC_CONTAINER_MESSAGE)).when(scmClient).reconcileContainer(1L);
+    doThrow(new IOException(EC_CONTAINER_MESSAGE)).when(scmClient).reconcileContainer(3L);
+
+    // Test reconcile command - should process Ratis container but fail for EC containers
+    RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+      executeReconcileFromArgs(1, 2, 3);
+    });
+
+    // Should have error messages for EC containers
+    assertThatOutput(errContent).contains("Failed to trigger reconciliation for container 1: " + EC_CONTAINER_MESSAGE);
+    assertThatOutput(errContent).contains("Failed to trigger reconciliation for container 3: " + EC_CONTAINER_MESSAGE);
+    assertThatOutput(errContent).doesNotContain("Failed to trigger reconciliation for container 2");
+
+    // Exception message should indicate 2 failed containers
+    assertThat(exception.getMessage()).contains("Failed to trigger reconciliation for 2 containers");
+
+    // Should have reconcile success output for container 2 (Ratis) only
+    validateReconcileOutput(2);
+    assertThatOutput(outContent).doesNotContain("container 1");
+    assertThatOutput(outContent).doesNotContain("container 3");
+  }
+```
+
+TESTE 37
+PROJETO: ozone
+ARQUIVO: /home/magno-macedo/.jnose_projects/ozone/hadoop-ozone/cli-admin/src/test/java/org/apache/hadoop/hdds/scm/cli/container/TestReconcileSubcommand.java
+LINHAS: 349-374
+```java
+@Test
+  public void testUnreachableContainers() throws Exception {
+    final String exceptionMessage = "Container not found";
+
+    mockContainer(123);
+    doThrow(new IOException(exceptionMessage)).when(scmClient).getContainer(456L);
+
+    // Test status command - should throw exception due to unreachable containers
+    assertThrows(RuntimeException.class, () -> parseArgsAndExecute("--status", "123", "456"));
+    
+    // Should have error messages for unreachable containers
+    assertThatOutput(errContent).contains("Failed to get reconciliation status of container 456: " + exceptionMessage);
+    assertThatOutput(errContent).doesNotContain("123");
+    validateStatusOutput(true, 123);
+
+    // Test reconcile command - should also throw exception
+    doThrow(new IOException(exceptionMessage)).when(scmClient).reconcileContainer(456L);
+
+    assertThrows(RuntimeException.class, () -> parseArgsAndExecute("123", "456"));
+    // Should have error message for unreachable container
+    assertThatOutput(errContent).contains("Failed to trigger reconciliation for container 456: " + exceptionMessage);
+    assertThatOutput(errContent).doesNotContain("123");
+    assertThatOutput(outContent).doesNotContain("Reconciliation has been triggered for container 456");
+    validateReconcileOutput(123);
+  }
+```
+
+TESTE 38
+PROJETO: ozone
+ARQUIVO: /home/magno-macedo/.jnose_projects/ozone/hadoop-ozone/ozone-manager/src/test/java/org/apache/hadoop/ozone/om/request/upgrade/TestOMCancelPrepareRequest.java
+LINHAS: 42-54
+```java
+@Test
+  public void testCancelPrepare() throws Exception {
+    assertNotPrepared();
+    ozoneManager.getPrepareState().finishPrepare(LOG_INDEX);
+    assertPrepared(LOG_INDEX);
+    submitCancelPrepareRequest();
+    assertNotPrepared();
+
+    // Another cancel prepare should be able to be submitted without error.
+    submitCancelPrepareRequest();
+    assertNotPrepared();
+  }
+```
+
+TESTE 39
+PROJETO: ozone
+ARQUIVO: /home/magno-macedo/.jnose_projects/ozone/hadoop-hdds/server-scm/src/test/java/org/apache/hadoop/hdds/scm/container/balancer/TestMoveManager.java
+LINHAS: 272-302
+```java
+@Test
+  public void testContainerIsNotHealthyBeforeMove() throws Exception {
+    // return an under replicated health result from replication manager
+    when(replicationManager.getContainerReplicationHealth(any(), any()))
+        .thenReturn(new ContainerHealthResult.UnderReplicatedHealthResult(
+            containerInfo, 1, false, false,
+            false));
+
+    // Check for an under replicated ratis container
+    replicas.addAll(ReplicationTestUtil
+        .createReplicas(containerInfo.containerID(), 0, 0));
+    src = replicas.iterator().next().getDatanodeDetails();
+    tgt = MockDatanodeDetails.randomDatanodeDetails();
+    nodes.put(src, NodeStatus.inServiceHealthy());
+    nodes.put(tgt, NodeStatus.inServiceHealthy());
+    assertMoveFailsWith(REPLICATION_NOT_HEALTHY_BEFORE_MOVE,
+        containerInfo.containerID());
+
+    // check for an under replicated EC container
+    containerInfo = ReplicationTestUtil.createContainerInfo(
+        new ECReplicationConfig(3, 2), 1,
+        HddsProtos.LifeCycleState.CLOSED);
+    replicas.clear();
+    replicas.addAll(ReplicationTestUtil.createReplicas(
+        containerInfo.containerID(), ContainerReplicaProto.State.CLOSED,
+        1, 2, 3, 4));
+    src = replicas.iterator().next().getDatanodeDetails();
+    nodes.put(src, NodeStatus.inServiceHealthy());
+    assertMoveFailsWith(REPLICATION_NOT_HEALTHY_BEFORE_MOVE,
+        containerInfo.containerID());
+  }
+```
+
+TESTE 40
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/bindings/coloc/src/test/java/org/apache/cxf/binding/coloc/ColocUtilTest.java
+LINHAS: 216-246
+```java
+@Test
+    public void testIsSameMessageInfo() {
+        OperationInfo oi = mock(OperationInfo.class);
+        boolean match = ColocUtil.isSameMessageInfo(null, null);
+        assertTrue("Should return true", match);
+        QName mn1 = new QName("A", "B");
+        QName mn2 = new QName("C", "D");
+
+        MessageInfo mi1 = new MessageInfo(oi, MessageInfo.Type.INPUT, mn1);
+        MessageInfo mi2 = new MessageInfo(oi, MessageInfo.Type.INPUT, mn2);
+        match = ColocUtil.isSameMessageInfo(mi1, null);
+        assertFalse("Should not find a match", match);
+        match = ColocUtil.isSameMessageInfo(null, mi2);
+        assertFalse("Should not find a match", match);
+
+        MessagePartInfo mpi = new MessagePartInfo(new QName("", "B"), null);
+        mpi.setTypeClass(InHeaderT.class);
+        mi1.addMessagePart(mpi);
+
+        mpi = new MessagePartInfo(new QName("", "D"), null);
+        mpi.setTypeClass(OutHeaderT.class);
+        mi2.addMessagePart(mpi);
+
+        match = ColocUtil.isSameMessageInfo(mi1, mi2);
+        assertFalse("Should not find a match", match);
+
+        mpi.setTypeClass(InHeaderT.class);
+        match = ColocUtil.isSameMessageInfo(mi1, mi2);
+        assertTrue("Should find a match", match);
+    }
+```
+
+TESTE 41
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/integration/IterativeLegendreGaussIntegratorTest.java
+LINHAS: 33-56
+```java
+@Test
+    public void testSinFunction() {
+        UnivariateFunction f = new Sin();
+        BaseAbstractUnivariateIntegrator integrator
+            = new IterativeLegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = 0; max = JdkMath.PI; expected = 2;
+        tolerance = JdkMath.max(integrator.getAbsoluteAccuracy(),
+                             JdkMath.abs(expected * integrator.getRelativeAccuracy()));
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -JdkMath.PI/3; max = 0; expected = -0.5;
+        tolerance = JdkMath.max(integrator.getAbsoluteAccuracy(),
+                JdkMath.abs(expected * integrator.getRelativeAccuracy()));
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 42
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/LaguerreSolverTest.java
+LINHAS: 64-88
+```java
+@Test
+    public void testQuadraticFunction() {
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        // p(x) = 2x^2 + 5x - 3 = (x+3)(2x-1)
+        double coefficients[] = { -3.0, 5.0, 2.0 };
+        PolynomialFunction f = new PolynomialFunction(coefficients);
+        LaguerreSolver solver = new LaguerreSolver();
+
+        min = 0.0; max = 2.0; expected = 0.5;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -4.0; max = -1.0; expected = -3.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 43
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/LaguerreSolverTest.java
+LINHAS: 93-123
+```java
+@Test
+    public void testQuinticFunction() {
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        // p(x) = x^5 - x^4 - 12x^3 + x^2 - x - 12 = (x+1)(x+3)(x-4)(x^2-x+1)
+        double coefficients[] = { -12.0, -1.0, 1.0, -12.0, -1.0, 1.0 };
+        PolynomialFunction f = new PolynomialFunction(coefficients);
+        LaguerreSolver solver = new LaguerreSolver();
+
+        min = -2.0; max = 2.0; expected = -1.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -5.0; max = -2.5; expected = -3.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = 3.0; max = 6.0; expected = 4.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 44
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolver2Test.java
+LINHAS: 105-132
+```java
+@Test
+    public void testExpm1Function() {
+        UnivariateFunction f = new Expm1();
+        UnivariateSolver solver = new MullerSolver2();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -1.0; max = 2.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -20.0; max = 10.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -50.0; max = 100.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 45
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolver2Test.java
+LINHAS: 71-98
+```java
+@Test
+    public void testQuinticFunction() {
+        UnivariateFunction f = new QuinticFunction();
+        UnivariateSolver solver = new MullerSolver2();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -0.4; max = 0.2; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = 0.75; max = 1.5; expected = 1.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -0.9; max = -0.2; expected = -0.5;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 46
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolver2Test.java
+LINHAS: 45-66
+```java
+@Test
+    public void testSinFunction() {
+        UnivariateFunction f = new Sin();
+        UnivariateSolver solver = new MullerSolver2();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = 3.0; max = 4.0; expected = JdkMath.PI;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -1.0; max = 1.5; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 47
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolverTest.java
+LINHAS: 107-134
+```java
+@Test
+    public void testExpm1Function() {
+        UnivariateFunction f = new Expm1();
+        UnivariateSolver solver = new MullerSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -1.0; max = 2.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -20.0; max = 10.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -50.0; max = 100.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 48
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolverTest.java
+LINHAS: 71-98
+```java
+@Test
+    public void testQuinticFunction() {
+        UnivariateFunction f = new QuinticFunction();
+        UnivariateSolver solver = new MullerSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -0.4; max = 0.2; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = 0.75; max = 1.5; expected = 1.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -0.9; max = -0.2; expected = -0.5;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 49
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/MullerSolverTest.java
+LINHAS: 45-66
+```java
+@Test
+    public void testSinFunction() {
+        UnivariateFunction f = new Sin();
+        UnivariateSolver solver = new MullerSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = 3.0; max = 4.0; expected = JdkMath.PI;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -1.0; max = 1.5; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 50
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/RiddersSolverTest.java
+LINHAS: 101-128
+```java
+@Test
+    public void testExpm1Function() {
+        UnivariateFunction f = new Expm1();
+        UnivariateSolver solver = new RiddersSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -1.0; max = 2.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -20.0; max = 10.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -50.0; max = 100.0; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 51
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/RiddersSolverTest.java
+LINHAS: 69-96
+```java
+@Test
+    public void testQuinticFunction() {
+        UnivariateFunction f = new QuinticFunction();
+        UnivariateSolver solver = new RiddersSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = -0.4; max = 0.2; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = 0.75; max = 1.5; expected = 1.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -0.9; max = -0.2; expected = -0.5;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 52
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/.jnose_projects/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/analysis/solvers/RiddersSolverTest.java
+LINHAS: 43-64
+```java
+@Test
+    public void testSinFunction() {
+        UnivariateFunction f = new Sin();
+        UnivariateSolver solver = new RiddersSolver();
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+
+        min = 3.0; max = 4.0; expected = JdkMath.PI;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+
+        min = -1.0; max = 1.5; expected = 0.0;
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
+        result = solver.solve(100, f, min, max);
+        Assert.assertEquals(expected, result, tolerance);
+    }
+```
+
+TESTE 53
+PROJETO: compile-testing
+ARQUIVO: /home/magno-macedo/.jnose_projects/compile-testing/src/test/java/com/google/testing/compile/JavaSourcesSubjectFactoryTest.java
+LINHAS: 74-90
+```java
+@Test
+  public void compilesWithoutError() {
+    assertAbout(javaSource()).that(HELLO_WORLD_RESOURCE).compilesWithoutError();
+    assertAbout(javaSource())
+        .that(
+            JavaFileObjects.forSourceLines(
+                "test.HelloWorld",
+                "package test;",
+                "",
+                "public class HelloWorld {",
+                "  public static void main(String[] args) {",
+                "    System.out.println(\"Hello World!\");",
+                "  }",
+                "}"))
+        .compilesWithoutError();
+  }
+```
+
+TESTE 54
+PROJETO: compile-testing
+ARQUIVO: /home/magno-macedo/.jnose_projects/compile-testing/src/test/java/com/google/testing/compile/JavaSourcesSubjectFactoryTest.java
+LINHAS: 707-730
+```java
+@Test
+  public void failsToCompile() {
+    JavaFileObject brokenFileObject = JavaFileObjects.forResource("test/HelloWorld-broken.java");
+    assertAbout(javaSource())
+        .that(brokenFileObject)
+        .failsToCompile()
+        .withErrorContaining("not a statement")
+        .in(brokenFileObject)
+        .onLine(23)
+        .atColumn(5)
+        .and()
+        .withErrorCount(4);
+
+    JavaFileObject happyFileObject = HELLO_WORLD_RESOURCE;
+    assertAbout(javaSource())
+        .that(happyFileObject)
+        .processedWith(new ErrorProcessor())
+        .failsToCompile()
+        .withErrorContaining("expected error!")
+        .in(happyFileObject)
+        .onLine(18)
+        .atColumn(8);
+  }
+```
+
+TESTE 55
+PROJETO: continuum
+ARQUIVO: /home/magno-macedo/.jnose_projects/continuum/continuum-core/src/test/java/org/apache/continuum/purge/DefaultContinuumPurgeManagerTest.java
+LINHAS: 81-99
+```java
+@Test
+    public void testPurgingWithSinglePurgeConfiguration()
+        throws Exception
+    {
+        purgeManager.purgeRepository( repoPurge );
+
+        assertNextBuildIs( repoPurge.getId() );
+        assertNextBuildIsNull();
+
+        purgeManager.purgeRepository( repoPurge );
+        purgeManager.purgeRepository( repoPurge );
+        purgeManager.purgeRepository( repoPurge );
+        purgeManager.purgeRepository( repoPurge );
+        purgeManager.purgeRepository( repoPurge );
+
+        assertNextBuildIs( repoPurge.getId() );
+        assertNextBuildIsNull();
+    }
+```
+
+TESTE 56
+PROJETO: hop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hop/core/src/test/java/org/apache/hop/core/ConstTest.java
+LINHAS: 586-616
+```java
+@Test
+  public void testSplitStringWithEscapeString() {
+    String string = "aaa:123.4:c:ddd-dd:eeee\\\\:\\\\:eee:fff";
+    String[] chunks =
+        new String[] {
+          "aaa", "123.4", "c", "ddd-dd", "eeee::eee", "fff",
+        };
+    String[] parts = Const.splitString(string, ":", null, false, "\\\\");
+    assertSplit(chunks, parts);
+
+    string = "cpe:2.3:a:lemonldap-ng:lemonldap\\\\:\\\\::2.0.3:*:*:*:*:*:*:*";
+    chunks =
+        new String[] {
+          "cpe",
+          "2.3",
+          "a",
+          "lemonldap-ng",
+          "lemonldap::",
+          "2.0.3",
+          "*",
+          "*",
+          "*",
+          "*",
+          "*",
+          "*",
+          "*"
+        };
+    parts = Const.splitString(string, ":", null, false, "\\\\");
+    assertSplit(chunks, parts);
+  }
+```
+
+TESTE 57
+PROJETO: curator
+ARQUIVO: /home/magno-macedo/.jnose_projects/curator/curator-recipes/src/test/java/org/apache/curator/framework/recipes/cache/TestTreeCache.java
+LINHAS: 348-371
+```java
+@Test
+    public void testDeleteThenCreate() throws Exception {
+        client.create().forPath("/test");
+        client.create().forPath("/test/foo", "one".getBytes());
+
+        cache = newTreeCacheWithListeners(client, "/test");
+        cache.start();
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test");
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+        assertEvent(TreeCacheEvent.Type.INITIALIZED);
+
+        client.delete().forPath("/test/foo");
+        assertEvent(TreeCacheEvent.Type.NODE_REMOVED, "/test/foo", "one".getBytes());
+        client.create().forPath("/test/foo", "two".getBytes());
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+
+        client.delete().forPath("/test/foo");
+        assertEvent(TreeCacheEvent.Type.NODE_REMOVED, "/test/foo", "two".getBytes());
+        client.create().forPath("/test/foo", "two".getBytes());
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+
+        assertNoMoreEvents();
+    }
+```
+
+TESTE 58
+PROJETO: curator
+ARQUIVO: /home/magno-macedo/.jnose_projects/curator/curator-recipes/src/test/java/org/apache/curator/framework/recipes/cache/TestTreeCache.java
+LINHAS: 372-394
+```java
+@Test
+    public void testDeleteThenCreateRoot() throws Exception {
+        client.create().forPath("/test");
+        client.create().forPath("/test/foo", "one".getBytes());
+
+        cache = newTreeCacheWithListeners(client, "/test/foo");
+        cache.start();
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+        assertEvent(TreeCacheEvent.Type.INITIALIZED);
+
+        client.delete().forPath("/test/foo");
+        assertEvent(TreeCacheEvent.Type.NODE_REMOVED, "/test/foo");
+        client.create().forPath("/test/foo", "two".getBytes());
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+
+        client.delete().forPath("/test/foo");
+        assertEvent(TreeCacheEvent.Type.NODE_REMOVED, "/test/foo");
+        client.create().forPath("/test/foo", "two".getBytes());
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo");
+
+        assertNoMoreEvents();
+    }
+```
+
+TESTE 59
+PROJETO: curator
+ARQUIVO: /home/magno-macedo/.jnose_projects/curator/curator-recipes/src/test/java/org/apache/curator/framework/recipes/cache/TestTreeCache.java
+LINHAS: 128-140
+```java
+@Test
+    public void testStartEmptyDeeper() throws Exception {
+        cache = newTreeCacheWithListeners(client, "/test/foo/bar");
+        cache.start();
+        assertEvent(TreeCacheEvent.Type.INITIALIZED);
+
+        client.create().creatingParentsIfNeeded().forPath("/test/foo");
+        assertNoMoreEvents();
+        client.create().forPath("/test/foo/bar");
+        assertEvent(TreeCacheEvent.Type.NODE_ADDED, "/test/foo/bar");
+        assertNoMoreEvents();
+    }
+```
+
+TESTE 60
+PROJETO: curator
+ARQUIVO: /home/magno-macedo/.jnose_projects/curator/curator-recipes/src/test/java/org/apache/curator/framework/recipes/nodes/TestPersistentEphemeralNode.java
+LINHAS: 276-293
+```java
+@Test
+    public void testClosingMultipleTimes() throws Exception {
+        CuratorFramework curator = newCurator();
+
+        PersistentEphemeralNode node =
+                new PersistentEphemeralNode(curator, PersistentEphemeralNode.Mode.EPHEMERAL, PATH, new byte[0]);
+        node.debugWaitMsForBackgroundBeforeClose.set(timing.forSleepingABit().milliseconds());
+        node.start();
+        node.waitForInitialCreate(timing.forWaiting().seconds(), TimeUnit.SECONDS);
+
+        String path = node.getActualPath();
+        node.close();
+        assertNodeDoesNotExist(curator, path);
+
+        node.close();
+        assertNodeDoesNotExist(curator, path);
+    }
+```
+
+TESTE 61
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 151-167
+```java
+@Test
+    public void testPathsNotResolvedForExternalUrls() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("external-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/doxia", "http://maven.apache.org");
+        assertPathsNotResolvedForExternalUrls(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/doxia", "scp://people.apache.org");
+        assertPathsNotResolvedForExternalUrls(childModel);
+
+        assertEquals(readModel("external-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 62
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 205-221
+```java
+@Test
+    public void testPathsResolvedForRelativeUrls() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("relative-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/doxia/", "http://maven.apache.org");
+        assertPathsResolvedForRelativeUrls(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/doxia", "scp://people.apache.org");
+        assertPathsResolvedForRelativeUrls(childModel);
+
+        assertEquals(readModel("relative-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 63
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 310-326
+```java
+@Test
+    public void testPathsResolvedForRelativeUrlsDepthOfTwo() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("relative-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/doxia/core", "http://maven.apache.org");
+        assertPathsResolvedForRelativeUrlsDepthOfTwo(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/doxia/core", "scp://people.apache.org");
+        assertPathsResolvedForRelativeUrlsDepthOfTwo(childModel);
+
+        assertEquals(readModel("relative-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 64
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 361-377
+```java
+@Test
+    public void testPathsResolvedForReverseRelativeUrls() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("relative-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/", "http://maven.apache.org/doxia/");
+        assertPathsResolvedForReverseRelativeUrls(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/", "scp://people.apache.org/doxia/");
+        assertPathsResolvedForReverseRelativeUrls(childModel);
+
+        assertEquals(readModel("relative-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 65
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 412-428
+```java
+@Test
+    public void testPathsResolvedForReverseRelativeUrlsDepthOfTwo() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("relative-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/", "http://maven.apache.org/doxia/core/");
+        assertPathsResolvedForReverseRelativeUrlsDepthOfTwo(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/", "scp://people.apache.org/doxia/core/");
+        assertPathsResolvedForReverseRelativeUrlsDepthOfTwo(childModel);
+
+        assertEquals(readModel("relative-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 66
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 256-275
+```java
+@Test
+    public void testPathsResolvedForSubsiteUrls() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("subsite-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org/doxia/", "http://maven.apache.org");
+        assembler.resolvePaths(childModel, "http://maven.apache.org/doxia");
+
+        assertPathsResolvedForSubsiteUrls(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/doxia", "scp://people.apache.org");
+        assembler.resolvePaths(childModel, "http://maven.apache.org/doxia");
+        assertPathsResolvedForSubsiteUrls(childModel);
+
+        assertEquals(readModel("subsite-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 67
+PROJETO: maven-doxia-sitetools
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-doxia-sitetools/doxia-site-model/src/test/java/org/apache/maven/doxia/site/inheritance/SiteModelInheritanceAssemblerTest.java
+LINHAS: 463-479
+```java
+@Test
+    public void testPathsResolvedForUnrelatedRelativeUrls() throws IOException, XmlPullParserException {
+        SiteModel parentModel = readModel("relative-urls.xml");
+        SiteModel childModel = readModel("empty.xml");
+
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "http://maven.apache.org", "http://jakarta.apache.org");
+        assertPathsResolvedForUnrelatedRelativeUrls(childModel);
+
+        // same with scp url, DOXIASITETOOLS-47
+        childModel = readModel("empty.xml");
+        assembler.assembleModelInheritance(
+                NAME, childModel, parentModel, "scp://people.apache.org/", "http://jakarta.apache.org");
+        assertPathsResolvedForUnrelatedRelativeUrls(childModel);
+
+        assertEquals(readModel("relative-urls.xml"), parentModel, "Modified parent!");
+    }
+```
+
+TESTE 68
+PROJETO: maven-enforcer
+ARQUIVO: /home/magno-macedo/.jnose_projects/maven-enforcer/enforcer-rules/src/test/java/org/apache/maven/enforcer/rules/utils/TestMockEnforcerExpressionEvaluator.java
+LINHAS: 38-48
+```java
+@Test
+    public void testEvaluate() {
+        MavenSession session = EnforcerTestUtils.getMavenSession();
+
+        PluginParameterExpressionEvaluator ev = new MockEnforcerExpressionEvaluator(session);
+        assertMatch(ev, "SNAPSHOT");
+        assertMatch(ev, "RELEASE");
+        assertMatch(ev, "SNAPSHOT");
+        assertMatch(ev, "LATEST");
+        assertMatch(ev, "1.0");
+    }
+```
+
+TESTE 69
+PROJETO: incubator-kie-optaplanner-quickstarts
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-optaplanner-quickstarts/use-cases/facility-location/src/test/java/org/acme/facilitylocation/bootstrap/DemoDataBuilderTest.java
+LINHAS: 46-53
+```java
+@Test
+    void capacity_greater_than_zero() {
+        DemoDataBuilder builder = correctBuilder().setCapacity(0);
+        assertThrows(IllegalStateException.class, builder::build);
+        builder.setCapacity(-1);
+        assertThrows(IllegalStateException.class, builder::build);
+    }
+```
+
+TESTE 70
+PROJETO: incubator-kie-optaplanner-quickstarts
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-optaplanner-quickstarts/use-cases/facility-location/src/test/java/org/acme/facilitylocation/bootstrap/DemoDataBuilderTest.java
+LINHAS: 70-77
+```java
+@Test
+    void consumer_count_greater_than_zero() {
+        DemoDataBuilder builder = correctBuilder().setConsumerCount(0);
+        assertThrows(IllegalStateException.class, builder::build);
+        builder.setConsumerCount(-1);
+        assertThrows(IllegalStateException.class, builder::build);
+    }
+```
+
+TESTE 71
+PROJETO: incubator-kie-optaplanner-quickstarts
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-optaplanner-quickstarts/use-cases/facility-location/src/test/java/org/acme/facilitylocation/bootstrap/DemoDataBuilderTest.java
+LINHAS: 54-61
+```java
+@Test
+    void demand_greater_than_zero() {
+        DemoDataBuilder builder = correctBuilder().setDemand(0);
+        assertThrows(IllegalStateException.class, builder::build);
+        builder.setDemand(-1);
+        assertThrows(IllegalStateException.class, builder::build);
+    }
+```
+
+TESTE 72
+PROJETO: incubator-kie-optaplanner-quickstarts
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-optaplanner-quickstarts/use-cases/facility-location/src/test/java/org/acme/facilitylocation/bootstrap/DemoDataBuilderTest.java
+LINHAS: 62-69
+```java
+@Test
+    void facility_count_greater_than_zero() {
+        DemoDataBuilder builder = correctBuilder().setFacilityCount(0);
+        assertThrows(IllegalStateException.class, builder::build);
+        builder.setFacilityCount(-1);
+        assertThrows(IllegalStateException.class, builder::build);
+    }
+```
+
+TESTE 73
+PROJETO: incubator-kie-optaplanner-quickstarts
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-optaplanner-quickstarts/use-cases/vehicle-routing/src/test/java/org/acme/vehiclerouting/bootstrap/DemoDataBuilderTest.java
+LINHAS: 39-44
+```java
+@Test
+    void capacity_greater_than_zero() {
+        assertThatIllegalStateException().isThrownBy(correctBuilder().setVehicleCapacity(0)::build);
+        assertThatIllegalStateException().isThrownBy(correctBuilder().setVehicleCapacity(-1)::build);
+    }
+```
+
+TESTE 74
+PROJETO: skywalking-java
+ARQUIVO: /home/magno-macedo/.jnose_projects/skywalking-java/apm-sniffer/apm-sdk-plugin/finagle-6.25.x-plugin/src/test/java/org/apache/skywalking/apm/plugin/finagle/CodecUtilsTest.java
+LINHAS: 36-50
+```java
+@Test
+    public void encode() {
+        SWContextCarrier swContextCarrier = makeSWContextCarrier();
+        assertSwContextCarrier(swContextCarrier, CodecUtils.decode(CodecUtils.encode(swContextCarrier)));
+
+        swContextCarrier = makeSWContextCarrier();
+        assertSwContextCarrier(swContextCarrier, CodecUtils.decode(CodecUtils.encode(swContextCarrier)));
+
+        swContextCarrier = makeSWContextCarrier();
+        assertSwContextCarrier(swContextCarrier, CodecUtils.decode(CodecUtils.encode(swContextCarrier)));
+
+        swContextCarrier = new SWContextCarrier();
+        assertSwContextCarrier(swContextCarrier, CodecUtils.decode(Bufs.EMPTY));
+    }
+```
+
+TESTE 75
+PROJETO: freemarker
+ARQUIVO: /home/magno-macedo/.jnose_projects/freemarker/freemarker-core/src/test/java/freemarker/core/OutputFormatTest.java
+LINHAS: 542-564
+```java
+@Test
+    public void testSpecialVariables() throws Exception {
+        String commonFTL = "${.outputFormat} ${.autoEsc?c}";
+        
+        addTemplate("t.ftlx", commonFTL);
+        assertOutputForNamed("t.ftlx", "XML true");
+        
+        addTemplate("t.ftlh", commonFTL);
+        assertOutputForNamed("t.ftlh", "HTML true");
+
+        addTemplate("t.ftl", commonFTL);
+        assertOutputForNamed("t.ftl", "undefined false");
+        
+        addTemplate("tX.ftl", "<#ftl outputFormat='XML'>" + commonFTL);
+        addTemplate("tX.ftlx", commonFTL);
+        assertOutputForNamed("t.ftlx", "XML true");
+        
+        addTemplate("tN.ftl", "<#ftl outputFormat='RTF' autoEsc=false>" + commonFTL);
+        assertOutputForNamed("tN.ftl", "RTF false");
+        
+        assertOutput("${.output_format} ${.auto_esc?c}", "undefined false");
+    }
+```
+
+TESTE 76
+PROJETO: freemarker
+ARQUIVO: /home/magno-macedo/.jnose_projects/freemarker/freemarker-core/src/test/java/freemarker/core/OutputFormatTest.java
+LINHAS: 266-275
+```java
+@Test
+    public void testStandardFileExtensionsFormatterImplOverriding() throws Exception {
+        addTemplate("t.ftlh", "${'a&x'}");
+        assertOutputForNamed("t.ftlh", "a&amp;x");
+        getConfiguration().setRegisteredCustomOutputFormats(Collections.singleton(CustomHTMLOutputFormat.INSTANCE));
+        assertOutputForNamed("t.ftlh", "a&amp;X");
+        getConfiguration().setRegisteredCustomOutputFormats(Collections.<OutputFormat>emptyList());
+        assertOutputForNamed("t.ftlh", "a&amp;x");
+    }
+```
+
+TESTE 77
+PROJETO: freemarker
+ARQUIVO: /home/magno-macedo/.jnose_projects/freemarker/freemarker-core/src/test/java/freemarker/template/utility/StringUtilTest.java
+LINHAS: 116-128
+```java
+@Test
+    public void testFTLEscaping() {
+        assertFTLEsc("", "", "", "", "\"\"");
+        assertFTLEsc("\'", "\\'", "'", "\\'", "\"'\"");
+        assertFTLEsc("\"", "\\\"", "\\\"", "\"", "'\"'");
+        assertFTLEsc("\"", "\\\"", "\\\"", "\"", "'\"'");
+        assertFTLEsc("foo", "foo", "foo", "foo", "\"foo\"");
+        assertFTLEsc("foo's", "foo\\'s", "foo's", "foo\\'s", "\"foo's\"");
+        assertFTLEsc("foo \"", "foo \\\"", "foo \\\"", "foo \"", "'foo \"'");
+        assertFTLEsc("foo's \"", "foo\\'s \\\"", "foo's \\\"", "foo\\'s \"", "\"foo's \\\"\"");
+        assertFTLEsc("foo\nb\u0000c", "foo\\nb\\x0000c", "foo\\nb\\x0000c", "foo\\nb\\x0000c", "\"foo\\nb\\x0000c\"");
+    }
+```
+
+TESTE 78
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/internal/cache/partitioned/BucketBackupMessageTest.java
+LINHAS: 25-31
+```java
+@Test
+  public void shouldBeMockable() throws Exception {
+    BucketBackupMessage mockBucketBackupMessage = mock(BucketBackupMessage.class);
+    when(mockBucketBackupMessage.failIfRegionMissing()).thenReturn(true);
+    assertThat(mockBucketBackupMessage.failIfRegionMissing()).isTrue();
+  }
+```
+
+TESTE 79
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/internal/cache/partitioned/SizeMessageTest.java
+LINHAS: 25-31
+```java
+@Test
+  public void shouldBeMockable() throws Exception {
+    SizeMessage mockSizeMessage = mock(SizeMessage.class);
+    when(mockSizeMessage.failIfRegionMissing()).thenReturn(true);
+    assertThat(mockSizeMessage.failIfRegionMissing()).isTrue();
+  }
+```
+
+TESTE 80
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/management/internal/configuration/validators/DiskStoreValidatorTest.java
+LINHAS: 106-121
+```java
+@Test
+  public void compactionThresholdMustBeBetweenZeroAndOneHundres() {
+    diskStore.setCompactionThreshold(95);
+    diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore);
+
+    diskStore.setCompactionThreshold(-1);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("CompactionThreshold has to be set to a value between 0-100.");
+
+    diskStore.setCompactionThreshold(101);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("CompactionThreshold has to be set to a value between 0-100.");
+  }
+```
+
+TESTE 81
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/management/internal/configuration/validators/DiskStoreValidatorTest.java
+LINHAS: 72-89
+```java
+@Test
+  public void diskUsageCriticalPercentageMustBeBetweenZeroAndOneHundred() {
+    diskStore.setDiskUsageCriticalPercentage(95F);
+    diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore);
+
+    diskStore.setDiskUsageCriticalPercentage(-1F);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining(
+            "Disk usage critical percentage must be set to a value between 0-100");
+
+    diskStore.setDiskUsageCriticalPercentage(101F);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining(
+            "Disk usage critical percentage must be set to a value between 0-100");
+  }
+```
+
+TESTE 82
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/management/internal/configuration/validators/DiskStoreValidatorTest.java
+LINHAS: 90-105
+```java
+@Test
+  public void diskUsageWarningPercentageMustBeBetweenZeroAndOneHundred() {
+    diskStore.setDiskUsageWarningPercentage(95F);
+    diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore);
+
+    diskStore.setDiskUsageWarningPercentage(-1F);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Disk usage warning percentage must be set to a value between 0-100");
+
+    diskStore.setDiskUsageWarningPercentage(101F);
+    assertThatThrownBy(() -> diskStoreValidator.validate(CacheElementOperation.CREATE, diskStore))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("Disk usage warning percentage must be set to a value between 0-100");
+  }
+```
+
+TESTE 83
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/.jnose_projects/geode/geode-core/src/test/java/org/apache/geode/management/internal/configuration/validators/RegionConfigValidatorTest.java
+LINHAS: 118-137
+```java
+@Test
+  public void invalidRedundancy() {
+    config.setRedundantCopies(-1);
+    config.setType(RegionType.PARTITION);
+    assertThatThrownBy(() -> validator.validate(CacheElementOperation.CREATE, config)).isInstanceOf(
+        IllegalArgumentException.class)
+        .hasMessageContaining(
+            "redundantCopies cannot be less than 0 or greater than 3.");
+
+    config.setRedundantCopies(4);
+    config.setType(RegionType.PARTITION);
+    assertThatThrownBy(() -> validator.validate(CacheElementOperation.CREATE, config)).isInstanceOf(
+        IllegalArgumentException.class)
+        .hasMessageContaining(
+            "redundantCopies cannot be less than 0 or greater than 3.");
+
+  }
+```
+
+TESTE 84
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/server/namenode/metrics/TestNameNodeMetrics.java
+LINHAS: 784-809
+```java
+@Test
+  public void testGetBlockLocationMetric() throws Exception {
+    Path file1_Path = new Path(TEST_ROOT_DIR_PATH, "file1.dat");
+
+    // When cluster starts first time there are no file  (read,create,open)
+    // operations so metric GetBlockLocations should be 0.
+    assertCounter("GetBlockLocations", 0L, getMetrics(NN_METRICS));
+
+    //Perform create file operation
+    createFile(file1_Path,100,(short)2);
+  
+    //Create file does not change numGetBlockLocations metric
+    //expect numGetBlockLocations = 0 for previous and current interval 
+    assertCounter("GetBlockLocations", 0L, getMetrics(NN_METRICS));
+  
+    // Open and read file operation increments GetBlockLocations
+    // Perform read file operation on earlier created file
+    readFile(fs, file1_Path);
+    // Verify read file operation has incremented numGetBlockLocations by 1
+    assertCounter("GetBlockLocations", 1L, getMetrics(NN_METRICS));
+
+    // opening and reading file  twice will increment numGetBlockLocations by 2
+    readFile(fs, file1_Path);
+    readFile(fs, file1_Path);
+    assertCounter("GetBlockLocations", 3L, getMetrics(NN_METRICS));
+  }
+```
+
+TESTE 85
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-hdfs-project/hadoop-hdfs-rbf/src/test/java/org/apache/hadoop/hdfs/server/federation/metrics/TestNameserviceRPCMetrics.java
+LINHAS: 123-137
+```java
+@Test
+  public void testProxyOp() throws IOException {
+    routerFS.listStatus(new Path("/target-ns0"));
+    assertCounter("ProxyOp", 1L,
+        getMetrics(NAMESERVICE_RPC_METRICS_PREFIX + "ns0"));
+    assertCounter("ProxyOp", 0L,
+        getMetrics(NAMESERVICE_RPC_METRICS_PREFIX + "ns1"));
+
+    routerFS.listStatus(new Path("/target-ns1"));
+    assertCounter("ProxyOp", 1L,
+        getMetrics(NAMESERVICE_RPC_METRICS_PREFIX + "ns0"));
+    assertCounter("ProxyOp", 1L,
+        getMetrics(NAMESERVICE_RPC_METRICS_PREFIX + "ns1"));
+  }
+```
+
+TESTE 86
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-app/src/test/java/org/apache/hadoop/mapreduce/v2/app/job/impl/TestTaskImpl.java
+LINHAS: 475-489
+```java
+@Test
+  public void testKillSuccessfulTask() {
+    LOG.info("--- START: testKillSuccesfulTask ---");
+    mockTask = createMockTask(TaskType.MAP);
+    TaskId taskId = getNewTaskID();
+    scheduleTaskAttempt(taskId);
+    launchTaskAttempt(getLastAttempt().getAttemptId());
+    commitTaskAttempt(getLastAttempt().getAttemptId());
+    mockTask.handle(new TaskTAttemptEvent(getLastAttempt().getAttemptId(),
+        TaskEventType.T_ATTEMPT_SUCCEEDED));
+    assertTaskSucceededState();
+    mockTask.handle(new TaskEvent(taskId, TaskEventType.T_KILL));
+    assertTaskSucceededState();
+  }
+```
+
+TESTE 87
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-resourcemanager/src/test/java/org/apache/hadoop/yarn/server/resourcemanager/placement/TestPlacementFactory.java
+LINHAS: 67-77
+```java
+@Test
+  public void testGetRuleClass() {
+    PlacementRule rule = PlacementFactory.getPlacementRule(
+        DefaultPlacementRule.class, null);
+    assertNotNull(rule, "Rule object is null");
+    // Should take anything as the second object: ignores unknown types in the
+    // default implementation.
+    rule = PlacementFactory.getPlacementRule(
+        DefaultPlacementRule.class, "");
+    assertNotNull(rule, "Rule object is null");
+  }
+```
+
+TESTE 88
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-resourcemanager/src/test/java/org/apache/hadoop/yarn/server/resourcemanager/scheduler/fair/TestQueuePlacementPolicy.java
+LINHAS: 600-615
+```java
+@Test
+  public void testSpecifiedQueueWithSpaces() throws Exception {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<queuePlacementPolicy>");
+    sb.append("  <rule name='specified'/>");
+    sb.append("  <rule name='default'/>");
+    sb.append("</queuePlacementPolicy>");
+
+    createPolicy(sb.toString());
+    asc = newAppSubmissionContext("A ");
+    assertIfExceptionThrown("user1");
+
+    asc = newAppSubmissionContext("A\u00a0");
+    assertIfExceptionThrown("user1");
+  }
+```
+
+TESTE 89
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/.jnose_projects/hadoop/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-resourcemanager/src/test/java/org/apache/hadoop/yarn/server/resourcemanager/scheduler/fair/converter/TestFSYarnSiteConverter.java
+LINHAS: 113-134
+```java
+@Test
+  public void testSiteDisabledPreemptionWithNoPolicyConversion() {
+    // Default mode is nopolicy
+    yarnConfig.setBoolean(FairSchedulerConfiguration.PREEMPTION, false);
+    converter.convertSiteProperties(yarnConfig, yarnConvertedConfig, false,
+        false, false,  null);
+
+    assertFalse(yarnConvertedConfig.get(
+        YarnConfiguration.RM_SCHEDULER_MONITOR_POLICIES).
+        contains(ProportionalCapacityPreemptionPolicy.class.getCanonicalName()),
+        "Should not contain ProportionalCapacityPreemptionPolicy.");
+
+    yarnConfig.setBoolean(FairSchedulerConfiguration.PREEMPTION, false);
+    converter.convertSiteProperties(yarnConfig, yarnConvertedConfig, false,
+        false, false,
+        FSConfigToCSConfigConverterParams.PreemptionMode.NO_POLICY);
+
+    assertFalse(yarnConvertedConfig.get(YarnConfiguration.RM_SCHEDULER_MONITOR_POLICIES).
+        contains(ProportionalCapacityPreemptionPolicy.class.getCanonicalName()),
+        "Should not contain ProportionalCapacityPreemptionPolicy.");
+  }
+```
+
+TESTE 90
+PROJETO: hbase
+ARQUIVO: /home/magno-macedo/.jnose_projects/hbase/hbase-http/src/test/java/org/apache/hadoop/hbase/http/jmx/TestJMXJsonServlet.java
+LINHAS: 137-161
+```java
+@Test
+  public void testGetPattern() throws Exception {
+    // test to get an attribute of a mbean as JSONP
+    String result =
+      readOutput(new URL(baseUrl, "/jmx?get=java.lang:type=Memory::[a-zA-z_]*NonHeapMemoryUsage"));
+    LOG.info("/jmx RESULT: " + result);
+    assertReFind("\"name\"\\s*:\\s*\"java.lang:type=Memory\"", result);
+    assertReFind("\"committed\"\\s*:", result);
+    assertReFind("\"NonHeapMemoryUsage\"\\s*:", result);
+    assertNotFind("\"HeapMemoryUsage\"\\s*:", result);
+
+    result = readOutput(new URL(baseUrl, "/jmx?get=java.lang:type=Memory::[^Non]*HeapMemoryUsage"));
+    LOG.info("/jmx RESULT: " + result);
+    assertReFind("\"name\"\\s*:\\s*\"java.lang:type=Memory\"", result);
+    assertReFind("\"committed\"\\s*:", result);
+    assertReFind("\"HeapMemoryUsage\"\\s*:", result);
+    assertNotFind("\"NonHeapHeapMemoryUsage\"\\s*:", result);
+
+    result = readOutput(new URL(baseUrl,
+      "/jmx?get=java.lang:type=Memory::[a-zA-z_]*HeapMemoryUsage,[a-zA-z_]*NonHeapMemoryUsage"));
+    LOG.info("/jmx RESULT: " + result);
+    assertReFind("\"name\"\\s*:\\s*\"java.lang:type=Memory\"", result);
+    assertReFind("\"committed\"\\s*:", result);
+  }
+```
+
+TESTE 91
+PROJETO: hertzbeat
+ARQUIVO: /home/magno-macedo/.jnose_projects/hertzbeat/hertzbeat-collector/hertzbeat-collector-basic/src/test/java/org/apache/hertzbeat/collector/collect/imap/ImapCollectImplTest.java
+LINHAS: 68-75
+```java
+@Test
+    void preCheck() {
+        assertDoesNotThrow(() -> imapCollect.preCheck(metrics));
+        assertThrows(NullPointerException.class, () -> imapCollect.preCheck(null));
+        metrics.setImap(null);
+        assertThrows(NullPointerException.class, () -> imapCollect.preCheck(null));
+    }
+```
+
+TESTE 92
+PROJETO: hudi
+ARQUIVO: /home/magno-macedo/.jnose_projects/hudi/hudi-client/hudi-client-common/src/test/java/org/apache/hudi/client/transaction/TestHoodieLockMetrics.java
+LINHAS: 40-59
+```java
+@Test
+  public void testMetricsHappyPath() {
+    HoodieStorage storage = mock(HoodieStorage.class);
+    HoodieMetricsConfig metricsConfig = HoodieMetricsConfig.newBuilder().withPath("/gdsafsd")
+        .withReporterType(MetricsReporterType.INMEMORY.name()).withLockingMetrics(true).build();
+    HoodieLockMetrics lockMetrics = new HoodieLockMetrics(HoodieWriteConfig.newBuilder()
+        .forTable("idk").withPath("/dsfasdf/asdf")
+        .withMetricsConfig(metricsConfig)
+        .build(), storage);
+
+    //lock acquired
+    assertDoesNotThrow(lockMetrics::startLockApiTimerContext);
+    assertDoesNotThrow(lockMetrics::updateLockAcquiredMetric);
+    assertDoesNotThrow(lockMetrics::updateLockHeldTimerMetrics);
+
+    //lock not acquired
+    assertDoesNotThrow(lockMetrics::startLockApiTimerContext);
+    assertDoesNotThrow(lockMetrics::updateLockNotAcquiredMetric);
+  }
+```
+
+TESTE 93
+PROJETO: tomcat
+ARQUIVO: /home/magno-macedo/.jnose_projects/tomcat/modules/jdbc-pool/src/test/java/org/apache/tomcat/jdbc/test/TestConnectionState.java
+LINHAS: 69-87
+```java
+@Test
+    public void testDefaultCatalog() throws Exception {
+        DataSourceProxy d1 = this.createDefaultDataSource();
+        d1.setMaxActive(1);
+        d1.setJdbcInterceptors(ConnectionState.class.getName());
+        d1.setDefaultCatalog("information_schema");
+        d1.setMinIdle(1);
+        Connection c1 = d1.getConnection();
+        Assert.assertEquals("Catalog should be information_schema",c1.getCatalog(),"information_schema");
+        c1.close();
+        c1 = d1.getConnection();
+        Assert.assertEquals("Catalog should be information_schema",c1.getCatalog(),"information_schema");
+        c1.setCatalog("mysql");
+        Assert.assertEquals("Catalog should be information_schema",c1.getCatalog(),"mysql");
+        c1.close();
+        c1 = d1.getConnection();
+        Assert.assertEquals("Catalog should be information_schema",c1.getCatalog(),"information_schema");
+    }
+```
+
+TESTE 94
+PROJETO: tomcat
+ARQUIVO: /home/magno-macedo/.jnose_projects/tomcat/modules/jdbc-pool/src/test/java/org/apache/tomcat/jdbc/test/TestQueryTimeoutInterceptor.java
+LINHAS: 29-50
+```java
+@Test
+    public void testTimeout() throws Exception {
+        int timeout = 10;
+        int withoutuser =10;
+        int withuser = withoutuser;
+        this.datasource.setMaxActive(withuser+withoutuser);
+        this.datasource.setJdbcInterceptors(QueryTimeoutInterceptor.class.getName()+"(queryTimeout="+timeout+")");
+        this.datasource.setDriverClassName(Driver.class.getName());
+        this.datasource.setUrl("jdbc:tomcat:test");
+        Connection con = this.datasource.getConnection();
+        Statement st = con.createStatement();
+        Assert.assertEquals(st.getClass().getName(),timeout,st.getQueryTimeout());
+        st.close();
+        st = con.prepareStatement("");
+        Assert.assertEquals(st.getClass().getName(),timeout,st.getQueryTimeout());
+        st.close();
+        st = con.prepareCall("");
+        Assert.assertEquals(st.getClass().getName(),timeout,st.getQueryTimeout());
+        st.close();
+        con.close();
+    }
+```
+
+TESTE 95
+PROJETO: jena
+ARQUIVO: /home/magno-macedo/.jnose_projects/jena/jena-core/src/test/java/org/apache/jena/graph/compose/test/TestDifference.java
+LINHAS: 51-63
+```java
+public void testDifferenceReflectsChangesToOperands() {
+        Graph l = graphWith( "x R y" );
+        Graph r = graphWith( "x R y" );
+        Difference diff = new Difference( l, r );
+        assertIsomorphic(graphWith( "" ), diff);
+        r.delete( triple( "x R y" ) );
+        assertIsomorphic( graphWith( "x R y" ), diff );
+        l.add( triple( "x R z" ) );
+        assertIsomorphic( graphWith( "x R y; x R z" ), diff );
+        r.add( triple( "x R z" ) );
+        assertIsomorphic( graphWith( "x R y" ), diff );
+    }
+```
+
+TESTE 96
+PROJETO: jena
+ARQUIVO: /home/magno-macedo/.jnose_projects/jena/jena-core/src/test/java/org/apache/jena/graph/compose/test/TestIntersection.java
+LINHAS: 51-78
+```java
+public void testIntersectionReflectsChangesToOperands() {
+        Graph l = graphWith( "x R y" );
+        Graph r = graphWith( "p S q" );
+        Intersection isec = new Intersection( l, r );
+        assertIsomorphic( graphWith( "" ), isec );
+
+        // add to the left what is already in the right
+        l.add( triple( "p S q" ) );
+        assertIsomorphic( graphWith( "p S q" ), isec );
+
+        // add to the right what is already in the left
+        r.add( triple( "x R y" ) );
+        assertIsomorphic( graphWith( "p S q; x R y" ), isec );
+
+        // add to a single graph is not reflected
+        l.add( triple( "p S o" ) );
+        r.add( triple( "x R z" ) );
+        assertIsomorphic( graphWith( "p S q; x R y" ), isec );
+
+        // remove from the left
+        l.delete( triple( "x R y" ) );
+        assertIsomorphic( graphWith( "p S q" ), isec );
+
+        // remove from the right
+        r.delete( triple( "p S q" ) );
+        assertIsomorphic( graphWith( "" ), isec );
+    }
+```
+
+TESTE 97
+PROJETO: jena
+ARQUIVO: /home/magno-macedo/.jnose_projects/jena/jena-core/src/test/java/org/apache/jena/graph/compose/test/TestUnion.java
+LINHAS: 51-70
+```java
+public void testUnionReflectsChangesToOperands() {
+        Graph l = graphWith("x R y");
+        Graph r = graphWith("x R y");
+        Union u = new Union(l, r);
+
+        assertIsomorphic(graphWith("x R y"), u);
+
+        l.add(triple("x R z"));
+        assertIsomorphic(graphWith("x R y; x R z"), u);
+
+        l.delete(triple("x R y"));
+        assertIsomorphic(graphWith("x R y; x R z"), u);
+
+        r.add(triple("p S q"));
+        assertIsomorphic(graphWith("x R y; x R z; p S q"), u);
+
+        r.delete(triple("x R y"));
+        assertIsomorphic(graphWith("x R z; p S q"), u);
+    }
+```
+
+TESTE 98
+PROJETO: jena
+ARQUIVO: /home/magno-macedo/.jnose_projects/jena/jena-core/src/test/java/org/apache/jena/reasoner/rulesys/test/TestRuleSystemBugs.java
+LINHAS: 334-349
+```java
+public void testRETEInc() {
+       String rule = "(?x ?p ?y) -> (?p rdf:type rdf:Property) .";
+       Reasoner r = new GenericRuleReasoner(Rule.parseRules(rule));
+       InfModel m = ModelFactory.createInfModel(r, ModelFactory.createDefaultModel());
+
+       Resource source = m.createResource("urn:alfie:testResource");
+       Property prop   = m.createProperty("urn:alfie:testProperty");
+       Statement s1=m.createStatement(source, prop, "value1");
+       Statement s2=m.createStatement(source, prop, "value2");
+
+       m.add(s1);
+       assertIsProperty(m, prop);
+       m.add(s2);
+       m.remove(s1);
+       assertIsProperty(m, prop);
+    }
+```
+
+TESTE 99
+PROJETO: jimfs
+ARQUIVO: /home/magno-macedo/.jnose_projects/jimfs/jimfs/src/test/java/com/google/common/jimfs/JimfsInputStreamTest.java
+LINHAS: 147-155
+```java
+@Test
+  public void testFullyReadInputStream_doesNotChangeStateWhenStoreChanges() throws IOException {
+    JimfsInputStream in = newInputStream(1, 2, 3, 4, 5);
+    assertThat(in.read(new byte[5])).isEqualTo(5);
+    assertEmpty(in);
+
+    in.file.write(5, new byte[10], 0, 10); // append more bytes to file
+    assertEmpty(in);
+  }
+```
+
+TESTE 100
+PROJETO: incubator-kie-drools
+ARQUIVO: /home/magno-macedo/.jnose_projects/incubator-kie-drools/kie-dmn/kie-dmn-model/src/test/java/org/kie/dmn/model/api/TUnaryTestsTest.java
+LINHAS: 27-33
+```java
+@Test
+    void smokeTest() {
+        UnaryTests ut = new STUnaryTests();
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> ut.getTypeRef());
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> ut.setTypeRef(null));
+    }
+```
+

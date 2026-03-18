@@ -1,0 +1,1646 @@
+TESTE 1
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/src/test/java/com/google/cloud/teleport/io/WindowedFilenamePolicyTest.java
+LINHAS: 304-333
+```java
+@Test
+  public void testWindowedDirectorySinglePattern() {
+
+    ResourceId outputDirectory =
+        getBaseTempDirectory()
+            .resolve("recommendations/mmmm/", StandardResolveOptions.RESOLVE_DIRECTORY);
+    IntervalWindow window = mock(IntervalWindow.class);
+    PaneInfo paneInfo = PaneInfo.createPane(false, true, Timing.ON_TIME, 0, 0);
+
+    Instant windowBegin = new DateTime(2017, 1, 8, 10, 55, 0).toInstant();
+    Instant windowEnd = new DateTime(2017, 1, 8, 10, 56, 0).toInstant();
+    when(window.maxTimestamp()).thenReturn(windowEnd);
+    when(window.start()).thenReturn(windowBegin);
+    when(window.end()).thenReturn(windowEnd);
+
+    WindowedFilenamePolicy policy =
+        WindowedFilenamePolicy.writeWindowedFiles()
+            .withOutputDirectory(outputDirectory.toString())
+            .withOutputFilenamePrefix("output")
+            .withShardTemplate("-SSS-of-NNN")
+            .withSuffix("")
+            .withMinutePattern("mmmm");
+
+    ResourceId filename =
+        policy.windowedFilename(1, 1, window, paneInfo, new TestOutputFileHints());
+
+    assertThat(filename).isNotNull();
+    assertThat(filename.getCurrentDirectory().toString()).endsWith("recommendations/0056/");
+    assertThat(filename.getFilename()).isEqualTo("output-001-of-001");
+  }
+```
+
+TESTE 2
+PROJETO: DataflowTemplates
+ARQUIVO: /home/magno-macedo/.jnose_projects/DataflowTemplates/v2/bigquery-to-parquet/src/test/java/com/google/cloud/teleport/v2/templates/BigQueryToParquetTest.java
+LINHAS: 56-60
+```java
+@Test
+  public void testSchemaParse() {
+    Schema schema = new Schema.Parser().parse(SCHEMA);
+    assertEquals(schema.toString(), SCHEMA);
+  }
+```
+
+TESTE 3
+PROJETO: cassandra-accord
+ARQUIVO: /home/magno-macedo/.jnose_projects/cassandra-accord/accord-core/src/test/java/accord/primitives/AbstractRangesTest.java
+LINHAS: 41-51
+```java
+@Test
+    public void testToString()
+    {
+        Ranges ranges = new Ranges(
+                range("first", 0, 10),
+                range("first", 10, 20),
+                range("second", 20, 30),
+                range("third", 30, 40)
+        );
+        assertThat(ranges.toString()).isEqualTo("[first:[[0,10),[10,20)], second:[[20,30)], third:[[30,40)]]");
+    }
+```
+
+TESTE 4
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-client/src/test/java/org/apache/activemq/util/XASupportTest.java
+LINHAS: 77-81
+```java
+@Test
+    public void test() throws Exception {
+        assertThat(XASupport.toString(flags), is(expectedResult));
+    }
+```
+
+TESTE 5
+PROJETO: activemq
+ARQUIVO: /home/magno-macedo/.jnose_projects/activemq/activemq-stomp/src/test/java/org/apache/activemq/transport/stomp/StompEmptyDestinationTest.java
+LINHAS: 28-46
+```java
+public void testEmptyDestinationOnSubscribe() throws Exception{
+        stompConnect();
+        stompConnection.sendFrame("CONNECT\n" + "login:system\n" + "passcode:manager\n\n" + Stomp.NULL);
+        StompFrame frame = stompConnection.receive();
+        assertTrue(frame.toString().startsWith("CONNECTED"));
+        String send = "SUBSCRIBE\r\n" +
+                "id:1\r\n" +
+                "destination:\r\n" +
+                "receipt:1\r\n" +
+                "\r\n"+
+                "\u0000\r\n";
+
+        stompConnection.sendFrame(send);
+        StompFrame receipt = stompConnection.receive();
+        LOG.info("Broker sent: " + receipt);
+       assertTrue(receipt.getAction().startsWith("ERROR"));
+       String errorMessage = receipt.getHeaders().get("message");
+       assertEquals("Invalid empty or 'null' Destination header", errorMessage);
+    }
+```
+
+TESTE 6
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/databinding/aegis/src/test/java/org/apache/cxf/aegis/type/BigDecimalStringTest.java
+LINHAS: 30-36
+```java
+@Test
+    public void runMyTest() {
+        BigDecimal scientificNotation = new BigDecimal("0.000000001");
+        assertTrue(scientificNotation.toString().contains("E"));
+        assertFalse(scientificNotation.toPlainString().contains("E"));
+    }
+```
+
+TESTE 7
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/client/src/test/java/org/apache/cxf/jaxrs/client/WebClientTest.java
+LINHAS: 103-108
+```java
+@Test
+    public void testAddressNotEncoded() {
+        URI u = WebClient.create("http://localhost/somepath ").getCurrentURI();
+        assertEquals("http://localhost/somepath%20", u.toString());
+    }
+```
+
+TESTE 8
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/client/src/test/java/org/apache/cxf/jaxrs/client/WebClientTest.java
+LINHAS: 151-157
+```java
+@Test
+    public void testEmptyQuery() {
+        WebClient wc = WebClient.create("http://foo");
+        wc.query("_wadl");
+        assertEquals("http://foo?_wadl", wc.getCurrentURI().toString());
+    }
+```
+
+TESTE 9
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/client/src/test/java/org/apache/cxf/jaxrs/client/WebClientTest.java
+LINHAS: 158-164
+```java
+@Test
+    public void testEmptyQueryKey() {
+        WebClient wc = WebClient.create("http://foo");
+        wc.query("");
+        assertEquals("http://foo", wc.getCurrentURI().toString());
+    }
+```
+
+TESTE 10
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/client/src/test/java/org/apache/cxf/jaxrs/client/WebClientTest.java
+LINHAS: 91-96
+```java
+@Test
+    public void testExistingAsteriscs() {
+        URI u = WebClient.create("http://foo/*").getCurrentURI();
+        assertEquals("http://foo/*", u.toString());
+    }
+```
+
+TESTE 11
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/common/i18n/MessageTest.java
+LINHAS: 51-60
+```java
+@Test
+    public void testMessageWithExplicitBundle() throws Exception {
+        ResourceBundle bundle = BundleUtils.getBundle(getClass());
+        Message msg = new Message("SUB2_EXC", bundle, new Object[] {3, 4});
+        assertSame("unexpected resource bundle", bundle, msg.bundle);
+        assertEquals("unexpected message string",
+                     "subbed in 4 & 3",
+                     msg.toString());
+    }
+```
+
+TESTE 12
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/common/i18n/MessageTest.java
+LINHAS: 40-50
+```java
+@Test
+    public void testMessageWithLoggerBundle() throws Exception {
+        Message msg = new Message("SUB1_EXC", LOG, new Object[] {1});
+        assertSame("unexpected resource bundle",
+                   LOG.getResourceBundle(),
+                   msg.bundle);
+        assertEquals("unexpected message string",
+                     "subbed in 1 only",
+                     msg.toString());
+    }
+```
+
+TESTE 13
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/staxutils/DepthRestrictingStreamReaderTest.java
+LINHAS: 31-44
+```java
+@Test
+    public void testReaderOK() throws Exception {
+        XMLStreamReader reader =
+            StaxUtils.createXMLStreamReader(getClass().getResourceAsStream("./resources/amazon.xml"));
+
+        DepthRestrictingStreamReader dr = new DepthRestrictingStreamReader(reader,
+                                                                           7,
+                                                                           4,
+                                                                           4);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        StaxUtils.copy(dr, bos);
+        assertTrue(bos.toString().contains("ItemLookup"));
+    }
+```
+
+TESTE 14
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/staxutils/DepthRestrictingStreamReaderTest.java
+LINHAS: 45-58
+```java
+@Test
+    public void testReaderOKComplex() throws Exception {
+        XMLStreamReader reader =
+            StaxUtils.createXMLStreamReader(getClass().getResourceAsStream("./resources/wstrustReqSTRC.xml"));
+
+        DepthRestrictingStreamReader dr = new DepthRestrictingStreamReader(reader,
+                                                                           -1,
+                                                                           8,
+                                                                           3);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        StaxUtils.copy(dr, bos);
+        assertTrue(bos.toString().contains("RequestSecurityTokenResponse"));
+    }
+```
+
+TESTE 15
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/staxutils/W3CDOMStreamReaderTest.java
+LINHAS: 50-73
+```java
+@Test
+    public void testReader() throws Exception {
+        ByteArrayInputStream is = new ByteArrayInputStream(
+                "<Test xmlns=\"http://example.org/types\"><argument>foobar</argument></Test>"
+                    .getBytes());
+        DocumentBuilderFactory docBuilderFactory =
+                DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setNamespaceAware(true);
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+
+        MessageFactory factory = MessageFactory.newInstance();
+        SOAPMessage msg = factory.createMessage();
+        SOAPPart part = msg.getSOAPPart();
+
+        Document doc = docBuilder.parse(is);
+
+        W3CDOMStreamWriter writer = new W3CDOMStreamWriter(part.getEnvelope());
+        XMLStreamReader reader = StaxUtils.createXMLStreamReader(new DOMSource(doc));
+
+        StaxUtils.copy(reader, writer);
+        assertTrue(StaxUtils.toString(writer.getDocument()).endsWith(RESULT));
+
+    }
+```
+
+TESTE 16
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/core/src/test/java/org/apache/cxf/staxutils/transform/OutTransformWriterTest.java
+LINHAS: 54-75
+```java
+@Test
+    public void testDefaultNamespace() throws Exception {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        XMLStreamWriter writer = StaxUtils.createXMLStreamWriter(os, StandardCharsets.UTF_8.name());
+
+        Map<String, String> outMap = new HashMap<>();
+        outMap.put("{http://testbeans.com}*", "{http://testbeans.com/v2}*");
+        OutTransformWriter transformWriter = new OutTransformWriter(writer,
+                                                                    outMap,
+                                                                    Collections.<String, String>emptyMap(),
+                                                                    Collections.<String>emptyList(),
+                                                                    false,
+                                                                    "http://testbeans.com/v2");
+        JAXBContext context = JAXBContext.newInstance(TestBean.class);
+        Marshaller m = context.createMarshaller();
+        m.marshal(new TestBean(), transformWriter);
+
+        String expected = "<?xml version='1.0' encoding='UTF-8'?>"
+            + "<testBean xmlns=\"http://testbeans.com/v2\"><bean/></testBean>";
+        assertEquals(expected, os.toString());
+    }
+```
+
+TESTE 17
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/databinding/jaxb/src/test/java/org/apache/cxf/jaxb/DatatypeFactoryTest.java
+LINHAS: 27-32
+```java
+@Test
+    public void testNewFactory() throws Exception {
+        Class.forName("org.apache.cxf.jaxb.DatatypeFactory");
+        Assert.assertEquals("PT0S", DatatypeFactory.PT0S.toString());
+    }
+```
+
+TESTE 18
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CacheControlHeaderProviderTest.java
+LINHAS: 132-140
+```java
+@Test
+    public void testMultipleNoCacheFields() {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache(true);
+        cc.getNoCacheFields().add("c");
+        cc.getNoCacheFields().add("d");
+        assertTrue(cc.toString().contains("no-cache=\"c,d\""));
+    }
+```
+
+TESTE 19
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CacheControlHeaderProviderTest.java
+LINHAS: 123-131
+```java
+@Test
+    public void testMultiplePrivateFields() {
+        CacheControl cc = new CacheControl();
+        cc.setPrivate(true);
+        cc.getPrivateFields().add("a");
+        cc.getPrivateFields().add("b");
+        assertTrue(cc.toString().contains("private=\"a,b\""));
+    }
+```
+
+TESTE 20
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CacheControlHeaderProviderTest.java
+LINHAS: 116-122
+```java
+@Test
+    public void testNoCacheDisabled() {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache(false);
+        assertEquals("no-transform", cc.toString());
+    }
+```
+
+TESTE 21
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CacheControlHeaderProviderTest.java
+LINHAS: 109-115
+```java
+@Test
+    public void testNoCacheEnabled() {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache(true);
+        assertEquals("no-cache,no-transform", cc.toString());
+    }
+```
+
+TESTE 22
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CookieHeaderProviderTest.java
+LINHAS: 56-63
+```java
+@Test
+    public void testToString() {
+        Cookie c = new Cookie("foo", "bar", "path", "domain", 2);
+        assertEquals("$Version=2;foo=bar;$Path=path;$Domain=domain",
+                     c.toString());
+
+    }
+```
+
+TESTE 23
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/CookieHeaderProviderTest.java
+LINHAS: 64-71
+```java
+@Test
+    public void testToStringWithQuotes() {
+        Cookie c = new Cookie("foo", "bar z", "path", "domain", 2);
+        assertEquals("$Version=2;foo=\"bar z\";$Path=path;$Domain=domain",
+                     c.toString());
+
+    }
+```
+
+TESTE 24
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/LinkHeaderProviderTest.java
+LINHAS: 29-34
+```java
+@Test
+    public void testFromSimpleString() {
+        Link l = Link.valueOf("<http://bar>");
+        assertEquals("http://bar", l.getUri().toString());
+    }
+```
+
+TESTE 25
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/LinkHeaderProviderTest.java
+LINHAS: 35-40
+```java
+@Test
+    public void testFromSimpleString2() {
+        Link l = Link.valueOf("</>");
+        assertEquals("/", l.getUri().toString());
+    }
+```
+
+TESTE 26
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/MediaTypeHeaderProviderTest.java
+LINHAS: 242-255
+```java
+@Test
+    public void testComplexToString() {
+        MediaTypeHeaderProvider provider =
+            new MediaTypeHeaderProvider();
+
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("foo", "bar");
+        params.put("q", "0.2");
+
+        assertEquals("complex media type is not serialized", "text/plain;foo=bar;q=0.2",
+                     provider.toString(new MediaType("text", "plain", params)));
+
+    }
+```
+
+TESTE 27
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/MediaTypeHeaderProviderTest.java
+LINHAS: 216-224
+```java
+@Test
+    public void testSimpleToString() {
+        MediaTypeHeaderProvider provider =
+            new MediaTypeHeaderProvider();
+
+        assertEquals("simple media type is not serialized", "text/plain",
+                     provider.toString(new MediaType("text", "plain")));
+    }
+```
+
+TESTE 28
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/NewCookieHeaderProviderTest.java
+LINHAS: 133-139
+```java
+@Test
+    public void testToString() {
+        NewCookie c = new NewCookie("foo", "bar", "path", "domain", "comment", 2, true);
+        assertEquals("foo=bar;Comment=comment;Domain=domain;Max-Age=2;Path=path;Secure;Version=1",
+                     c.toString());
+    }
+```
+
+TESTE 29
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/NewCookieHeaderProviderTest.java
+LINHAS: 147-152
+```java
+@Test
+    public void testToStringWithPathSlalshOnly() {
+        NewCookie c = new NewCookie("foo", "bar (space)<>[]", "/path", "domain.com", "comment@comment:,", 2, true);
+        assertEquals("foo=\"bar (space)<>[]\";Comment=\"comment@comment:,\";Domain=domain.com;Max-Age=2;"
+                     + "Path=/path;Secure;Version=1", c.toString());
+    }
+```
+
+TESTE 30
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/NewCookieHeaderProviderTest.java
+LINHAS: 140-146
+```java
+@Test
+    public void testToStringWithSpecialChar() {
+        NewCookie c = new NewCookie("foo", "bar (space)<>[]", "/path?path", "domain.com", "comment@comment:,", 2, true);
+        assertEquals("foo=\"bar (space)<>[]\";Comment=\"comment@comment:,\";Domain=domain.com;Max-Age=2;"
+                     + "Path=\"/path?path\";Secure;Version=1", c.toString());
+    }
+```
+
+TESTE 31
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1970-1985
+```java
+@Test
+    public void pathParamFromBadTemplate() {
+        final URI uri = UriBuilder
+            .fromUri("/")
+            .path("{")
+            .build();
+        assertEquals("/%7B", uri.toString());
+    }
+    
+    @Test
+    public void invalidUrlsNoHost() {
+        assertThrows(UriBuilderException.class, () -> UriBuilder.fromUri("http://@").build());
+        assertThrows(UriBuilderException.class, () -> UriBuilder.fromUri("http://:@").build());
+    }
+}
+```
+
+TESTE 32
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1934-1942
+```java
+@Test
+    public void pathParamFromEmpty() {
+        final URI uri = UriBuilder
+            .fromUri("/")
+            .path("/")
+            .build();
+        assertEquals("/", uri.toString());
+    }
+```
+
+TESTE 33
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1943-1951
+```java
+@Test
+    public void pathParamFromEmptyWithSpaces() {
+        final URI uri = UriBuilder
+            .fromUri("/")
+            .path("   /   ")
+            .build();
+        assertEquals("/%20%20%20/%20%20%20", uri.toString());
+    }
+```
+
+TESTE 34
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1897-1906
+```java
+@Test
+    public void pathParamFromNestedTemplateWithRegex() {
+        // The nested templates are not supported and are not detected 
+        final URI uri = UriBuilder
+            .fromUri("my/path")
+            .path("{{p:his/him}}")
+            .build();
+        assertEquals("my/path/%7B%7Bp:his/him%7D%7D", uri.toString());
+    }
+```
+
+TESTE 35
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1811-1820
+```java
+public void queryParamSpecialCharacters() {
+        final String expected = "http://localhost:8080?%2F%3FabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._%7E%251A%21%24%27%28%29*%2B%2C%3B%3A%40=apiKeyQueryParam1Value";
+        
+        final URI uri = UriBuilder
+            .fromUri("http://localhost:8080")
+            .queryParam(URLEncoder.encode("/?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~%1A!$'()*+,;:@"), "apiKeyQueryParam1Value")
+            .build();
+        
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 36
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1824-1833
+```java
+public void queryParamSpecialCharactersFromEncoded() {
+        final String expected = "http://localhost:8080?%2F%3FabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._%7E%251A%21%24%27%28%29*%2B%2C%3B%3A%40=apiKeyQueryParam1Value";
+        
+        final URI uri = UriBuilder
+            .fromUri("http://localhost:8080")
+            .queryParam(URLEncoder.encode("/?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~%1A!$'()*+,;:@"), "apiKeyQueryParam1Value")
+            .buildFromEncoded();
+        
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 37
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1837-1846
+```java
+public void queryParamSpecialCharactersFromEncodedTemplate() {
+        final String expected = "http://localhost:8080?%2F%3FabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._%7E%251A%21%24%27%28%29*%2B%2C%3B%3A%40=apiKeyQueryParam1Value";
+        
+        final URI uri = UriBuilder
+            .fromUri("http://localhost:8080")
+            .queryParam("{a}", "{b}")
+            .buildFromEncoded(URLEncoder.encode("/?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~%1A!$'()*+,;:@"), "apiKeyQueryParam1Value");
+        
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 38
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 516-526
+```java
+@Test
+    public void replaceMatrixParamWithEmptyPathTest() throws Exception {
+        String name = "name";
+        String expected = "http://localhost:8080;name=x;name=y;name=y%20x;name=x%25y;name=%20";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080;name=x=;name=y?;name=x y;name=&")
+            .replaceMatrixParam(name, "x", "y", "y x", "x%y", "%20")
+            .build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 39
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 527-536
+```java
+@Test
+    public void replaceMatrixWithEmptyPathTest() throws Exception {
+        String expected = "http://localhost:8080;name=x;name=y;name=y%20x;name=x%25y;name=%20";
+        String value = "name=x;name=y;name=y x;name=x%y;name= ";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080;name=x=;name=y?;name=x y;name=&")
+                                .replaceMatrix(value).build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 40
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 537-546
+```java
+@Test
+    public void testAddMatrixToEmptyPath() throws Exception {
+        String name = "name";
+        String expected = "http://localhost:8080;name=x;name=y";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080").matrixParam(name, "x", "y")
+            .build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 41
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 421-427
+```java
+@Test
+    public void testBuildWithLeadingSlash() throws Exception {
+        URI uri = new URI("/bar/foo");
+        URI newUri = UriBuilder.fromUri(uri).build();
+        assertEquals("URI is not built correctly", "/bar/foo", newUri.toString());
+    }
+```
+
+TESTE 42
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 73-79
+```java
+@Test
+    public void testBuildWithNonEncodedSubstitutionValue() {
+        URI uri;
+        uri = UriBuilder.fromPath("/{a}").build("{}");
+        assertEquals("/%7B%7D", uri.toString());
+    }
+```
+
+TESTE 43
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 80-86
+```java
+@Test
+    public void testBuildWithNonEncodedSubstitutionValue2() {
+        URI uri;
+        uri = UriBuilder.fromPath("/{a}").buildFromEncoded("{}");
+        assertEquals("/%7B%7D", uri.toString());
+    }
+```
+
+TESTE 44
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 448-455
+```java
+@Test
+    public void testEncodedPathQueryFromExistingURI() throws Exception {
+        URI uri = new URI("http://bar/foo+%20%2B?q=a+b%20%2B");
+        URI newUri = new UriBuilderImpl(uri).buildFromEncoded();
+        assertEquals("URI is not built correctly",
+                     "http://bar/foo+%20%2B?q=a+b%20%2B", newUri.toString());
+    }
+```
+
+TESTE 45
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1524-1532
+```java
+@Test
+    public void testEncodingQueryParamFromBuild() throws Exception {
+        String expectedValue =
+                "http://localhost:8080?name=x%3D&name=y?&name=x+y&name=%26";
+        URI uri = UriBuilder.fromPath("http://localhost:8080").queryParam("name",
+                    "x=", "y?", "x y", "&").build();
+        assertEquals(expectedValue, uri.toString());
+    }
+```
+
+TESTE 46
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1203-1210
+```java
+@Test
+    public void testFragment() {
+        String expected = "test#abc";
+        String path = "test";
+        URI uri = UriBuilder.fromPath(path).fragment("abc").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 47
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1430-1439
+```java
+@Test
+    public void testFromEncodedDuplicateVar() {
+        String expected = "http://localhost:8080/a/%25/=/%25G0/%25/=";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+            .path("/{v}/{w}/{x}/{y}/{z}/{x}")
+            .buildFromEncoded("a", "%25", "=", "%G0", "%", "23");
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 48
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1350-1359
+```java
+@Test
+    public void testFromEncodedDuplicateVar2() {
+        String expected = "http://localhost:8080/xy/%20/%25/xy";
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+            .path("/{x}/{y}/{z}/{x}")
+            .buildFromEncoded("xy", " ", "%");
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 49
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1360-1369
+```java
+@Test
+    public void testFromEncodedDuplicateVar3() {
+        String expected = "http://localhost:8080/1/2/3/1";
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+                            .path("/{a}/{b}/{c}/{a}")
+                            .buildFromEncoded("1", "2", "3");
+
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 50
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1616-1621
+```java
+@Test
+    public void testFromMethod() {
+        URI uri = UriBuilder.fromMethod(TestPath.class, "headSub").build();
+        assertEquals(uri.toString(), "/sub");
+    }
+```
+
+TESTE 51
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 928-935
+```java
+@Test
+    public void testFromPathUriOnly() {
+        String expected = "http://localhost:8080";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 52
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 53-59
+```java
+@Test
+    public void testFromUriRelativePath() throws Exception {
+        UriBuilder builder = UriBuilder.fromUri("path");
+        URI uri = builder.queryParam("a", "b").build();
+        assertEquals("path?a=b", uri.toString());
+    }
+```
+
+TESTE 53
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1581-1587
+```java
+@Test
+    public void testFromUriWithMatrix() {
+        String expected = "http://localhost:8080/name;a=b";
+        URI uri = UriBuilder.fromUri("http://localhost:8080/name;a=b").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 54
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1797-1807
+```java
+@Test
+    public void testIllegalURI() {
+        final String path = "invalidpath";
+        
+        final URI uri = UriBuilder
+            .fromPath(path)
+            .build();
+        
+        assertEquals(path, uri.toString());
+    }
+```
+
+TESTE 55
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 502-508
+```java
+@Test
+    public void testMatrixWithNoValue() throws Exception {
+        URI uri = new URI("http://bar/foo");
+        URI newUri = new UriBuilderImpl(uri).matrixParam("q").build();
+        assertEquals("URI is not built correctly", "http://bar/foo;q", newUri.toString());
+    }
+```
+
+TESTE 56
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1381-1389
+```java
+@Test
+    public void testNullScheme() {
+        String expected = "localhost:8080";
+        URI uri = UriBuilder.fromUri("http://localhost:8080")
+                            .scheme(null)
+                            .build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 57
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 307-314
+```java
+@Test
+    public void testPathAndQueryParamWithTemplateValues() {
+        URI uri;
+        uri = UriBuilder.fromPath("/index{ind}.jsp").queryParam("a", "{a}").queryParam("b", "{b}")
+            .build("1", "valueA", "valueB");
+        assertEquals("/index1.jsp?a=valueA&b=valueB", uri.toString());
+    }
+```
+
+TESTE 58
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1553-1559
+```java
+@Test
+    public void testPathParamSpaceBuild() {
+        String expected = "http://localhost:8080/name/%20";
+        URI uri = UriBuilder.fromUri("http://localhost:8080").path("name/%20").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 59
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1567-1573
+```java
+@Test
+    public void testPathParamSpaceBuild3() {
+        String expected = "http://localhost:8080/name%20space";
+        URI uri = UriBuilder.fromUri("http://localhost:8080").path("name space").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 60
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1574-1580
+```java
+@Test
+    public void testPathParamSpaceBuild4() {
+        String expected = "http://localhost:8080/name%20space";
+        URI uri = UriBuilder.fromUri("http://localhost:8080").path("name space").buildFromEncoded();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 61
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1588-1594
+```java
+@Test
+    public void testPathParamSpaceBuildEncoded() {
+        String expected = "http://localhost:8080/name/%20";
+        URI uri = UriBuilder.fromUri("http://localhost:8080").path("name/%20").buildFromEncoded();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 62
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1602-1608
+```java
+@Test
+    public void testQueryParamSpaceBuild() {
+        String expected = "http://localhost:8080?name=%20";
+        URI uri = UriBuilder.fromUri("http://localhost:8080").queryParam("name", "%20").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 63
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 495-501
+```java
+@Test
+    public void testQueryWithNoValue() throws Exception {
+        URI uri = new URI("http://bar");
+        URI newUri = new UriBuilderImpl(uri).queryParam("q").build();
+        assertEquals("URI is not built correctly", "http://bar?q", newUri.toString());
+    }
+```
+
+TESTE 64
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1533-1542
+```java
+@Test
+    public void testReplaceParamAndEncodeQueryParamFromBuild() throws Exception {
+        String expectedValue =
+                "http://localhost:8080?name=x&name=y&name=y+x&name=x%25y&name=%20";
+        URI uri = UriBuilder.fromPath("http://localhost:8080").queryParam("name",
+                    "x=", "y?", "x y", "&").replaceQueryParam("name", "x", "y",
+                    "y x", "x%y", "%20").build();
+        assertEquals(expectedValue, uri.toString());
+    }
+```
+
+TESTE 65
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 919-927
+```java
+@Test
+    public void testReplaceQuery3() {
+        String expected = "http://localhost:8080?name1=xyz";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+            .queryParam("name", "x=", "y?", "x y", "&").replaceQuery("name1=xyz").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 66
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 889-897
+```java
+@Test
+    public void testReplaceQueryWithNull2() {
+        String expected = "http://localhost:8080";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+            .queryParam("name", "x=", "y?", "x y", "&").replaceQuery(null).build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 67
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1543-1552
+```java
+@Test
+    public void testReplaceStringAndEncodeQueryParamFromBuild() {
+        String expected = "http://localhost:8080?name1=x&name2=%20&name3=x+y&name4=23&name5=x%20y";
+
+        URI uri = UriBuilder.fromPath("http://localhost:8080")
+            .queryParam("name", "x=", "y?", "x y", "&")
+            .replaceQuery("name1=x&name2=%20&name3=x+y&name4=23&name5=x y").build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 68
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1334-1339
+```java
+@Test
+    public void testResetPort() {
+        URI uri = UriBuilder.fromUri("http://localhost:8080/some/path").port(-1).build();
+        assertEquals("http://localhost/some/path", uri.toString());
+    }
+```
+
+TESTE 69
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 141-149
+```java
+@Test
+    public void testResolveTemplate() {
+        URI uri;
+        uri = UriBuilder.fromPath("/{a}").resolveTemplate("a", "1").build();
+        assertEquals("/1", uri.toString());
+    }
+```
+
+TESTE 70
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 183-190
+```java
+@Test
+    public void testResolveTemplateFromEncoded() {
+        URI uri;
+        uri = UriBuilder.fromPath("/{a}").resolveTemplate("a", "%20 ").buildFromEncoded();
+        assertEquals("/%20%20", uri.toString());
+    }
+```
+
+TESTE 71
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1221-1230
+```java
+@Test
+    public void testSegments() {
+        String path1 = "ab";
+        String[] path2 = {"a1", "x/y", "3b "};
+        String expected = "ab/a1/x%2Fy/3b%20";
+
+        URI uri = UriBuilder.fromPath(path1).segment(path2).build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 72
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1231-1240
+```java
+@Test
+    public void testSegments2() {
+        String path1 = "";
+        String[] path2 = {"a1", "/", "3b "};
+        String expected = "a1/%2F/3b%20";
+
+        URI uri = UriBuilder.fromPath(path1).segment(path2).build();
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 73
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1181-1190
+```java
+@Test
+    public void testTck1() {
+        String value = "test1#test2";
+        String expected = "test1%23test2";
+        String path = "{arg1}";
+        URI uri = UriBuilder.fromPath(path).build(value);
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 74
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 367-373
+```java
+@Test
+    public void testTrailingSlash() throws Exception {
+        URI uri = new URI("http://bar/");
+        URI newUri = new UriBuilderImpl(uri).build();
+        assertEquals("URI is not built correctly", "http://bar/", newUri.toString());
+    }
+```
+
+TESTE 75
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1693-1700
+```java
+@Test
+    public void testURIWithNonIntegerPort() {
+        String url = "myscheme://not.really.a.host:port/";
+        UriBuilder builder = UriBuilder.fromUri(url);
+        URI uri = builder.build();
+        assertEquals(url, uri.toString());
+    }
+```
+
+TESTE 76
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1750-1760
+```java
+@Test
+    public void testURIWithSpecialCharacters() {
+        final String expected = "http://localhost:8080/xy%22";
+        
+        final URI uri = UriBuilder
+            .fromUri("http://localhost:8080")
+            .path(URLEncoder.encode("xy\"")).build();
+        
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 77
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 1761-1772
+```java
+@Test
+    public void testURIWithSpecialCharacters2() {
+        final String expected = "http://localhost:8080/xy%09";
+        
+        final URI uri = UriBuilder
+            .fromUri("http://localhost:8080")
+            .path(URLEncoder.encode("xy\t"))
+            .buildFromEncoded();
+        
+        assertEquals(expected, uri.toString());
+    }
+```
+
+TESTE 78
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 60-65
+```java
+@Test
+    public void testUriTemplate() throws Exception {
+        UriBuilder builder = UriBuilder.fromUri("http://localhost:8080/{a}/{b}");
+        URI uri = builder.build("1", "2");
+        assertEquals("http://localhost:8080/1/2", uri.toString());
+    }
+```
+
+TESTE 79
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/impl/UriBuilderImplTest.java
+LINHAS: 66-72
+```java
+@Test
+    public void testUriTemplate2() throws Exception {
+        UriBuilder builder = UriBuilder.fromUri("http://localhost/{a}/{b}");
+        URI uri = builder.build("1", "2");
+        assertEquals("http://localhost/1/2", uri.toString());
+    }
+```
+
+TESTE 80
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/HttpUtilsTest.java
+LINHAS: 78-88
+```java
+@Test
+    public void testRelativize() throws Exception {
+        // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6226081
+        URI a = new URI("file:/c:/abc/def/myDocument/doc.xml");
+        URI b = new URI("file:/c:/abc/def/images/subdir/image.png");
+
+        URI c = HttpUtils.relativize(a, b);
+
+        assertEquals("../images/subdir/image.png", c.toString());
+    }
+```
+
+TESTE 81
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/HttpUtilsTest.java
+LINHAS: 245-256
+```java
+@Test
+    public void testReplaceAnyIPAddress() {
+        Message m = new MessageImpl();
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        m.put(AbstractHTTPDestination.HTTP_REQUEST, req);
+        when(req.getScheme()).thenReturn("http");
+        when(req.getServerName()).thenReturn("localhost");
+        when(req.getServerPort()).thenReturn(8080);
+        URI u = HttpUtils.toAbsoluteUri(URI.create("http://0.0.0.0/bar/foo"), m);
+        assertEquals("http://localhost:8080/bar/foo", u.toString());
+    }
+```
+
+TESTE 82
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxrs/src/test/java/org/apache/cxf/jaxrs/utils/HttpUtilsTest.java
+LINHAS: 278-284
+```java
+@Test
+    public void testReplaceLocalHostWithPort() {
+        Message m = new MessageImpl();
+        URI u = HttpUtils.toAbsoluteUri(URI.create("http://localhost:8080/bar/foo"), m);
+        assertEquals("http://localhost:8080/bar/foo", u.toString());
+    }
+```
+
+TESTE 83
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spi/ProviderImplTest.java
+LINHAS: 181-194
+```java
+public void testCreateW3CEprMetadataInterfaceNameOnly() throws Exception {
+        QName serviceName = new QName("http://cxf.apache.org", "IntfName");
+        ProviderImpl impl = new ProviderImpl();
+        W3CEndpointReference w3Epr = impl.createW3CEndpointReference(
+                         "http://myaddress", serviceName, null, null, null, null, null, null, null);
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        StreamResult result = new StreamResult(sw);
+        w3Epr.writeTo(result);
+        assertTrue("Address is expected", sw.toString().contains("Address"));
+        assertTrue("Metadata element expected", sw.toString().contains("Metadata"));
+        assertTrue("Interface element expected", sw.toString().contains("Interface"));
+        assertFalse("ServiceName is unexpected", sw.toString().contains("ServiceName"));
+    }
+```
+
+TESTE 84
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spi/ProviderImplTest.java
+LINHAS: 213-231
+```java
+public void testCreateW3CEprMetadataMetadataOnly() throws Exception {
+        ProviderImpl impl = new ProviderImpl();
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Element element = builder.newDocument().createElement("customMetadata");
+        List<Element> metadata = new ArrayList<>();
+        metadata.add(element);
+        W3CEndpointReference w3Epr = impl.createW3CEndpointReference(
+                         "http://myaddress", null, null,
+                         metadata, null, null);
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        StreamResult result = new StreamResult(sw);
+        w3Epr.writeTo(result);
+        assertTrue("Address is expected", sw.toString().contains("Address"));
+        assertTrue("Metadata element expected", sw.toString().contains("Metadata"));
+        assertTrue("Custom Metadata element expected", sw.toString().contains("customMetadata"));
+        assertFalse("Interface element unexpected", sw.toString().contains("Interface"));
+        assertFalse("ServiceName unexpected", sw.toString().contains("ServiceName"));
+    }
+```
+
+TESTE 85
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spi/ProviderImplTest.java
+LINHAS: 197-210
+```java
+public void testCreateW3CEprMetadataServiceNameOnly() throws Exception {
+        QName serviceName = new QName("http://cxf.apache.org", "ServiceName");
+        ProviderImpl impl = new ProviderImpl();
+        W3CEndpointReference w3Epr = impl.createW3CEndpointReference(
+                         "http://myaddress", null, serviceName, null, null, null, null, null, null);
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        StreamResult result = new StreamResult(sw);
+        w3Epr.writeTo(result);
+        assertTrue("Address is expected", sw.toString().contains("Address"));
+        assertTrue("Metadata element expected", sw.toString().contains("Metadata"));
+        assertFalse("Interface element unexpected", sw.toString().contains("Interface"));
+        assertTrue("ServiceName is expected", sw.toString().contains("ServiceName"));
+    }
+```
+
+TESTE 86
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spi/ProviderImplTest.java
+LINHAS: 155-165
+```java
+public void testCreateW3CEprNoMetadata() throws Exception {
+        ProviderImpl impl = new ProviderImpl();
+        W3CEndpointReference w3Epr = impl.createW3CEndpointReference(
+                         "http://myaddress", null, null, null, null, null, null, null, null);
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        StreamResult result = new StreamResult(sw);
+        w3Epr.writeTo(result);
+        assertTrue("Address is expected", sw.toString().contains("Address"));
+        assertFalse("empty Metadata element should be dropped", sw.toString().contains("Metadata"));
+    }
+```
+
+TESTE 87
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/frontend/jaxws/src/test/java/org/apache/cxf/jaxws/spi/ProviderImplTest.java
+LINHAS: 168-178
+```java
+public void testCreateW3CEprNoMetadataEmptyCustomMetadata() throws Exception {
+        ProviderImpl impl = new ProviderImpl();
+        W3CEndpointReference w3Epr = impl.createW3CEndpointReference(
+            "http://myaddress", null, null, new ArrayList<>(), null, null);
+
+        java.io.StringWriter sw = new java.io.StringWriter();
+        StreamResult result = new StreamResult(sw);
+        w3Epr.writeTo(result);
+        assertTrue("Address is expected", sw.toString().contains("Address"));
+        assertFalse("empty Metadata element should be dropped", sw.toString().contains("Metadata"));
+    }
+```
+
+TESTE 88
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/distribution/src/main/release/samples/jaxws_spring_boot/src/test/java/sample/ws/service/SampleWsApplicationTest.java
+LINHAS: 63-79
+```java
+@Test
+    public void testHelloRequest() {
+        // final String request =
+        // "<q0:sayHello xmlns:q0=\"http://service.ws.sample\">Elan</q0:sayHello>";
+        String request = "<q0:sayHello xmlns:q0=\"http://service.ws.sample/\"><myname>Elan</myname></q0:sayHello>";
+
+        StreamSource source = new StreamSource(new StringReader(request));
+        StreamResult result = new StreamResult(System.out);
+
+        this.webServiceTemplate.sendSourceAndReceiveToResult(source, result);
+        assertThat(this.output.toString(),
+                   containsString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                                  + "<ns2:sayHelloResponse xmlns:ns2=\"http://service.ws.sample/\">"
+                                  + "<return>Hello, Welcome to CXF Spring boot Elan!!!</return>"
+                                  + "</ns2:sayHelloResponse>"));
+    }
+```
+
+TESTE 89
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 310-318
+```java
+@Test
+    public void testDoNotEscapeForwardSlashes() throws Exception {
+        JSONProvider<Book> provider = new JSONProvider<>();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(new Book("http://cxf", 123), Book.class, Book.class,
+                         new Annotation[0], MediaType.APPLICATION_JSON_TYPE,
+                         new MetadataMap<String, Object>(), bos);
+        assertTrue(bos.toString().contains("\"name\":\"http://cxf\""));
+    }
+```
+
+TESTE 90
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1468-1487
+```java
+@Test
+    public void testDropElements() throws Exception {
+        JSONProvider<ManyTags> provider = new JSONProvider<>();
+        List<String> list = new ArrayList<>();
+        list.add("ManyTags");
+        list.add("tags");
+        provider.setOutDropElements(list);
+        ManyTags many = new ManyTags();
+        Tags tags = new Tags();
+        tags.addTag(new TagVO("A", "B"));
+        tags.addTag(new TagVO("C", "D"));
+        many.setTags(tags);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(many, ManyTags.class, ManyTags.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"list\":[{\"group\":\"B\",\"name\":\"A\"},"
+            + "{\"group\":\"D\",\"name\":\"C\"}]}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 91
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1503-1519
+```java
+@Test
+    public void testDropQualifiedElements() throws Exception {
+        JSONProvider<TagVO2> provider = new JSONProvider<>();
+        List<String> list = new ArrayList<>();
+        list.add("{http://tags}thetag");
+        provider.setOutDropElements(list);
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "");
+        provider.setOutTransformElements(map);
+        TagVO2 tag = new TagVO2("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO2.class, TagVO2.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"group\":\"B\"}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 92
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1534-1547
+```java
+@Test
+    public void testOutAppendLocalBeforeLocal() throws Exception {
+        JSONProvider<TagVO> provider = new JSONProvider<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("tagVO", "supertag");
+        provider.setOutAppendElements(map);
+        TagVO tag = new TagVO("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO.class, TagVO.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"supertag\":{\"tagVO\":{\"group\":\"B\",\"name\":\"A\"}}}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 93
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1520-1533
+```java
+@Test
+    public void testOutAppendNsElementBeforeLocal() throws Exception {
+        JSONProvider<TagVO> provider = new JSONProvider<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("tagVO", "{http://tagsvo2}t");
+        provider.setOutAppendElements(map);
+        TagVO tag = new TagVO("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO.class, TagVO.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"ps1.t\":{\"tagVO\":{\"group\":\"B\",\"name\":\"A\"}}}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 94
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1603-1617
+```java
+@Test
+    public void testOutElementsMapLocalNsToLocal() throws Exception {
+        JSONProvider<TagVO2> provider = new JSONProvider<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("{http://tags}thetag", "t");
+        provider.setOutTransformElements(map);
+        TagVO2 tag = new TagVO2("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO2.class, TagVO2.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"t\":{\"group\":\"B\",\"name\":\"A\"}}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 95
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1634-1648
+```java
+@Test
+    public void testOutElementsMapLocalToLocal() throws Exception {
+        JSONProvider<TagVO> provider = new JSONProvider<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("tagVO", "supertag");
+        map.put("group", "group2");
+        provider.setOutTransformElements(map);
+        TagVO tag = new TagVO("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO.class, TagVO.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"supertag\":{\"group2\":\"B\",\"name\":\"A\"}}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 96
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1618-1633
+```java
+@Test
+    public void testOutElementsMapLocalToLocalNs() throws Exception {
+        JSONProvider<TagVO> provider = new JSONProvider<>();
+        Map<String, String> namespaceMap = new HashMap<>();
+        namespaceMap.put("http://tags", "ns1");
+        Map<String, String> map = new HashMap<>();
+        map.put("tagVO", "{http://tags}thetag");
+        provider.setOutTransformElements(map);
+        TagVO tag = new TagVO("A", "B");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(tag, TagVO.class, TagVO.class,
+                       new Annotation[0], MediaType.TEXT_XML_TYPE, new MetadataMap<String, Object>(), bos);
+        String expected = "{\"ps1.thetag\":{\"group\":\"B\",\"name\":\"A\"}}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 97
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 194-217
+```java
+@Test
+    public void testWriteCollectionWithoutXmlRootElement()
+        throws Exception {
+        JSONProvider<List<SuperBook>> provider = new JSONProvider<>();
+        provider.setCollectionWrapperName("{http://superbooks}SuperBooks");
+        provider.setJaxbElementClassMap(Collections.singletonMap(
+                SuperBook.class.getName(),
+                "{http://superbooks}SuperBook"));
+        SuperBook b =
+            new SuperBook("CXF in Action", 123L, 124L);
+        List<SuperBook> books =
+            Collections.singletonList(b);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(books, List.class,
+                         SuperBook.class,
+                         new Annotation[0], MediaType.APPLICATION_JSON_TYPE,
+                         new MetadataMap<String, Object>(), bos);
+        String expected = "{\"ns1.SuperBooks\":[{\"id\":123,\"name\":\"CXF in Action\","
+            + "\"state\":\"\",\"superId\":124}]}";
+        assertEquals(expected, bos.toString());
+    }
+```
+
+TESTE 98
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 803-816
+```java
+@Test
+    public void testWriteUnqualifiedCollection() throws Exception {
+        JSONProvider<List<Book>> p = new JSONProvider<>();
+        List<Book> books = new ArrayList<>();
+        books.add(new Book("CXF", 123L));
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        Method m = CollectionsResource.class.getMethod("getBooks", new Class[0]);
+        p.writeTo(books, m.getReturnType(), m.getGenericReturnType(), new Annotation[0],
+                  MediaType.APPLICATION_JSON_TYPE, new MetadataMap<String, Object>(), os);
+        assertEquals("{\"Book\":[{\"id\":123,\"name\":\"CXF\",\"state\":\"\"}]}",
+                     os.toString());
+
+    }
+```
+
+TESTE 99
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/json/JSONProviderTest.java
+LINHAS: 1488-1502
+```java
+@Test
+    public void testWriteWithXmlRootElementAndPackageInfo() throws Exception {
+        JSONProvider<org.apache.cxf.jaxrs.resources.jaxb.Book2> provider =
+            new JSONProvider<>();
+        org.apache.cxf.jaxrs.resources.jaxb.Book2 book =
+            new org.apache.cxf.jaxrs.resources.jaxb.Book2(333);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        provider.writeTo(book, org.apache.cxf.jaxrs.resources.jaxb.Book2.class,
+                         org.apache.cxf.jaxrs.resources.jaxb.Book2.class,
+                         new Annotation[0], MediaType.APPLICATION_JSON_TYPE,
+                         new MetadataMap<String, Object>(), bos);
+        assertEquals("{\"os.thebook2\":{\"id\":333}}", bos.toString());
+    }
+```
+
+TESTE 100
+PROJETO: cxf
+ARQUIVO: /home/magno-macedo/.jnose_projects/cxf/rt/rs/extensions/providers/src/test/java/org/apache/cxf/jaxrs/provider/jsonp/JsonpInterceptorTest.java
+LINHAS: 89-103
+```java
+@Test
+    public void testJsonWithDefaultPadding() throws Exception {
+        Message message = new MessageImpl();
+        message.put(Message.ACCEPT_CONTENT_TYPE, JsonpInInterceptor.JSONP_TYPE);
+        message.setExchange(new ExchangeImpl());
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        message.setContent(OutputStream.class, bos);
+
+        // Process the message
+        in.handleMessage(message);
+        preStream.handleMessage(message);
+        postStream.handleMessage(message);
+        assertEquals("callback();", bos.toString());
+    }
+```
+
