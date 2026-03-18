@@ -1,19 +1,15 @@
 # NoseSense 👃💻
 
-O **NoseSense** é uma plataforma inovadora baseada em Inteligência Artificial para a detecção e análise automática de "Test Smells" (maus cheiros em códigos de teste). O sistema orquestra múltiplos Grandes Modelos de Linguagem (LLMs) simultaneamente para analisar trechos de código e identificar problemas de qualidade nos testes.
+O **NoseSense** é uma plataforma para a avaliação da performance de LLMs na detecção e análise automática de "Test Smells" (maus cheiros em códigos de teste). O sistema orquestra múltiplos Grandes Modelos de Linguagem (LLMs) simultaneamente para analisar trechos de código e identificar problemas de qualidade nos testes, gerando métricas comparativas entre os modelos.
 
-O projeto é dividido em um **Backend** robusto em Python (FastAPI) e um **Frontend** moderno em React (Next.js).
-
----
+O projeto é dividido em um **Backend** em Python (FastAPI) e um **Frontend** em React (Next.js).
 
 ## 🚀 Funcionalidades Principais
 
-- **Análise Multi-Modelo Simultânea**: Orquestra e compara a performance de diversas IAs através da biblioteca Langchain (OpenAI, Google Gemini, Anthropic Claude, DeepSeek/Qwen via Together API).
+- **Análise Multi-Modelo Simultânea**: Orquestra e compara a performance de diversas IAs através da biblioteca Langchain (OpenAI, Google Gemini, Anthropic Claude, via Together API).
 - **Streaming em Tempo Real**: Processamento assíncrono com Server-Sent Events (SSE) para enviar resultados parciais em tempo real ao frontend.
-- **Armazenamento e Exportação**: Salva todos os testes, prompts e as respostas detalhadas dos modelos localmente em um banco de dados SQLite (`resultados.db`) e exporta relatórios condensados em CSV (`resultado.csv`).
+- **Armazenamento e Exportação**: Salva todos os nomes dos testes e as respostas dos modelos localmente em um banco de dados SQLite (`resultados.db`) e exporta relatórios condensados em CSV (`resultado.csv`).
 - **Engenharia de Prompt Dinâmica**: Geração automatizada de prompts randomizados para evitar viés de posicionamento nas respostas da IA.
-
----
 
 ## 🏗️ Arquitetura do Projeto
 
@@ -27,16 +23,31 @@ O projeto é dividido em um **Backend** robusto em Python (FastAPI) e um **Front
 - **Responsabilidades:** Interface gráfica de usuário (UI) para disparar testes, visualizar o andamento das requisições assíncronas em tempo real (dashboard de execução) e analisar as métricas e o desempenho comparado dos LLMs no painel de resultados.
 - **Porta Padrão:** `3000` (gerenciado pelo pnpm)
 
----
-
 ## 🛠️ Como Instalar e Rodar o Projeto
 
 ### Pré-requisitos
 - Python 3.10+
 - Node.js 18+ e *pnpm* instalado (`npm install -g pnpm`)
-- Chaves de API das plataformas LLM requeridas (configuráveis via `dados.json` no backend).
+- Chaves de API das plataformas LLM requeridas (configuráveis via backend, no modal de Adicionar Empresa ou num arquivo interno).
 
-### 1. Rodando o Backend
+---./dev.sh
+
+### 🚀 Inicialização Rápida (Recomendado)
+
+O projeto contém um utilitário em script Bash que constrói os ambientes, instala as dependências do Backend e Frontend, sobe os dois servidores simultaneamente e abre a interface no seu navegador automaticamente.
+
+Na pasta raiz (`NoseSense/`), execute:
+
+```bash
+chmod +x dev.sh
+./dev.sh
+```
+
+---
+
+### Inicialização Manual
+
+#### 1. Rodando o Backend
 
 Abra um terminal e acesse a pasta do backend:
 ```bash
