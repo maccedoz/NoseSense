@@ -7,7 +7,7 @@ import { Trash2, Building2, ChevronDown, Key, Bot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function ProviderList() {
-  const { providers, removeProvider, toggleProviderExpanded, toggleModel } = useAppStore()
+  const { providers, removeProviderKey, toggleProviderExpanded, toggleModel, toggleAllModels } = useAppStore()
 
   return (
     <div className="space-y-3">
@@ -69,7 +69,7 @@ export function ProviderList() {
                     className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 text-muted-foreground hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation()
-                      removeProvider(provider.id)
+                      removeProviderKey(provider.name)
                     }}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -79,6 +79,23 @@ export function ProviderList() {
                 {/* Models Dropdown */}
                 {provider.expanded && (
                   <div className="ml-6 pl-4 border-l-2 border-primary/30 space-y-1 py-2">
+                    {/* Select All toggle */}
+                    {provider.models.length > 1 && (
+                      <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors border-b border-border/50 mb-1">
+                        <Checkbox
+                          id={`${provider.id}-all`}
+                          checked={provider.models.every(m => m.enabled)}
+                          onCheckedChange={(checked) => toggleAllModels(provider.id, !!checked)}
+                          className="border-muted-foreground data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <label
+                          htmlFor={`${provider.id}-all`}
+                          className="flex-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer"
+                        >
+                          Select All
+                        </label>
+                      </div>
+                    )}
                     {provider.models.map((model) => (
                       <div
                         key={model.id}

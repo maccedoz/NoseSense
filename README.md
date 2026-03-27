@@ -1,42 +1,44 @@
-# NoseSense 👃💻
+# NoseSense 
 
-O **NoseSense** é uma plataforma para a avaliação da performance de LLMs na detecção e análise automática de "Test Smells" (maus cheiros em códigos de teste). O sistema orquestra múltiplos Grandes Modelos de Linguagem (LLMs) simultaneamente para analisar trechos de código e identificar problemas de qualidade nos testes, gerando métricas comparativas entre os modelos.
+*Read this in other languages: [Português](README-PTBR.md).*
 
-O projeto é dividido em um **Backend** em Python (FastAPI) e um **Frontend** em React (Next.js).
+**NoseSense** is a platform for evaluating the performance of LLMs in the automatic detection and analysis of "Test Smells" (poor design and implementation in test code). The system simultaneously orchestrates multiple Large Language Models (LLMs) to analyze code snippets, identify test quality issues, and generate comparative metrics between the models.
 
-## 🚀 Funcionalidades Principais
+The project is divided into a **Backend** in Python (FastAPI) and a **Frontend** in React (Next.js).
 
-- **Análise Multi-Modelo Simultânea**: Orquestra e compara a performance de diversas IAs através da biblioteca Langchain (OpenAI, Google Gemini, Anthropic Claude, via Together API).
-- **Streaming em Tempo Real**: Processamento assíncrono com Server-Sent Events (SSE) para enviar resultados parciais em tempo real ao frontend.
-- **Armazenamento e Exportação**: Salva todos os nomes dos testes e as respostas dos modelos localmente em um banco de dados SQLite (`resultados.db`) e exporta relatórios condensados em CSV (`resultado.csv`).
-- **Engenharia de Prompt Dinâmica**: Geração automatizada de prompts randomizados para evitar viés de posicionamento nas respostas da IA.
+## Key Features
 
-## 🏗️ Arquitetura do Projeto
+- **Simultaneous Multi-Model Analysis**: Orchestrates and compares the performance of several APIs using the Langchain library (OpenAI, Google Gemini, Anthropic Claude, via Together API).
+- **Real-Time Streaming**: Asynchronous processing with Server-Sent Events (SSE) to send real-time partial results to the frontend.
+- **Storage and Exporting**: Locally saves all test names and model responses in a SQLite database (`resultados.db`) and exports condensed CSV reports (`resultado.csv`).
+- **Dynamic Prompt Engineering**: Automated generation of randomized prompts to prevent positional bias in AI responses.
+
+## Project Architecture
 
 ### Backend (FastAPI + LangChain)
-- **Localização:** `/backend`
-- **Responsabilidades:** Ler base de dados local de *Test Smells*, instanciar modelos LLM, orquestrar chamadas assíncronas (promises simultâneas) de análise, armazenar dados via banco e persistir respostas em CSV.
-- **Porta Padrão:** `8001`
+- **Location:** `/backend`
+- **Responsibilities:** Reads the local database of *Test Smells*, instantiates LLM models, orchestrates asynchronous analysis calls (simultaneous promises), stores data via the database, and persists responses in CSV.
+- **Default Port:** `8001`
 
 ### Frontend (Next.js + React)
-- **Localização:** `/frontend`
-- **Responsabilidades:** Interface gráfica de usuário (UI) para disparar testes, visualizar o andamento das requisições assíncronas em tempo real (dashboard de execução) e analisar as métricas e o desempenho comparado dos LLMs no painel de resultados.
-- **Porta Padrão:** `3000` (gerenciado pelo pnpm)
+- **Location:** `/frontend`
+- **Responsibilities:** Graphical User Interface (UI) to trigger tests, view the progress of asynchronous requests in real-time (execution dashboard), and analyze the comparative performance and metrics of the LLMs in the results panel.
+- **Default Port:** `3000` (managed by pnpm)
 
-## 🛠️ Como Instalar e Rodar o Projeto
+## How to Install and Run
 
-### Pré-requisitos
+### Prerequisites
 - Python 3.10+
-- Node.js 18+ e *pnpm* instalado (`npm install -g pnpm`)
-- Chaves de API das plataformas LLM requeridas (configuráveis via backend, no modal de Adicionar Empresa ou num arquivo interno).
+- Node.js 18+ and *pnpm* installed (`npm install -g pnpm`)
+- API Keys for the required LLM platforms (configurable via the backend, in the Add Provider modal, or in an internal file).
 
----./dev.sh
+---
 
-### 🚀 Inicialização Rápida (Recomendado)
+### Quick Start (Recommended)
 
-O projeto contém um utilitário em script Bash que constrói os ambientes, instala as dependências do Backend e Frontend, sobe os dois servidores simultaneamente e abre a interface no seu navegador automaticamente.
+The project includes a Bash script utility that builds the environments, installs both Backend and Frontend dependencies, spins up both servers simultaneously, and automatically opens the interface in your browser.
 
-Na pasta raiz (`NoseSense/`), execute:
+In the root folder (`NoseSense/`), run:
 
 ```bash
 chmod +x dev.sh
@@ -45,81 +47,81 @@ chmod +x dev.sh
 
 ---
 
-### Inicialização Manual
+### Manual Setup
 
-#### 1. Rodando o Backend
+#### 1. Running the Backend
 
-Abra um terminal e acesse a pasta do backend:
+Open a terminal and access the backend folder:
 ```bash
 cd backend
 ```
 
-Crie e ative um ambiente virtual (recomendado):
+Create and activate a virtual environment (recommended):
 ```bash
 python3 -m venv venv
-source venv/bin/activate  # No Windows: venv\\Scripts\\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-Instale as dependências:
+Install the dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-Inicie o servidor de desenvolvimento:
+Start the development server:
 ```bash
 python main.py
 ```
-*O servidor estará disponível em `http://localhost:8001`.*
+*The server will be available at `http://localhost:8001`.*
 
-> **Nota de Configuração**: O backend busca as chaves de API (OpenAI, Gemini, etc.) em um arquivo `dados.json`. Certifique-se de preencher suas chaves antes de rodar os testes.
+> **Configuration Note**: The backend looks for API keys (OpenAI, Gemini, etc.) inside a `dados.json` file. Ensure you fill in your keys before running tests.
 
-### 2. Rodando o Frontend
+#### 2. Running the Frontend
 
-Abra outro terminal e acesse a pasta do frontend:
+Open another terminal and access the frontend folder:
 ```bash
 cd frontend
 ```
 
-Instale os pacotes e dependências através do PNPM:
+Install the packages and dependencies using PNPM:
 ```bash
 pnpm install
 ```
 
-Inicie a aplicação:
+Start the application:
 ```bash
 pnpm run dev
 ```
-*A interface de usuário estará disponível em `http://localhost:3000`.*
+*The user interface will be available at `http://localhost:3000`.*
 
 ---
 
-## 📂 Estrutura de Diretórios Principal
+## Main Directory Structure
 
 ```text
 NoseSense/
-├── backend/                  # Servidor Python assíncrono
-│   ├── main.py               # Ponto de entrada (FastAPI / Rotas SSE)
-│   ├── controllers/          # Controladores de regras de negócio
-│   ├── routes/               # Rotas separadas da API
-│   ├── services/             # Lógica de integração com LLMs, Prompts, Banco e CSV
-│   ├── data/                 # Bases de dados locais ou datasets para teste
-│   ├── requirements.txt      # Dependências do Python
-│   └── dados.json            # (Necessário criar) Tokens e chaves das APIs
-└── frontend/                 # Interface em React.js
-    ├── app/                  # Rotas e páginas (Next.js App Router)
-    ├── components/           # Componentes modulares de UI (shadcn, etc.)
-    ├── hooks/                # Hooks customizados React
-    ├── lib/                  # Bibliotecas úteis do client-side
-    └── package.json          # Dependências do Node/Next
+├── backend/                  # Asynchronous Python Server
+│   ├── main.py               # Entry point (FastAPI / SSE Routes)
+│   ├── controllers/          # Business logic controllers
+│   ├── routes/               # Separated API routes
+│   ├── services/             # LLMs, Prompts, Database and CSV integration logic
+│   ├── data/                 # Local databases or test datasets
+│   ├── requirements.txt      # Python dependencies
+│   └── dados.json            # (Needs to be created) API Keys and Tokens
+└── frontend/                 # React.js Interface
+    ├── app/                  # Routes and pages (Next.js App Router)
+    ├── components/           # Modular UI components (shadcn, etc.)
+    ├── hooks/                # Custom React hooks
+    ├── lib/                  # Useful client-side libraries
+    └── package.json          # Node/Next dependencies
 ```
 
 ---
 
-## 📋 Tecnologias Utilizadas
+## Technologies Used
 
-- **Linguagens**: Python, TypeScript/JavaScript
+- **Languages**: Python, TypeScript/JavaScript
 - **Frameworks**: FastAPI, Next.js, React
-- **Integração IA**: LangChain
-- **Estilização UI**: Tailwind CSS
-- **Persistência**: SQLite3, Exportação CSV nativa
-- **Gerenciador de Pacotes**: `pip` (Backend), `pnpm` (Frontend)
+- **AI Integration**: LangChain
+- **UI Styling**: Tailwind CSS
+- **Persistence**: SQLite3, Native CSV Exporting
+- **Package Managers**: `pip` (Backend), `pnpm` (Frontend)

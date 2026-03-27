@@ -80,7 +80,7 @@ export function AnalysisTab() {
   const { results, status } = useAppStore()
 
   const { modelStats, testTypeStats, overallStats, chartData } = useMemo(() => {
-    if (status !== 'completed' || results.length === 0) {
+    if (results.length === 0) {
       return { modelStats: [], testTypeStats: [], overallStats: null, chartData: null }
     }
 
@@ -119,7 +119,20 @@ export function AnalysisTab() {
       }
       
       const modelStat = modelMap.get(modelKey)!
-      const testTypeStat = testTypeMap.get(result.testType)!
+
+      // Dynamically add unknown test types (file names may differ from TEST_TYPES constants)
+      const testTypeKey = result.testType as TestType
+      if (!testTypeMap.has(testTypeKey)) {
+        testTypeMap.set(testTypeKey, {
+          testType: testTypeKey,
+          totalTests: 0,
+          correctAnswers: 0,
+          wrongAnswers: 0,
+          errors: 0,
+          accuracy: 0,
+        })
+      }
+      const testTypeStat = testTypeMap.get(testTypeKey)!
       
       modelStat.totalTests++
       testTypeStat.totalTests++
@@ -128,8 +141,6 @@ export function AnalysisTab() {
         modelStat.errors++
         testTypeStat.errors++
       } else if (result.status === 'success' && result.answer) {
-        
-        // Agora cada linha no resultado histórico tem sua própria correta, mesmo se o smell for repetido
         const correctAnswer = result.correctAnswer || CORRECT_ANSWERS[result.testType]
         
         if (result.answer === correctAnswer) {
@@ -220,9 +231,9 @@ export function AnalysisTab() {
         testTypeBarData,
       },
     }
-  }, [results, status])
+  }, [results])
 
-  if (status !== 'completed' || results.length === 0) {
+  if (results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
         <Activity className="w-12 h-12 mb-4 opacity-50" />

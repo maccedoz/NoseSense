@@ -66,4 +66,4 @@ export interface ProcessError {
   timestamp: Date
 }
 
-export type ProcessStatus = 'idle' | 'running' | 'completed'
+export type ProcessStatus = 'idle' | 'running' | 'completed' | 'error'

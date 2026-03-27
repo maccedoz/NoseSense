@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
 import { TEST_TYPES, ANSWER_OPTIONS } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,14 @@ export function ProcessRunner() {
   const statsRef = useRef({ total: 0, completed: 0 })
   const enabledModels = getEnabledModels()
   const [showConfirm, setShowConfirm] = useState(false)
+  const [testCount, setTestCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('http://localhost:8001/api/test-count')
+      .then(r => r.json())
+      .then(data => setTestCount(data.count))
+      .catch(() => {})
+  }, [])
   
   const handleStartClick = () => {
     if (enabledModels.length === 0) return
@@ -47,13 +55,24 @@ export function ProcessRunner() {
     // Obter array de models ativados e mapeados para a chave nativa do backend
     const activeModelNames = enabledModels
       .map(item => item.model.backendId)
-      .filter(Boolean)
+      .filter((id): id is string => Boolean(id))
       .join(',')
-  
-    // Define a URL do stream injetando os modelos ativados para o python
-    const streamUrl = activeModelNames 
-        ? `http://localhost:8001/api/run-tests?models=${activeModelNames}`
-        : 'http://localhost:8001/api/run-tests'
+
+    // Segurança: se nenhum modelo tem backendId, algo está errado — bloquear em vez de rodar tudo
+    if (!activeModelNames) {
+      addError({
+        modelName: 'Frontend',
+        providerName: 'Sistema',
+        testType: 'Unknown Test',
+        message: 'No models with valid backend IDs. Please reload the page and re-select your models.',
+        timestamp: new Date(),
+      })
+      setStatus('error')
+      return
+    }
+
+    // Define a URL do stream injetando os modelos selecionados
+    const streamUrl = `http://localhost:8001/api/run-tests?models=${activeModelNames}`
 
     // Connect to SSE Endpoint
     const eventSource = new EventSource(streamUrl)
@@ -72,11 +91,12 @@ export function ProcessRunner() {
       else if (data.type === 'result') {
         const isError = data.answer === 'API_ERROR' || data.answer === 'TIMEOUT'
         
-        // Se quisermos mapear provider, pegamos o prefixo (ex: openai_ -> OpenAI)
-        let providerName = 'Desconhecido'
-        if (data.model_name.startsWith('openai')) providerName = 'OpenAI'
-        if (data.model_name.startsWith('togetherai')) providerName = 'TogetherAI'
-        if (data.model_name.startsWith('google')) providerName = 'GoogleAI'
+        // Map backend model_name prefix to frontend provider name
+        let providerName = 'Unknown'
+        if (data.model_name.startsWith('openai_')) providerName = 'OpenAI'
+        else if (data.model_name.startsWith('togetherai_')) providerName = 'TogetherAI'
+        else if (data.model_name.startsWith('google_')) providerName = 'GoogleAI'
+        else if (data.model_name.startsWith('anthropic_')) providerName = 'AnthropicAI'
         
         if (isError) {
           addError({
@@ -121,14 +141,21 @@ export function ProcessRunner() {
           message: data.message,
           timestamp: new Date(),
         })
-        setStatus('idle')
+        setStatus('error')
         eventSource.close()
       }
     }
 
     eventSource.onerror = (error) => {
       console.error('SSE Error:', error)
-      setStatus('idle')
+      addError({
+        modelName: 'EventSource',
+        providerName: 'Sistema',
+        testType: 'Unknown Test',
+        message: 'A conexão com o servidor foi perdida ou a API falhou.',
+        timestamp: new Date(),
+      })
+      setStatus('error')
       eventSource.close()
       eventSourceRef.current = null
     }
@@ -152,6 +179,12 @@ export function ProcessRunner() {
           <span className="text-xs text-accent flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" />
             Completed
+          </span>
+        )}
+        {status === 'error' && (
+          <span className="text-xs text-destructive flex items-center gap-1">
+            <XCircle className="w-3 h-3" />
+            Error
           </span>
         )}
       </div>
@@ -200,7 +233,7 @@ export function ProcessRunner() {
       
       {enabledModels.length > 0 && status === 'idle' && (
         <p className="text-xs text-muted-foreground text-center">
-          {enabledModels.length} model(s) x {TEST_TYPES.length} tests = {enabledModels.length * TEST_TYPES.length} executions
+          {enabledModels.length} model(s) x {testCount ?? '...'} tests = {testCount != null ? enabledModels.length * testCount : '...'} executions
         </p>
       )}
       
@@ -208,15 +241,29 @@ export function ProcessRunner() {
         <div className="space-y-3 p-4 rounded-lg bg-secondary/30 border border-border">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Progress</span>
-            <span className="text-foreground font-medium">{Math.round(progress)}%</span>
+            <span className={cn("font-medium", status === 'error' ? "text-destructive" : "text-foreground")}>
+              {Math.round(progress)}%
+            </span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress 
+            value={progress} 
+            className={cn("h-2", status === 'error' && "[&>div]:bg-destructive bg-destructive/20")}
+          />
           
-          {status === 'completed' && (
+          {(status === 'completed' || status === 'error') && (
             <div className="pt-2 space-y-2">
               <div className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="w-4 h-4 text-accent" />
-                <span className="text-foreground">Process completed!</span>
+                {status === 'completed' ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 text-accent" />
+                    <span className="text-foreground">Process completed!</span>
+                  </>
+                ) : (
+                  <>
+                    <XCircle className="w-4 h-4 text-destructive" />
+                    <span className="text-destructive font-medium">Process interrupted with errors.</span>
+                  </>
+                )}
               </div>
               {errors.length > 0 && (
                 <div className="flex items-center gap-2 text-sm text-destructive">

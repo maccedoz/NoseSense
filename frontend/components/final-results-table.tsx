@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
 export function FinalResultsTable() {
   const { results, status } = useAppStore()
 
-  if (status !== 'completed' || results.length === 0) {
+  if (results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground">
         <p className="text-sm">Run the process to see the final results.</p>

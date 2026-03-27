@@ -13,12 +13,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppStore } from '@/lib/store'
 
 export default function Home() {
-  const { status, fetchActiveModels, fetchPreviousResults } = useAppStore()
+  const { status, results, fetchSavedProviders, fetchPreviousResults } = useAppStore()
   
   useEffect(() => {
-    fetchActiveModels()
+    fetchSavedProviders()
     fetchPreviousResults()
-  }, [fetchActiveModels, fetchPreviousResults])
+  }, [fetchSavedProviders, fetchPreviousResults])
   
   return (
     <div className="min-h-screen bg-background">
@@ -65,10 +65,10 @@ export default function Home() {
               <Tabs defaultValue="processing" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
                   <TabsTrigger value="processing">Processing</TabsTrigger>
-                  <TabsTrigger value="results" disabled={status !== 'completed'}>
+                  <TabsTrigger value="results" disabled={results.length === 0}>
                     Results
                   </TabsTrigger>
-                  <TabsTrigger value="analysis" disabled={status !== 'completed'}>
+                  <TabsTrigger value="analysis" disabled={results.length === 0}>
                     Analysis
                   </TabsTrigger>
                 </TabsList>
