@@ -38,7 +38,7 @@ export function ResultsTable() {
     link.click()
   }
 
-  if (status === 'idle') {
+  if (status === 'idle' && results.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-16 text-center">
         <Table className="w-12 h-12 text-muted-foreground/50 mb-4" />
@@ -96,8 +96,8 @@ export function ResultsTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {results.map((result) => (
-                <TableRow key={result.id} className="border-border hover:bg-secondary/30">
+              {results.map((result, index) => (
+                <TableRow key={result.id ?? `result-${index}`} className="border-border hover:bg-secondary/30">
                   <TableCell>
                     {result.status === 'success' ? (
                       <CheckCircle2 className="w-4 h-4 text-accent" />

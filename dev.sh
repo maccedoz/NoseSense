@@ -84,7 +84,7 @@ echo "Starting FastAPI on port 8001 (logs displaying here AND saved to backend/b
 PYTHONUNBUFFERED=1 uvicorn main:app --reload --port 8001 2>&1 | tee backend.log &
 
 # 3. Frontend Setup
-echo "Setting up Frontend..."
+echo "Setting up Frontend..."  # No Windows: venv\\Scripts\\activate
 cd ../frontend
 
 set +e

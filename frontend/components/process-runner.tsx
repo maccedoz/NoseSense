@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export function ProcessRunner() {
-  const { status, progress, errors, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
+  const { status, progress, errors, providers, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
   
   const eventSourceRef = useRef<EventSource | null>(null)
   const statsRef = useRef({ total: 0, completed: 0 })
@@ -91,12 +91,15 @@ export function ProcessRunner() {
       else if (data.type === 'result') {
         const isError = data.answer === 'API_ERROR' || data.answer === 'TIMEOUT'
         
-        // Map backend model_name prefix to frontend provider name
+        // Map backend model_name prefix to frontend provider name (dynamic)
         let providerName = 'Unknown'
-        if (data.model_name.startsWith('openai_')) providerName = 'OpenAI'
-        else if (data.model_name.startsWith('togetherai_')) providerName = 'TogetherAI'
-        else if (data.model_name.startsWith('google_')) providerName = 'GoogleAI'
-        else if (data.model_name.startsWith('anthropic_')) providerName = 'AnthropicAI'
+        for (const p of providers) {
+          const prefix = p.name.toLowerCase() + '_'
+          if (data.model_name.startsWith(prefix)) {
+            providerName = p.name
+            break
+          }
+        }
         
         if (isError) {
           addError({
@@ -146,8 +149,8 @@ export function ProcessRunner() {
       }
     }
 
-    eventSource.onerror = (error) => {
-      console.error('SSE Error:', error)
+    eventSource.onerror = () => {
+      console.error('SSE Error: A conexão com o servidor foi perdida ou a API falhou.')
       addError({
         modelName: 'EventSource',
         providerName: 'Sistema',

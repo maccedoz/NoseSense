@@ -2,58 +2,14 @@
 
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { Provider, LLMModel, ProcessResult, ProcessError, ProcessStatus } from './types'
-
-const PREDEFINED_MODELS: Record<string, string[]> = {
-  'OpenAI': ['GPT-4o', 'GPT-4o-mini', 'GPT-4-turbo', 'GPT-3.5-turbo'],
-  'TogetherAI': ['DeepSeek-R1', 'Gemma-3n', 'Qwen2.5-7B'],
-  'GoogleAI': ['Gemini 2.5 Flash'],
-  'AnthropicAI': ['Claude 4.6 Opus', 'Claude 4.5 Sonnet', 'Claude 4.5 Haiku'],
-}
-
-function formatBackendModelName(raw: string) {
-  return raw.replace(/^gpt/i, (m) => m.toUpperCase())
-}
-
-function getKeyPrefix(providerName: string): string {
-  if (providerName === 'GoogleAI') return 'google_'
-  if (providerName === 'AnthropicAI') return 'anthropic_'
-  if (providerName === 'TogetherAI') return 'togetherai_'
-  if (providerName === 'OpenAI') return 'openai_'
-  return providerName.toLowerCase() + '_'
-}
+import type { Provider, LLMModel, ApiType, ProcessResult, ProcessError, ProcessStatus } from './types'
 
 /**
- * Builds an LLMModel[] for a given provider from the backend model keys.
- * Uses selectedBackendIds (a flat set of backendIds) to set enabled state —
- * decoupled from the model list structure so it survives any rebuild.
+ * Generates a backend model ID from provider name and model name.
+ * Must match the backend's convention in llm_initializer.py.
  */
-function buildModelsForProvider(
-  providerName: string,
-  backendModels: string[],
-  selectedBackendIds: Set<string>
-): LLMModel[] {
-  const keyPrefix = getKeyPrefix(providerName)
-
-  const fromBackend = backendModels
-    .filter((k) => k.startsWith(keyPrefix))
-    .map((k, idx) => ({
-      id: `m-${keyPrefix}${idx}`,
-      name: formatBackendModelName(k.slice(keyPrefix.length)),
-      enabled: selectedBackendIds.has(k),
-      backendId: k,
-    } as LLMModel))
-
-  if (fromBackend.length > 0) return fromBackend
-
-  // static fallback (no real backendId, won't be submitted to backend)
-  const modelNames = PREDEFINED_MODELS[providerName] || []
-  return modelNames.map((name, index) => ({
-    id: `m-${keyPrefix}${index}`,
-    name,
-    enabled: false,
-    backendId: undefined,
-  }))
+function toBackendId(providerName: string, modelName: string): string {
+  return `${providerName.toLowerCase()}_${modelName.replace(/ /g, '_').replace(/\./g, '_').toLowerCase()}`
 }
 
 interface AppState {
@@ -62,16 +18,16 @@ interface AppState {
   errors: ProcessError[]
   status: ProcessStatus
   progress: number
-  activeBackendModels: string[]
   /** Flat list of backendIds that the user has toggled ON — persisted independently */
   selectedBackendIds: string[]
 
-  fetchActiveModels: () => Promise<string[]>
   fetchPreviousResults: () => Promise<void>
   fetchSavedProviders: () => Promise<void>
-  addProvider: (provider: { name: string; apiKey: string }) => Promise<void>
-  removeProvider: (id: string) => void
+  addProvider: (provider: { name: string; apiKey: string; apiType: ApiType; baseUrl?: string }) => Promise<void>
   removeProviderKey: (providerName: string) => Promise<void>
+  updateProviderKey: (providerName: string, newApiKey: string) => Promise<void>
+  addModelToProvider: (providerName: string, modelName: string) => Promise<void>
+  removeModelFromProvider: (providerName: string, modelName: string) => Promise<void>
   toggleProviderExpanded: (id: string) => void
   toggleModel: (providerId: string, modelId: string) => void
   toggleAllModels: (providerId: string, enabled: boolean) => void
@@ -80,7 +36,6 @@ interface AppState {
   addResult: (result: ProcessResult) => void
   addError: (error: ProcessError) => void
   resetResults: () => void
-  getModelsForProvider: (providerName: string) => LLMModel[]
   getEnabledModels: () => { provider: Provider; model: LLMModel }[]
 }
 
@@ -92,37 +47,7 @@ export const useAppStore = create<AppState>()(
       errors: [],
       status: 'idle',
       progress: 0,
-      activeBackendModels: [],
       selectedBackendIds: [],
-
-      getModelsForProvider: (providerName: string): LLMModel[] => {
-        return buildModelsForProvider(
-          providerName,
-          get().activeBackendModels,
-          new Set(get().selectedBackendIds)
-        )
-      },
-
-      fetchActiveModels: async () => {
-        try {
-          const response = await fetch('http://localhost:8001/api/active-models')
-          if (response.ok) {
-            const models: string[] = await response.json()
-            const selected = new Set(get().selectedBackendIds)
-            set((state) => ({
-              activeBackendModels: models,
-              providers: state.providers.map((p) => ({
-                ...p,
-                models: buildModelsForProvider(p.name, models, selected),
-              })),
-            }))
-            return models
-          }
-        } catch (error) {
-          console.error('Erro ao sincronizar modelos com o backend:', error)
-        }
-        return []
-      },
 
       fetchPreviousResults: async () => {
         try {
@@ -130,23 +55,20 @@ export const useAppStore = create<AppState>()(
           if (response.ok) {
             const history: ProcessResult[] = await response.json()
             if (history.length > 0) {
+              const providers = get().providers
               const mappedHistory = history.map(item => {
                 let providerName = 'Unknown'
                 let modelName = item.modelName
                 const raw = item.modelName
 
-                if (raw.startsWith('google_')) {
-                  providerName = 'GoogleAI'
-                  modelName = formatBackendModelName(raw.slice(7))
-                } else if (raw.startsWith('openai_')) {
-                  providerName = 'OpenAI'
-                  modelName = formatBackendModelName(raw.slice(7))
-                } else if (raw.startsWith('togetherai_')) {
-                  providerName = 'TogetherAI'
-                  modelName = formatBackendModelName(raw.slice(11))
-                } else if (raw.startsWith('anthropic_')) {
-                  providerName = 'AnthropicAI'
-                  modelName = formatBackendModelName(raw.slice(10))
+                // Try to match backend ID prefix to a known provider
+                for (const p of providers) {
+                  const prefix = p.name.toLowerCase() + '_'
+                  if (raw.startsWith(prefix)) {
+                    providerName = p.name
+                    modelName = raw.slice(prefix.length)
+                    break
+                  }
                 }
 
                 return { ...item, providerName, modelName }
@@ -160,19 +82,27 @@ export const useAppStore = create<AppState>()(
         }
       },
 
-      addProvider: async ({ name, apiKey }) => {
-        let backendModels = get().activeBackendModels
-        if (backendModels.length === 0) {
-          backendModels = await get().fetchActiveModels()
-        }
-        const selected = new Set(get().selectedBackendIds)
-        const models = buildModelsForProvider(name, backendModels, selected)
+      addProvider: async ({ name, apiKey, apiType, baseUrl }) => {
+        // Save to backend
+        await fetch('http://localhost:8001/api/create-provider', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            api_key: apiKey,
+            api_type: apiType,
+            base_url: baseUrl || null,
+          }),
+        })
+
         set((state) => ({
           providers: [...state.providers, {
             id: crypto.randomUUID(),
             name,
             apiKey,
-            models,
+            apiType,
+            baseUrl,
+            models: [],
             expanded: false,
           }],
         }))
@@ -180,40 +110,60 @@ export const useAppStore = create<AppState>()(
 
       fetchSavedProviders: async () => {
         try {
-          const [savedRes, modelsRes] = await Promise.all([
-            fetch('http://localhost:8001/api/saved-providers'),
-            fetch('http://localhost:8001/api/active-models'),
-          ])
-          if (!savedRes.ok || !modelsRes.ok) return
+          const res = await fetch('http://localhost:8001/api/saved-providers')
+          if (!res.ok) return
 
-          const savedNames: string[] = await savedRes.json()
-          const backendModels: string[] = await modelsRes.json()
+          const savedProviders: { name: string; api_type: string; base_url?: string; models: string[] }[] = await res.json()
           const selected = new Set(get().selectedBackendIds)
 
           set((state) => {
-            const existingNames = new Set(state.providers.map(p => p.name))
+            const existingNames = new Set(state.providers.map(p => p.name.toLowerCase()))
             const newProviders: Provider[] = []
 
-            for (const name of savedNames) {
-              if (!existingNames.has(name)) {
+            for (const sp of savedProviders) {
+              if (!existingNames.has(sp.name.toLowerCase())) {
+                const models: LLMModel[] = sp.models.map((m, idx) => {
+                  const backendId = toBackendId(sp.name, m)
+                  return {
+                    id: `m-${sp.name.toLowerCase()}-${idx}`,
+                    name: m,
+                    enabled: selected.has(backendId),
+                    backendId,
+                  }
+                })
+
                 newProviders.push({
                   id: crypto.randomUUID(),
-                  name,
+                  name: sp.name,
                   apiKey: '***',
-                  models: buildModelsForProvider(name, backendModels, selected),
+                  apiType: (sp.api_type as ApiType) || 'openai',
+                  baseUrl: sp.base_url || undefined,
+                  models,
                   expanded: false,
                 })
               }
             }
 
-            // Always rebuild existing providers' model lists from fresh backend data
-            const updatedExisting = state.providers.map(p => ({
-              ...p,
-              models: buildModelsForProvider(p.name, backendModels, selected),
-            }))
+            // Rebuild existing providers with fresh model lists from backend
+            const updatedExisting = state.providers.map(p => {
+              const saved = savedProviders.find(sp => sp.name.toLowerCase() === p.name.toLowerCase())
+              if (!saved) return p
+
+              const models: LLMModel[] = saved.models.map((m, idx) => {
+                const backendId = toBackendId(p.name, m)
+                const existing = p.models.find(em => em.name === m)
+                return {
+                  id: existing?.id || `m-${p.name.toLowerCase()}-${idx}`,
+                  name: m,
+                  enabled: existing?.enabled ?? selected.has(backendId),
+                  backendId,
+                }
+              })
+
+              return { ...p, models }
+            })
 
             return {
-              activeBackendModels: backendModels,
               providers: [...updatedExisting, ...newProviders],
             }
           })
@@ -222,23 +172,96 @@ export const useAppStore = create<AppState>()(
         }
       },
 
+      addModelToProvider: async (providerName: string, modelName: string) => {
+        try {
+          const res = await fetch(`http://localhost:8001/api/providers/${providerName.toLowerCase()}/models`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model_name: modelName }),
+          })
+          if (!res.ok) throw new Error('Failed to add model')
+
+          const backendId = toBackendId(providerName, modelName)
+
+          set((state) => ({
+            providers: state.providers.map(p => {
+              if (p.name.toLowerCase() !== providerName.toLowerCase()) return p
+              // Don't add duplicate
+              if (p.models.some(m => m.name === modelName)) return p
+              return {
+                ...p,
+                models: [...p.models, {
+                  id: `m-${providerName.toLowerCase()}-${Date.now()}`,
+                  name: modelName,
+                  enabled: false,
+                  backendId,
+                }],
+              }
+            }),
+          }))
+        } catch (error) {
+          console.error('Erro ao adicionar modelo:', error)
+          throw error
+        }
+      },
+
+      removeModelFromProvider: async (providerName: string, modelName: string) => {
+        try {
+          await fetch(`http://localhost:8001/api/providers/${providerName.toLowerCase()}/models/${encodeURIComponent(modelName)}`, {
+            method: 'DELETE',
+          })
+
+          const backendId = toBackendId(providerName, modelName)
+
+          set((state) => ({
+            providers: state.providers.map(p => {
+              if (p.name.toLowerCase() !== providerName.toLowerCase()) return p
+              return {
+                ...p,
+                models: p.models.filter(m => m.name !== modelName),
+              }
+            }),
+            selectedBackendIds: state.selectedBackendIds.filter(id => id !== backendId),
+          }))
+        } catch (error) {
+          console.error('Erro ao remover modelo:', error)
+        }
+      },
+
+      updateProviderKey: async (providerName: string, newApiKey: string) => {
+        try {
+          const res = await fetch(`http://localhost:8001/api/providers/${providerName.toLowerCase()}/key`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ api_key: newApiKey }),
+          })
+          if (!res.ok) throw new Error('Failed to update key')
+
+          set((state) => ({
+            providers: state.providers.map(p =>
+              p.name.toLowerCase() === providerName.toLowerCase()
+                ? { ...p, apiKey: newApiKey }
+                : p
+            ),
+          }))
+        } catch (error) {
+          console.error('Erro ao atualizar chave:', error)
+          throw error
+        }
+      },
+
       removeProviderKey: async (providerName: string) => {
         try {
-          await fetch(`http://localhost:8001/api/saved-providers/${providerName}`, { method: 'DELETE' })
+          await fetch(`http://localhost:8001/api/saved-providers/${providerName.toLowerCase()}`, { method: 'DELETE' })
         } catch (e) {
           console.error('Erro ao remover chave do backend:', e)
         }
-        // Remove all backendIds from this provider from selectedBackendIds too
-        const prefix = getKeyPrefix(providerName)
+        const prefix = providerName.toLowerCase() + '_'
         set((state) => ({
-          providers: state.providers.filter((p) => p.name !== providerName),
+          providers: state.providers.filter((p) => p.name.toLowerCase() !== providerName.toLowerCase()),
           selectedBackendIds: state.selectedBackendIds.filter(id => !id.startsWith(prefix)),
         }))
       },
-
-      removeProvider: (id) => set((state) => ({
-        providers: state.providers.filter((p) => p.id !== id),
-      })),
 
       toggleProviderExpanded: (id) => set((state) => ({
         providers: state.providers.map((p) =>
@@ -317,11 +340,10 @@ export const useAppStore = create<AppState>()(
       },
     }),
     {
-      name: 'nosesense-storage-v2', // bump version to clear old stale cache
+      name: 'nosesense-storage-v3',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        selectedBackendIds: state.selectedBackendIds, // track selections independently
-        activeBackendModels: state.activeBackendModels,
+        selectedBackendIds: state.selectedBackendIds,
       }),
     }
   )

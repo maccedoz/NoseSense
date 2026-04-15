@@ -5,10 +5,14 @@ export interface LLMModel {
   backendId?: string
 }
 
+export type ApiType = 'openai' | 'google' | 'anthropic'
+
 export interface Provider {
   id: string
   name: string
   apiKey: string
+  apiType: ApiType
+  baseUrl?: string
   models: LLMModel[]
   expanded: boolean
 }
