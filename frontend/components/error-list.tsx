@@ -10,9 +10,9 @@ export function ErrorList() {
   if (status === 'idle' || errors.length === 0) return null
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 animate-slide-up">
       <h3 className="text-sm font-medium text-destructive flex items-center gap-2">
-        <AlertTriangle className="w-4 h-4" />
+        <AlertTriangle className="w-4 h-4 animate-pulse" />
         Errors Found ({errors.length})
       </h3>
       <ScrollArea className="h-[150px] rounded-lg border border-destructive/30 bg-destructive/5">
@@ -20,7 +20,8 @@ export function ErrorList() {
           {errors.map((error, index) => (
             <div
               key={index}
-              className="text-sm p-2 rounded bg-destructive/10 border border-destructive/20"
+              className="text-sm p-3 rounded-lg bg-destructive/10 border-l-3 border-destructive/60 animate-fade-in"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
               <p className="font-medium text-destructive">
                 {error.modelName} ({error.providerName}) - {error.testType}

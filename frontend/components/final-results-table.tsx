@@ -19,7 +19,7 @@ export function FinalResultsTable() {
 
   if (results.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground">
+      <div className="flex flex-col items-center justify-center h-[300px] text-muted-foreground animate-fade-in">
         <p className="text-sm">Run the process to see the final results.</p>
       </div>
     )
@@ -70,7 +70,7 @@ export function FinalResultsTable() {
       testedModels.forEach((modelKey) => {
         const result = data.results.get(modelKey)
         if (result) {
-          row.push(result.status === 'success' ? (result.answer || '-') : `ERROR: ${result.errorMessage || 'Timeout'}`)
+          row.push(result.status === 'success' ? (result.answer || '-') : `ERROR: ${result.errorMessage || 'Error'}`)
         } else {
           row.push('-')
         }
@@ -92,7 +92,7 @@ export function FinalResultsTable() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span>{testedModels.length} model(s)</span>
@@ -103,7 +103,7 @@ export function FinalResultsTable() {
           onClick={downloadCSV}
           variant="outline"
           size="sm"
-          className="gap-2 border-primary/50 text-primary hover:bg-primary/10"
+          className="gap-2 border-primary/50 text-primary hover:bg-primary/10 hover:scale-[1.02] transition-all"
         >
           <Download className="w-4 h-4" />
           Export CSV
@@ -113,7 +113,7 @@ export function FinalResultsTable() {
       <div className="border border-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
           <Table>
-            <TableHeader className="sticky top-0 bg-card z-10">
+            <TableHeader className="sticky top-0 z-10 glass shadow-[0_1px_3px_oklch(0_0_0_/_0.1)]">
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground font-medium bg-secondary/50 min-w-[180px]">
                   Test Type
@@ -139,7 +139,7 @@ export function FinalResultsTable() {
                   <TableRow 
                     key={testId} 
                     className={cn(
-                      "border-border hover:bg-secondary/30",
+                      "border-border hover:bg-secondary/40 transition-colors",
                       index % 2 === 0 ? 'bg-secondary/10' : ''
                     )}
                   >
@@ -150,7 +150,7 @@ export function FinalResultsTable() {
                       </div>
                     </TableCell>
                     <TableCell className="text-center bg-secondary/10">
-                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm">
+                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/20 text-primary font-bold text-sm shadow-sm">
                         {data.correctAnswer}
                       </span>
                     </TableCell>
@@ -163,9 +163,9 @@ export function FinalResultsTable() {
                           {result ? (
                             result.status === 'success' ? (
                               <span className={cn(
-                                "inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm",
+                                "inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-transform hover:scale-110",
                                 isCorrect 
-                                  ? "bg-green-500/20 text-green-500" 
+                                  ? "bg-green-500/20 text-green-500 shadow-[0_0_8px_oklch(0.55_0.2_145_/_0.15)]" 
                                   : "bg-destructive/20 text-destructive"
                               )}>
                                 {result.answer}

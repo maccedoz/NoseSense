@@ -183,14 +183,14 @@ export function AnalysisTab() {
       provider: s.providerName,
       acertos: s.correctAnswers,
       erros: s.wrongAnswers,
-      timeout: s.errors,
+      apiErrors: s.errors,
       accuracy: s.accuracy,
     }))
 
     const pieChartData = [
       { name: 'Correct', value: totalCorrect, color: CHART_COLORS.success },
       { name: 'Errors', value: totalWrong, color: CHART_COLORS.error },
-      { name: 'Timeout', value: totalErrors, color: CHART_COLORS.muted },
+      { name: 'API Error', value: totalErrors, color: CHART_COLORS.muted },
     ].filter(d => d.value > 0)
 
     const radarData = sortedTestTypeStats.map((s) => ({
@@ -205,7 +205,7 @@ export function AnalysisTab() {
       fullName: s.testType,
       acertos: s.correctAnswers,
       erros: s.wrongAnswers,
-      timeout: s.errors,
+      apiErrors: s.errors,
       accuracy: s.accuracy,
     }))
 
@@ -245,10 +245,10 @@ export function AnalysisTab() {
   if (!overallStats || !chartData) return null
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-card border-border">
+        <Card className="bg-card border-border hover-lift transition-all">
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <Target className="w-4 h-4" />
@@ -258,7 +258,7 @@ export function AnalysisTab() {
           </CardContent>
         </Card>
         
-        <Card className="bg-card border-border">
+        <Card className="bg-card border-border hover-lift transition-all">
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -268,7 +268,7 @@ export function AnalysisTab() {
           </CardContent>
         </Card>
         
-        <Card className="bg-card border-border">
+        <Card className="bg-card border-border hover-lift transition-all">
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <XCircle className="w-4 h-4 text-red-500" />
@@ -278,11 +278,11 @@ export function AnalysisTab() {
           </CardContent>
         </Card>
         
-        <Card className="bg-card border-border">
+        <Card className="bg-card border-border hover-lift transition-all">
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <AlertTriangle className="w-4 h-4 text-yellow-500" />
-              <span className="text-xs uppercase">Timeouts</span>
+              <span className="text-xs uppercase">API Errors</span>
             </div>
             <p className="text-3xl font-bold text-yellow-500">{overallStats.totalErrors}</p>
           </CardContent>
@@ -291,7 +291,7 @@ export function AnalysisTab() {
 
       {/* Overall Accuracy + Best/Worst */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-primary/10 border-primary/30">
+        <Card className="bg-primary/10 border-primary/30 hover-lift">
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 text-primary mb-2">
               <TrendingUp className="w-5 h-5" />
@@ -305,7 +305,7 @@ export function AnalysisTab() {
         </Card>
 
         {overallStats.bestModel && (
-          <Card className="bg-green-500/10 border-green-500/30">
+          <Card className="bg-green-500/10 border-green-500/30 hover-lift">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 text-green-500 mb-2">
                 <Award className="w-5 h-5" />
@@ -319,7 +319,7 @@ export function AnalysisTab() {
         )}
 
         {overallStats.worstModel && modelStats.length > 1 && (
-          <Card className="bg-red-500/10 border-red-500/30">
+          <Card className="bg-red-500/10 border-red-500/30 hover-lift">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 text-red-500 mb-2">
                 <AlertTriangle className="w-5 h-5" />
@@ -341,7 +341,7 @@ export function AnalysisTab() {
               <BarChart3 className="w-4 h-4 text-primary" />
               Performance by Model
             </CardTitle>
-            <CardDescription>Comparison of correct answers, errors, and timeouts</CardDescription>
+            <CardDescription>Comparison of correct answers, errors, and API errors</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -364,16 +364,16 @@ export function AnalysisTab() {
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Errors' : 'Timeout']}
+                    formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Wrong' : 'API Error']}
                     labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                   />
                   <Legend 
                     wrapperStyle={{ paddingTop: '20px' }}
-                    formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Errors' : 'Timeout'}
+                    formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Wrong' : 'API Error'}
                   />
                   <Bar dataKey="acertos" fill={CHART_COLORS.success} radius={[4, 4, 0, 0]} />
                   <Bar dataKey="erros" fill={CHART_COLORS.error} radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="timeout" fill={CHART_COLORS.muted} radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="apiErrors" fill={CHART_COLORS.muted} radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -455,15 +455,15 @@ export function AnalysisTab() {
                     borderRadius: '8px',
                     color: '#fff'
                   }}
-                  formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Errors' : 'Timeout']}
+                  formatter={(value: any, name: any) => [value, name === 'acertos' ? 'Correct' : name === 'erros' ? 'Wrong' : 'API Error']}
                   labelFormatter={(label: any, payload: any) => payload?.[0]?.payload?.fullName || label}
                 />
                 <Legend 
-                  formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Errors' : 'Timeout'}
+                  formatter={(value) => value === 'acertos' ? 'Correct' : value === 'erros' ? 'Wrong' : 'API Error'}
                 />
                 <Bar dataKey="acertos" fill={CHART_COLORS.success} radius={[0, 4, 4, 0]} />
                 <Bar dataKey="erros" fill={CHART_COLORS.error} radius={[0, 4, 4, 0]} />
-                <Bar dataKey="timeout" fill={CHART_COLORS.muted} radius={[0, 4, 4, 0]} />
+                <Bar dataKey="apiErrors" fill={CHART_COLORS.muted} radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -530,7 +530,7 @@ export function AnalysisTab() {
           <CardContent>
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
               {modelStats.map((stats, index) => (
-                <div key={stats.modelKey} className="space-y-2">
+                <div key={stats.modelKey} className="space-y-2 animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className={cn(
@@ -568,7 +568,7 @@ export function AnalysisTab() {
                   <div className="flex gap-4 text-xs text-muted-foreground">
                     <span className="text-green-500">{stats.correctAnswers} correct</span>
                     <span className="text-red-500">{stats.wrongAnswers} errors</span>
-                    {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} timeouts</span>}
+                    {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} errors</span>}
                   </div>
                 </div>
               ))}
@@ -588,7 +588,7 @@ export function AnalysisTab() {
           <CardContent>
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
               {testTypeStats.map((stats, index) => (
-                <div key={stats.testType} className="space-y-2">
+                <div key={stats.testType} className="space-y-2 animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className={cn(
@@ -623,7 +623,7 @@ export function AnalysisTab() {
                   <div className="flex gap-4 text-xs text-muted-foreground">
                     <span className="text-green-500">{stats.correctAnswers} correct</span>
                     <span className="text-red-500">{stats.wrongAnswers} errors</span>
-                    {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} timeouts</span>}
+                    {stats.errors > 0 && <span className="text-yellow-500">{stats.errors} errors</span>}
                   </div>
                 </div>
               ))}
@@ -665,7 +665,7 @@ export function AnalysisTab() {
               </p>
             </div>
             <div>
-              <p className="text-xs text-muted-foreground uppercase mb-1">Timeout Rate</p>
+              <p className="text-xs text-muted-foreground uppercase mb-1">Error Rate</p>
               <p className="text-2xl font-bold text-foreground">
                 {((overallStats.totalErrors / overallStats.totalTests) * 100).toFixed(1)}%
               </p>

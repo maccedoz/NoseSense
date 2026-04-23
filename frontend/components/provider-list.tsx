@@ -59,10 +59,10 @@ export function ProviderList() {
               <div key={provider.id} className="space-y-1">
                 <div
                   className={cn(
-                    "flex items-center gap-3 p-3 rounded-lg border transition-colors cursor-pointer group",
+                    "flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 cursor-pointer group",
                     provider.expanded
-                      ? "bg-primary/10 border-primary/50"
-                      : "bg-secondary/50 border-border hover:border-primary/30"
+                      ? "bg-primary/10 border-primary/50 shadow-sm"
+                      : "bg-secondary/50 border-border hover:border-primary/30 hover:shadow-sm"
                   )}
                   onClick={() => toggleProviderExpanded(provider.id)}
                 >
@@ -168,7 +168,7 @@ export function ProviderList() {
                 
                 {/* Models Dropdown */}
                 {provider.expanded && (
-                  <div className="ml-6 pl-4 border-l-2 border-primary/30 space-y-1 py-2">
+                  <div className="ml-6 pl-4 border-l-2 border-primary/30 space-y-1 py-2 animate-fade-in">
                     {/* Select All toggle */}
                     {provider.models.length > 1 && (
                       <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors border-b border-border/50 mb-1">
