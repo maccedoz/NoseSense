@@ -2,7 +2,8 @@ from schemas.api_schema import ProviderCreate, ModelAdd
 import json
 import os
 
-DADOS_JSON = "dados.json"
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DADOS_JSON = os.path.join(_BASE_DIR, "dados.json")
 
 def _load_data() -> dict:
     """Load dados.json, migrating from old format if needed."""

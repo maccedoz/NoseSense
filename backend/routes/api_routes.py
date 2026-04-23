@@ -7,7 +7,8 @@ from services.llm_initializer import initialize_models
 from services.save_results import reset_database, get_all_results_sqlite
 from services.data_extractor import extract_tests_from_folder
 
-DATA_FOLDER = "./data/test_smell_docs"
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_FOLDER = os.path.join(_BASE_DIR, "data", "test_smell_docs")
 
 router = APIRouter()
 service = ApiService()

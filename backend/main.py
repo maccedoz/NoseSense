@@ -35,7 +35,13 @@ DATA_FOLDER = "./data/test_smell_docs"
 OUTPUT_DB_FILE = "resultados.db"
 OUTPUT_CSV_FILE = "resultado.csv"
 
+# Cancellation flag — set by /api/stop-tests, checked inside the test loop
+_cancel_event: asyncio.Event | None = None
+
 async def run_automation_stream(enabled_models: list[str] = None):
+    global _cancel_event
+    _cancel_event = asyncio.Event()
+
     models = initialize_models()
     
     # Filtrar modelos se o frontend enviar alvos específicos
@@ -61,6 +67,11 @@ async def run_automation_stream(enabled_models: list[str] = None):
     yield f"data: {json.dumps({'type': 'start', 'total_tests': total_tests, 'models': list(models.keys())})}\n\n"
 
     for i, test_data in enumerate(tests_to_process):
+        # Check if cancellation was requested
+        if _cancel_event and _cancel_event.is_set():
+            yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processamento cancelado pelo usuário.'})}\n\n"
+            return
+
         prompt, correct_letter = create_randomized_prompt(
             test_data["code_to_analyze"],
             test_data["correct_smell"]
@@ -108,6 +119,14 @@ async def run_tests_stream(models: str = Query(None, description="Comma-separate
         run_automation_stream(enabled_models), 
         media_type="text/event-stream"
     )
+
+@app.post("/api/stop-tests")
+async def stop_tests():
+    """Signal the running test loop to stop after the current batch."""
+    global _cancel_event
+    if _cancel_event:
+        _cancel_event.set()
+    return {"message": "Cancellation requested."}
 
 @app.get("/")
 async def health_check():

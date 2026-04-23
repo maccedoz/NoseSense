@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
-import { TEST_TYPES, ANSWER_OPTIONS } from '@/lib/types'
+
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Play, CheckCircle2, XCircle, Loader2, Square } from 'lucide-react'
@@ -136,6 +136,11 @@ export function ProcessRunner() {
         eventSource.close()
       }
       
+      else if (data.type === 'cancelled') {
+        setStatus('idle')
+        eventSource.close()
+      }
+      
       else if (data.type === 'error') {
         addError({
           modelName: 'Backend',
@@ -164,7 +169,14 @@ export function ProcessRunner() {
     }
   }
 
-  const stopProcess = () => {
+  const stopProcess = async () => {
+    // Notify the backend to cancel processing
+    try {
+      await fetch('http://localhost:8001/api/stop-tests', { method: 'POST' })
+    } catch (e) {
+      console.error('Failed to notify backend to stop:', e)
+    }
+
     if (eventSourceRef.current) {
       eventSourceRef.current.close()
       eventSourceRef.current = null
