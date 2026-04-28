@@ -8,7 +8,8 @@ The project is divided into a **Backend** in Python (FastAPI) and a **Frontend**
 
 ## Key Features
 
-- **Simultaneous Multi-Model Analysis**: Orchestrates and compares the performance of several APIs using the Langchain library (OpenAI, Google Gemini, Anthropic Claude, via Together API).
+- **Simultaneous Multi-Model Analysis**: Orchestrates and compares the performance of multiple LLMs using the LangChain library. Supports any provider, add your own companies and models freely.
+- **Dynamic Provider Configuration**: Add any AI provider (OpenAI, Google, Anthropic, Groq, Together, or any OpenAI-compatible API) with custom API keys, base URLs, and model names, all through the UI, with no hardcoded configuration.
 - **Real-Time Streaming**: Asynchronous processing with Server-Sent Events (SSE) to send real-time partial results to the frontend.
 - **Storage and Exporting**: Locally saves all test names and model responses in a SQLite database (`resultados.db`) and exports condensed CSV reports (`resultado.csv`).
 - **Dynamic Prompt Engineering**: Automated generation of randomized prompts to prevent positional bias in AI responses.
@@ -17,12 +18,12 @@ The project is divided into a **Backend** in Python (FastAPI) and a **Frontend**
 
 ### Backend (FastAPI + LangChain)
 - **Location:** `/backend`
-- **Responsibilities:** Reads the local database of *Test Smells*, instantiates LLM models, orchestrates asynchronous analysis calls (simultaneous promises), stores data via the database, and persists responses in CSV.
+- **Responsibilities:** Reads the local database of *Test Smells*, dynamically instantiates LLM models based on user-configured providers, orchestrates asynchronous analysis calls, stores data via the database, and persists responses in CSV.
 - **Default Port:** `8001`
 
 ### Frontend (Next.js + React)
 - **Location:** `/frontend`
-- **Responsibilities:** Graphical User Interface (UI) to trigger tests, view the progress of asynchronous requests in real-time (execution dashboard), and analyze the comparative performance and metrics of the LLMs in the results panel.
+- **Responsibilities:** Graphical User Interface (UI) to configure providers and models, trigger tests, view the progress of asynchronous requests in real-time (execution dashboard), and analyze the comparative performance and metrics of the LLMs in the results panel.
 - **Default Port:** `3000` (managed by pnpm)
 
 ## How to Install and Run
@@ -30,7 +31,7 @@ The project is divided into a **Backend** in Python (FastAPI) and a **Frontend**
 ### Prerequisites
 - Python 3.10+
 - Node.js 18+ and *pnpm* installed (`npm install -g pnpm`)
-- API Keys for the required LLM platforms (configurable via the backend, in the Add Provider modal, or in an internal file).
+- API keys for the LLM providers you want to use (configurable via the frontend UI).
 
 ---
 
@@ -73,8 +74,6 @@ python main.py
 ```
 *The server will be available at `http://localhost:8001`.*
 
-> **Configuration Note**: The backend looks for API keys (OpenAI, Gemini, etc.) inside a `dados.json` file. Ensure you fill in your keys before running tests.
-
 #### 2. Running the Frontend
 
 Open another terminal and access the frontend folder:
@@ -95,6 +94,41 @@ pnpm run dev
 
 ---
 
+## Configuring Providers and Models
+
+All configuration is done through the frontend UI, no need to edit files manually.
+
+1. **Add a Provider**: Click "Add Provider", enter the provider name (e.g. "OpenAI", "Groq"), select the API type, and paste your API key.
+   - **API Types**: `OpenAI-compatible` (for OpenAI, Groq, Together, etc.), `Google GenAI` (for Gemini), `Anthropic` (for Claude).
+   - **Base URL**: For non-OpenAI providers using the OpenAI-compatible format, set the custom base URL (e.g. `https://api.together.xyz/v1`).
+2. **Add Models**: Expand the provider and click "Add Model". Type the exact model name as listed in the provider's API documentation (e.g. `gpt-4o`, `gemini-2.5-flash`, `claude-3.5-sonnet`).
+3. **Select Models**: Use the checkboxes to enable/disable models for testing.
+4. **Edit API Key**: Click the pencil icon on any provider to update its API key.
+5. **Run Tests**: Click "Run Process" to execute tests across all selected models simultaneously.
+
+The configuration is stored in `backend/dados.json` with the following format:
+
+```json
+{
+    "providers": {
+        "openai": {
+            "api_key": "sk-...",
+            "api_type": "openai",
+            "base_url": null,
+            "models": ["gpt-4o", "gpt-4-turbo"]
+        },
+        "groq": {
+            "api_key": "gsk-...",
+            "api_type": "openai",
+            "base_url": "https://api.groq.com/openai/v1",
+            "models": ["llama-3-70b", "mixtral-8x7b"]
+        }
+    }
+}
+```
+
+---
+
 ## Main Directory Structure
 
 ```text
@@ -104,14 +138,15 @@ NoseSense/
 │   ├── controllers/          # Business logic controllers
 │   ├── routes/               # Separated API routes
 │   ├── services/             # LLMs, Prompts, Database and CSV integration logic
+│   ├── schemas/              # Pydantic validation schemas
 │   ├── data/                 # Local databases or test datasets
 │   ├── requirements.txt      # Python dependencies
-│   └── dados.json            # (Needs to be created) API Keys and Tokens
+│   └── dados.json            # (Auto-generated) Provider configs and API keys
 └── frontend/                 # React.js Interface
     ├── app/                  # Routes and pages (Next.js App Router)
     ├── components/           # Modular UI components (shadcn, etc.)
     ├── hooks/                # Custom React hooks
-    ├── lib/                  # Useful client-side libraries
+    ├── lib/                  # Useful client-side libraries (store, types)
     └── package.json          # Node/Next dependencies
 ```
 

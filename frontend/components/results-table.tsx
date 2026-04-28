@@ -38,11 +38,13 @@ export function ResultsTable() {
     link.click()
   }
 
-  if (status === 'idle') {
+  if (status === 'idle' && results.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full py-16 text-center">
-        <Table className="w-12 h-12 text-muted-foreground/50 mb-4" />
-        <h3 className="text-lg font-medium text-foreground mb-2">No results yet</h3>
+      <div className="flex flex-col items-center justify-center h-full py-16 text-center animate-fade-in">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-4 border border-primary/10">
+          <Table className="w-8 h-8 text-primary/40" />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2">No results yet</h3>
         <p className="text-sm text-muted-foreground max-w-xs">
           Run the process to view the results here in spreadsheet format.
         </p>
@@ -77,7 +79,7 @@ export function ResultsTable() {
           size="sm"
           onClick={downloadCSV}
           disabled={results.length === 0}
-          className="border-border text-foreground hover:bg-secondary"
+          className="border-border text-foreground hover:bg-secondary hover:scale-[1.02] transition-all"
         >
           <Download className="w-4 h-4 mr-2" />
           Export CSV
@@ -87,7 +89,7 @@ export function ResultsTable() {
       <div className="flex-1 rounded-lg border border-border overflow-hidden bg-card/50">
         <ScrollArea className="h-[400px]">
           <UITable>
-            <TableHeader className="sticky top-0 bg-card z-10">
+            <TableHeader className="sticky top-0 bg-card z-10 shadow-[0_1px_3px_oklch(0_0_0_/_0.1)]">
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground font-medium w-[80px]">Status</TableHead>
                 <TableHead className="text-muted-foreground font-medium">Model</TableHead>
@@ -96,8 +98,11 @@ export function ResultsTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {results.map((result) => (
-                <TableRow key={result.id} className="border-border hover:bg-secondary/30">
+              {results.map((result, index) => (
+                <TableRow 
+                  key={result.id ?? `result-${index}`} 
+                  className="border-border hover:bg-secondary/40 transition-colors"
+                >
                   <TableCell>
                     {result.status === 'success' ? (
                       <CheckCircle2 className="w-4 h-4 text-accent" />

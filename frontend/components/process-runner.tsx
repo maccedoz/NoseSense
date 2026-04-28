@@ -1,7 +1,6 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
-import { TEST_TYPES, ANSWER_OPTIONS } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Play, CheckCircle2, XCircle, Loader2, Square } from 'lucide-react'
@@ -18,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export function ProcessRunner() {
-  const { status, progress, errors, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
+  const { status, progress, errors, providers, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
   
   const eventSourceRef = useRef<EventSource | null>(null)
   const statsRef = useRef({ total: 0, completed: 0 })
@@ -91,12 +90,15 @@ export function ProcessRunner() {
       else if (data.type === 'result') {
         const isError = data.answer === 'API_ERROR' || data.answer === 'TIMEOUT'
         
-        // Map backend model_name prefix to frontend provider name
+        // Map backend model_name prefix to frontend provider name (dynamic)
         let providerName = 'Unknown'
-        if (data.model_name.startsWith('openai_')) providerName = 'OpenAI'
-        else if (data.model_name.startsWith('togetherai_')) providerName = 'TogetherAI'
-        else if (data.model_name.startsWith('google_')) providerName = 'GoogleAI'
-        else if (data.model_name.startsWith('anthropic_')) providerName = 'AnthropicAI'
+        for (const p of providers) {
+          const prefix = p.name.toLowerCase() + '_'
+          if (data.model_name.startsWith(prefix)) {
+            providerName = p.name
+            break
+          }
+        }
         
         if (isError) {
           addError({
@@ -132,6 +134,11 @@ export function ProcessRunner() {
         setStatus('completed')
         eventSource.close()
       }
+
+      else if (data.type === 'cancelled') {
+        setStatus('idle')
+        eventSource.close()
+      }
       
       else if (data.type === 'error') {
         addError({
@@ -146,8 +153,8 @@ export function ProcessRunner() {
       }
     }
 
-    eventSource.onerror = (error) => {
-      console.error('SSE Error:', error)
+    eventSource.onerror = () => {
+      console.error('SSE Error: A conexão com o servidor foi perdida ou a API falhou.')
       addError({
         modelName: 'EventSource',
         providerName: 'Sistema',
@@ -161,7 +168,14 @@ export function ProcessRunner() {
     }
   }
 
-  const stopProcess = () => {
+  const stopProcess = async () => {
+    // Notify the backend to cancel processing
+    try {
+      await fetch('http://localhost:8001/api/stop-tests', { method: 'POST' })
+    } catch (e) {
+      console.error('Failed to notify backend to stop:', e)
+    }
+
     if (eventSourceRef.current) {
       eventSourceRef.current.close()
       eventSourceRef.current = null
@@ -176,13 +190,13 @@ export function ProcessRunner() {
           Execution
         </h3>
         {status === 'completed' && (
-          <span className="text-xs text-accent flex items-center gap-1">
+          <span className="text-xs text-accent flex items-center gap-1 animate-fade-in">
             <CheckCircle2 className="w-3 h-3" />
             Completed
           </span>
         )}
         {status === 'error' && (
-          <span className="text-xs text-destructive flex items-center gap-1">
+          <span className="text-xs text-destructive flex items-center gap-1 animate-fade-in">
             <XCircle className="w-3 h-3" />
             Error
           </span>
@@ -194,10 +208,10 @@ export function ProcessRunner() {
           onClick={handleStartClick}
           disabled={status === 'running' || enabledModels.length === 0}
           className={cn(
-            "flex-1",
+            "flex-1 transition-all duration-300",
             status === 'running' 
               ? "bg-secondary text-secondary-foreground" 
-              : "bg-primary hover:bg-primary/90 text-primary-foreground"
+              : "gradient-btn text-white border-0 hover:scale-[1.01]"
           )}
         >
           {status === 'running' ? (
@@ -217,7 +231,7 @@ export function ProcessRunner() {
           <Button 
             variant="destructive" 
             onClick={stopProcess}
-            className="px-3"
+            className="px-3 transition-all duration-200 hover:scale-105"
             title="Stop Processing"
           >
             <Square className="w-4 h-4" />
@@ -238,25 +252,30 @@ export function ProcessRunner() {
       )}
       
       {status !== 'idle' && (
-        <div className="space-y-3 p-4 rounded-lg bg-secondary/30 border border-border">
+        <div className="space-y-3 p-4 rounded-lg bg-secondary/30 border border-border animate-fade-in">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Progress</span>
-            <span className={cn("font-medium", status === 'error' ? "text-destructive" : "text-foreground")}>
+            <span className={cn("font-medium tabular-nums", status === 'error' ? "text-destructive" : "text-foreground")}>
               {Math.round(progress)}%
             </span>
           </div>
-          <Progress 
-            value={progress} 
-            className={cn("h-2", status === 'error' && "[&>div]:bg-destructive bg-destructive/20")}
-          />
+          <div className={cn(
+            "relative",
+            status === 'running' && progress > 0 && "animate-[pulse-glow_2s_ease-in-out_infinite]"
+          )} style={{ borderRadius: '9999px' }}>
+            <Progress 
+              value={progress} 
+              className={cn("h-2.5 rounded-full", status === 'error' && "[&>div]:bg-destructive bg-destructive/20")}
+            />
+          </div>
           
           {(status === 'completed' || status === 'error') && (
-            <div className="pt-2 space-y-2">
+            <div className="pt-2 space-y-2 animate-fade-in">
               <div className="flex items-center gap-2 text-sm">
                 {status === 'completed' ? (
                   <>
                     <CheckCircle2 className="w-4 h-4 text-accent" />
-                    <span className="text-foreground">Process completed!</span>
+                    <span className="text-foreground font-medium">Process completed!</span>
                   </>
                 ) : (
                   <>

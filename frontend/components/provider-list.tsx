@@ -1,13 +1,45 @@
 'use client'
 
+import { useState } from 'react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Trash2, Building2, ChevronDown, Key, Bot } from 'lucide-react'
+import { Trash2, Building2, ChevronDown, Key, Bot, Plus, X, Pencil, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useToast } from '@/hooks/use-toast'
 
 export function ProviderList() {
-  const { providers, removeProviderKey, toggleProviderExpanded, toggleModel, toggleAllModels } = useAppStore()
+  const { providers, removeProviderKey, updateProviderKey, toggleProviderExpanded, toggleModel, toggleAllModels, addModelToProvider, removeModelFromProvider } = useAppStore()
+  const { toast } = useToast()
+  const [addingModelFor, setAddingModelFor] = useState<string | null>(null)
+  const [newModelName, setNewModelName] = useState('')
+  const [editingKeyFor, setEditingKeyFor] = useState<string | null>(null)
+  const [newKeyValue, setNewKeyValue] = useState('')
+
+  const handleAddModel = async (providerName: string) => {
+    if (!newModelName.trim()) return
+    try {
+      await addModelToProvider(providerName, newModelName.trim())
+      toast({ title: "Model added!", description: `"${newModelName.trim()}" added to ${providerName}.` })
+      setNewModelName('')
+      setAddingModelFor(null)
+    } catch {
+      toast({ variant: "destructive", title: "Error", description: "Failed to add model." })
+    }
+  }
+
+  const handleUpdateKey = async (providerName: string) => {
+    if (!newKeyValue.trim()) return
+    try {
+      await updateProviderKey(providerName, newKeyValue.trim())
+      toast({ title: "Key updated!", description: `API key for ${providerName} updated.` })
+      setNewKeyValue('')
+      setEditingKeyFor(null)
+    } catch {
+      toast({ variant: "destructive", title: "Error", description: "Failed to update API key." })
+    }
+  }
 
   return (
     <div className="space-y-3">
@@ -27,10 +59,10 @@ export function ProviderList() {
               <div key={provider.id} className="space-y-1">
                 <div
                   className={cn(
-                    "flex items-center gap-3 p-3 rounded-lg border transition-colors cursor-pointer group",
+                    "flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 cursor-pointer group",
                     provider.expanded
-                      ? "bg-primary/10 border-primary/50"
-                      : "bg-secondary/50 border-border hover:border-primary/30"
+                      ? "bg-primary/10 border-primary/50 shadow-sm"
+                      : "bg-secondary/50 border-border hover:border-primary/30 hover:shadow-sm"
                   )}
                   onClick={() => toggleProviderExpanded(provider.id)}
                 >
@@ -66,7 +98,20 @@ export function ProviderList() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 text-muted-foreground hover:text-destructive"
+                    className="transition-opacity h-8 w-8 text-muted-foreground hover:text-primary"
+                    title="Edit API Key"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setEditingKeyFor(editingKeyFor === provider.id ? null : provider.id)
+                      setNewKeyValue('')
+                    }}
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="transition-opacity h-8 w-8 text-muted-foreground hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation()
                       removeProviderKey(provider.name)
@@ -75,10 +120,55 @@ export function ProviderList() {
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
+
+                {/* Edit Key Inline */}
+                {editingKeyFor === provider.id && (
+                  <div className="flex items-center gap-2 px-3 pb-2" onClick={(e) => e.stopPropagation()}>
+                    <Key className="w-3 h-3 text-muted-foreground" />
+                    <Input
+                      type="password"
+                      value={newKeyValue}
+                      onChange={(e) => setNewKeyValue(e.target.value)}
+                      placeholder="New API key..."
+                      className="h-8 text-sm bg-input border-border flex-1"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          handleUpdateKey(provider.name)
+                        }
+                        if (e.key === 'Escape') {
+                          setEditingKeyFor(null)
+                          setNewKeyValue('')
+                        }
+                      }}
+                      autoFocus
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 px-2 text-primary hover:text-primary"
+                      onClick={() => handleUpdateKey(provider.name)}
+                      disabled={!newKeyValue.trim()}
+                    >
+                      <Check className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 px-2 text-muted-foreground hover:text-destructive"
+                      onClick={() => {
+                        setEditingKeyFor(null)
+                        setNewKeyValue('')
+                      }}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
                 
                 {/* Models Dropdown */}
                 {provider.expanded && (
-                  <div className="ml-6 pl-4 border-l-2 border-primary/30 space-y-1 py-2">
+                  <div className="ml-6 pl-4 border-l-2 border-primary/30 space-y-1 py-2 animate-fade-in">
                     {/* Select All toggle */}
                     {provider.models.length > 1 && (
                       <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors border-b border-border/50 mb-1">
@@ -96,10 +186,18 @@ export function ProviderList() {
                         </label>
                       </div>
                     )}
+
+                    {provider.models.length === 0 && (
+                      <p className="text-xs text-muted-foreground py-2 italic">
+                        No models added yet. Click the button below to add models.<br/>
+                        Use the exact model name as listed in the provider&apos;s API docs.
+                      </p>
+                    )}
+
                     {provider.models.map((model) => (
                       <div
                         key={model.id}
-                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors group/model"
                       >
                         <Checkbox
                           id={model.id}
@@ -114,8 +212,80 @@ export function ProviderList() {
                         >
                           {model.name}
                         </label>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="opacity-0 group-hover/model:opacity-100 transition-opacity h-6 w-6 text-muted-foreground hover:text-destructive"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            removeModelFromProvider(provider.name, model.name)
+                          }}
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
                       </div>
                     ))}
+
+                    {/* Add Model */}
+                    {addingModelFor === provider.id ? (
+                      <div className="space-y-1 p-2" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center gap-2">
+                        <Input
+                          value={newModelName}
+                          onChange={(e) => setNewModelName(e.target.value)}
+                          placeholder="e.g. gpt-4o, gemini-2.5-flash..."
+                          className="h-8 text-sm bg-input border-border"
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault()
+                              handleAddModel(provider.name)
+                            }
+                            if (e.key === 'Escape') {
+                              setAddingModelFor(null)
+                              setNewModelName('')
+                            }
+                          }}
+                          autoFocus
+                        />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 px-2 text-primary hover:text-primary"
+                          onClick={() => handleAddModel(provider.name)}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 px-2 text-muted-foreground hover:text-destructive"
+                          onClick={() => {
+                            setAddingModelFor(null)
+                            setNewModelName('')
+                          }}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Type the exact model name as listed in the provider&apos;s API (e.g. <code className="text-primary/80">gpt-4o</code>, not <code className="text-primary/80">GPT 4o</code>).
+                        </p>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start text-xs text-primary/70 hover:text-primary mt-1"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setAddingModelFor(provider.id)
+                          setNewModelName('')
+                        }}
+                      >
+                        <Plus className="w-3 h-3 mr-1" />
+                        Add Model
+                      </Button>
+                    )}
                   </div>
                 )}
               </div>

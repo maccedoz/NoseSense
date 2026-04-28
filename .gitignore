@@ -1,24 +1,22 @@
 # ==========================================
-# Ambiente e Segredos
+# Environment and Secrets
 # ==========================================
 .env
 .env.*
 !.env.example
-backend/.env
-backend/dados.json
+**/ .env
+**/dados.json
 
 # ==========================================
 # Backend (Python / FastAPI)
 # ==========================================
-# Ambientes virtuais
-venv/
-.venv/
-env/
-backend/venv/
-backend/.venv/
+# Virtual Environments
+**/venv/
+**/.venv/
+**/env/
 
-# Cache e compilados do Python
-__pycache__/
+# Python cache and compiled files
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -29,50 +27,57 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Gerenciadores de pacote e ambientes
-Pipfile.lock
-poetry.lock
-
-# Banco de dados e outputs
+# Databases and Outputs
 *.sqlite3
 *.sqlite
 *.db
-backend/resultados.db
-backend/resultado.csv
-*.log
+**/resultados.db
+**/resultado.csv
 
 # ==========================================
 # Frontend (Next.js / Node.js)
 # ==========================================
-# Dependências
-node_modules/
-frontend/node_modules/
+# Dependencies (Workspace & Local)
+**/node_modules/
 .pnp
 .pnp.js
 
-# Build e exportação Next.js
-.next/
-frontend/.next/
+# Next.js Build and Export
+**/.next/
 out/
 build/
 dist/
 .swc/
 
-# Logs de gerenciadores de pacote
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Package Manager Logs
+*-debug.log*
+*-error.log*
 .pnpm-debug.log*
-pnpm-debug.log*
 
-# Testes e coverage (Frontend)
-coverage/
-
-# Vercel e deploy
+# Vercel and Deployments
 .vercel/
 
 # ==========================================
-# IDEs, Editores e Sistema Operacional
+# Generic Cache Directories
+# ==========================================
+.cache/
+**/.cache/
+.eslintcache
+.pnpm-store/
+**/.vite/
+**/.turbo/
+
+# ==========================================
+# Development & Logs (from dev.sh)
+# ==========================================
+*.log
+**/frontend.log
+**/backend.log
+# Turbopack panic logs (if they occur locally)
+next-panic-*.log
+
+# ==========================================
+# IDEs, Editors and OS
 # ==========================================
 # VS Code
 .vscode/
@@ -81,13 +86,13 @@ coverage/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# JetBrains / IntelliJ / PyCharm
+# JetBrains
 .idea/
 *.iws
 *.iml
 *.ipr
 
-# SO Mac, Windows, Linux
+# OS Specific
 .DS_Store
 .AppleDouble
 .LSOverride
