@@ -4,33 +4,29 @@ from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_anthropic import ChatAnthropic
 
-CAMINHO_JSON = "dados.json"
+PATH_JSON = "./data/models/models.json"
 
 
 def _load_providers() -> dict:
-    """Load providers from dados.json (new format)."""
-    if not os.path.exists(CAMINHO_JSON):
+    if not os.path.exists(PATH_JSON):
         return {}
 
     try:
-        with open(CAMINHO_JSON, "r", encoding="utf-8") as f:
+        with open(PATH_JSON, "r", encoding="utf-8") as f:
             raw = json.load(f)
     except Exception as e:
-        print(f"Erro ao ler {CAMINHO_JSON}: {e}")
+        print(f"Error reading {PATH_JSON}: {e}")
         return {}
 
-    # New format
     if "providers" in raw:
         return raw["providers"]
 
-    # Old format — trigger migration by importing api_service
-    from services.api_service import _load_data
+    from services.provider_service import _load_data
     data = _load_data()
     return data.get("providers", {})
 
 
 def initialize_models() -> dict:
-    """Dynamically initialize LLM models based on user-configured providers."""
     models = {}
     providers = _load_providers()
 
@@ -44,7 +40,6 @@ def initialize_models() -> dict:
         model_list = info.get("models", [])
 
         for model_name in model_list:
-            # Backend ID: provider_modelname (sanitized)
             backend_id = f"{provider_key}_{model_name.replace(' ', '_').replace('.', '_').lower()}"
 
             try:
@@ -59,7 +54,6 @@ def initialize_models() -> dict:
                         api_key=api_key,
                     )
                 else:
-                    # Default: OpenAI-compatible (works for OpenAI, Together, Groq, etc.)
                     kwargs = {
                         "model": model_name,
                         "api_key": api_key,
@@ -68,6 +62,10 @@ def initialize_models() -> dict:
                         kwargs["base_url"] = base_url
                     models[backend_id] = ChatOpenAI(**kwargs)
             except Exception as e:
-                print(f"Erro ao inicializar modelo {backend_id}: {e}")
+                print(f"Error initializing model {backend_id}: {e}")
+
+            
+            for m in models:
+                print(f"Model {m} initialized successfully\n")
 
     return models

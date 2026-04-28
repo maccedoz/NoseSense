@@ -1,11 +1,11 @@
 import re
 import asyncio
 
-# Limita o número de requests simultâneos a 3 para evitar limites da API (OpenAI Free Tier)
+# Limits concurrent requests to 3 to avoid API rate limits (e.g. OpenAI Free Tier)
 semaphore = asyncio.Semaphore(3)
 
 async def invoke_llm_async(prompt: str, model, model_name: str) -> tuple[str, str]:
-    print(f"  -> [INICIANDO] Querying model: {model_name}")
+    print(f"  -> [STARTING] Querying model: {model_name}")
     try:
         async with semaphore:
             # Wrap again with 20.0s timeout to avoid infinite freezes
@@ -15,7 +15,7 @@ async def invoke_llm_async(prompt: str, model, model_name: str) -> tuple[str, st
 
         match = re.search(r'([A-E])', response_content.upper())
         if match:
-            print(f"  -> [CONCLUIDO] Model: {model_name}")
+            print(f"  -> [DONE] Model: {model_name}")
             return (model_name, match.group(1))
 
         safe_resp = response_content.encode('ascii', 'replace').decode('ascii')
