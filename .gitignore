@@ -58,6 +58,16 @@ dist/
 .vercel/
 
 # ==========================================
+# Generic Cache Directories
+# ==========================================
+.cache/
+**/.cache/
+.eslintcache
+.pnpm-store/
+**/.vite/
+**/.turbo/
+
+# ==========================================
 # Development & Logs (from dev.sh)
 # ==========================================
 *.log

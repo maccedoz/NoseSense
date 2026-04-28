@@ -1,0 +1,13 @@
+{
+    "providers": {
+        "gemini": {
+            "api_key": "AIzaSyASKb_BR8CF51bCfEQOEoEHyDv_lTu7xnE",
+            "api_type": "google",
+            "base_url": null,
+            "models": [
+                "gemini-2.5-flash",
+                "gemini-2.5-lite"
+            ]
+        }
+    }
+}

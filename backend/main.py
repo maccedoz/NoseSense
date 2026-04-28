@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import provider_routes, test_routes, result_routes
+from routes import provider_routes, process_routes, result_routes
 
 app = FastAPI()
 
@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(provider_routes.router, prefix="/api")
-app.include_router(test_routes.router, prefix="/api")
+app.include_router(process_routes.router, prefix="/api")
 app.include_router(result_routes.router, prefix="/api")
 
 
@@ -30,5 +30,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    print("\n🚀 Starting FastAPI server. Waiting for Frontend requests (http://localhost:8001/api/run-tests)...")
+    print("\n Starting FastAPI server. Waiting for Frontend requests (http://localhost:8001/api/run-tests)...")
     uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=True)

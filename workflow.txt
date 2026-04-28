@@ -1,0 +1,49 @@
+Workflow da Aplicação NoseSense (Backend)
+=========================================
+
+1. Inicialização do Servidor (main.py)
+--------------------------------------
+- O servidor FastAPI é iniciado via uvicorn (porta 8001).
+- O middleware CORS é configurado para permitir a comunicação com o frontend (localhost:3000).
+- As rotas (provider_routes, process_routes, result_routes) são anexadas à aplicação no prefixo "/api".
+
+2. Cadastro e Gerenciamento de Modelos (provider_routes.py)
+-----------------------------------------------------------
+- O usuário (via frontend) salva ou cadastra provedores (OpenAI, Gemini, Anthropic) e suas respectivas API Keys.
+- Os dados são salvos em `data/models/models.json`.
+
+3. Execução dos Testes (process_routes.py -> /api/run-tests)
+---------------------------------------------------------
+- O frontend dispara uma requisição GET para `/api/run-tests` informando os modelos selecionados via Server-Sent Events (SSE).
+- A função `run_automation_stream` inicia o processo:
+  a) Carrega as instâncias dos LLMs usando as chaves de API salvas (llm_initializer.py).
+  b) Extrai os trechos de código (test smells) dos arquivos `.txt` no diretório `data/test_smell_docs` (data_extractor.py).
+  c) Inicializa a tabela no banco de dados SQLite (`resultados.db`) para rastrear as execuções (db_service.py).
+  d) Envia um evento SSE de 'start' para o frontend.
+
+4. Loop de Processamento (Iteração sobre os Testes)
+---------------------------------------------------
+Para cada Test Smell extraído, o sistema realiza os seguintes passos:
+  a) Formatação do Prompt: 
+     O `prompt_engine.py` pega o código do teste e as opções (misturando a opção correta com 3 opções incorretas aleatórias) e formata a pergunta.
+  b) Requisições Concorrentes (executor.py):
+     - As tarefas de consulta são enviadas aos LLMs (invoke_llm_async).
+     - O sistema possui um semáforo (Semaphore) que limita a 3 requisições simultâneas para evitar rate limits excessivos.
+     - Um timeout global (agora de 60 segundos) impede que conexões congelem para sempre.
+  c) Envio de Keep-alive:
+     - Enquanto o sistema aguarda a resposta (usando asyncio.wait), o backend periodicamente envia um `yield ": keepalive\n\n"` para manter a conexão SSE viva.
+  d) Parseamento e Salvação da Resposta:
+     - O backend captura a letra enviada pela inteligência artificial e compara com a resposta correta.
+     - A resposta é inserida na tabela `llm_evaluations` no SQLite (db_service.py).
+     - Um evento SSE do tipo 'result' contendo a resposta e status é transmitido imediatamente para atualização na interface do usuário.
+
+5. Finalização e Relatórios (csv_service.py)
+--------------------------------------------
+- Após todos os testes passarem por todos os LLMs selecionados, o backend formata todas as linhas de resultado.
+- Um relatório consolidado é salvo em `data/output/results.csv` para uso posterior.
+- O evento SSE 'complete' é disparado, permitindo que a interface mostre a barra em 100%.
+
+6. Parada Forçada (Opcional)
+----------------------------
+- Caso o usuário clique no botão de parar do frontend, um evento via `POST /api/stop-tests` marca a flag `_cancel_event`. 
+- No próximo ciclo, o backend cancela as chamadas e encerra o stream prematuramente.

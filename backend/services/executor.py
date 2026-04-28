@@ -1,15 +1,13 @@
 import re
 import asyncio
 
-# Limits concurrent requests to 3 to avoid API rate limits (e.g. OpenAI Free Tier)
 semaphore = asyncio.Semaphore(3)
 
 async def invoke_llm_async(prompt: str, model, model_name: str) -> tuple[str, str]:
     print(f"  -> [STARTING] Querying model: {model_name}")
     try:
         async with semaphore:
-            # Wrap again with 20.0s timeout to avoid infinite freezes
-            response = await asyncio.wait_for(model.ainvoke(prompt), timeout=20.0)
+            response = await asyncio.wait_for(model.ainvoke(prompt), timeout=60.0)
             
         response_content = response.content.strip()
 
@@ -23,7 +21,7 @@ async def invoke_llm_async(prompt: str, model, model_name: str) -> tuple[str, st
         return (model_name, "PARSE_ERROR")
 
     except asyncio.TimeoutError:
-        print(f"  -> Error invoking model {model_name}: TIMEOUT (20s limit reached)")
+        print(f"  -> Error invoking model {model_name}: TIMEOUT (60s limit reached)")
         return (model_name, "TIMEOUT")
     except Exception as e:
         safe_err = str(e).encode('ascii', 'replace').decode('ascii')

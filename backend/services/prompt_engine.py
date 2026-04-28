@@ -23,5 +23,4 @@ def create_randomized_prompt(code_snippet: str, correct_smell: str) -> tuple[str
         option_c=options[2],
         option_d=options[3]
     )
-
     return prompt, correct_letter

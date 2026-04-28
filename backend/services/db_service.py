@@ -32,7 +32,7 @@ def init_db_and_get_run(db_filename: str) -> int:
         conn.commit()
         return cursor.lastrowid
     except Exception as e:
-        print(f"\n❌ Error initializing SQLite: {e}")
+        print(f"\nError initializing SQLite: {e}")
         return -1
     finally:
         if conn:
@@ -58,7 +58,7 @@ def append_single_result_to_sqlite(db_filename: str, run_id: int, test_index: in
         conn.commit()
         return cursor.lastrowid
     except Exception as e:
-        print(f"\n❌ Error inserting row into SQLite: {e}")
+        print(f"\n Error inserting row into SQLite: {e}")
         return None
     finally:
         if conn:
@@ -88,9 +88,9 @@ def get_all_results_sqlite(db_filename: str) -> list:
                 "status": "success" if row["status"] else "error" if len(row["answer"]) > 2 else "success"
             })
     except sqlite3.OperationalError:
-        pass  # Table doesn't exist yet
+        pass
     except Exception as e:
-        print(f"\n❌ Error reading results: {e}")
+        print(f"\n Error reading results: {e}")
     finally:
         if conn:
             conn.close()
