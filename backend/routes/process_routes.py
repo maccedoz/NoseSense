@@ -50,7 +50,7 @@ async def run_automation_stream(enabled_models: list[str] = None):
             yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user.'})}\n\n"
             return
 
-        prompt, correct_letter = create_randomized_prompt(
+        prompt, correct_letter, options = create_randomized_prompt(
             test_data["code_to_analyze"],
             test_data["correct_smell"]
         )
@@ -79,7 +79,7 @@ async def run_automation_stream(enabled_models: list[str] = None):
         for model_name, response in model_responses:
             result_row[model_name] = response
 
-            append_single_result_to_sqlite(OUTPUT_DB_FILE, run_id, i + 1, test_data["correct_smell"], correct_letter, model_name, response)
+            append_single_result_to_sqlite(OUTPUT_DB_FILE, run_id, i + 1, test_data["correct_smell"], correct_letter, model_name, response, options)
 
             yield f"data: {json.dumps({'type': 'result', 'test_index': i + 1, 'test_smell': test_data['correct_smell'], 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter})}\n\n"
 

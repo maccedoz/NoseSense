@@ -28,6 +28,17 @@ def init_db_and_get_run(db_filename: str) -> int:
                 FOREIGN KEY(run_id) REFERENCES test_runs(run_id)
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS test_options (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                evaluation_id INTEGER NOT NULL,
+                option_a TEXT NOT NULL,
+                option_b TEXT NOT NULL,
+                option_c TEXT NOT NULL,
+                option_d TEXT NOT NULL,
+                FOREIGN KEY(evaluation_id) REFERENCES llm_evaluations(id)
+            )
+        ''')
         cursor.execute('INSERT INTO test_runs DEFAULT VALUES')
         conn.commit()
         return cursor.lastrowid
@@ -39,8 +50,8 @@ def init_db_and_get_run(db_filename: str) -> int:
             conn.close()
 
 
-def append_single_result_to_sqlite(db_filename: str, run_id: int, test_index: int, test_smell: str, correct_answer: str, model_name: str, model_response: str):
-    """Appends a single LLM response to the database."""
+def append_single_result_to_sqlite(db_filename: str, run_id: int, test_index: int, test_smell: str, correct_answer: str, model_name: str, model_response: str, options: list[str] = None):
+    """Appends a single LLM response and its options to the database."""
     if run_id == -1:
         return
 
@@ -55,8 +66,18 @@ def append_single_result_to_sqlite(db_filename: str, run_id: int, test_index: in
             (run_id, test_index, test_smell, correct_answer, model_name, model_response, is_correct)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ''', (run_id, test_index, test_smell, correct_answer, model_name, model_response, is_correct))
+
+        evaluation_id = cursor.lastrowid
+
+        if options and len(options) == 4:
+            cursor.execute('''
+                INSERT INTO test_options
+                (evaluation_id, option_a, option_b, option_c, option_d)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (evaluation_id, options[0], options[1], options[2], options[3]))
+
         conn.commit()
-        return cursor.lastrowid
+        return evaluation_id
     except Exception as e:
         print(f"\n Error inserting row into SQLite: {e}")
         return None
@@ -73,11 +94,17 @@ def get_all_results_sqlite(db_filename: str) -> list:
         conn = sqlite3.connect(db_filename)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute('SELECT test_index, test_smell, correct_answer, model_name, model_response as answer, is_correct as status FROM llm_evaluations')
+        cursor.execute('''
+            SELECT e.test_index, e.test_smell, e.correct_answer, e.model_name,
+                   e.model_response as answer, e.is_correct as status,
+                   o.option_a, o.option_b, o.option_c, o.option_d
+            FROM llm_evaluations e
+            LEFT JOIN test_options o ON o.evaluation_id = e.id
+        ''')
         rows = cursor.fetchall()
 
         for row in rows:
-            results.append({
+            result_entry = {
                 "testIndex": row["test_index"],
                 "correctAnswer": row["correct_answer"],
                 "providerName": "Automatic",
@@ -86,7 +113,15 @@ def get_all_results_sqlite(db_filename: str) -> list:
                 "answer": row["answer"],
                 "errorMessage": row["answer"] if row["status"] == 0 and len(row["answer"]) > 2 else None,
                 "status": "success" if row["status"] else "error" if len(row["answer"]) > 2 else "success"
-            })
+            }
+            if row["option_a"]:
+                result_entry["options"] = {
+                    "A": row["option_a"],
+                    "B": row["option_b"],
+                    "C": row["option_c"],
+                    "D": row["option_d"]
+                }
+            results.append(result_entry)
     except sqlite3.OperationalError:
         pass
     except Exception as e:
