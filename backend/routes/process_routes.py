@@ -81,7 +81,8 @@ async def run_automation_stream(enabled_models: list[str] = None):
 
             append_single_result_to_sqlite(OUTPUT_DB_FILE, run_id, i + 1, test_data["correct_smell"], correct_letter, model_name, response, options)
 
-            yield f"data: {json.dumps({'type': 'result', 'test_index': i + 1, 'test_smell': test_data['correct_smell'], 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter})}\n\n"
+            options_dict = {"A": options[0], "B": options[1], "C": options[2], "D": options[3]}
+            yield f"data: {json.dumps({'type': 'result', 'test_index': i + 1, 'test_smell': test_data['correct_smell'], 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter, 'options': options_dict})}\n\n"
 
         all_results.append(result_row)
 

@@ -119,6 +119,7 @@ export function ProcessRunner() {
           correctAnswer: data.correct_answer,
           status: isError ? 'error' : 'success',
           answer: data.answer,
+          options: data.options,
           timestamp: new Date(),
         })
         

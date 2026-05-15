@@ -71,7 +71,7 @@ export const useAppStore = create<AppState>()(
                   }
                 }
 
-                return { ...item, providerName, modelName }
+                return { ...item, providerName, modelName, options: (item as any).options }
               })
 
               set({ results: mappedHistory, status: 'completed', progress: 100 })

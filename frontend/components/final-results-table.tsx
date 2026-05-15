@@ -27,7 +27,7 @@ export function FinalResultsTable() {
 
   // Extrai informações únicas de cada teste da execução (novo modelo suporta múltiplos itens)
   // Criamos um mapa onde a chave é o ID do Teste e o valor são as infos gerais e os resultados dos modelos.
-  type TestData = { testType: string; correctAnswer: string; results: Map<string, { status: string; answer?: string; errorMessage?: string }> }
+  type TestData = { testType: string; correctAnswer: string; options?: Record<string, string>; results: Map<string, { status: string; answer?: string; errorMessage?: string }> }
   const testsByIndexMap = new Map<number, TestData>()
 
   // Extrair também todos os modelos agrupados das keys do JSON 
@@ -42,6 +42,7 @@ export function FinalResultsTable() {
       testsByIndexMap.set(tIndex, { 
         testType: result.testType, 
         correctAnswer: cAnswer, 
+        options: result.options,
         results: new Map() 
       })
     }
@@ -157,19 +158,29 @@ export function FinalResultsTable() {
                     {testedModels.map((modelKey) => {
                       const result = data.results.get(modelKey)
                       const isCorrect = result?.status === 'success' && result?.answer === data.correctAnswer
+                      const chosenSmell = (!isCorrect && result?.answer && data.options)
+                        ? (data.options[result.answer] ?? 'None')
+                        : null
                       
                       return (
                         <TableCell key={`${testId}-${modelKey}`} className="text-center">
                           {result ? (
                             result.status === 'success' ? (
-                              <span className={cn(
-                                "inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-transform hover:scale-110",
-                                isCorrect 
-                                  ? "bg-green-500/20 text-green-500 shadow-[0_0_8px_oklch(0.55_0.2_145_/_0.15)]" 
-                                  : "bg-destructive/20 text-destructive"
-                              )}>
-                                {result.answer}
-                              </span>
+                              <div className="flex flex-col items-center gap-1">
+                                <span className={cn(
+                                  "inline-flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-transform hover:scale-110",
+                                  isCorrect 
+                                    ? "bg-green-500/20 text-green-500 shadow-[0_0_8px_oklch(0.55_0.2_145_/_0.15)]" 
+                                    : "bg-destructive/20 text-destructive"
+                                )}>
+                                  {result.answer}
+                                </span>
+                                {chosenSmell && (
+                                  <span className="text-[10px] text-destructive/70 max-w-[100px] leading-tight" title={chosenSmell}>
+                                    {chosenSmell}
+                                  </span>
+                                )}
+                              </div>
                             ) : (
                               <div className="flex flex-col items-center gap-1">
                                 <span className="text-xs text-destructive font-medium">ERROR</span>

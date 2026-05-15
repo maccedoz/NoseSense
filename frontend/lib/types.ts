@@ -59,6 +59,7 @@ export interface ProcessResult {
   status: 'success' | 'error'
   answer?: AnswerOption | string
   errorMessage?: string
+  options?: Record<string, string>
   timestamp: Date
 }
 
