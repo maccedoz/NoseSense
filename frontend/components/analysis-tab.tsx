@@ -17,6 +17,7 @@ import {
   Activity
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ConfusionMatrix } from '@/components/confusion-matrix'
 import {
   BarChart,
   Bar,
@@ -515,6 +516,9 @@ export function AnalysisTab() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Confusion Matrix & Per-Class Metrics */}
+      <ConfusionMatrix results={results} />
 
       {/* Detailed Tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
