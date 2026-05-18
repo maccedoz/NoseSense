@@ -8,7 +8,7 @@ from services.data_extractor import extract_tests_from_folder
 from services.prompt_engine import create_randomized_prompt
 from services.executor import invoke_llm_async
 from services.db_service import init_db_and_get_run, append_single_result_to_sqlite
-from services.csv_service import save_results_to_csv
+from services.csv_service import init_csv, append_row_to_csv
 
 router = APIRouter()
 
@@ -38,10 +38,13 @@ async def run_automation_stream(enabled_models: list[str] = None):
         yield f"data: {json.dumps({'type': 'error', 'message': 'No tests found to process.'})}\n\n"
         return
 
-    all_results = []
     total_tests = len(tests_to_process)
 
     run_id = init_db_and_get_run(OUTPUT_DB_FILE)
+
+    model_columns = list(models.keys())
+    csv_headers = ['test_smell', 'correct_answer'] + model_columns
+    init_csv(OUTPUT_CSV_FILE, csv_headers)
 
     yield f"data: {json.dumps({'type': 'start', 'total_tests': total_tests, 'models': list(models.keys())})}\n\n"
 
@@ -84,11 +87,7 @@ async def run_automation_stream(enabled_models: list[str] = None):
             options_dict = {"A": options[0], "B": options[1], "C": options[2], "D": options[3]}
             yield f"data: {json.dumps({'type': 'result', 'test_index': i + 1, 'test_smell': test_data['correct_smell'], 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter, 'options': options_dict})}\n\n"
 
-        all_results.append(result_row)
-
-    model_columns = list(models.keys())
-    csv_headers = ['test_smell', 'correct_answer'] + model_columns
-    save_results_to_csv(OUTPUT_CSV_FILE, all_results, csv_headers)
+        append_row_to_csv(OUTPUT_CSV_FILE, result_row, csv_headers)
 
     yield f"data: {json.dumps({'type': 'complete', 'message': 'Processing complete. Results saved to database and CSV.'})}\n\n"
 

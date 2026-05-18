@@ -24,7 +24,7 @@ export function ResultsTable() {
       result.testType,
       result.status === 'success' ? 'Success' : 'Error',
       result.errorMessage || '',
-      result.timestamp.toISOString(),
+      result.timestamp ? result.timestamp.toISOString() : '',
     ])
     
     const csvContent = [headers, ...rows]
