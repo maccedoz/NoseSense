@@ -186,7 +186,7 @@ Example:
   }}
 ```
 
-Conditional Logic Test: Test methods should be simple and execute all statements in the production method. Conditional logic in tests alters behavior and can hide defects. It also reduces test readability.
+Conditional Test Logic: Test methods should be simple and execute all statements in the production method. Conditional logic in tests alters behavior and can hide defects. It also reduces test readability.
 
 Example:
 ```java
@@ -275,7 +275,7 @@ A: {option_a}
 B: {option_b}
 C: {option_c}
 D: {option_d}
-E: None
+E: {option_e}
 
 Answer format: {{A}}
 
