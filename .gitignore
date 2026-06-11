@@ -5,7 +5,8 @@
 .env.*
 !.env.example
 **/ .env
-**/dados.json
+data/output/models.json
+data/output/*.txt
 
 # ==========================================
 # Backend (Python / FastAPI)
@@ -33,6 +34,8 @@ htmlcov/
 *.db
 **/resultados.db
 **/resultado.csv
+backend/data/models/
+backend/data/output/
 
 # ==========================================
 # Frontend (Next.js / Node.js)

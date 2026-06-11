@@ -81,7 +81,9 @@ export function ConfusionMatrix({ results }: ConfusionMatrixProps) {
   const [selectedModel, setSelectedModel] = useState('__all__')
 
   const { confusionByModel, modelKeys } = useMemo(() => {
-    // Collect all unique smell labels
+    // Collect all unique smell labels (both actual and predicted)
+    // This ensures the matrix captures False Positives for predictions
+    // that don't exist in the ground truth.
     const allLabels = new Set<string>()
     results.forEach(r => {
       if (r.testType) allLabels.add(r.testType)
@@ -250,11 +252,26 @@ export function ConfusionMatrix({ results }: ConfusionMatrixProps) {
       {/* Per-Class Metrics Table */}
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Target className="w-4 h-4 text-primary" />
-            Per-Class Metrics
-          </CardTitle>
-          <CardDescription>Precision, Recall, F1-Score and Accuracy for each test smell</CardDescription>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Target className="w-4 h-4 text-primary" />
+                Per-Class Metrics
+              </CardTitle>
+              <CardDescription>Precision, Recall, F1-Score and Accuracy for each test smell</CardDescription>
+            </div>
+            <select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="text-sm bg-secondary border border-border rounded-md px-3 py-1.5 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              {modelKeys.map(key => (
+                <option key={key} value={key}>
+                  {key === '__all__' ? 'All Models (Aggregated)' : key.split('/')[1]}
+                </option>
+              ))}
+            </select>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -265,6 +282,7 @@ export function ConfusionMatrix({ results }: ConfusionMatrixProps) {
                   <th className="p-3 text-center text-muted-foreground font-medium">TP</th>
                   <th className="p-3 text-center text-muted-foreground font-medium">FP</th>
                   <th className="p-3 text-center text-muted-foreground font-medium">FN</th>
+                  <th className="p-3 text-center text-muted-foreground font-medium">TN</th>
                   <th className="p-3 text-center text-muted-foreground font-medium">Precision</th>
                   <th className="p-3 text-center text-muted-foreground font-medium">Recall</th>
                   <th className="p-3 text-center text-muted-foreground font-medium">F1-Score</th>
@@ -284,6 +302,7 @@ export function ConfusionMatrix({ results }: ConfusionMatrixProps) {
                     <td className="p-3 text-center text-green-500 font-mono font-bold">{m.tp}</td>
                     <td className="p-3 text-center text-red-500 font-mono font-bold">{m.fp}</td>
                     <td className="p-3 text-center text-yellow-500 font-mono font-bold">{m.fn}</td>
+                    <td className="p-3 text-center text-blue-400 font-mono font-bold">{m.tn}</td>
                     <td className="p-3 text-center">
                       <span className={cn("font-bold", colorByValue(m.precision))}>{fmt(m.precision)}</span>
                     </td>
@@ -301,6 +320,7 @@ export function ConfusionMatrix({ results }: ConfusionMatrixProps) {
                 {/* Macro Average Row */}
                 <tr className="border-t-2 border-primary/50 bg-primary/5 font-bold">
                   <td className="p-3 text-primary">Macro Average</td>
+                  <td className="p-3 text-center text-muted-foreground">—</td>
                   <td className="p-3 text-center text-muted-foreground">—</td>
                   <td className="p-3 text-center text-muted-foreground">—</td>
                   <td className="p-3 text-center text-muted-foreground">—</td>

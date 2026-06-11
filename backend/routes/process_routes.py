@@ -16,12 +16,31 @@ DATA_FOLDER = "./data/test_smell_docs"
 OUTPUT_DB_FILE = "./data/output/results.db"
 OUTPUT_CSV_FILE = "./data/output/results.csv"
 
-_cancel_event: asyncio.Event | None = None
+# Flag simples de cancelamento — funciona em qualquer versão do Python
+_should_cancel: bool = False
+_current_run_id: int = 0
+
+MAX_CONCURRENT = 3
+
+
+async def fetch_model(i, test_data, model_name, model_instance):
+    """Helper to run model asynchronously for multi-choice mode."""
+    prompt, correct_letter, options = create_randomized_prompt(
+        test_data["code_to_analyze"],
+        test_data["correct_smell"]
+    )
+    if not prompt:
+        return None
+
+    _, response = await invoke_llm_async(prompt, model_instance, model_name)
+    return (i, test_data, model_name, correct_letter, options, response)
 
 
 async def run_automation_stream(enabled_models: list[str] = None):
-    global _cancel_event
-    _cancel_event = asyncio.Event()
+    global _should_cancel, _current_run_id
+    _current_run_id += 1
+    my_run_id = _current_run_id
+    _should_cancel = False
 
     models = initialize_models()
 
@@ -48,46 +67,48 @@ async def run_automation_stream(enabled_models: list[str] = None):
 
     yield f"data: {json.dumps({'type': 'start', 'total_tests': total_tests, 'models': list(models.keys())})}\n\n"
 
+    # Iterar teste por teste: para cada teste, todos os modelos rodam em paralelo
     for i, test_data in enumerate(tests_to_process):
-        if _cancel_event and _cancel_event.is_set():
-            yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user.'})}\n\n"
+        # Verificar cancelamento antes de cada teste
+        if _should_cancel or my_run_id != _current_run_id:
+            yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user or superseded by new run.'})}\n\n"
             return
 
-        prompt, correct_letter, options = create_randomized_prompt(
-            test_data["code_to_analyze"],
-            test_data["correct_smell"]
-        )
+        # Lançar todos os modelos para este teste em paralelo
+        tasks = [
+            asyncio.create_task(fetch_model(i, test_data, model_name, model_instance))
+            for model_name, model_instance in models.items()
+        ]
 
-        if not prompt:
-            continue
+        # Esperar TODOS os modelos responderem antes de avançar
+        results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        result_row = {
-            "test_smell": test_data["correct_smell"],
-            "correct_answer": correct_letter
-        }
+        # Verificar cancelamento após as respostas
+        if _should_cancel or my_run_id != _current_run_id:
+            yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user or superseded by new run.'})}\n\n"
+            return
 
-        tasks = []
-        for model_name, model_instance in models.items():
-            tasks.append(asyncio.create_task(invoke_llm_async(prompt, model_instance, model_name)))
+        for result in results:
+            if isinstance(result, Exception):
+                continue
 
-        model_responses = []
-        pending = set(tasks)
-        while pending:
-            done, pending = await asyncio.wait(pending, timeout=5.0)
-            for task in done:
-                model_responses.append(task.result())
-            if pending:
-                yield ": keepalive\n\n"
+            if not result:
+                continue
 
-        for model_name, response in model_responses:
-            result_row[model_name] = response
+            idx, td, model_name, correct_letter, options, response = result
+            correct_smell = td["correct_smell"]
 
-            append_single_result_to_sqlite(OUTPUT_DB_FILE, run_id, i + 1, test_data["correct_smell"], correct_letter, model_name, response, options)
+            append_single_result_to_sqlite(OUTPUT_DB_FILE, run_id, idx + 1, correct_smell, correct_letter, model_name, response, options)
 
-            options_dict = {"A": options[0], "B": options[1], "C": options[2], "D": options[3]}
-            yield f"data: {json.dumps({'type': 'result', 'test_index': i + 1, 'test_smell': test_data['correct_smell'], 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter, 'options': options_dict})}\n\n"
+            result_row = {
+                "test_smell": correct_smell,
+                "correct_answer": correct_letter,
+                model_name: response
+            }
+            append_row_to_csv(OUTPUT_CSV_FILE, result_row, csv_headers)
 
-        append_row_to_csv(OUTPUT_CSV_FILE, result_row, csv_headers)
+            options_dict = {"A": options[0], "B": options[1], "C": options[2], "D": options[3], "E": options[4]}
+            yield f"data: {json.dumps({'type': 'result', 'test_index': idx + 1, 'test_smell': correct_smell, 'model_name': model_name, 'answer': response, 'correct_answer': correct_letter, 'options': options_dict})}\n\n"
 
     yield f"data: {json.dumps({'type': 'complete', 'message': 'Processing complete. Results saved to database and CSV.'})}\n\n"
 
@@ -107,9 +128,8 @@ async def run_tests_stream(models: str = Query(None, description="Comma-separate
 @router.post("/stop-tests")
 async def stop_tests():
     """Signal the running test loop to stop after the current batch."""
-    global _cancel_event
-    if _cancel_event:
-        _cancel_event.set()
+    global _should_cancel
+    _should_cancel = True
     return {"message": "Cancellation requested."}
 
 

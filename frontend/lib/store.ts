@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { Provider, LLMModel, ApiType, ProcessResult, ProcessError, ProcessStatus } from './types'
+import type { Provider, LLMModel, ApiType, ProcessResult, ProcessError, ProcessStatus, OpenProcessResult } from './types'
 
 /**
  * Generates a backend model ID from provider name and model name.
@@ -21,8 +21,14 @@ interface AppState {
   /** Flat list of backendIds that the user has toggled ON — persisted independently */
   selectedBackendIds: string[]
 
+  // Open mode state
+  openResults: OpenProcessResult[]
+  openStatus: ProcessStatus
+  openProgress: number
+
   fetchPreviousResults: () => Promise<void>
   fetchSavedProviders: () => Promise<void>
+  fetchPreviousOpenResults: () => Promise<void>
   addProvider: (provider: { name: string; apiKey: string; apiType: ApiType; baseUrl?: string }) => Promise<void>
   removeProviderKey: (providerName: string) => Promise<void>
   updateProviderKey: (providerName: string, newApiKey: string) => Promise<void>
@@ -36,6 +42,11 @@ interface AppState {
   addResult: (result: ProcessResult) => void
   addError: (error: ProcessError) => void
   resetResults: () => void
+  // Open mode actions
+  setOpenStatus: (status: ProcessStatus) => void
+  setOpenProgress: (progress: number) => void
+  addOpenResult: (result: OpenProcessResult) => void
+  resetOpenResults: () => void
   getEnabledModels: () => { provider: Provider; model: LLMModel }[]
 }
 
@@ -48,6 +59,9 @@ export const useAppStore = create<AppState>()(
       status: 'idle',
       progress: 0,
       selectedBackendIds: [],
+      openResults: [],
+      openStatus: 'idle',
+      openProgress: 0,
 
       fetchPreviousResults: async () => {
         try {
@@ -327,6 +341,53 @@ export const useAppStore = create<AppState>()(
       addResult: (result) => set((state) => ({ results: [...state.results, result] })),
       addError: (error) => set((state) => ({ errors: [...state.errors, error] })),
       resetResults: () => set({ results: [], errors: [], progress: 0, status: 'idle' }),
+
+      // Open mode actions
+      setOpenStatus: (openStatus) => set({ openStatus }),
+      setOpenProgress: (openProgress) => set({ openProgress }),
+      addOpenResult: (result) => set((state) => ({ openResults: [...state.openResults, result] })),
+      resetOpenResults: () => set({ openResults: [], openProgress: 0, openStatus: 'idle' }),
+
+      fetchPreviousOpenResults: async () => {
+        try {
+          const response = await fetch('http://localhost:8001/api/open-results')
+          if (response.ok) {
+            const history: any[] = await response.json()
+            if (history.length > 0) {
+              const providers = get().providers
+              const mappedHistory: OpenProcessResult[] = history.map(item => {
+                let providerName = 'Unknown'
+                let modelName = item.modelName
+                const raw = item.modelName
+                for (const p of providers) {
+                  const prefix = p.name.toLowerCase() + '_'
+                  if (raw.startsWith(prefix)) {
+                    providerName = p.name
+                    modelName = raw.slice(prefix.length)
+                    break
+                  }
+                }
+                return {
+                  id: crypto.randomUUID(),
+                  modelName,
+                  providerName,
+                  testType: item.testType,
+                  testIndex: item.testIndex,
+                  rawResponse: item.rawResponse,
+                  normalizedResponse: item.normalizedResponse,
+                  wasNormalized: item.wasNormalized,
+                  isCorrect: item.isCorrect,
+                  status: item.isCorrect ? 'success' : 'error',
+                  timestamp: new Date(),
+                }
+              })
+              set({ openResults: mappedHistory, openStatus: 'completed', openProgress: 100 })
+            }
+          }
+        } catch (error) {
+          console.error('Erro ao buscar histórico aberto:', error)
+        }
+      },
 
       getEnabledModels: () => {
         const state = get()

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import provider_routes, process_routes, result_routes
+from routes import provider_routes, process_routes, result_routes, open_process_routes, open_result_routes
 
 app = FastAPI()
 
@@ -21,6 +21,8 @@ app.add_middleware(
 app.include_router(provider_routes.router, prefix="/api")
 app.include_router(process_routes.router, prefix="/api")
 app.include_router(result_routes.router, prefix="/api")
+app.include_router(open_process_routes.router, prefix="/api")
+app.include_router(open_result_routes.router, prefix="/api")
 
 
 @app.get("/")

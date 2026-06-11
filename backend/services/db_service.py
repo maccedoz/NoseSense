@@ -138,3 +138,114 @@ def reset_database(db_filename: str, csv_filename: str):
         os.remove(db_filename)
     if os.path.exists(csv_filename):
         os.remove(csv_filename)
+
+
+# ─────────────────────────────────────────────
+# Modo Aberto (prompt sem alternativas)
+# ─────────────────────────────────────────────
+
+def init_open_db_and_get_run(db_filename: str) -> int:
+    """Cria as tabelas do modo aberto (se não existirem) e retorna um novo run_id."""
+    os.makedirs(os.path.dirname(db_filename), exist_ok=True)
+    conn = None
+    try:
+        conn = sqlite3.connect(db_filename)
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS test_runs (
+                run_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS open_evaluations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                run_id INTEGER,
+                test_index INTEGER,
+                test_smell TEXT,
+                model_name TEXT,
+                raw_response TEXT,
+                normalized_response TEXT,
+                was_normalized BOOLEAN,
+                is_correct BOOLEAN,
+                FOREIGN KEY(run_id) REFERENCES test_runs(run_id)
+            )
+        ''')
+        cursor.execute('INSERT INTO test_runs DEFAULT VALUES')
+        conn.commit()
+        return cursor.lastrowid
+    except Exception as e:
+        print(f"\nError initializing open SQLite: {e}")
+        return -1
+    finally:
+        if conn:
+            conn.close()
+
+
+def append_open_result_to_sqlite(
+    db_filename: str,
+    run_id: int,
+    test_index: int,
+    test_smell: str,
+    model_name: str,
+    raw_response: str,
+    normalized_response: str,
+    was_normalized: bool,
+):
+    """Insere um resultado do modo aberto no banco."""
+    if run_id == -1:
+        return
+    conn = None
+    try:
+        conn = sqlite3.connect(db_filename)
+        cursor = conn.cursor()
+        is_correct = (normalized_response == test_smell)
+        cursor.execute('''
+            INSERT INTO open_evaluations
+            (run_id, test_index, test_smell, model_name, raw_response, normalized_response, was_normalized, is_correct)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (run_id, test_index, test_smell, model_name, raw_response, normalized_response, was_normalized, is_correct))
+        conn.commit()
+        return cursor.lastrowid
+    except Exception as e:
+        print(f"\n Error inserting open result into SQLite: {e}")
+        return None
+    finally:
+        if conn:
+            conn.close()
+
+
+def get_all_open_results_sqlite(db_filename: str) -> list:
+    """Retorna todos os resultados da tabela open_evaluations."""
+    conn = None
+    results = []
+    try:
+        conn = sqlite3.connect(db_filename)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT test_index, test_smell, model_name,
+                   raw_response, normalized_response, was_normalized, is_correct
+            FROM open_evaluations
+        ''')
+        rows = cursor.fetchall()
+        for row in rows:
+            results.append({
+                "testIndex": row["test_index"],
+                "testType": row["test_smell"],
+                "providerName": "Automatic",
+                "modelName": row["model_name"],
+                "rawResponse": row["raw_response"],
+                "normalizedResponse": row["normalized_response"],
+                "wasNormalized": bool(row["was_normalized"]),
+                "isCorrect": bool(row["is_correct"]),
+                "status": "success" if bool(row["is_correct"]) else "error",
+            })
+    except sqlite3.OperationalError:
+        pass
+    except Exception as e:
+        print(f"\n Error reading open results: {e}")
+    finally:
+        if conn:
+            conn.close()
+    return results

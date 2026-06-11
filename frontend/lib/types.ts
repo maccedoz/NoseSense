@@ -72,3 +72,17 @@ export interface ProcessError {
 }
 
 export type ProcessStatus = 'idle' | 'running' | 'completed' | 'error'
+
+export interface OpenProcessResult {
+  id: string
+  modelName: string
+  providerName: string
+  testType: string
+  testIndex?: number
+  rawResponse: string
+  normalizedResponse: string
+  wasNormalized: boolean
+  isCorrect: boolean
+  status: 'success' | 'error'
+  timestamp: Date
+}

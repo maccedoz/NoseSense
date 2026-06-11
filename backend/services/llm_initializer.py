@@ -63,9 +63,7 @@ def initialize_models() -> dict:
                     models[backend_id] = ChatOpenAI(**kwargs)
             except Exception as e:
                 print(f"Error initializing model {backend_id}: {e}")
-
-            
-            for m in models:
-                print(f"Model {m} initialized successfully\n")
+            else:
+                print(f"Model {backend_id} initialized successfully")
 
     return models

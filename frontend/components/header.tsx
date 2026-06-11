@@ -1,15 +1,19 @@
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, FlaskConical, ListChecks } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export function Header() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [spinning, setSpinning] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     setMounted(true)
@@ -22,6 +26,8 @@ export function Header() {
     setTheme(theme === 'dark' ? 'light' : 'dark')
     setTimeout(() => setSpinning(false), 500)
   }
+
+  const isOpen = pathname === '/open'
 
   return (
     <header className="glass border-b border-border/50 sticky top-0 z-50">
@@ -39,7 +45,42 @@ export function Header() {
               <h1 className="text-lg font-bold text-foreground tracking-tight">NoseSense</h1>
             </div>
           </div>
+
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center gap-1 ml-4 p-1 rounded-lg bg-secondary/50 border border-border/50">
+            <Link href="/" id="nav-alternatives">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "gap-2 text-xs font-medium transition-all duration-200 rounded-md",
+                  !isOpen
+                    ? "bg-card shadow-sm text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <ListChecks className="w-3.5 h-3.5" />
+                Multiple Choice
+              </Button>
+            </Link>
+            <Link href="/open" id="nav-open">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "gap-2 text-xs font-medium transition-all duration-200 rounded-md",
+                  isOpen
+                    ? "bg-card shadow-sm text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <FlaskConical className="w-3.5 h-3.5" />
+                Open Prompt
+              </Button>
+            </Link>
+          </nav>
         </div>
+
         <div className="flex items-center gap-4">
           <span className="text-xs text-muted-foreground px-2.5 py-1 rounded-full bg-secondary/80 border border-border/50 font-medium">
             v0.1.0
