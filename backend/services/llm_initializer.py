@@ -115,6 +115,12 @@ def initialize_models() -> dict:
                         "streaming": True,
                         "max_tokens": 4096,
                     }
+                    if "minimax-m3" in model_name.lower():
+                        kwargs["model_kwargs"] = {
+                            "reasoning": {
+                                "enabled": True
+                            }
+                        }
                     if base_url:
                         kwargs["base_url"] = base_url
                     models[backend_id] = CustomChatOpenAI(**kwargs)
