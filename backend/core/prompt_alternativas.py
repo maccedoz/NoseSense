@@ -1,5 +1,3 @@
-import random
-
 PROMPT_TEMPLATE = """
 
 Context: "Test smells" are defined as antipatterns or "bad programming practices" in unit test code, indicating potential design problems in the test's source code. Although these tests are not exactly bugs that break compilation or cause the test to fail, they indicate deeper design issues, including readability, comprehensibility, and maintainability.

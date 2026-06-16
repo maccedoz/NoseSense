@@ -106,7 +106,7 @@ All configuration is done through the frontend UI, no need to edit files manuall
 4. **Edit API Key**: Click the pencil icon on any provider to update its API key.
 5. **Run Tests**: Click "Run Process" to execute tests across all selected models simultaneously.
 
-The configuration is stored in `backend/dados.json` with the following format:
+The configuration is stored in `backend/data/models/models.json` with the following format:
 
 ```json
 {
@@ -135,13 +135,15 @@ The configuration is stored in `backend/dados.json` with the following format:
 NoseSense/
 ├── backend/                  # Asynchronous Python Server
 │   ├── main.py               # Entry point (FastAPI / SSE Routes)
-│   ├── controllers/          # Business logic controllers
+│   ├── core/                 # Prompt templates and test smell type definitions
 │   ├── routes/               # Separated API routes
 │   ├── services/             # LLMs, Prompts, Database and CSV integration logic
 │   ├── schemas/              # Pydantic validation schemas
-│   ├── data/                 # Local databases or test datasets
-│   ├── requirements.txt      # Python dependencies
-│   └── dados.json            # (Auto-generated) Provider configs and API keys
+│   ├── data/                 # Local databases, test datasets, and provider config
+│   │   ├── models/           # Provider/model configuration (models.json)
+│   │   ├── test_smell_docs/  # Test smell code samples (.txt files)
+│   │   └── output/           # Generated results (results.db, results.csv)
+│   └── requirements.txt      # Python dependencies
 └── frontend/                 # React.js Interface
     ├── app/                  # Routes and pages (Next.js App Router)
     ├── components/           # Modular UI components (shadcn, etc.)

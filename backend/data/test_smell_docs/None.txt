@@ -1,0 +1,1573 @@
+TESTE 1
+PROJETO: gson
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/gson/gson/src/test/java/com/google/gson/JsonStreamParserTest.java
+LINHAS: 71-77
+```java
+@Test
+  public void testCallingNextBeyondAvailableInput() {
+    JsonElement unused1 = parser.next();
+    JsonElement unused2 = parser.next();
+    // Parser should not go beyond available input
+    assertThrows(NoSuchElementException.class, parser::next);
+  }
+```
+
+TESTE 2
+PROJETO: aries-rsa
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/aries-rsa/provider/tcp/src/test/java/org/apache/aries/rsa/provider/tcp/TcpProviderIntentTest.java
+LINHAS: 63-70
+```java
+@Test
+    public void unknownIntent() {
+        Map<String, Object> props = new HashMap<>();
+        EndpointHelper.addObjectClass(props, exportedInterfaces);
+        props.put(RemoteConstants.SERVICE_EXPORTED_INTENTS, "unknown");
+        Endpoint ep = provider.exportService(myService, bc, props, exportedInterfaces);
+        assertThat("Service should not be exported as intent is not supported", ep, nullValue());
+    }
+```
+
+TESTE 3
+PROJETO: elasticsearch
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/elasticsearch/x-pack/plugin/ent-search/src/test/java/org/elasticsearch/xpack/application/analytics/AnalyticsTemplateRegistryTests.java
+LINHAS: 151-169
+```java
+public void testThatVersionedOldComponentTemplatesAreUpgraded() throws Exception {
+        DiscoveryNode node = DiscoveryNodeUtils.create("node");
+        DiscoveryNodes nodes = DiscoveryNodes.builder().localNodeId("node").masterNodeId("node").add(node).build();
+
+        ClusterChangedEvent event = createClusterChangedEvent(
+            Collections.emptyMap(),
+            Collections.singletonMap(
+                AnalyticsTemplateRegistry.EVENT_DATA_STREAM_SETTINGS_COMPONENT_NAME,
+                AnalyticsTemplateRegistry.REGISTRY_VERSION - 1
+            ),
+            Collections.singletonMap("behavioral_analytics-events-final_pipeline", AnalyticsTemplateRegistry.REGISTRY_VERSION),
+            Collections.emptyMap(),
+            nodes
+        );
+        AtomicInteger calledTimes = new AtomicInteger(0);
+        client.setVerifier((action, request, listener) -> verifyComponentTemplateInstalled(calledTimes, action, request, listener));
+        registry.clusterChanged(event);
+        assertBusy(() -> assertThat(calledTimes.get(), equalTo(registry.getComponentTemplateConfigs().size())));
+    }
+```
+
+TESTE 4
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/shardingsphere/infra/expr/type/interval/src/test/java/org/apache/shardingsphere/infra/expr/interval/IntervalInlineExpressionParserTest.java
+LINHAS: 36-41
+```java
+@Test
+    void assertEvaluateWithSimpleExpression() {
+        List<String> actual = getInlineExpressionParser("P=ds-0.t_order;SP=yyyyMMdd;DIA=1;DIU=Days;DL=20231202;DU=20231202").splitAndEvaluate();
+        List<String> expected = Collections.singletonList("ds-0.t_order20231202");
+        assertThat(actual, is(expected));
+      }
+```
+
+TESTE 5
+PROJETO: drill
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/drill/exec/java-exec/src/test/java/org/apache/drill/exec/physical/resultSet/impl/TestResultSetLoaderEmptyProject.java
+LINHAS: 105-122
+```java
+@Test
+  public void testDisjointSchema() {
+    List<SchemaPath> selection = Lists.newArrayList(
+        SchemaPath.getSimplePath("a"),
+        SchemaPath.getSimplePath("b"));
+    TupleMetadata schema = new SchemaBuilder()
+        .add("c", MinorType.INT)
+        .add("d", MinorType.INT)
+        .buildSchema();
+    ResultSetOptions options = new ResultSetOptionBuilder()
+        .projection(Projections.parse(selection))
+        .readerSchema(schema)
+        .build();
+    ResultSetLoader rsLoader = new ResultSetLoaderImpl(fixture.allocator(), options);
+
+    assertTrue(rsLoader.isProjectionEmpty());
+    rsLoader.close();
+  }
+```
+
+TESTE 6
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/inlong/inlong-sort/sort-formats/format-row/format-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvUtilsTest.java
+LINHAS: 180-186
+```java
+@Test
+    public void testSplitNestedValue() {
+        Map<String, String> kvMap = splitKv("f1=a=a&f2=b&f3=c", '&', '=',
+                '\\', '\"');
+        Assert.assertEquals("a=a", kvMap.get("f1"));
+
+    }
+```
+
+TESTE 7
+PROJETO: bookkeeper
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/bookkeeper/stream/storage/impl/src/test/java/org/apache/bookkeeper/stream/storage/impl/cluster/ZkClusterControllerLeaderSelectorTest.java
+LINHAS: 72-75
+```java
+@Test(expected = NullPointerException.class)
+    public void testStartBeforeInitialize() {
+        selector.start();
+    }
+```
+
+TESTE 8
+PROJETO: datasketches-pig
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/datasketches-pig/src/test/java/org/apache/datasketches/pig/quantiles/GetQuantilesFromStringsSketchTest.java
+LINHAS: 45-51
+```java
+@Test
+  public void emptySketch() throws Exception {
+    EvalFunc<Tuple> func = new GetQuantilesFromStringsSketch();
+    ItemsSketch<String> sketch = ItemsSketch.getInstance(COMPARATOR);
+    Tuple resultTuple = func.exec(TUPLE_FACTORY.newTuple(Arrays.asList(new DataByteArray(sketch.toByteArray(SER_DE)), 0.5)));
+    Assert.assertNull(resultTuple);
+  }
+```
+
+TESTE 9
+PROJETO: servicemix3
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/servicemix3/core/servicemix-core/src/test/java/org/apache/servicemix/client/ServiceMixClientTest.java
+LINHAS: 112-115
+```java
+public void testRequestUsingJbiAPIsByServiceName() throws Exception {
+        QName service = new QName("http://servicemix.org/cheese", "myService");
+        assertRequestUsingJBIAPIs(service);
+    }
+```
+
+TESTE 10
+PROJETO: freemarker
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/freemarker/freemarker-core/src/test/java/freemarker/ext/beans/DefaultMemberAccessPolicyTest.java
+LINHAS: 39-43
+```java
+@Test
+    public void testWhitelistRuleWithNoMembers() throws NoSuchMethodException {
+        ClassMemberAccessPolicy classPolicy = POLICY.forClass(ProtectionDomain.class);
+        assertFalse(classPolicy.isMethodExposed(ProtectionDomain.class.getMethod("getClassLoader")));
+    }
+```
+
+TESTE 11
+PROJETO: spring-boot
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-boot/module/spring-boot-actuator-autoconfigure/src/test/java/org/springframework/boot/actuate/autoconfigure/info/InfoContributorAutoConfigurationTests.java
+LINHAS: 59-63
+```java
+@Test
+	void envContributor() {
+		this.contextRunner.withPropertyValues("management.info.env.enabled=true")
+			.run((context) -> assertThat(context).hasSingleBean(EnvironmentInfoContributor.class));
+	}
+```
+
+TESTE 12
+PROJETO: accumulo-access
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/accumulo-access/src/it/antlr4-example/src/test/java/org/apache/accumulo/access/grammar/antlr/Antlr4Tests.java
+LINHAS: 121-127
+```java
+@Test
+  public void testSimpleEvaluation() throws Exception {
+    String accessExpression = "(one&two)|(foo&bar)";
+    Authorizations auths = Authorizations.of(Set.of("four", "three", "one", "two"));
+    AccessExpressionAntlrEvaluator eval = new AccessExpressionAntlrEvaluator(List.of(auths));
+    assertTrue(eval.canAccess(accessExpression));
+  }
+```
+
+TESTE 13
+PROJETO: nifi
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/nifi/nifi-extension-bundles/nifi-aws-bundle/nifi-aws-processors/src/test/java/org/apache/nifi/processors/aws/kinesis/stream/record/TestAbstractKinesisRecordProcessor.java
+LINHAS: 156-169
+```java
+@Test
+    public void testShutdownWithInvalidStateFailure() throws InvalidStateException, ShutdownException {
+        final ShutdownRequestedInput shutdownInput = ShutdownRequestedInput.builder()
+                .checkpointer(checkpointer)
+                .build();
+
+        doThrow(new InvalidStateException("invalid state")).when(checkpointer).checkpoint();
+
+        fixture.shutdownRequested(shutdownInput);
+
+        verify(checkpointer, times(1)).checkpoint();
+
+        assertFalse(runner.getLogger().getErrorMessages().isEmpty());
+    }
+```
+
+TESTE 14
+PROJETO: spring-security
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-security/messaging/src/test/java/org/springframework/security/messaging/access/intercept/DefaultMessageSecurityMetadataSourceTests.java
+LINHAS: 69-72
+```java
+@Test
+	public void getAttributesEmpty() {
+		assertThat(this.source.getAttributes(this.message)).isEmpty();
+	}
+```
+
+TESTE 15
+PROJETO: freemarker-generator
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/freemarker-generator/freemarker-generator-cli/src/test/java/org/apache/freemarker/generator/cli/config/TemplateDirectorySupplierTest.java
+LINHAS: 38-43
+```java
+@Test
+    public void shouldSkippedNonExistingTemplateDirectorie() throws IOException {
+        final List<File> directories = templateDirectories("does-not-exist");
+
+        assertEquals(nrOfDefaultTemplateDirectories, directories.size());
+    }
+```
+
+TESTE 16
+PROJETO: hbase
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/hbase/hbase-client/src/test/java/org/apache/hadoop/hbase/quotas/TestQuotaGlobalsSettingsBypass.java
+LINHAS: 40-45
+```java
+@Test
+  public void testMerge() throws IOException {
+    QuotaGlobalsSettingsBypass orig = new QuotaGlobalsSettingsBypass("joe", null, null, null, true);
+    assertFalse(
+      orig.merge(new QuotaGlobalsSettingsBypass("joe", null, null, null, false)).getBypass());
+  }
+```
+
+TESTE 17
+PROJETO: directory-ldap-api
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/directory-ldap-api/ldap/model/src/test/java/org/apache/directory/api/ldap/model/ldif/LdifUtilsTest.java
+LINHAS: 65-69
+```java
+@Test
+    public void testIsLdifNullString()
+    {
+        assertTrue( LdifUtils.isLDIFSafe( null ) );
+    }
+```
+
+TESTE 18
+PROJETO: conscrypt
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/conscrypt/platform/src/test/java/org/conscrypt/TlsDeprecationTest.java
+LINHAS: 41-50
+```java
+@Test
+    @TargetSdkVersion(36)
+    public void test_SSLSocket_SSLv3Unsupported_36() throws Exception {
+        assertFalse(TestUtils.isTlsV1Filtered());
+        TestSSLContext context = TestSSLContext.create();
+        final SSLSocket client =
+                (SSLSocket) context.clientContext.getSocketFactory().createSocket();
+        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSLv3"}));
+        assertThrows(IllegalArgumentException.class, () -> client.setEnabledProtocols(new String[] {"SSL"}));
+    }
+```
+
+TESTE 19
+PROJETO: ambari
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/ambari/ambari-server/src/test/java/org/apache/ambari/server/api/handlers/DeleteHandlerTest.java
+LINHAS: 195-222
+```java
+@Test
+  public void testHandleRequest__AuthorizationFailure() throws Exception {
+    Request request = createMock(Request.class);
+    RequestBody body = createMock(RequestBody.class);
+    ResourceInstance resource = createMock(ResourceInstance.class);
+    PersistenceManager pm = createStrictMock(PersistenceManager.class);
+    Query query = createMock(Query.class);
+    Renderer renderer = new DefaultRenderer();
+
+    // expectations
+    expect(request.getResource()).andReturn(resource).anyTimes();
+    expect(request.getBody()).andReturn(body).atLeastOnce();
+    // test delete with no user predicate
+    expect(request.getQueryPredicate()).andReturn(null).atLeastOnce();
+    expect(resource.getQuery()).andReturn(query).atLeastOnce();
+    expect(request.getRenderer()).andReturn(renderer);
+    query.setRenderer(renderer);
+
+    expect(pm.delete(resource, body)).andThrow(new AuthorizationException());
+
+    replay(request, body, resource, pm, query);
+
+    Result result = new TestDeleteHandler(pm).handleRequest(request);
+
+    assertEquals(ResultStatus.STATUS.FORBIDDEN, result.getStatus().getStatus());
+
+    verify(request, body, resource, pm, query);
+  }
+```
+
+TESTE 20
+PROJETO: spring-data-jpa
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-data-jpa/spring-data-jpa/src/test/java/org/springframework/data/jpa/repository/config/JpaRepositoryRegistrationAotProcessorUnitTests.java
+LINHAS: 69-84
+```java
+@Test // GH-2628
+	void aotProcessorMustNotRegisterDomainTypes() {
+
+		GenerationContext ctx = createGenerationContext();
+		GenericApplicationContext context = new GenericApplicationContext();
+
+		new JpaRepositoryConfigExtension.JpaRepositoryRegistrationAotProcessor()
+				.contribute(new DummyAotRepositoryContext(context) {
+					@Override
+					public Set<Class<?>> getResolvedTypes() {
+						return Collections.singleton(Person.class);
+					}
+				}, ctx);
+
+		assertThat(RuntimeHintsPredicates.reflection().onType(Person.class)).rejects(ctx.getRuntimeHints());
+	}
+```
+
+TESTE 21
+PROJETO: spring-retry
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-retry/src/test/java/org/springframework/retry/policy/ExceptionClassifierRetryPolicyTests.java
+LINHAS: 35-39
+```java
+@Test
+	public void testDefaultPolicies() {
+		RetryContext context = policy.open(null);
+		assertThat(context).isNotNull();
+	}
+```
+
+TESTE 22
+PROJETO: paimon
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/paimon/paimon-flink/paimon-flink-common/src/test/java/org/apache/paimon/flink/utils/InternalRowSerializerTest.java
+LINHAS: 63-70
+```java
+@Test
+    public void testEqual() {
+        InternalRowTypeSerializer internalRowTypeSerializer =
+                new InternalRowTypeSerializer(rowType.getFieldTypes().toArray(new DataType[0]));
+
+        Assertions.assertThat(internalRowTypeSerializer)
+                .isEqualTo(internalRowTypeSerializer.duplicate());
+    }
+```
+
+TESTE 23
+PROJETO: jena
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/jena/jena-geosparql/src/test/java/org/apache/jena/geosparql/geof/nontopological/filter_functions/ConvexHullFFTest.java
+LINHAS: 57-65
+```java
+@Test
+    public void testExec() {
+
+        NodeValue v = NodeValue.makeNode("<http://www.opengis.net/def/crs/EPSG/0/27700> LINESTRING(0 0, 10 10, 0 5)", WKTDatatype.INSTANCE);
+        ConvexHullFF instance = new ConvexHullFF();
+        NodeValue expResult = NodeValue.makeNode("<http://www.opengis.net/def/crs/EPSG/0/27700> POLYGON((0 0, 0 5, 10 10, 0 0))", WKTDatatype.INSTANCE);
+        NodeValue result = instance.exec(v);
+        assertEquals(expResult, result);
+    }
+```
+
+TESTE 24
+PROJETO: elasticsearch-java
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/elasticsearch-java/java-client/src/test/java/co/elastic/clients/transport/RequestOptionsTest.java
+LINHAS: 141-153
+```java
+@Test
+    public void testQueryParameter() throws IOException {
+        final ElasticsearchTransport trsp = client._transport();
+
+        final ElasticsearchClient client = new ElasticsearchClient(trsp)
+            .withTransportOptions(trsp.options().with(
+                    b -> b.setParameter("format", "pretty")
+                )
+            );
+
+        Properties props = getProps(client);
+        assertEquals("pretty", props.getProperty("param-format"));
+    }
+```
+
+TESTE 25
+PROJETO: hadoop
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/hadoop/hadoop-common-project/hadoop-registry/src/test/java/org/apache/hadoop/registry/client/impl/TestCuratorService.java
+LINHAS: 80-85
+```java
+@Test
+  public void testLsNotFound() throws Throwable {
+    assertThrows(PathNotFoundException.class, () -> {
+      List<String> ls = curatorService.zkList(MISSING);
+    });
+  }
+```
+
+TESTE 26
+PROJETO: samza
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/samza/samza-core/src/test/java/org/apache/samza/runtime/TestRemoteApplicationRunner.java
+LINHAS: 72-77
+```java
+@Test
+  public void testWaitForFinishReturnsBeforeTimeout() {
+    doReturn(ApplicationStatus.SuccessfulFinish).when(runner).getApplicationStatus(any(JobConfig.class));
+    boolean finished = runner.waitForFinish(Duration.ofMillis(5000));
+    assertTrue("Application did not finish before the timeout.", finished);
+  }
+```
+
+TESTE 27
+PROJETO: tinkerpop
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/tinkerpop/gremlin-core/src/test/java/org/apache/tinkerpop/gremlin/process/traversal/strategy/decoration/SubgraphStrategyTest.java
+LINHAS: 96-104
+```java
+@Test
+        public void shouldSubgraph() {
+            final String repr = traversal.getGremlinLang().getGremlin();
+            final SubgraphStrategy strategy = SubgraphStrategy.build().edges(__.has("edge")).vertices(__.has("vertex")).create();
+            strategy.apply(traversal);
+
+            final List<TraversalFilterStep> steps = TraversalHelper.getStepsOfClass(TraversalFilterStep.class, traversal);
+            assertEquals(repr, expectedInsertedSteps, steps.size());
+        }
+```
+
+TESTE 28
+PROJETO: binnavi
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/binnavi/src/test/java/com/google/security/zynamics/reil/translators/x86/GreaterEqualGeneratorTest.java
+LINHAS: 52-62
+```java
+@Test
+  public void testFailCondition1() throws InternalTranslationException, InterpreterException {
+    interpreter.setRegister("SF", BigInteger.ONE, OperandSize.BYTE, ReilRegisterStatus.DEFINED);
+    interpreter.setRegister("OF", BigInteger.ZERO, OperandSize.BYTE, ReilRegisterStatus.DEFINED);
+
+    final Pair<OperandSize, String> result = generator.generate(environment, 0x100, instructions);
+
+    interpreter.interpret(TestHelpers.createMapping(instructions), BigInteger.valueOf(1));
+
+    assertEquals(BigInteger.ZERO, interpreter.getVariableValue(result.second()));
+  }
+```
+
+TESTE 29
+PROJETO: hop
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/hop/engine/src/test/java/org/apache/hop/core/compress/zip/ZipCompressionProviderTest.java
+LINHAS: 56-60
+```java
+@Test
+  public void testCtor() {
+    ZipCompressionProvider ncp = new ZipCompressionProvider();
+    assertNotNull(ncp);
+  }
+```
+
+TESTE 30
+PROJETO: commons-math
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/commons-math/commons-math-legacy/src/test/java/org/apache/commons/math4/legacy/filter/KalmanFilterTest.java
+LINHAS: 41-63
+```java
+@Test(expected=MatrixDimensionMismatchException.class)
+    public void testTransitionMeasurementMatrixMismatch() {
+
+        // A and H matrix do not match in dimensions
+
+        // A = [ 1 ]
+        RealMatrix A = new Array2DRowRealMatrix(new double[] { 1d });
+        // no control input
+        RealMatrix B = null;
+        // H = [ 1 1 ]
+        RealMatrix H = new Array2DRowRealMatrix(new double[] { 1d, 1d });
+        // Q = [ 0 ]
+        RealMatrix Q = new Array2DRowRealMatrix(new double[] { 0 });
+        // R = [ 0 ]
+        RealMatrix R = new Array2DRowRealMatrix(new double[] { 0 });
+
+        ProcessModel pm
+            = new DefaultProcessModel(A, B, Q,
+                                      new ArrayRealVector(new double[] { 0 }), null);
+        MeasurementModel mm = new DefaultMeasurementModel(H, R);
+        new KalmanFilter(pm, mm);
+        Assert.fail("transition and measurement matrix should not be compatible");
+    }
+```
+
+TESTE 31
+PROJETO: beam
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/beam/runners/spark/src/test/java/org/apache/beam/runners/spark/SparkRunnerRegistrarTest.java
+LINHAS: 35-40
+```java
+@Test
+  public void testOptions() {
+    assertEquals(
+        ImmutableList.of(SparkPipelineOptions.class, SparkPortableStreamingPipelineOptions.class),
+        new SparkRunnerRegistrar.Options().getPipelineOptions());
+  }
+```
+
+TESTE 32
+PROJETO: spring-webflow
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-webflow/spring-webflow/src/test/java/org/springframework/webflow/mvc/servlet/FlowControllerTests.java
+LINHAS: 65-79
+```java
+@Test
+	public void testLaunchFlowRequest() throws Exception {
+		request.setContextPath("/springtravel");
+		request.setServletPath("/app");
+		request.setPathInfo("/foo");
+		request.setRequestURI("/springtravel/app/foo");
+		request.setMethod("GET");
+		executor.launchExecution("foo", null, context);
+		FlowExecutionResult result = FlowExecutionResult.createPausedResult("foo", "12345");
+		EasyMock.expectLastCall().andReturn(result);
+		EasyMock.replay(executor);
+		ModelAndView mv = controller.handleRequest(request, response);
+		assertNull(mv);
+		EasyMock.verify(executor);
+	}
+```
+
+TESTE 33
+PROJETO: zeppelin
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/zeppelin/zeppelin-server/src/test/java/org/apache/zeppelin/socket/NotebookServerTest.java
+LINHAS: 121-126
+```java
+@Test
+  void checkOrigin() throws UnknownHostException {
+    String origin = "http://" + InetAddress.getLocalHost().getHostName() + ":8080";
+    assertTrue(notebookServer.checkOrigin(origin),
+      "Origin " + origin + " is not allowed. Please check your hostname.");
+  }
+```
+
+TESTE 34
+PROJETO: cassandra-analytics
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/cassandra-analytics/analytics-sidecar-client/src/test/java/org.apache.cassandra.sidecar.client/SidecarInstanceTest.java
+LINHAS: 37-44
+```java
+@ParameterizedTest
+    @ValueSource(ints = { -1, 0, 65536, 100_000 })
+    void failsWithInvalidPortNumber(int port)
+    {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(() -> newInstance(null, port))
+        .withMessageContaining("Invalid port number for the Sidecar service: " + port);
+    }
+```
+
+TESTE 35
+PROJETO: paimon-webui
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/paimon-webui/paimon-web-api/src/test/java/org/apache/paimon/web/api/catalog/PaimonServiceTest.java
+LINHAS: 70-74
+```java
+@Test
+    public void testDatabaseExists() {
+        boolean exists = service.databaseExists(db);
+        assertThat(exists).isTrue();
+    }
+```
+
+TESTE 36
+PROJETO: openejb
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/openejb/openejb/examples/cdi-interceptors/src/test/java/org/superbiz/cdi/bookshow/interceptors/BookForAShowOldStyleInterceptorBindingTest.java
+LINHAS: 44-49
+```java
+public void testMethodShouldBeIntercepted() {
+        // action
+        bookForAShowBean.getMoviesList();
+        // verify
+        assertTrue(InterceptionOrderTracker.getMethodsInterceptedList().contains("getMoviesList"));
+    }
+```
+
+TESTE 37
+PROJETO: spring-loaded
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-loaded/springloaded/src/test/java/org/springsource/loaded/test/CodeGenerationTests.java
+LINHAS: 42-48
+```java
+@Test
+	public void simpleClass() {
+		byte[] bs = loadBytesForClass("codegen.Simple");
+		ReloadableType simpleClass = typeRegistry.addType("codegen.Simple", bs);
+		assertNotNull(simpleClass);
+		// just checking no crash for loading it!
+	}
+```
+
+TESTE 38
+PROJETO: maven-assembly-plugin
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/maven-assembly-plugin/src/test/java/org/apache/maven/plugins/assembly/utils/WindowsLineFeedInputStreamTest.java
+LINHAS: 30-33
+```java
+@Test
+    public void testSimpleString() throws Exception {
+        assertEquals("abc\r\n", roundtrip("abc"));
+    }
+```
+
+TESTE 39
+PROJETO: cloudstack
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/cloudstack/api/src/test/java/org/apache/cloudstack/api/command/user/network/CreateNetworkCmdTest.java
+LINHAS: 51-56
+```java
+@Test
+    public void testGetNetworkOfferingId() {
+        Long networkOfferingId = 1L;
+        ReflectionTestUtils.setField(cmd, "networkOfferingId", networkOfferingId);
+        Assert.assertEquals(cmd.getNetworkOfferingId(), networkOfferingId);
+    }
+```
+
+TESTE 40
+PROJETO: jmeter
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/jmeter/src/functions/src/test/java/org/apache/jmeter/functions/TestIsPropDefined.java
+LINHAS: 86-91
+```java
+@Test
+    public void testIsPropDefinedError() {
+        Assertions.assertThrows(
+                InvalidVariableException.class,
+                () -> isPropDefined.setParameters(params));
+    }
+```
+
+TESTE 41
+PROJETO: tsunami-security-scanner-plugins
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/tsunami-security-scanner-plugins/community/detectors/bigip_cve_2022_1388/src/test/java/com/google/tsunami/plugins/detectors/cves/cve20221388/Cve20221388VulnDetectorTest.java
+LINHAS: 102-121
+```java
+@Test
+  public void detect_whenNotVulnerable_returnsNoVulnerability() throws IOException {
+    mockWebResponse("Hello World");
+    ImmutableList<NetworkService> httpServices =
+        ImmutableList.of(
+            NetworkService.newBuilder()
+                .setNetworkEndpoint(
+                    forHostnameAndPort(mockWebServer.getHostName(), mockWebServer.getPort()))
+                .setTransportProtocol(TransportProtocol.TCP)
+                .setServiceName("http")
+                .build());
+    TargetInfo targetInfo =
+        TargetInfo.newBuilder()
+            .addNetworkEndpoints(forHostname(mockWebServer.getHostName()))
+            .build();
+
+    DetectionReportList detectionReports = detector.detect(targetInfo, httpServices);
+
+    assertThat(detectionReports.getDetectionReportsList()).isEmpty();
+  }
+```
+
+TESTE 42
+PROJETO: dubbo
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/dubbo/dubbo-cluster/src/test/java/org/apache/dubbo/rpc/cluster/support/FailbackClusterInvokerTest.java
+LINHAS: 137-145
+```java
+@Test
+    @Order(1)
+    public void testInvokeException() {
+        resetInvokerToException();
+        FailbackClusterInvoker<FailbackClusterInvokerTest> invoker = new FailbackClusterInvoker<>(dic);
+        invoker.invoke(invocation);
+        Assertions.assertNull(RpcContext.getServiceContext().getInvoker());
+        DubboAppender.clear();
+    }
+```
+
+TESTE 43
+PROJETO: hibernate-hql-parser
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/hibernate-hql-parser/lucene/src/test/java/org/hibernate/hql/lucene/test/internal/builder/ClassBasedLucenePropertyHelperTest.java
+LINHAS: 55-58
+```java
+@Test
+	public void shouldConvertIdProperty() {
+		assertThat( convertToPropertyType( IndexedEntity.class, "id", "42" ) ).isEqualTo( "42" );
+	}
+```
+
+TESTE 44
+PROJETO: commons-collections
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/commons-collections/src/test/java/org/apache/commons/collections4/CollectionUtilsTest.java
+LINHAS: 331-338
+```java
+@Test
+    @Deprecated
+    public void forAllDoFailure() {
+        final Closure<String> testClosure = ClosureUtils.invokerClosure("clear");
+        final Collection<String> col = new ArrayList<>();
+        col.add("x");
+        assertThrows(FunctorException.class, () -> CollectionUtils.forAllDo(col, testClosure));
+    }
+```
+
+TESTE 45
+PROJETO: datafu
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/datafu/datafu-pig/src/test/java/datafu/test/pig/hash/HashTests.java
+LINHAS: 44-63
+```java
+@Test
+  public void md5Test() throws Exception
+  {
+    PigTest test = createPigTestFromString(md5Test);
+    
+    writeLinesToFile("input", 
+                     "ladsljkasdglk",
+                     "lkadsljasgjskdjks",
+                     "aladlasdgjks",
+                     "has_lo_md5_1065433"
+                     );
+            
+    test.runScript();
+        
+    assertOutput(test, "data_out",
+                 "(d9a82575758bb4978949dc0659205cc6)",
+                 "(9ec37f02fae0d8d6a7f4453a62272f1f)",
+                 "(cb94139a8b9f3243e68a898ec6bd9b3d)",
+                 "(000008e5487b3abae7be88a1d4bad573)");
+  }
+```
+
+TESTE 46
+PROJETO: parquet-java
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/parquet-java/parquet-hadoop/src/test/java/org/apache/parquet/hadoop/TestZstandardCodec.java
+LINHAS: 101-108
+```java
+@Test
+  public void testZstdConfWithMr() throws Exception {
+    long fileSizeLowLevel = runMrWithConf(1);
+    // Clear the cache so that a new codec can be created with new configuration
+    CodecFactory.CODEC_BY_NAME.clear();
+    long fileSizeHighLevel = runMrWithConf(22);
+    Assert.assertTrue(fileSizeLowLevel > fileSizeHighLevel);
+  }
+```
+
+TESTE 47
+PROJETO: commons-graph
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/commons-graph/src/test/java/org/apache/commons/graph/scc/TarjanTestCase.java
+LINHAS: 62-88
+```java
+@Test
+    public void testSparse()
+    {
+        DirectedMutableGraph<BaseLabeledVertex, BaseLabeledWeightedEdge<Integer>> graph =
+            newDirectedMutableGraph( new AbstractGraphConnection<BaseLabeledVertex, BaseLabeledWeightedEdge<Integer>>()
+            {
+
+                @Override
+                public void connect()
+                {
+                    addVertex( new BaseLabeledVertex( "A" ) );
+                    addVertex( new BaseLabeledVertex( "B" ) );
+                    addVertex( new BaseLabeledVertex( "C" ) );
+                    addVertex( new BaseLabeledVertex( "D" ) );
+                    addVertex( new BaseLabeledVertex( "E" ) );
+                    addVertex( new BaseLabeledVertex( "F" ) );
+                }
+            } );
+
+        // expected strong components
+        final int expected = 6;
+
+        // actual strong components
+        Set<Set<BaseLabeledVertex>> actual = findStronglyConnectedComponent( graph ).applyingTarjan();
+
+        assertEquals( actual.size(), expected );
+    }
+```
+
+TESTE 48
+PROJETO: uima-uimaj
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/uima-uimaj/jcasgen-maven-plugin/src/test/java/org/apache/uima/tools/jcasgen/maven/JCasGenMojoTest.java
+LINHAS: 37-43
+```java
+@Test
+  public void testInvalidFeature() throws Exception {
+    assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+      this.test("invalidFeature");
+    }).withMessage(
+            "JCasGen: The feature name 'type', specified in Type 'type.span.Sentence' is reserved. Please choose another name.");
+  }
+```
+
+TESTE 49
+PROJETO: guacamole-client
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/guacamole-client/guacamole-ext/src/test/java/org/apache/guacamole/properties/TimeZoneGuacamolePropertyTest.java
+LINHAS: 252-255
+```java
+@Test
+    public void nullTzCheck() throws GuacamoleException {
+        assertNull(WHERE_IN_WORLD.parseValue(null));
+    }
+```
+
+TESTE 50
+PROJETO: shenyu
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/shenyu/shenyu-admin/src/test/java/org/apache/shenyu/admin/service/register/ShenyuClientRegisterDivideServiceImplTest.java
+LINHAS: 72-75
+```java
+@Test
+    public void testRpcType() {
+        assertEquals(RpcTypeEnum.HTTP.getName(), shenyuClientRegisterDivideService.rpcType());
+    }
+```
+
+TESTE 51
+PROJETO: gobblin
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/gobblin/gobblin-data-management/src/test/java/org/apache/gobblin/data/management/copy/CopySourcePrioritizationTest.java
+LINHAS: 52-68
+```java
+@Test
+  public void testNoPrioritization() throws Exception {
+    SourceState state = new SourceState();
+
+    state.setProp(ConfigurationKeys.SOURCE_FILEBASED_FS_URI, "file:///");
+    state.setProp(ConfigurationKeys.WRITER_FILE_SYSTEM_URI, "file:///");
+    state.setProp(ConfigurationKeys.DATA_PUBLISHER_FINAL_DIR, "/target/dir");
+    state.setProp(DatasetUtils.DATASET_PROFILE_CLASS_KEY,
+        MyFinder.class.getName());
+
+    CopySource source = new CopySource();
+
+    List<WorkUnit> workunits = source.getWorkunits(state);
+    workunits = JobLauncherUtils.flattenWorkUnits(workunits);
+
+    Assert.assertEquals(workunits.size(), MyFinder.DATASETS * MyDataset.FILE_SETS * MyFileSet.FILES);
+  }
+```
+
+TESTE 52
+PROJETO: spring-hateoas
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-hateoas/src/test/java/org/springframework/hateoas/mediatype/hal/HalJacksonModuleIntegrationTest.java
+LINHAS: 111-116
+```java
+@Test
+	void rendersSingleLinkAsObject() throws Exception {
+
+		$.assertSerializes(new RepresentationModel<>().add(Link.of("localhost")))
+				.into(SINGLE_LINK_REFERENCE);
+	}
+```
+
+TESTE 53
+PROJETO: olingo-odata2
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/olingo-odata2/odata2-annotation-processor/annotation-processor-core/src/test/java/org/apache/olingo/odata2/annotation/processor/core/util/AnnotationHelperTest.java
+LINHAS: 46-55
+```java
+@Test
+  public void keyMatchMapPositive() throws ODataException {
+    SimpleEntity firstInstance = new SimpleEntity(42l, "Another Name");
+    Map<String, Object> keyName2Value = new HashMap<String, Object>();
+    keyName2Value.put("Id", Long.valueOf(42));
+
+    boolean result = annotationHelper.keyMatch(firstInstance, keyName2Value);
+
+    Assert.assertTrue(result);
+  }
+```
+
+TESTE 54
+PROJETO: linkis
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/linkis/linkis-public-enhancements/linkis-instance-label-server/src/test/java/org/apache/linkis/instance/label/service/impl/DefaultInsLabelServiceTest.java
+LINHAS: 70-82
+```java
+@Test
+  public void testListAllInstanceWithLabel() throws Exception {
+    // TODO: Test goes here...
+    List<InstanceInfo> list = new ArrayList<>();
+    InstanceInfo instanceInfo = new InstanceInfo();
+    instanceInfo.setInstance("testInstance");
+    instanceInfo.setApplicationName("testApplicationName");
+    instanceInfo.setId(1);
+    list.add(instanceInfo);
+    Mockito.when(defaultInsLabelService.listAllInstanceWithLabel()).thenReturn(list);
+    List<InstanceInfo> list1 = defaultInsLabelService.listAllInstanceWithLabel();
+    assertTrue(list.equals(list1));
+  }
+```
+
+TESTE 55
+PROJETO: google-visualization-java
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/google-visualization-java/src/test/java/com/google/visualization/datasource/base/TextFormatTest.java
+LINHAS: 37-40
+```java
+public void testConstructor() {
+    textFormat = new TextFormat();
+    assertNotNull(textFormat);
+  }
+```
+
+TESTE 56
+PROJETO: sling-org-apache-sling-capabilities
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/sling-org-apache-sling-capabilities/src/test/java/org/apache/sling/capabilities/defaultsources/SlingServletsSourceTest.java
+LINHAS: 114-119
+```java
+@Test
+    public void testMaybeConvertToSingleValue() {
+        final Integer [] single = { 42 };
+        final Object result = SlingServletsSource.maybeConvertToSingleValue(single);
+        assertTrue(result instanceof Integer);
+    }
+```
+
+TESTE 57
+PROJETO: incubator-seata
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/incubator-seata/rm-datasource/src/test/java/org/apache/seata/rm/datasource/undo/sqlserver/SqlServerUndoDeleteExecutorTest.java
+LINHAS: 82-85
+```java
+@Test
+    public void getUndoRows() {
+        Assertions.assertEquals(executor.getUndoRows(), executor.getSqlUndoLog().getBeforeImage());
+    }
+```
+
+TESTE 58
+PROJETO: oodt
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/oodt/commons/src/test/java/org/apache/oodt/commons/util/XMLTest.java
+LINHAS: 45-48
+```java
+public void testDocumentCreation() {
+		Document doc = XML.createDocument();
+		assertTrue(doc != null);
+	}
+```
+
+TESTE 59
+PROJETO: cassandra-java-driver
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/cassandra-java-driver/query-builder/src/test/java/com/datastax/dse/driver/api/querybuilder/schema/AlterDseKeyspaceTest.java
+LINHAS: 39-46
+```java
+@Test
+  public void should_generate_alter_keyspace_with_graph_engine() {
+    assertThat(alterDseKeyspace("foo").withSimpleStrategy(3).withGraphEngine("Core"))
+        .hasCql(
+            "ALTER KEYSPACE foo "
+                + "WITH replication={'class':'SimpleStrategy','replication_factor':3} "
+                + "AND graph_engine='Core'");
+  }
+```
+
+TESTE 60
+PROJETO: tsunami-security-scanner
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/tsunami-security-scanner/main/src/test/java/com/google/tsunami/main/cli/ScanResultsArchiverTest.java
+LINHAS: 92-96
+```java
+@Test
+  public void optionsValidate_whenInvalidGcsUrl_throwsParameterException() {
+    options.gcsOutputFileUrl = "invalid_url";
+    assertThrows(ParameterException.class, options::validate);
+  }
+```
+
+TESTE 61
+PROJETO: fineract
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/fineract/fineract-provider/src/test/java/org/apache/fineract/infrastructure/event/external/service/ExternalEventConfigurationValidationServiceTest.java
+LINHAS: 134-156
+```java
+@Test
+    public void givenNoEventConfigurationWhenValidatedThenThrowException() throws Exception {
+        // given
+        List<FineractPlatformTenant> tenants = Arrays
+                .asList(new FineractPlatformTenant(1L, "default", "Default Tenant", "Europe/Budapest", null));
+
+        JdbcTemplate jdbcTemplate = Mockito.mock(JdbcTemplate.class);
+        when(tenantDetailsService.findAllTenants()).thenReturn(tenants);
+        when(jdbcTemplateFactory.create(any())).thenReturn(jdbcTemplate);
+        when(jdbcTemplate.queryForList(anyString(), eq(String.class))).thenReturn(new ArrayList<>());
+        List<String> sourcePackage = Arrays.asList("org.apache.fineract");
+        when(externalEventSourceService.getSourcePackages()).thenReturn(sourcePackage);
+        // when
+        ExternalEventConfigurationNotFoundException exceptionThrown = assertThrows(ExternalEventConfigurationNotFoundException.class,
+                () -> underTest.afterPropertiesSet());
+
+        // then
+        String expectedMessage = "No external events configured";
+        String actualMessage = exceptionThrown.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+```
+
+TESTE 62
+PROJETO: cascading2-protobufs
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/cascading2-protobufs/src/test/java/com/squareup/cascading2/function/DecodeByteStringTest.java
+LINHAS: 13-27
+```java
+@Test
+  public void testByteStringToUTF8() throws Exception {
+    List<Tuple> results = TestHelpers.exec(
+        new DecodeByteString("blah"),
+        new Fields("blah"),
+        new Tuple(ByteString.copyFromUtf8("1337")),
+        new Tuple(ByteString.copyFromUtf8("brian")),
+        new Tuple((ByteString)null));
+
+    assertEquals(Arrays.asList(
+        new Tuple("1337"),
+        new Tuple("brian"),
+        new Tuple((Object)null)),
+        results);
+  }
+```
+
+TESTE 63
+PROJETO: spring-data-cassandra
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-data-cassandra/spring-data-cassandra/src/test/java/org/springframework/data/cassandra/core/AsyncCassandraTemplateIntegrationTests.java
+LINHAS: 75-94
+```java
+@Test // DATACASS-343
+	void shouldSelectByQueryWithSorting() {
+
+		UserToken token1 = new UserToken();
+		token1.setUserId(Uuids.endOf(System.currentTimeMillis()));
+		token1.setToken(Uuids.startOf(System.currentTimeMillis()));
+		token1.setUserComment("foo");
+
+		UserToken token2 = new UserToken();
+		token2.setUserId(token1.getUserId());
+		token2.setToken(Uuids.endOf(System.currentTimeMillis() + 100));
+		token2.setUserComment("bar");
+
+		getUninterruptibly(template.insert(token1));
+		getUninterruptibly(template.insert(token2));
+
+		Query query = Query.query(where("userId").is(token1.getUserId())).sort(Sort.by("token"));
+
+		assertThat(getUninterruptibly(template.select(query, UserToken.class))).containsSequence(token1, token2);
+	}
+```
+
+TESTE 64
+PROJETO: flink-connector-elasticsearch
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/flink-connector-elasticsearch/flink-connector-elasticsearch-base/src/test/java/org/apache/flink/connector/elasticsearch/table/IndexGeneratorTest.java
+LINHAS: 316-327
+```java
+@Test
+    public void testUnknownField() {
+        String expectedExceptionMsg =
+                "Unknown field 'unknown_ts' in index pattern 'my-index-{unknown_ts|yyyy-MM-dd}',"
+                        + " please check the field name.";
+        assertThatThrownBy(
+                        () ->
+                                IndexGeneratorFactory.createIndexGenerator(
+                                        "my-index-{unknown_ts|yyyy-MM-dd}", fieldNames, dataTypes))
+                .isInstanceOf(TableException.class)
+                .hasMessage(expectedExceptionMsg);
+    }
+```
+
+TESTE 65
+PROJETO: rocketmq
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/rocketmq/tools/src/test/java/org/apache/rocketmq/tools/admin/DefaultMQAdminExtTest.java
+LINHAS: 356-360
+```java
+@Test
+    public void testExamineProducerConnectionInfo() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+        ProducerConnection producerConnection = defaultMQAdminExt.examineProducerConnectionInfo("default-producer-group", "unit-test");
+        assertThat(producerConnection.getConnectionSet().size()).isEqualTo(1);
+    }
+```
+
+TESTE 66
+PROJETO: gora
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/gora/gora-core/src/test/java/org/apache/gora/filter/TestFilterList.java
+LINHAS: 86-90
+```java
+@Test
+  public void testGetOperator() {
+    filterList = new FilterList<>(Operator.MUST_PASS_ALL, fList);
+    assertEquals(Operator.MUST_PASS_ALL, filterList.getOperator());
+  }
+```
+
+TESTE 67
+PROJETO: skywalking-java
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/skywalking-java/apm-sniffer/apm-sdk-plugin/elasticsearch-6.x-plugin/src/test/java/org/apache/skywalking/apm/plugin/elasticsearch/v6/interceptor/TransportActionNodeProxyExecuteMethodsInterceptorTest.java
+LINHAS: 166-171
+```java
+@Test
+    public void testGetRequest() throws Throwable {
+
+        AbstractTracingSpan getSpan = getSpan(getRequest);
+        assertGetSpan(getSpan, getRequest);
+    }
+```
+
+TESTE 68
+PROJETO: jsontoken
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/jsontoken/src/test/java/net/oauth/jsontoken/JsonTokenParserTest.java
+LINHAS: 42-49
+```java
+public void testVerify_unsupportedSignature() throws Exception {
+    JsonTokenParser parser = getJsonTokenParser();
+    JsonToken checkToken = naiveDeserialize(TOKEN_STRING_UNSUPPORTED_SIGNATURE_ALGORITHM);
+    assertThrowsWithErrorCode(
+        IllegalArgumentException.class,
+        ErrorCode.UNSUPPORTED_ALGORITHM,
+        () -> parser.verify(checkToken));
+  }
+```
+
+TESTE 69
+PROJETO: openjpa
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/openjpa/openjpa-persistence-jdbc/src/test/java/org/apache/openjpa/audit/TestAudit.java
+LINHAS: 78-80
+```java
+public void testAuditorIsConfigured() {
+    	assertNotNull(auditor);
+    }
+```
+
+TESTE 70
+PROJETO: ambari-infra
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/ambari-infra/ambari-infra-manager/src/test/java/org/apache/ambari/infra/job/archive/SolrQueryBuilderTest.java
+LINHAS: 112-115
+```java
+@Test
+  public void testComputeEndReturnsNullIsNoEndAndNoTTLWasGiven() {
+    assertThat(computeEnd(null, OffsetDateTime.now(), null), Is.is(nullValue()));
+  }
+```
+
+TESTE 71
+PROJETO: polaris
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/polaris/runtime/service/src/test/java/org/apache/polaris/service/auth/external/OidcPolarisCredentialAugmentorTest.java
+LINHAS: 75-86
+```java
+@Test
+  public void testAugmentAnonymousIdentity() {
+    // Given
+    SecurityIdentity anonymousIdentity =
+        QuarkusSecurityIdentity.builder().setAnonymous(true).build();
+
+    // When
+    Uni<SecurityIdentity> result = augmentor.augment(anonymousIdentity, null);
+
+    // Then
+    assertThat(result.await().indefinitely()).isSameAs(anonymousIdentity);
+  }
+```
+
+TESTE 72
+PROJETO: geaflow
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/geaflow/geaflow/geaflow-deploy/geaflow-on-k8s/src/test/java/org/apache/geaflow/cluster/k8s/config/KubernetesConfigTest.java
+LINHAS: 46-51
+```java
+@Test
+    public void testJarDownloadPath() {
+        Configuration configuration = new Configuration();
+        String path = KubernetesConfig.getJarDownloadPath(configuration);
+        Assert.assertEquals(path, "/home/admin/geaflow/tmp/jar");
+    }
+```
+
+TESTE 73
+PROJETO: maven-jlink-plugin
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/maven-jlink-plugin/src/test/java/org/apache/maven/plugins/jlink/AbstractJLinkMojoTest.java
+LINHAS: 64-69
+```java
+@Test
+    @DisplayName("convert should return single characters")
+    public void convertShouldReturnSingleCharacter() {
+        StringBuilder result = mojoMock.convertSeparatedModulePathToPlatformSeparatedModulePath("x");
+        assertThat(result).isNotEmpty().hasToString("x");
+    }
+```
+
+TESTE 74
+PROJETO: qpid-proton-j
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/qpid-proton-j/proton-j/src/test/java/org/apache/qpid/proton/amqp/transport/ErrorConditionTest.java
+LINHAS: 34-40
+```java
+@Test
+    public void testEqualityOfNewlyConstructed()
+    {
+        ErrorCondition new1 = new ErrorCondition();
+        ErrorCondition new2 = new ErrorCondition();
+        assertErrorConditionsEqual(new1, new2);
+    }
+```
+
+TESTE 75
+PROJETO: servicemix-components
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/servicemix-components/engines/servicemix-saxon/src/test/java/org/apache/servicemix/saxon/packaging/SaxonServiceUnitAnalyzerTest.java
+LINHAS: 42-44
+```java
+public void testGetXBeanFile() throws Exception {
+		assertEquals("xbean.xml", analyzer.getXBeanFile());
+	}
+```
+
+TESTE 76
+PROJETO: james-project
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/james-project/mdn/src/test/java/org/apache/james/mdn/action/mode/DispositionActionModeTest.java
+LINHAS: 27-31
+```java
+@Test
+    void fromStringShouldReturnEmptyWhenUnknown() {
+        assertThat(DispositionActionMode.fromString("unknown"))
+            .isEmpty();
+    }
+```
+
+TESTE 77
+PROJETO: gke-auditor
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/gke-auditor/src/test/java/com/google/gke/auditor/configs/psp/AllowPrivilegeEscalationTest.java
+LINHAS: 38-41
+```java
+@Test
+  public void getRecommendationTextTest() {
+    assertThat(allowPrivilegeEscalation.getRecommendationText()).isNotEmpty();
+  }
+```
+
+TESTE 78
+PROJETO: httpcomponents-core
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/httpcomponents-core/httpcore5/src/test/java/org/apache/hc/core5/http/ssl/TestTlsCiphers.java
+LINHAS: 126-129
+```java
+@Test
+    void excludeWeakNull() {
+        Assertions.assertNull(TlsCiphers.excludeWeak((String[]) null));
+    }
+```
+
+TESTE 79
+PROJETO: spring-modulith
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/spring-modulith/spring-modulith-integration-test/src/test/java/com/acme/myproject/moduleB/ModuleBTest.java
+LINHAS: 47-50
+```java
+@Test
+		void failsToStartBecauseServiceComponentAIsMissing() throws Exception {
+			TestUtils.assertDependencyMissing(WithoutMocksTest.Config.class, ServiceComponentA.class);
+		}
+```
+
+TESTE 80
+PROJETO: servicecomb-java-chassis
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/servicecomb-java-chassis/foundations/foundation-vertx/src/test/java/org/apache/servicecomb/foundation/vertx/TestVertxTLSBuilder.java
+LINHAS: 54-59
+```java
+@Test
+  public void testBuildHttpClientOptions_sslKey_noFactory() {
+    HttpClientOptions clientOptions = new HttpClientOptions();
+    VertxTLSBuilder.buildHttpClientOptions("notExist", clientOptions);
+    Assertions.assertTrue(clientOptions.isSsl());
+  }
+```
+
+TESTE 81
+PROJETO: oltu
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/oltu/oauth-2.0/authzserver/src/test/java/org/apache/oltu/oauth2/as/OAuthUnauthenticatedRequestTest.java
+LINHAS: 44-64
+```java
+@Test
+    public void testTokenWrongGrantType() throws Exception {
+        HttpServletRequest request = new OauthMockRequestBuilder()
+                .expectContentType(OAuth.ContentType.URL_ENCODED)
+                .expectRedirectUri(REDIRECT_URI)
+                .expectGrantType(OAuth.ContentType.URL_ENCODED)
+                .expectParam("param", "someparam")
+                .build();
+
+        replay(request);
+        assertInvalidTokenRequest(request);
+
+        request = new OauthMockRequestBuilder()
+                .expectRedirectUri(REDIRECT_URI)
+                .expectGrantType(null)
+                .expectParam("param", "someparam")
+                .build();
+
+        replay(request);
+        assertInvalidTokenRequest(request);
+    }
+```
+
+TESTE 82
+PROJETO: opennlp
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/opennlp/opennlp-core/opennlp-runtime/src/test/java/opennlp/tools/ngram/NGramGeneratorTest.java
+LINHAS: 173-184
+```java
+@Test
+  void generateLargerWindowThanListTest() {
+
+    final List<String> input = Arrays.asList("One", "two");
+    final int window = 3;
+    final String separator = "-";
+
+    final List<String> ngrams = NGramGenerator.generate(input, window, separator);
+
+    Assertions.assertTrue(ngrams.isEmpty());
+
+  }
+```
+
+TESTE 83
+PROJETO: maven-release
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/maven-release/maven-release-manager/src/test/java/org/apache/maven/shared/release/phase/ScmCommitDevelopmentPhaseTest.java
+LINHAS: 80-83
+```java
+@Test
+    public void testIsCorrectImplementation() {
+        assertEquals(ScmCommitDevelopmentPhase.class, phase.getClass());
+    }
+```
+
+TESTE 84
+PROJETO: james-mime4j
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/james-mime4j/dom/src/test/java/org/apache/james/mime4j/field/ContentDispositionFieldTest.java
+LINHAS: 41-44
+```java
+public void testDispositionTypeWithSemiColonNoParams() throws Exception {
+        ContentDispositionField f = parse("Content-Disposition: inline;");
+        assertEquals("inline", f.getDispositionType());
+    }
+```
+
+TESTE 85
+PROJETO: java-lumber
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/java-lumber/src/test/java/BatchTest.java
+LINHAS: 29-33
+```java
+@Test
+    public void TestGetDefaultProtocol() {
+        Batch batch = new Batch();
+        assertEquals(Protocol.VERSION_2, batch.getProtocol());
+    }
+```
+
+TESTE 86
+PROJETO: geronimo-javamail
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/geronimo-javamail/geronimo-javamail_1.6/geronimo-javamail_1.6_provider/src/test/java/org/apache/geronimo/javamail/issues/IssuesTest.java
+LINHAS: 76-78
+```java
+public void testGERONIMO4594() throws Exception {
+        Assert.assertTrue(doGERONIMO4594(true, true));
+    }
+```
+
+TESTE 87
+PROJETO: ozone
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/ozone/hadoop-ozone/s3gateway/src/test/java/org/apache/hadoop/ozone/s3/TestOzoneClientCache.java
+LINHAS: 34-42
+```java
+@Test
+  public void testGetClientFailure() {
+    OzoneConfiguration config = new OzoneConfiguration();
+    config.setBoolean(OzoneConfigKeys.OZONE_SECURITY_ENABLED_KEY, true);
+    config.set(OMConfigKeys.OZONE_OM_ADDRESS_KEY, "");
+    OzoneClientCache subject = new OzoneClientCache(config);
+
+    assertThrows(IOException.class, subject::initialize);
+  }
+```
+
+TESTE 88
+PROJETO: jclouds
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/jclouds/providers/azurecompute-arm/src/test/java/org/jclouds/azurecompute/arm/features/StorageAccountApiLiveTest.java
+LINHAS: 62-65
+```java
+@Test()
+   public void testIsAvailable() {
+      assertTrue(api().isAvailable(NAME).nameAvailable().equals("true"));
+   }
+```
+
+TESTE 89
+PROJETO: geronimo-arthur
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/geronimo-arthur/arthur-impl/src/test/java/org/apache/geronimo/arthur/impl/nativeimage/CommandGeneratorTest.java
+LINHAS: 71-77
+```java
+@ParameterizedTest
+    @MethodSource("configurations")
+    void generate(final Case useCase) {
+        assertEquals(
+                useCase.result,
+                new CommandGenerator().generate(useCase.configuration));
+    }
+```
+
+TESTE 90
+PROJETO: maven-resolver
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/maven-resolver/maven-resolver-util/src/test/java/org/eclipse/aether/util/DirectoryUtilsTest.java
+LINHAS: 77-86
+```java
+@Test
+    void existsButIsADirectory(TestInfo testInfo) throws IOException {
+        // hack for surefire: sets the property but directory may not exist
+        Files.createDirectories(Paths.get(System.getProperty("java.io.tmpdir")));
+
+        Path tmpDir = Files.createTempDirectory(testInfo.getDisplayName());
+        Files.createDirectories(tmpDir.resolve("foo"));
+        Path result = DirectoryUtils.resolveDirectory("foo", tmpDir, false);
+        assertEquals(result, tmpDir.resolve("foo"));
+    }
+```
+
+TESTE 91
+PROJETO: retrofit
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/retrofit/retrofit/src/test/java/retrofit/client/UrlConnectionClientTest.java
+LINHAS: 128-138
+```java
+@Test public void errorResponse() throws Exception {
+    DummyHttpUrlConnection connection = new DummyHttpUrlConnection(HOST);
+    connection.setResponseCode(401);
+    connection.setResponseMessage("Not Authorized");
+    connection.addResponseHeader("Content-Type", "text/plain");
+    connection.setInputStream(new ByteArrayInputStream("input".getBytes("UTF-8")));
+    connection.setErrorStream(new ByteArrayInputStream("error".getBytes("UTF-8")));
+    Response response = client.readResponse(connection);
+
+    assertBytes(ByteStreams.toByteArray(response.getBody().in()), "error");
+  }
+```
+
+TESTE 92
+PROJETO: bamboo-soy
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/bamboo-soy/src/test/java/com/google/bamboo/soy/insight/SoyReferenceTest.java
+LINHAS: 67-69
+```java
+public void testAtParamReference() {
+    assertIsAtParam(resolve(), "planet");
+  }
+```
+
+TESTE 93
+PROJETO: continuum
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/continuum/continuum-core/src/test/java/org/apache/maven/continuum/execution/manager/DefaultBuildExecutorManagerTest.java
+LINHAS: 72-79
+```java
+@Test
+    public void testAntBuildExecutorDependencyInjection()
+        throws Exception
+    {
+        AntBuildExecutor executor = (AntBuildExecutor) builderManager.getBuildExecutor( AntBuildExecutor.ID );
+
+        assertCommonFields( executor );
+    }
+```
+
+TESTE 94
+PROJETO: aries-rsa
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/aries-rsa/provider/tcp/src/test/java/org/apache/aries/rsa/provider/tcp/TcpProviderIntentTest.java
+LINHAS: 72-79
+```java
+@Test
+    public void unknownIntentExtra() {
+        Map<String, Object> props = new HashMap<>();
+        EndpointHelper.addObjectClass(props, exportedInterfaces);
+        props.put(RemoteConstants.SERVICE_EXPORTED_INTENTS_EXTRA, "unknown");
+        Endpoint ep = provider.exportService(myService, bc, props, exportedInterfaces);
+        assertThat("Service should not be exported as intent is not supported", ep, nullValue());
+    }
+```
+
+TESTE 95
+PROJETO: ignite-3
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/ignite-3/modules/table/src/test/java/org/apache/ignite/internal/table/distributed/AbstractPartitionSetTest.java
+LINHAS: 126-134
+```java
+@Test
+    public void testDifferentNotEqual() {
+        partitionSet.set(0);
+
+        PartitionSet anotherSet = createSet();
+        anotherSet.set(1);
+
+        assertNotEquals(partitionSet, anotherSet);
+    }
+```
+
+TESTE 96
+PROJETO: jackrabbit-oak
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/jackrabbit-oak/oak-run-commons/src/test/java/org/apache/jackrabbit/oak/index/indexer/document/flatfile/pipelined/PipelinedMongoDownloadTaskTest.java
+LINHAS: 188-196
+```java
+@Test
+    public void regexFiltersLargeNumberOfExcludedPaths() {
+        // When there are too many excluded paths, do not filter on excluded paths but still filter on included paths.
+        var excludedPaths = IntStream.range(0, PipelinedMongoDownloadTask.DEFAULT_OAK_INDEXER_PIPELINED_MONGO_REGEX_PATH_FILTERING_MAX_PATHS + 1)
+                .mapToObj(i -> "/parent/p" + i)
+                .collect(Collectors.toList());
+        var pathFilter = List.of(new PathFilter(List.of("/parent"), excludedPaths));
+        assertEquals(new MongoFilterPaths(List.of("/parent"), List.of()), regexFilterBuilder.buildMongoFilter(pathFilter));
+    }
+```
+
+TESTE 97
+PROJETO: geode
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/geode/geode-core/src/test/java/org/apache/geode/management/internal/util/ManagementUtilsTest.java
+LINHAS: 64-81
+```java
+@Test
+  public void getAllRegionNamesWithSubregions() {
+    Cache cache = mock(Cache.class);
+
+    Region<?, ?> regionWithSubregion = mock(Region.class);
+    Region<?, ?> regionWithoutSubregions = mock(Region.class);
+    Region<?, ?> subregion = mock(Region.class);
+    List<Region<?, ?>> rootRegions = Arrays.asList(regionWithSubregion, regionWithoutSubregions);
+
+    when(cache.rootRegions()).thenReturn(new HashSet<>(rootRegions));
+    when(regionWithSubregion.subregions(anyBoolean())).thenReturn(Collections.singleton(subregion));
+    when(regionWithSubregion.getFullPath()).thenReturn("/regionWithSubregion");
+    when(regionWithoutSubregions.getFullPath()).thenReturn("/regionWithoutSubregion");
+    when(subregion.getFullPath()).thenReturn("/subregion");
+
+    assertThat(ManagementUtils.getAllRegionNames(cache))
+        .containsExactlyInAnyOrder("regionWithSubregion", "regionWithoutSubregion", "subregion");
+  }
+```
+
+TESTE 98
+PROJETO: shardingsphere
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/shardingsphere/infra/expr/type/interval/src/test/java/org/apache/shardingsphere/infra/expr/interval/IntervalInlineExpressionParserTest.java
+LINHAS: 43-48
+```java
+@Test
+    void assertEvaluateWithLocalDateExpression() {
+        List<String> actual = getInlineExpressionParser("P=ds-0.t_order_;SP=yyyy_MMdd;DIA=1;DIU=Days;DL=2023_1202;DU=2023_1204").splitAndEvaluate();
+        List<String> expected = Arrays.asList("ds-0.t_order_2023_1202", "ds-0.t_order_2023_1203", "ds-0.t_order_2023_1204");
+        assertThat(actual, is(expected));
+    }
+```
+
+TESTE 99
+PROJETO: drill
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/drill/exec/java-exec/src/test/java/org/apache/drill/exec/physical/resultSet/impl/TestResultSetLoaderEmptyProject.java
+LINHAS: 196-216
+```java
+@Test
+  public void testDisjointMapProjection() {
+    List<SchemaPath> selection = Lists.newArrayList(
+        SchemaPath.getSimplePath("a"),
+        SchemaPath.getSimplePath("b"));
+    TupleMetadata schema = new SchemaBuilder()
+        .addMap("map")
+          .add("a", MinorType.INT)
+          .add("b", MinorType.INT)
+          .resumeSchema()
+        .buildSchema();
+    ResultSetOptions options = new ResultSetOptionBuilder()
+        .projection(Projections.parse(selection))
+        .readerSchema(schema)
+        .build();
+    ResultSetLoader rsLoader = new ResultSetLoaderImpl(fixture.allocator(), options);
+
+    assertTrue(rsLoader.isProjectionEmpty());
+
+    rsLoader.close();
+  }
+```
+
+TESTE 100
+PROJETO: inlong
+ARQUIVO: /home/magno-macedo/Pesquisa Nosesense/processados/processados/inlong/inlong-sort/sort-formats/format-row/format-kv/src/test/java/org/apache/inlong/sort/formats/kv/KvUtilsTest.java
+LINHAS: 188-193
+```java
+@Test
+    public void testSplitUnclosedEscaping() {
+        Map<String, String> kvMap = splitKv("f1=a&f2=b\\", '&', '=',
+                '\\', '\"');
+        Assert.assertEquals("b", kvMap.get("f2"));
+    }
+```

@@ -65,11 +65,16 @@ export const useAppStore = create<AppState>()(
 
       fetchPreviousResults: async () => {
         try {
+          let providers = get().providers
+          if (providers.length === 0) {
+            await get().fetchSavedProviders()
+            providers = get().providers
+          }
+
           const response = await fetch('http://localhost:8001/api/results')
           if (response.ok) {
             const history: ProcessResult[] = await response.json()
             if (history.length > 0) {
-              const providers = get().providers
               const mappedHistory = history.map(item => {
                 let providerName = 'Unknown'
                 let modelName = item.modelName
@@ -77,7 +82,7 @@ export const useAppStore = create<AppState>()(
 
                 // Try to match backend ID prefix to a known provider
                 for (const p of providers) {
-                  const prefix = p.name.toLowerCase() + '_'
+                  const prefix = p.name.toLowerCase().replace(/ /g, '_') + '_'
                   if (raw.startsWith(prefix)) {
                     providerName = p.name
                     modelName = raw.slice(prefix.length)
@@ -85,7 +90,7 @@ export const useAppStore = create<AppState>()(
                   }
                 }
 
-                return { ...item, providerName, modelName, options: (item as any).options }
+                return { ...item, providerName, modelName, isCorrect: (item as any).isCorrect, options: (item as any).options }
               })
 
               set({ results: mappedHistory, status: 'completed', progress: 100 })
@@ -350,17 +355,22 @@ export const useAppStore = create<AppState>()(
 
       fetchPreviousOpenResults: async () => {
         try {
+          let providers = get().providers
+          if (providers.length === 0) {
+            await get().fetchSavedProviders()
+            providers = get().providers
+          }
+
           const response = await fetch('http://localhost:8001/api/open-results')
           if (response.ok) {
             const history: any[] = await response.json()
             if (history.length > 0) {
-              const providers = get().providers
               const mappedHistory: OpenProcessResult[] = history.map(item => {
                 let providerName = 'Unknown'
                 let modelName = item.modelName
                 const raw = item.modelName
                 for (const p of providers) {
-                  const prefix = p.name.toLowerCase() + '_'
+                  const prefix = p.name.toLowerCase().replace(/ /g, '_') + '_'
                   if (raw.startsWith(prefix)) {
                     providerName = p.name
                     modelName = raw.slice(prefix.length)

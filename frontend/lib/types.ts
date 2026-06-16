@@ -35,19 +35,6 @@ export type TestType = typeof TEST_TYPES[number]
 export const ANSWER_OPTIONS = ['A', 'B', 'C', 'D', 'E'] as const
 export type AnswerOption = typeof ANSWER_OPTIONS[number]
 
-// Resposta correta para cada tipo de teste (simulado)
-export const CORRECT_ANSWERS: Record<TestType, AnswerOption> = {
-  "Duplicate Assert": 'B',
-  "Assertion Roulette": 'A',
-  "Magic Number Test": 'C',
-  "Eager Test": 'D',
-  "Ignored Test": 'A',
-  "Unknown Test": 'E',
-  "Verbose Test": 'B',
-  "Conditional Test Logic": 'C',
-  "Exception Catching Throwing": 'A',
-  "Sensitive Equality": 'D',
-}
 
 export interface ProcessResult {
   id: string
@@ -56,6 +43,7 @@ export interface ProcessResult {
   testType: TestType
   testIndex?: number
   correctAnswer?: AnswerOption | string
+  isCorrect?: boolean
   status: 'success' | 'error'
   answer?: AnswerOption | string
   errorMessage?: string

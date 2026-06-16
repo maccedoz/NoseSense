@@ -92,17 +92,19 @@ export function ProcessRunner() {
         
         // Map backend model_name prefix to frontend provider name (dynamic)
         let providerName = 'Unknown'
+        let modelName = data.model_name
         for (const p of providers) {
-          const prefix = p.name.toLowerCase() + '_'
+          const prefix = p.name.toLowerCase().replace(/ /g, '_') + '_'
           if (data.model_name.startsWith(prefix)) {
             providerName = p.name
+            modelName = data.model_name.slice(prefix.length)
             break
           }
         }
         
         if (isError) {
           addError({
-            modelName: data.model_name,
+            modelName: modelName,
             providerName: providerName,
             testType: data.test_smell,
             message: data.answer,
@@ -112,11 +114,12 @@ export function ProcessRunner() {
         
         addResult({
           id: crypto.randomUUID(),
-          modelName: data.model_name,
+          modelName: modelName,
           providerName: providerName,
           testType: data.test_smell,
           testIndex: data.test_index,
           correctAnswer: data.correct_answer,
+          isCorrect: data.is_correct,
           status: isError ? 'error' : 'success',
           answer: data.answer,
           options: data.options,

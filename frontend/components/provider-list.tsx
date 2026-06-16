@@ -79,7 +79,7 @@ export function ProviderList() {
                       "text-sm font-medium",
                       provider.expanded ? "text-primary" : "text-foreground"
                     )}>
-                      {provider.name}
+                      {provider.name.replace(/_/g, ' ')}
                     </span>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-xs text-muted-foreground">

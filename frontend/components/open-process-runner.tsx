@@ -76,10 +76,12 @@ export function OpenProcessRunner() {
         statsRef.current.completed = 0
       } else if (data.type === 'result') {
         let providerName = 'Unknown'
+        let modelName = data.model_name
         for (const p of providers) {
-          const prefix = p.name.toLowerCase() + '_'
+          const prefix = p.name.toLowerCase().replace(/ /g, '_') + '_'
           if (data.model_name.startsWith(prefix)) {
             providerName = p.name
+            modelName = data.model_name.slice(prefix.length)
             break
           }
         }
@@ -88,7 +90,7 @@ export function OpenProcessRunner() {
 
         addOpenResult({
           id: crypto.randomUUID(),
-          modelName: data.model_name,
+          modelName: modelName,
           providerName,
           testType: data.test_smell,
           testIndex: data.test_index,

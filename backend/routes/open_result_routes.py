@@ -1,10 +1,12 @@
 from fastapi import APIRouter
+import os
 from services.db_service import get_all_open_results_sqlite, reset_database
 
 router = APIRouter()
 
-OUTPUT_DB_FILE = "./data/output/results_open.db"
-OUTPUT_CSV_FILE = "./data/output/results_open.csv"
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_DB_FILE = os.path.join(_BASE_DIR, "data", "output", "results_open.db")
+OUTPUT_CSV_FILE = os.path.join(_BASE_DIR, "data", "output", "results_open.csv")
 
 
 @router.delete("/open-results")

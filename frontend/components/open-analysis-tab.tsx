@@ -181,11 +181,11 @@ export function OpenAnalysisTab() {
         {overallStats.bestModel && (
           <Card className="bg-green-500/10 border-green-500/30 hover-lift">
             <CardContent className="pt-4">
-              <div className="flex items-center gap-2 text-green-500 mb-2">
+               <div className="flex items-center gap-2 text-green-500 mb-2">
                 <Award className="w-5 h-5" /><span className="text-sm font-medium">Best Model</span>
               </div>
-              <p className="text-xl font-bold text-foreground">{overallStats.bestModel.modelName}</p>
-              <p className="text-xs text-muted-foreground">{overallStats.bestModel.providerName}</p>
+              <p className="text-xl font-bold text-foreground truncate" title={overallStats.bestModel.modelName}>{overallStats.bestModel.modelName}</p>
+              <p className="text-xs text-muted-foreground truncate" title={overallStats.bestModel.providerName.replace(/_/g, ' ')}>{overallStats.bestModel.providerName.replace(/_/g, ' ')}</p>
               <p className="text-2xl font-bold text-green-500 mt-1">{overallStats.bestModel.accuracy.toFixed(1)}%</p>
             </CardContent>
           </Card>
@@ -196,8 +196,8 @@ export function OpenAnalysisTab() {
               <div className="flex items-center gap-2 text-red-500 mb-2">
                 <AlertTriangle className="w-5 h-5" /><span className="text-sm font-medium">Worst Model</span>
               </div>
-              <p className="text-xl font-bold text-foreground">{overallStats.worstModel.modelName}</p>
-              <p className="text-xs text-muted-foreground">{overallStats.worstModel.providerName}</p>
+              <p className="text-xl font-bold text-foreground truncate" title={overallStats.worstModel.modelName}>{overallStats.worstModel.modelName}</p>
+              <p className="text-xs text-muted-foreground truncate" title={overallStats.worstModel.providerName.replace(/_/g, ' ')}>{overallStats.worstModel.providerName.replace(/_/g, ' ')}</p>
               <p className="text-2xl font-bold text-red-500 mt-1">{overallStats.worstModel.accuracy.toFixed(1)}%</p>
             </CardContent>
           </Card>
@@ -343,14 +343,14 @@ export function OpenAnalysisTab() {
               {modelStats.map((s, i) => (
                 <div key={s.modelKey} className="space-y-2 animate-fade-in" style={{ animationDelay: `${i * 0.05}s` }}>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className={cn('w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className={cn('w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0',
                         i === 0 ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
                         {i + 1}
                       </span>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">{s.modelName}</p>
-                        <p className="text-xs text-muted-foreground">{s.providerName}</p>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate" title={s.modelName}>{s.modelName}</p>
+                        <p className="text-xs text-muted-foreground truncate" title={s.providerName.replace(/_/g, ' ')}>{s.providerName.replace(/_/g, ' ')}</p>
                       </div>
                     </div>
                     <div className="text-right">

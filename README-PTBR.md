@@ -104,7 +104,7 @@ Toda a configuração é feita pela interface do frontend, não é necessário e
 4. **Editar Chave de API**: Clique no ícone de lápis em qualquer provedor para atualizar sua chave.
 5. **Executar Testes**: Clique em "Run Process" para executar os testes em todos os modelos selecionados simultaneamente.
 
-A configuração é armazenada em `backend/dados.json` com o seguinte formato:
+A configuração é armazenada em `backend/data/models/models.json` com o seguinte formato:
 
 ```json
 {
@@ -133,13 +133,15 @@ A configuração é armazenada em `backend/dados.json` com o seguinte formato:
 NoseSense/
 ├── backend/                  # Servidor Python assíncrono
 │   ├── main.py               # Ponto de entrada (FastAPI / Rotas SSE)
-│   ├── controllers/          # Controladores de regras de negócio
+│   ├── core/                 # Templates de prompt e definições de tipos de test smell
 │   ├── routes/               # Rotas separadas da API
 │   ├── services/             # Lógica de integração com LLMs, Prompts, Banco e CSV
 │   ├── schemas/              # Schemas de validação Pydantic
-│   ├── data/                 # Bases de dados locais ou datasets para teste
-│   ├── requirements.txt      # Dependências do Python
-│   └── dados.json            # (Gerado automaticamente) Configuração de provedores e chaves
+│   ├── data/                 # Bases de dados locais, datasets e configuração de provedores
+│   │   ├── models/           # Configuração de provedores/modelos (models.json)
+│   │   ├── test_smell_docs/  # Amostras de código com test smells (.txt)
+│   │   └── output/           # Resultados gerados (results.db, results.csv)
+│   └── requirements.txt      # Dependências do Python
 └── frontend/                 # Interface em React.js
     ├── app/                  # Rotas e páginas (Next.js App Router)
     ├── components/           # Componentes modulares de UI (shadcn, etc.)

@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse
 
@@ -13,22 +14,24 @@ from services.csv_service import init_csv, append_row_to_csv
 
 router = APIRouter()
 
-DATA_FOLDER = "./data/test_smell_docs"
-OUTPUT_DB_FILE = "./data/output/results_open.db"
-OUTPUT_CSV_FILE = "./data/output/results_open.csv"
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_FOLDER = os.path.join(_BASE_DIR, "data", "test_smell_docs")
+OUTPUT_DB_FILE = os.path.join(_BASE_DIR, "data", "output", "results_open.db")
+OUTPUT_CSV_FILE = os.path.join(_BASE_DIR, "data", "output", "results_open.csv")
 
 # Flag simples de cancelamento — funciona em qualquer versão do Python
 _should_cancel: bool = False
 _current_run_id: int = 0
 
-MAX_CONCURRENT = 3
+MAX_CONCURRENT = 16
 
 
-async def fetch_open_model(i, test_data, model_name, model_instance):
+async def fetch_open_model(semaphore, i, test_data, model_name, model_instance):
     """Helper to run model asynchronously without blocking DB writing."""
-    prompt = create_open_prompt(test_data["code_to_analyze"])
-    _, raw_response = await invoke_llm_open_async(prompt, model_instance, model_name)
-    return (i, test_data, model_name, raw_response)
+    async with semaphore:
+        prompt = create_open_prompt(test_data["code_to_analyze"])
+        _, raw_response = await invoke_llm_open_async(prompt, model_instance, model_name)
+        return (i, test_data, model_name, raw_response)
 
 
 async def run_open_automation_stream(enabled_models: list[str] = None):
@@ -60,6 +63,8 @@ async def run_open_automation_stream(enabled_models: list[str] = None):
 
     yield f"data: {json.dumps({'type': 'start', 'total_tests': total_tests, 'models': list(models.keys())})}\n\n"
 
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+
     # Iterar teste por teste: para cada teste, todos os modelos rodam em paralelo
     for i, test_data in enumerate(tests_to_process):
         # Verificar cancelamento antes de cada teste
@@ -69,17 +74,43 @@ async def run_open_automation_stream(enabled_models: list[str] = None):
 
         # Lançar todos os modelos para este teste em paralelo
         tasks = [
-            asyncio.create_task(fetch_open_model(i, test_data, model_name, model_instance))
+            asyncio.create_task(fetch_open_model(semaphore, i, test_data, model_name, model_instance))
             for model_name, model_instance in models.items()
         ]
 
-        # Esperar TODOS os modelos responderem antes de avançar
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+        async def run_gather():
+            return await asyncio.gather(*tasks, return_exceptions=True)
 
-        # Verificar cancelamento após as respostas
-        if _should_cancel or my_run_id != _current_run_id:
-            yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user or superseded by new run.'})}\n\n"
-            return
+        gather_task = asyncio.create_task(run_gather())
+
+        try:
+            # Manter a conexão SSE viva enquanto aguarda a resposta paralela de todos os modelos
+            while not gather_task.done():
+                if _should_cancel or my_run_id != _current_run_id:
+                    break
+
+                try:
+                    await asyncio.wait_for(asyncio.shield(gather_task), timeout=1.0)
+                except asyncio.TimeoutError:
+                    # Envia ping de keep-alive no formato de comentário SSE (ignorado pelo browser, mas mantém canal ativo)
+                    yield ": ping\n\n"
+
+            if _should_cancel or my_run_id != _current_run_id:
+                yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user or superseded by new run.'})}\n\n"
+                return
+
+            try:
+                results = await gather_task
+            except asyncio.CancelledError:
+                yield f"data: {json.dumps({'type': 'cancelled', 'message': 'Processing cancelled by user or superseded by new run.'})}\n\n"
+                return
+        finally:
+            # Garantir cancelamento das tarefas se o gerador for interrompido
+            if not gather_task.done():
+                gather_task.cancel()
+            for t in tasks:
+                if not t.done():
+                    t.cancel()
 
         for result in results:
             if isinstance(result, Exception):

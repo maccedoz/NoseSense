@@ -36,9 +36,17 @@ def init_db_and_get_run(db_filename: str) -> int:
                 option_b TEXT NOT NULL,
                 option_c TEXT NOT NULL,
                 option_d TEXT NOT NULL,
+                option_e TEXT,
                 FOREIGN KEY(evaluation_id) REFERENCES llm_evaluations(id)
             )
         ''')
+        # Migrate existing test_options table if option_e is missing
+        try:
+            cursor.execute('ALTER TABLE test_options ADD COLUMN option_e TEXT')
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass
+
         cursor.execute('INSERT INTO test_runs DEFAULT VALUES')
         conn.commit()
         return cursor.lastrowid
@@ -69,12 +77,12 @@ def append_single_result_to_sqlite(db_filename: str, run_id: int, test_index: in
 
         evaluation_id = cursor.lastrowid
 
-        if options and len(options) == 4:
+        if options and len(options) >= 5:
             cursor.execute('''
                 INSERT INTO test_options
-                (evaluation_id, option_a, option_b, option_c, option_d)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (evaluation_id, options[0], options[1], options[2], options[3]))
+                (evaluation_id, option_a, option_b, option_c, option_d, option_e)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (evaluation_id, options[0], options[1], options[2], options[3], options[4]))
 
         conn.commit()
         return evaluation_id
@@ -94,32 +102,45 @@ def get_all_results_sqlite(db_filename: str) -> list:
         conn = sqlite3.connect(db_filename)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
+
+        # Ensure test_options table is migrated if it already exists from old runs
+        try:
+            cursor.execute('ALTER TABLE test_options ADD COLUMN option_e TEXT')
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass
+
         cursor.execute('''
             SELECT e.test_index, e.test_smell, e.correct_answer, e.model_name,
                    e.model_response as answer, e.is_correct as status,
-                   o.option_a, o.option_b, o.option_c, o.option_d
+                   o.option_a, o.option_b, o.option_c, o.option_d, o.option_e
             FROM llm_evaluations e
             LEFT JOIN test_options o ON o.evaluation_id = e.id
         ''')
         rows = cursor.fetchall()
 
+        _ERROR_CODES = {"TIMEOUT", "API_ERROR", "PARSE_ERROR", "EMPTY_RESPONSE"}
         for row in rows:
+            answer = row["answer"]
+            is_api_error = answer in _ERROR_CODES
             result_entry = {
                 "testIndex": row["test_index"],
                 "correctAnswer": row["correct_answer"],
                 "providerName": "Automatic",
                 "modelName": row["model_name"],
                 "testType": row["test_smell"],
-                "answer": row["answer"],
-                "errorMessage": row["answer"] if row["status"] == 0 and len(row["answer"]) > 2 else None,
-                "status": "success" if row["status"] else "error" if len(row["answer"]) > 2 else "success"
+                "answer": answer,
+                "isCorrect": bool(row["status"]),
+                "errorMessage": answer if is_api_error else None,
+                "status": "error" if is_api_error else "success"
             }
             if row["option_a"]:
                 result_entry["options"] = {
                     "A": row["option_a"],
                     "B": row["option_b"],
                     "C": row["option_c"],
-                    "D": row["option_d"]
+                    "D": row["option_d"],
+                    "E": row["option_e"] if row["option_e"] is not None else "None"
                 }
             results.append(result_entry)
     except sqlite3.OperationalError:
@@ -228,18 +249,21 @@ def get_all_open_results_sqlite(db_filename: str) -> list:
                    raw_response, normalized_response, was_normalized, is_correct
             FROM open_evaluations
         ''')
+        _ERROR_CODES = {"TIMEOUT", "API_ERROR", "EMPTY_RESPONSE", "UNKNOWN"}
         rows = cursor.fetchall()
         for row in rows:
+            normalized = row["normalized_response"]
+            is_api_error = normalized in _ERROR_CODES
             results.append({
                 "testIndex": row["test_index"],
                 "testType": row["test_smell"],
                 "providerName": "Automatic",
                 "modelName": row["model_name"],
                 "rawResponse": row["raw_response"],
-                "normalizedResponse": row["normalized_response"],
+                "normalizedResponse": normalized,
                 "wasNormalized": bool(row["was_normalized"]),
                 "isCorrect": bool(row["is_correct"]),
-                "status": "success" if bool(row["is_correct"]) else "error",
+                "status": "error" if is_api_error else "success",
             })
     except sqlite3.OperationalError:
         pass

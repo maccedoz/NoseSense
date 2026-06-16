@@ -114,7 +114,7 @@ export function ResultsTable() {
                     <div>
                       {result.modelName}
                       <span className="text-xs text-muted-foreground ml-2">
-                        ({result.providerName})
+                        ({result.providerName.replace(/_/g, ' ')})
                       </span>
                     </div>
                   </TableCell>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppStore } from '@/lib/store'
-import { TEST_TYPES, CORRECT_ANSWERS, type TestType } from '@/lib/types'
+import { TEST_TYPES, type TestType } from '@/lib/types'
 import {
   Table,
   TableBody,
@@ -27,7 +27,7 @@ export function FinalResultsTable() {
 
   // Extrai informações únicas de cada teste da execução (novo modelo suporta múltiplos itens)
   // Criamos um mapa onde a chave é o ID do Teste e o valor são as infos gerais e os resultados dos modelos.
-  type TestData = { testType: string; correctAnswer: string; options?: Record<string, string>; results: Map<string, { status: string; answer?: string; errorMessage?: string }> }
+  type TestData = { testType: string; correctAnswer: string; options?: Record<string, string>; results: Map<string, { status: string; answer?: string; isCorrect?: boolean; errorMessage?: string }> }
   const testsByIndexMap = new Map<number, TestData>()
 
   // Extrair também todos os modelos agrupados das keys do JSON 
@@ -36,7 +36,7 @@ export function FinalResultsTable() {
   results.forEach((result) => {
     // Fallback: se o item do histórico for mto antigo e n tiver index geramos 1 pelo index do map
     const tIndex = result.testIndex ?? testsByIndexMap.size + 1 
-    const cAnswer = (result.correctAnswer ?? CORRECT_ANSWERS[result.testType] ?? '-').toString()
+    const cAnswer = (result.correctAnswer ?? '-').toString()
     
     if (!testsByIndexMap.has(tIndex)) {
       testsByIndexMap.set(tIndex, { 
@@ -53,6 +53,7 @@ export function FinalResultsTable() {
     testsByIndexMap.get(tIndex)!.results.set(modelKey, {
       status: result.status,
       answer: result.answer,
+      isCorrect: result.isCorrect,
       errorMessage: result.errorMessage,
     })
   })
@@ -157,7 +158,9 @@ export function FinalResultsTable() {
                     </TableCell>
                     {testedModels.map((modelKey) => {
                       const result = data.results.get(modelKey)
-                      const isCorrect = result?.status === 'success' && result?.answer === data.correctAnswer
+                      const isCorrect = result?.isCorrect !== undefined
+                        ? result.isCorrect
+                        : (result?.status === 'success' && result?.answer === data.correctAnswer)
                       const chosenSmell = (!isCorrect && result?.answer && data.options)
                         ? (data.options[result.answer] ?? 'None')
                         : null

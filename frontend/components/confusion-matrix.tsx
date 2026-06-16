@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Grid3X3, Target } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { ProcessResult } from '@/lib/types'
-import { CORRECT_ANSWERS } from '@/lib/types'
 
 interface ConfusionMatrixProps {
   results: ProcessResult[]
