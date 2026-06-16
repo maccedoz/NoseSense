@@ -43,7 +43,8 @@ async def run_open_automation_stream(enabled_models: list[str] = None):
     models = initialize_models()
 
     if enabled_models:
-        models = {k: v for k, v in models.items() if k in enabled_models}
+        enabled_models_lower = {m.lower() for m in enabled_models}
+        models = {k: v for k, v in models.items() if k.lower() in enabled_models_lower}
 
     try:
         tests_to_process = extract_tests_from_folder(DATA_FOLDER)

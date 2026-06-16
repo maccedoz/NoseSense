@@ -93,7 +93,7 @@ def initialize_models() -> dict:
         model_list = info.get("models", [])
 
         for model_name in model_list:
-            backend_id = f"{provider_key}_{model_name.replace(' ', '_').replace('.', '_').lower()}"
+            backend_id = f"{provider_key.lower()}_{model_name.replace(' ', '_').replace('.', '_').lower()}"
 
             try:
                 if api_type == "google":
