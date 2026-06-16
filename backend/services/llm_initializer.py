@@ -117,8 +117,8 @@ def initialize_models() -> dict:
                     }
                     if "minimax-m3" in model_name.lower():
                         kwargs["model_kwargs"] = {
-                            "reasoning": {
-                                "enabled": True
+                            "thinking": {
+                                "type": "adaptive"
                             }
                         }
                     if base_url:
