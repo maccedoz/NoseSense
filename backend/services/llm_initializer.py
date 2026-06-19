@@ -117,8 +117,8 @@ def initialize_models() -> dict:
                     }
                     if "minimax-m3" in model_name.lower():
                         kwargs["model_kwargs"] = {
-                            "thinking": {
-                                "type": "adaptive"
+                            "extra_body": {
+                                "thinking": {"type": "adaptive"}
                             }
                         }
                     if base_url:

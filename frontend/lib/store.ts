@@ -42,6 +42,7 @@ interface AppState {
   addResult: (result: ProcessResult) => void
   addError: (error: ProcessError) => void
   resetResults: () => void
+  clearErrors: () => void
   // Open mode actions
   setOpenStatus: (status: ProcessStatus) => void
   setOpenProgress: (progress: number) => void
@@ -343,9 +344,20 @@ export const useAppStore = create<AppState>()(
 
       setStatus: (status) => set({ status }),
       setProgress: (progress) => set({ progress }),
-      addResult: (result) => set((state) => ({ results: [...state.results, result] })),
+      addResult: (result) => set((state) => {
+        const idx = state.results.findIndex(
+          (r) => r.testIndex === result.testIndex && r.modelName === result.modelName
+        )
+        if (idx > -1) {
+          const updated = [...state.results]
+          updated[idx] = result
+          return { results: updated }
+        }
+        return { results: [...state.results, result] }
+      }),
       addError: (error) => set((state) => ({ errors: [...state.errors, error] })),
       resetResults: () => set({ results: [], errors: [], progress: 0, status: 'idle' }),
+      clearErrors: () => set({ errors: [] }),
 
       // Open mode actions
       setOpenStatus: (openStatus) => set({ openStatus }),

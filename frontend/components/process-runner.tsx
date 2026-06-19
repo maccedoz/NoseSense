@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { Play, CheckCircle2, XCircle, Loader2, Square } from 'lucide-react'
+import { Play, CheckCircle2, XCircle, Loader2, Square, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   AlertDialog,
@@ -17,13 +17,15 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export function ProcessRunner() {
-  const { status, progress, errors, providers, setStatus, setProgress, addResult, addError, resetResults, getEnabledModels } = useAppStore()
+  const { status, progress, errors, providers, results, setStatus, setProgress, addResult, addError, resetResults, clearErrors, getEnabledModels } = useAppStore()
   
   const eventSourceRef = useRef<EventSource | null>(null)
   const statsRef = useRef({ total: 0, completed: 0 })
   const enabledModels = getEnabledModels()
   const [showConfirm, setShowConfirm] = useState(false)
   const [testCount, setTestCount] = useState<number | null>(null)
+
+  const failedCount = results.filter(r => r.status === 'error' || r.answer === 'API_ERROR' || r.answer === 'TIMEOUT' || r.answer === 'PARSE_ERROR').length
 
   useEffect(() => {
     fetch('http://localhost:8001/api/test-count')
@@ -173,18 +175,119 @@ export function ProcessRunner() {
   }
 
   const stopProcess = async () => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close()
+      eventSourceRef.current = null
+    }
+    setStatus('idle')
+
     // Notify the backend to cancel processing
     try {
       await fetch('http://localhost:8001/api/stop-tests', { method: 'POST' })
     } catch (e) {
       console.error('Failed to notify backend to stop:', e)
     }
+  }
 
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close()
+  const runRerunFailed = async () => {
+    clearErrors()
+    setStatus('running')
+    setProgress(0)
+
+    const streamUrl = `http://localhost:8001/api/rerun-failed`
+    const eventSource = new EventSource(streamUrl)
+    eventSourceRef.current = eventSource
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+
+      if (data.type === 'start') {
+        console.log(`Iniciando re-execucao de APIs falhas: ${data.total_tests}`)
+        statsRef.current.total = data.total_tests
+        statsRef.current.completed = 0
+      } 
+      
+      else if (data.type === 'result') {
+        const isError = data.answer === 'API_ERROR' || data.answer === 'TIMEOUT' || data.answer === 'PARSE_ERROR'
+        
+        let providerName = 'Unknown'
+        let modelName = data.model_name
+        for (const p of providers) {
+          const prefix = p.name.toLowerCase().replace(/ /g, '_') + '_'
+          if (data.model_name.startsWith(prefix)) {
+            providerName = p.name
+            modelName = data.model_name.slice(prefix.length)
+            break
+          }
+        }
+        
+        if (isError) {
+          addError({
+            modelName: modelName,
+            providerName: providerName,
+            testType: data.test_smell,
+            message: data.answer,
+            timestamp: new Date(),
+          })
+        }
+        
+        addResult({
+          id: crypto.randomUUID(),
+          modelName: modelName,
+          providerName: providerName,
+          testType: data.test_smell,
+          testIndex: data.test_index,
+          correctAnswer: data.correct_answer,
+          isCorrect: data.is_correct,
+          status: isError ? 'error' : 'success',
+          answer: data.answer,
+          options: data.options,
+          timestamp: new Date(),
+        })
+        
+        statsRef.current.completed += 1
+        if (statsRef.current.total > 0) {
+          setProgress((statsRef.current.completed / statsRef.current.total) * 100)
+        }
+      } 
+      
+      else if (data.type === 'complete') {
+        setProgress(100)
+        setStatus('completed')
+        eventSource.close()
+      }
+
+      else if (data.type === 'cancelled') {
+        setStatus('idle')
+        eventSource.close()
+      }
+      
+      else if (data.type === 'error') {
+        addError({
+          modelName: 'Backend',
+          providerName: 'Sistema',
+          testType: 'Unknown Test',
+          message: data.message,
+          timestamp: new Date(),
+        })
+        setStatus('error')
+        eventSource.close()
+      }
+    }
+
+    eventSource.onerror = () => {
+      console.error('SSE Error: A conexao com o servidor foi perdida ou a API falhou.')
+      addError({
+        modelName: 'EventSource',
+        providerName: 'Sistema',
+        testType: 'Unknown Test',
+        message: 'A conexao com o servidor foi perdida ou a API falhou.',
+        timestamp: new Date(),
+      })
+      setStatus('error')
+      eventSource.close()
       eventSourceRef.current = null
     }
-    setStatus('idle')
   }
 
   return (
@@ -242,6 +345,17 @@ export function ProcessRunner() {
           </Button>
         )}
       </div>
+
+      {failedCount > 0 && status !== 'running' && (
+        <Button
+          onClick={runRerunFailed}
+          variant="outline"
+          className="w-full border-dashed border-amber-500/50 text-amber-500 hover:bg-amber-500/10 hover:text-amber-400 transition-all duration-300 hover:scale-[1.01]"
+        >
+          <AlertTriangle className="w-4 h-4 mr-2 animate-pulse" />
+          Rerun {failedCount} Failed API Call{failedCount > 1 ? 's' : ''}
+        </Button>
+      )}
       
       {enabledModels.length === 0 && (
         <p className="text-xs text-muted-foreground text-center">
