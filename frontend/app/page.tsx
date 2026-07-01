@@ -101,7 +101,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-border/50">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>© 2026 Aries Lab. Undergraduate Research Project by Magno Macedo.</p>
+            {/* <p>© 2026 Aries Lab. Undergraduate Research Project by Magno Macedo.</p> */}
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center border border-primary/20">
                 <span className="text-xs font-bold text-primary">AL</span>

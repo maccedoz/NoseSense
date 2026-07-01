@@ -1,6 +1,6 @@
 TESTE 1
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
 LINHAS: 198-202
 ```java
 @Test
@@ -11,7 +11,7 @@ LINHAS: 198-202
 
 TESTE 2
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
 LINHAS: 209-213
 ```java
 @Test
@@ -22,7 +22,7 @@ LINHAS: 209-213
 
 TESTE 3
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
 LINHAS: 187-191
 ```java
 @Test
@@ -33,7 +33,7 @@ LINHAS: 187-191
 
 TESTE 4
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/StructuredStreamingPipelineStateTest.java
 LINHAS: 220-224
 ```java
 @Test
@@ -44,7 +44,7 @@ LINHAS: 220-224
 
 TESTE 5
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 132-148
 ```java
 @Test
@@ -67,7 +67,7 @@ LINHAS: 132-148
 
 TESTE 6
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 54-62
 ```java
 @Test
@@ -82,7 +82,7 @@ LINHAS: 54-62
 
 TESTE 7
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 63-80
 ```java
 @Test
@@ -106,7 +106,7 @@ LINHAS: 63-80
 
 TESTE 8
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 100-115
 ```java
 @Test
@@ -128,7 +128,7 @@ LINHAS: 100-115
 
 TESTE 9
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 81-99
 ```java
 @Test
@@ -153,7 +153,7 @@ LINHAS: 81-99
 
 TESTE 10
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGloballyTest.java
 LINHAS: 116-131
 ```java
 @Test
@@ -175,7 +175,7 @@ LINHAS: 116-131
 
 TESTE 11
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGroupedValuesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombineGroupedValuesTest.java
 LINHAS: 48-63
 ```java
 @Test
@@ -197,7 +197,7 @@ LINHAS: 48-63
 
 TESTE 12
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 127-150
 ```java
 @Test
@@ -227,7 +227,7 @@ LINHAS: 127-150
 
 TESTE 13
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 58-73
 ```java
 @Test
@@ -249,7 +249,7 @@ LINHAS: 58-73
 
 TESTE 14
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 85-102
 ```java
 @Test
@@ -273,7 +273,7 @@ LINHAS: 85-102
 
 TESTE 15
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 103-126
 ```java
 @Test
@@ -303,7 +303,7 @@ LINHAS: 103-126
 
 TESTE 16
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 151-173
 ```java
 @Test
@@ -332,7 +332,7 @@ LINHAS: 151-173
 
 TESTE 17
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/CombinePerKeyTest.java
 LINHAS: 74-84
 ```java
 @Test
@@ -349,7 +349,7 @@ LINHAS: 74-84
 
 TESTE 18
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/FlattenTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/FlattenTest.java
 LINHAS: 42-54
 ```java
 @Test
@@ -368,7 +368,7 @@ LINHAS: 42-54
 
 TESTE 19
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
 LINHAS: 110-137
 ```java
 @Test
@@ -402,7 +402,7 @@ LINHAS: 110-137
 
 TESTE 20
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
 LINHAS: 84-109
 ```java
 @Test
@@ -434,7 +434,7 @@ LINHAS: 84-109
 
 TESTE 21
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/GroupByKeyTest.java
 LINHAS: 138-162
 ```java
 @Test
@@ -465,7 +465,7 @@ LINHAS: 138-162
 
 TESTE 22
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/SimpleSourceTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/SimpleSourceTest.java
 LINHAS: 40-46
 ```java
 @Test
@@ -478,7 +478,7 @@ LINHAS: 40-46
 
 TESTE 23
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/WindowAssignTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/WindowAssignTest.java
 LINHAS: 46-62
 ```java
 @Test
@@ -501,7 +501,7 @@ LINHAS: 46-62
 
 TESTE 24
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
 LINHAS: 185-189
 ```java
 @Test
@@ -512,7 +512,7 @@ LINHAS: 185-189
 
 TESTE 25
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/helpers/EncoderHelpersTest.java
 LINHAS: 190-194
 ```java
 @Test
@@ -523,7 +523,7 @@ LINHAS: 190-194
 
 TESTE 26
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
 LINHAS: 65-71
 ```java
 @Test
@@ -536,7 +536,7 @@ LINHAS: 65-71
 
 TESTE 27
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
 LINHAS: 37-41
 ```java
 @Test
@@ -548,7 +548,7 @@ LINHAS: 37-41
 
 TESTE 28
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/KeyedWorkItemCoderTest.java
 LINHAS: 42-64
 ```java
 @Test
@@ -577,7 +577,7 @@ LINHAS: 42-64
 
 TESTE 29
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
 LINHAS: 219-237
 ```java
 @Test
@@ -602,7 +602,7 @@ LINHAS: 219-237
 
 TESTE 30
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/OutputAndTimeBoundedSplittableProcessElementInvokerTest.java
 LINHAS: 201-218
 ```java
 @Test
@@ -626,7 +626,7 @@ LINHAS: 201-218
 
 TESTE 31
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
 LINHAS: 209-232
 ```java
 @Test
@@ -656,7 +656,7 @@ LINHAS: 209-232
 
 TESTE 32
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
 LINHAS: 569-596
 ```java
 @Test
@@ -690,7 +690,7 @@ LINHAS: 569-596
 
 TESTE 33
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
 LINHAS: 114-144
 ```java
 @Test
@@ -727,7 +727,7 @@ LINHAS: 114-144
 
 TESTE 34
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
 LINHAS: 90-113
 ```java
 @Test
@@ -757,7 +757,7 @@ LINHAS: 90-113
 
 TESTE 35
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimpleDoFnRunnerTest.java
 LINHAS: 185-208
 ```java
 @Test
@@ -787,7 +787,7 @@ LINHAS: 185-208
 
 TESTE 36
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SplittableParDoProcessFnTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SplittableParDoProcessFnTest.java
 LINHAS: 622-637
 ```java
 @Test
@@ -809,7 +809,7 @@ LINHAS: 622-637
 
 TESTE 37
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 119-123
 ```java
 @Test
@@ -820,7 +820,7 @@ LINHAS: 119-123
 
 TESTE 38
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 114-118
 ```java
 @Test
@@ -831,7 +831,7 @@ LINHAS: 114-118
 
 TESTE 39
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 109-113
 ```java
 @Test
@@ -842,7 +842,7 @@ LINHAS: 109-113
 
 TESTE 40
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 104-108
 ```java
 @Test
@@ -853,7 +853,7 @@ LINHAS: 104-108
 
 TESTE 41
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 129-133
 ```java
 @Test
@@ -864,7 +864,7 @@ LINHAS: 129-133
 
 TESTE 42
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StatefulDoFnRunnerTest.java
 LINHAS: 124-128
 ```java
 @Test
@@ -875,7 +875,7 @@ LINHAS: 124-128
 
 TESTE 43
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
 LINHAS: 62-66
 ```java
 @Test
@@ -886,7 +886,7 @@ LINHAS: 62-66
 
 TESTE 44
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
 LINHAS: 39-61
 ```java
 @Test
@@ -915,7 +915,7 @@ LINHAS: 39-61
 
 TESTE 45
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 346-350
 ```java
 @Test
@@ -926,7 +926,7 @@ LINHAS: 346-350
 
 TESTE 46
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 340-345
 ```java
 @Test
@@ -938,7 +938,7 @@ LINHAS: 340-345
 
 TESTE 47
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 366-370
 ```java
 @Test
@@ -949,7 +949,7 @@ LINHAS: 366-370
 
 TESTE 48
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 361-365
 ```java
 @Test
@@ -960,7 +960,7 @@ LINHAS: 361-365
 
 TESTE 49
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 356-360
 ```java
 @Test
@@ -971,7 +971,7 @@ LINHAS: 356-360
 
 TESTE 50
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 351-355
 ```java
 @Test
@@ -982,7 +982,7 @@ LINHAS: 351-355
 
 TESTE 51
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/BoundedTrieNodeTest.java
 LINHAS: 335-339
 ```java
 @Test
@@ -993,7 +993,7 @@ LINHAS: 335-339
 
 TESTE 52
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/LabeledMetricsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/LabeledMetricsTest.java
 LINHAS: 53-75
 ```java
 @Test
@@ -1022,7 +1022,7 @@ LINHAS: 53-75
 
 TESTE 53
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoEncodingsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoEncodingsTest.java
 LINHAS: 179-190
 ```java
 @Test
@@ -1040,7 +1040,7 @@ LINHAS: 179-190
 
 TESTE 54
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
 LINHAS: 131-137
 ```java
 @Test
@@ -1053,7 +1053,7 @@ LINHAS: 131-137
 
 TESTE 55
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
 LINHAS: 117-123
 ```java
 @Test
@@ -1066,7 +1066,7 @@ LINHAS: 117-123
 
 TESTE 56
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MonitoringInfoMetricNameTest.java
 LINHAS: 124-130
 ```java
 @Test
@@ -1079,7 +1079,7 @@ LINHAS: 124-130
 
 TESTE 57
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
 LINHAS: 41-44
 ```java
 @Test
@@ -1090,7 +1090,7 @@ LINHAS: 41-44
 
 TESTE 58
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersBitSetTest.java
 LINHAS: 32-35
 ```java
 @Test
@@ -1101,7 +1101,7 @@ LINHAS: 32-35
 
 TESTE 59
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
 LINHAS: 42-45
 ```java
 @Test
@@ -1112,7 +1112,7 @@ LINHAS: 42-45
 
 TESTE 60
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/FinishedTriggersSetTest.java
 LINHAS: 33-36
 ```java
 @Test
@@ -1123,7 +1123,7 @@ LINHAS: 33-36
 
 TESTE 61
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/RepeatedlyStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/RepeatedlyStateMachineTest.java
 LINHAS: 60-65
 ```java
 @Test
@@ -1136,7 +1136,7 @@ LINHAS: 60-65
 
 TESTE 62
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/TriggerStateMachinesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/TriggerStateMachinesTest.java
 LINHAS: 106-115
 ```java
 @Test
@@ -1152,7 +1152,7 @@ LINHAS: 106-115
 
 TESTE 63
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 231-238
 ```java
 @Test
@@ -1166,7 +1166,7 @@ LINHAS: 231-238
 
 TESTE 64
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 223-230
 ```java
 @Test
@@ -1180,7 +1180,7 @@ LINHAS: 223-230
 
 TESTE 65
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 212-222
 ```java
 @Test
@@ -1197,7 +1197,7 @@ LINHAS: 212-222
 
 TESTE 66
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 265-273
 ```java
 @Test
@@ -1212,7 +1212,7 @@ LINHAS: 265-273
 
 TESTE 67
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 575-596
 ```java
 @Test
@@ -1241,7 +1241,7 @@ LINHAS: 575-596
 
 TESTE 68
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 546-569
 ```java
 @Test
@@ -1272,7 +1272,7 @@ LINHAS: 546-569
 
 TESTE 69
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 518-540
 ```java
 @Test
@@ -1302,7 +1302,7 @@ LINHAS: 518-540
 
 TESTE 70
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 435-457
 ```java
 @Test
@@ -1332,7 +1332,7 @@ LINHAS: 435-457
 
 TESTE 71
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 491-512
 ```java
 @Test
@@ -1361,7 +1361,7 @@ LINHAS: 491-512
 
 TESTE 72
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 463-485
 ```java
 @Test
@@ -1391,7 +1391,7 @@ LINHAS: 463-485
 
 TESTE 73
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 597-624
 ```java
 @Test
@@ -1425,7 +1425,7 @@ LINHAS: 597-624
 
 TESTE 74
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 625-634
 ```java
 @Test
@@ -1441,7 +1441,7 @@ LINHAS: 625-634
 
 TESTE 75
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 635-643
 ```java
 @Test
@@ -1456,7 +1456,7 @@ LINHAS: 635-643
 
 TESTE 76
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 409-429
 ```java
 @Test
@@ -1483,7 +1483,7 @@ LINHAS: 409-429
 
 TESTE 77
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 137-167
 ```java
 @Test
@@ -1520,7 +1520,7 @@ LINHAS: 137-167
 
 TESTE 78
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagersTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagersTest.java
 LINHAS: 92-104
 ```java
 @Test
@@ -1539,7 +1539,7 @@ LINHAS: 92-104
 
 TESTE 79
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 132-140
 ```java
 @Test
@@ -1554,7 +1554,7 @@ LINHAS: 132-140
 
 TESTE 80
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 127-131
 ```java
 @Test
@@ -1565,7 +1565,7 @@ LINHAS: 127-131
 
 TESTE 81
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 96-100
 ```java
 @Test
@@ -1576,7 +1576,7 @@ LINHAS: 96-100
 
 TESTE 82
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 81-85
 ```java
 @Test
@@ -1587,7 +1587,7 @@ LINHAS: 81-85
 
 TESTE 83
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 86-90
 ```java
 @Test
@@ -1598,7 +1598,7 @@ LINHAS: 86-90
 
 TESTE 84
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/ImmutableListBundleFactoryTest.java
 LINHAS: 91-95
 ```java
 @Test
@@ -1609,7 +1609,7 @@ LINHAS: 91-95
 
 TESTE 85
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
 LINHAS: 191-198
 ```java
 @Test
@@ -1623,7 +1623,7 @@ LINHAS: 191-198
 
 TESTE 86
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/KeyedPValueTrackingVisitorTest.java
 LINHAS: 176-190
 ```java
 @Test
@@ -1644,7 +1644,7 @@ LINHAS: 176-190
 
 TESTE 87
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/MultiStepCombineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/MultiStepCombineTest.java
 LINHAS: 60-77
 ```java
 @Test
@@ -1668,7 +1668,7 @@ LINHAS: 60-77
 
 TESTE 88
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
 LINHAS: 252-265
 ```java
 @Test
@@ -1688,7 +1688,7 @@ LINHAS: 252-265
 
 TESTE 89
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
 LINHAS: 266-281
 ```java
 @Test
@@ -1710,7 +1710,7 @@ LINHAS: 266-281
 
 TESTE 90
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/StatefulParDoEvaluatorFactoryTest.java
 LINHAS: 282-301
 ```java
 @Test
@@ -1736,7 +1736,7 @@ LINHAS: 282-301
 
 TESTE 91
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 230-237
 ```java
 public void keyBasedOnCountFnFewElementsExtraShards() {
@@ -1751,7 +1751,7 @@ public void keyBasedOnCountFnFewElementsExtraShards() {
 
 TESTE 92
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 208-215
 ```java
 public void keyBasedOnCountFnFewElementsThreeShards() {
@@ -1766,7 +1766,7 @@ public void keyBasedOnCountFnFewElementsThreeShards() {
 
 TESTE 93
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 219-226
 ```java
 public void keyBasedOnCountFnManyElements() {
@@ -1781,7 +1781,7 @@ public void keyBasedOnCountFnManyElements() {
 
 TESTE 94
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 241-249
 ```java
 public void keyBasedOnCountFnManyElementsExtraShards() {
@@ -1797,7 +1797,7 @@ public void keyBasedOnCountFnManyElementsExtraShards() {
 
 TESTE 95
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 175-182
 ```java
 public void keyBasedOnCountFnWithNoElements() {
@@ -1812,7 +1812,7 @@ public void keyBasedOnCountFnWithNoElements() {
 
 TESTE 96
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 186-193
 ```java
 public void keyBasedOnCountFnWithOneElement() {
@@ -1827,7 +1827,7 @@ public void keyBasedOnCountFnWithOneElement() {
 
 TESTE 97
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/WriteWithShardingFactoryTest.java
 LINHAS: 197-204
 ```java
 public void keyBasedOnCountFnWithTwoElements() {
@@ -1842,7 +1842,7 @@ public void keyBasedOnCountFnWithTwoElements() {
 
 TESTE 98
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 277-288
 ```java
 @Test
@@ -1860,7 +1860,7 @@ LINHAS: 277-288
 
 TESTE 99
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 289-300
 ```java
 @Test
@@ -1878,7 +1878,7 @@ LINHAS: 289-300
 
 TESTE 100
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 301-314
 ```java
 @Test

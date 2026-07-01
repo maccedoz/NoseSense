@@ -1,6 +1,6 @@
 TESTE 1
 PROJETO: pekko-platform-guide
-ARQUIVO: /home/magno-macedo/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/02-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/02-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
 LINHAS: 51-71
 ```java
 @Test
@@ -27,7 +27,7 @@ LINHAS: 51-71
 
 TESTE 2
 PROJETO: pekko-platform-guide
-ARQUIVO: /home/magno-macedo/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/03-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/pekko-platform-guide/docs-source/docs/modules/microservices-tutorial/examples/03-shopping-cart-service-java/src/test/java/shopping/cart/ShoppingCartTest.java
 LINHAS: 119-147
 ```java
 @Test
@@ -63,7 +63,7 @@ LINHAS: 119-147
 
 TESTE 3
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
 LINHAS: 56-70
 ```java
 @Test
@@ -84,7 +84,7 @@ LINHAS: 56-70
 
 TESTE 4
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/spark/3/src/test/java/org/apache/beam/runners/spark/structuredstreaming/translation/batch/functions/SideInputValuesTest.java
 LINHAS: 71-95
 ```java
 @Test
@@ -115,7 +115,7 @@ LINHAS: 71-95
 
 TESTE 5
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
 LINHAS: 52-63
 ```java
 @Test
@@ -133,7 +133,7 @@ LINHAS: 52-63
 
 TESTE 6
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/LateDataUtilsTest.java
 LINHAS: 64-81
 ```java
 @Test
@@ -157,7 +157,7 @@ LINHAS: 64-81
 
 TESTE 7
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/ReduceFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/ReduceFnRunnerTest.java
 LINHAS: 1390-1421
 ```java
 @Test
@@ -195,7 +195,7 @@ LINHAS: 1390-1421
 
 TESTE 8
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
 LINHAS: 278-297
 ```java
 @Test
@@ -221,7 +221,7 @@ LINHAS: 278-297
 
 TESTE 9
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
 LINHAS: 175-194
 ```java
 @Test
@@ -247,7 +247,7 @@ LINHAS: 175-194
 
 TESTE 10
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
 LINHAS: 195-217
 ```java
 @Test
@@ -276,7 +276,7 @@ LINHAS: 195-217
 
 TESTE 11
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
 LINHAS: 253-277
 ```java
 @Test
@@ -307,7 +307,7 @@ LINHAS: 253-277
 
 TESTE 12
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/SimplePushbackSideInputDoFnRunnerTest.java
 LINHAS: 165-174
 ```java
 @Test
@@ -323,7 +323,7 @@ LINHAS: 165-174
 
 TESTE 13
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 142-154
 ```java
 @Test
@@ -342,7 +342,7 @@ LINHAS: 142-154
 
 TESTE 14
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 641-654
 ```java
 @Test
@@ -362,7 +362,7 @@ LINHAS: 641-654
 
 TESTE 15
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 421-433
 ```java
 @Test
@@ -381,7 +381,7 @@ LINHAS: 421-433
 
 TESTE 16
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 171-188
 ```java
 @Test
@@ -405,7 +405,7 @@ LINHAS: 171-188
 
 TESTE 17
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 155-170
 ```java
 @Test
@@ -427,7 +427,7 @@ LINHAS: 155-170
 
 TESTE 18
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 265-284
 ```java
 @Test
@@ -453,7 +453,7 @@ LINHAS: 265-284
 
 TESTE 19
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 247-264
 ```java
 @Test
@@ -477,7 +477,7 @@ LINHAS: 247-264
 
 TESTE 20
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 233-246
 ```java
 @Test
@@ -497,7 +497,7 @@ LINHAS: 233-246
 
 TESTE 21
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 603-616
 ```java
 @Test
@@ -517,7 +517,7 @@ LINHAS: 603-616
 
 TESTE 22
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 573-589
 ```java
 @Test
@@ -540,7 +540,7 @@ LINHAS: 573-589
 
 TESTE 23
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateInternalsTest.java
 LINHAS: 590-602
 ```java
 @Test
@@ -559,7 +559,7 @@ LINHAS: 590-602
 
 TESTE 24
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
 LINHAS: 51-62
 ```java
 @Test
@@ -577,7 +577,7 @@ LINHAS: 51-62
 
 TESTE 25
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
 LINHAS: 75-91
 ```java
 @Test
@@ -600,7 +600,7 @@ LINHAS: 75-91
 
 TESTE 26
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
 LINHAS: 63-74
 ```java
 @Test
@@ -618,7 +618,7 @@ LINHAS: 63-74
 
 TESTE 27
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
 LINHAS: 40-50
 ```java
 @Test
@@ -636,7 +636,7 @@ LINHAS: 40-50
 
 TESTE 28
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/StateTagTest.java
 LINHAS: 92-107
 ```java
 @Test
@@ -658,7 +658,7 @@ LINHAS: 92-107
 
 TESTE 29
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/TimerInternalsTest.java
 LINHAS: 93-107
 ```java
 @Test
@@ -679,7 +679,7 @@ LINHAS: 93-107
 
 TESTE 30
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/DirtyStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/DirtyStateTest.java
 LINHAS: 58-65
 ```java
 @Test
@@ -693,7 +693,7 @@ LINHAS: 58-65
 
 TESTE 31
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MetricsMapTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/metrics/MetricsMapTest.java
 LINHAS: 76-83
 ```java
 @Test
@@ -707,7 +707,7 @@ LINHAS: 76-83
 
 TESTE 32
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterSynchronizedProcessingTimeStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterSynchronizedProcessingTimeStateMachineTest.java
 LINHAS: 80-105
 ```java
 @Test
@@ -739,7 +739,7 @@ LINHAS: 80-105
 
 TESTE 33
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterWatermarkStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterWatermarkStateMachineTest.java
 LINHAS: 75-88
 ```java
 public void testRunningAsTrigger(TriggerStateMachine mockTrigger, IntervalWindow window)
@@ -759,7 +759,7 @@ public void testRunningAsTrigger(TriggerStateMachine mockTrigger, IntervalWindow
 
 TESTE 34
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterWatermarkStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/AfterWatermarkStateMachineTest.java
 LINHAS: 109-120
 ```java
 @Test
@@ -777,7 +777,7 @@ LINHAS: 109-120
 
 TESTE 35
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/RepeatedlyStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/RepeatedlyStateMachineTest.java
 LINHAS: 68-77
 ```java
 @Test
@@ -794,7 +794,7 @@ LINHAS: 68-77
 
 TESTE 36
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/TriggerStateMachineTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/core-java/src/test/java/org/apache/beam/runners/core/triggers/TriggerStateMachineTest.java
 LINHAS: 43-55
 ```java
 @Test
@@ -813,7 +813,7 @@ LINHAS: 43-55
 
 TESTE 37
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/CopyOnAccessInMemoryStateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/CopyOnAccessInMemoryStateInternalsTest.java
 LINHAS: 85-107
 ```java
 @Test
@@ -842,7 +842,7 @@ LINHAS: 85-107
 
 TESTE 38
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/CopyOnAccessInMemoryStateInternalsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/CopyOnAccessInMemoryStateInternalsTest.java
 LINHAS: 68-84
 ```java
 @Test
@@ -865,7 +865,7 @@ LINHAS: 68-84
 
 TESTE 39
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 112-128
 ```java
 @Test
@@ -888,7 +888,7 @@ LINHAS: 112-128
 
 TESTE 40
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 129-160
 ```java
 @Test
@@ -926,7 +926,7 @@ LINHAS: 129-160
 
 TESTE 41
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectGraphVisitorTest.java
 LINHAS: 161-178
 ```java
 @Test
@@ -950,7 +950,7 @@ LINHAS: 161-178
 
 TESTE 42
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectRunnerTest.java
 LINHAS: 649-675
 ```java
 @Test
@@ -984,7 +984,7 @@ LINHAS: 649-675
 
 TESTE 43
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectTransformExecutorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DirectTransformExecutorTest.java
 LINHAS: 141-160
 ```java
 @Test
@@ -1010,7 +1010,7 @@ LINHAS: 141-160
 
 TESTE 44
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagerTest.java
 LINHAS: 62-71
 ```java
 @Test
@@ -1026,7 +1026,7 @@ LINHAS: 62-71
 
 TESTE 45
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/DoFnLifecycleManagerTest.java
 LINHAS: 53-61
 ```java
 @Test
@@ -1041,7 +1041,7 @@ LINHAS: 53-61
 
 TESTE 46
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/EvaluationContextTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/direct-java/src/test/java/org/apache/beam/runners/direct/EvaluationContextTest.java
 LINHAS: 221-241
 ```java
 @Test
@@ -1068,7 +1068,7 @@ LINHAS: 221-241
 
 TESTE 47
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 435-449
 ```java
 @Test
@@ -1089,7 +1089,7 @@ LINHAS: 435-449
 
 TESTE 48
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 172-183
 ```java
 @Test
@@ -1107,7 +1107,7 @@ LINHAS: 172-183
 
 TESTE 49
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkExecutionEnvironmentsTest.java
 LINHAS: 184-196
 ```java
 @Test
@@ -1126,7 +1126,7 @@ LINHAS: 184-196
 
 TESTE 50
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkStreamingPipelineTranslatorTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/FlinkStreamingPipelineTranslatorTest.java
 LINHAS: 62-75
 ```java
 @Test
@@ -1146,7 +1146,7 @@ LINHAS: 62-75
 
 TESTE 51
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/adapter/FlinkKeyTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/adapter/FlinkKeyTest.java
 LINHAS: 41-53
 ```java
 @Test
@@ -1166,7 +1166,7 @@ LINHAS: 41-53
 
 TESTE 52
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/metrics/FlinkMetricContainerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/metrics/FlinkMetricContainerTest.java
 LINHAS: 83-98
 ```java
 @Test
@@ -1188,7 +1188,7 @@ LINHAS: 83-98
 
 TESTE 53
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/metrics/FlinkMetricContainerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/flink/src/test/java/org/apache/beam/runners/flink/metrics/FlinkMetricContainerTest.java
 LINHAS: 99-117
 ```java
 @Test
@@ -1213,7 +1213,7 @@ LINHAS: 99-117
 
 TESTE 54
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowMetricsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowMetricsTest.java
 LINHAS: 103-127
 ```java
 @Test
@@ -1244,7 +1244,7 @@ LINHAS: 103-127
 
 TESTE 55
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 646-656
 ```java
 @Test
@@ -1261,7 +1261,7 @@ LINHAS: 646-656
 
 TESTE 56
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 657-667
 ```java
 @Test
@@ -1278,7 +1278,7 @@ LINHAS: 657-667
 
 TESTE 57
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 438-449
 ```java
 @Test
@@ -1296,7 +1296,7 @@ LINHAS: 438-449
 
 TESTE 58
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 1615-1632
 ```java
 @Test
@@ -1320,7 +1320,7 @@ LINHAS: 1615-1632
 
 TESTE 59
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 564-583
 ```java
 @Test
@@ -1346,7 +1346,7 @@ LINHAS: 564-583
 
 TESTE 60
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 781-798
 ```java
 @Test
@@ -1370,7 +1370,7 @@ LINHAS: 781-798
 
 TESTE 61
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 814-829
 ```java
 @Test
@@ -1393,7 +1393,7 @@ LINHAS: 814-829
 
 TESTE 62
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/DataflowRunnerTest.java
 LINHAS: 636-645
 ```java
 @Test
@@ -1409,7 +1409,7 @@ LINHAS: 636-645
 
 TESTE 63
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
 LINHAS: 167-176
 ```java
 @Test
@@ -1425,7 +1425,7 @@ LINHAS: 167-176
 
 TESTE 64
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
 LINHAS: 147-156
 ```java
 @Test
@@ -1441,7 +1441,7 @@ LINHAS: 147-156
 
 TESTE 65
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowPipelineOptionsTest.java
 LINHAS: 137-146
 ```java
 @Test
@@ -1457,7 +1457,7 @@ LINHAS: 137-146
 
 TESTE 66
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowProfilingOptionsTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/options/DataflowProfilingOptionsTest.java
 LINHAS: 38-49
 ```java
 @Test
@@ -1475,7 +1475,7 @@ LINHAS: 38-49
 
 TESTE 67
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/MonitoringUtilTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/MonitoringUtilTest.java
 LINHAS: 89-104
 ```java
 @Test
@@ -1497,7 +1497,7 @@ LINHAS: 89-104
 
 TESTE 68
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/TimeUtilTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/TimeUtilTest.java
 LINHAS: 59-65
 ```java
 @Test
@@ -1510,7 +1510,7 @@ LINHAS: 59-65
 
 TESTE 69
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/TimeUtilTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/src/test/java/org/apache/beam/runners/dataflow/util/TimeUtilTest.java
 LINHAS: 36-40
 ```java
 @Test
@@ -1522,7 +1522,7 @@ LINHAS: 36-40
 
 TESTE 70
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/AvroByteReaderFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/AvroByteReaderFactoryTest.java
 LINHAS: 73-88
 ```java
 @Test
@@ -1544,7 +1544,7 @@ LINHAS: 73-88
 
 TESTE 71
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/AvroByteReaderFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/AvroByteReaderFactoryTest.java
 LINHAS: 89-104
 ```java
 @Test
@@ -1566,7 +1566,7 @@ LINHAS: 89-104
 
 TESTE 72
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/DataflowWorkerHarnessHelperTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/DataflowWorkerHarnessHelperTest.java
 LINHAS: 75-85
 ```java
 @Test
@@ -1583,7 +1583,7 @@ LINHAS: 75-85
 
 TESTE 73
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/LogRecordMatcherTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/LogRecordMatcherTest.java
 LINHAS: 46-54
 ```java
 @Test
@@ -1598,7 +1598,7 @@ LINHAS: 46-54
 
 TESTE 74
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/LogRecordMatcherTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/LogRecordMatcherTest.java
 LINHAS: 38-45
 ```java
 @Test
@@ -1613,7 +1613,7 @@ LINHAS: 38-45
 
 TESTE 75
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingStepMetricsContainerTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/StreamingStepMetricsContainerTest.java
 LINHAS: 95-100
 ```java
 @Test
@@ -1625,7 +1625,7 @@ LINHAS: 95-100
 
 TESTE 76
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
 LINHAS: 495-508
 ```java
 @Test
@@ -1645,7 +1645,7 @@ LINHAS: 495-508
 
 TESTE 77
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
 LINHAS: 482-494
 ```java
 @Test
@@ -1664,7 +1664,7 @@ LINHAS: 482-494
 
 TESTE 78
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkItemStatusClientTest.java
 LINHAS: 509-518
 ```java
 @Test
@@ -1680,7 +1680,7 @@ LINHAS: 509-518
 
 TESTE 79
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkerCustomSourcesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/WorkerCustomSourcesTest.java
 LINHAS: 288-298
 ```java
 @Test
@@ -1697,7 +1697,7 @@ LINHAS: 288-298
 
 TESTE 80
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/apiary/ApiaryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/apiary/ApiaryTest.java
 LINHAS: 34-39
 ```java
 @Test
@@ -1710,7 +1710,7 @@ LINHAS: 34-39
 
 TESTE 81
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterSetTest.java
 LINHAS: 73-81
 ```java
 @Test
@@ -1725,7 +1725,7 @@ LINHAS: 73-81
 
 TESTE 82
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterSetTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterSetTest.java
 LINHAS: 54-63
 ```java
 @Test
@@ -1741,7 +1741,7 @@ LINHAS: 54-63
 
 TESTE 83
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/counters/CounterTest.java
 LINHAS: 452-474
 ```java
 @Test
@@ -1770,7 +1770,7 @@ LINHAS: 452-474
 
 TESTE 84
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/graph/LengthPrefixUnknownCodersTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/graph/LengthPrefixUnknownCodersTest.java
 LINHAS: 212-219
 ```java
 @Test
@@ -1784,7 +1784,7 @@ LINHAS: 212-219
 
 TESTE 85
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
 LINHAS: 91-98
 ```java
 @Test
@@ -1798,7 +1798,7 @@ LINHAS: 91-98
 
 TESTE 86
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
 LINHAS: 122-137
 ```java
 @Test
@@ -1820,7 +1820,7 @@ LINHAS: 122-137
 
 TESTE 87
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/logging/JulHandlerPrintStreamAdapterFactoryTest.java
 LINHAS: 68-81
 ```java
 @Test
@@ -1840,7 +1840,7 @@ LINHAS: 68-81
 
 TESTE 88
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/status/WorkerStatusPagesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/status/WorkerStatusPagesTest.java
 LINHAS: 67-73
 ```java
 @Test
@@ -1853,7 +1853,7 @@ LINHAS: 67-73
 
 TESTE 89
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/status/WorkerStatusPagesTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/status/WorkerStatusPagesTest.java
 LINHAS: 86-92
 ```java
 @Test
@@ -1866,7 +1866,7 @@ LINHAS: 86-92
 
 TESTE 90
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 124-141
 ```java
 @Test
@@ -1890,7 +1890,7 @@ LINHAS: 124-141
 
 TESTE 91
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 389-408
 ```java
 @Test
@@ -1916,7 +1916,7 @@ LINHAS: 389-408
 
 TESTE 92
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 409-433
 ```java
 @Test
@@ -1947,7 +1947,7 @@ LINHAS: 409-433
 
 TESTE 93
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 434-451
 ```java
 @Test
@@ -1971,7 +1971,7 @@ LINHAS: 434-451
 
 TESTE 94
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 365-388
 ```java
 @Test
@@ -2001,7 +2001,7 @@ LINHAS: 365-388
 
 TESTE 95
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ActiveWorkStateTest.java
 LINHAS: 222-245
 ```java
 @Test
@@ -2031,7 +2031,7 @@ LINHAS: 222-245
 
 TESTE 96
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
 LINHAS: 105-122
 ```java
 @Test
@@ -2055,7 +2055,7 @@ LINHAS: 105-122
 
 TESTE 97
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
 LINHAS: 135-146
 ```java
 @Test
@@ -2073,7 +2073,7 @@ LINHAS: 135-146
 
 TESTE 98
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
 LINHAS: 88-104
 ```java
 @Test
@@ -2096,7 +2096,7 @@ LINHAS: 88-104
 
 TESTE 99
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
 LINHAS: 123-134
 ```java
 @Test
@@ -2114,7 +2114,7 @@ LINHAS: 123-134
 
 TESTE 100
 PROJETO: beam
-ARQUIVO: /home/magno-macedo/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
+ARQUIVO: /home/anonymous/.jnose_projects/beam/runners/google-cloud-dataflow-java/worker/src/test/java/org/apache/beam/runners/dataflow/worker/streaming/ComputationStateCacheTest.java
 LINHAS: 165-180
 ```java
 @Test
