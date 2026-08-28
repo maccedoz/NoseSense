@@ -24,12 +24,19 @@ O projeto é dividido em um **Backend** em Python (FastAPI) e um **Frontend** em
 - **Responsabilidades:** Interface gráfica de usuário (UI) para configurar provedores e modelos, disparar testes, visualizar o andamento das requisições assíncronas em tempo real (dashboard de execução) e analisar as métricas e o desempenho comparado dos LLMs no painel de resultados.
 - **Porta Padrão:** `3000` (gerenciado pelo pnpm)
 
+## Artigo Aceito
+
+Uma cópia em PDF do artigo aceito está incluída na raiz deste repositório de artefato:
+- **PDF do Artigo**: [`paper.pdf`](paper.pdf)
+
 ## Como Instalar e Rodar o Projeto
 
-### Pré-requisitos
-- Python 3.10+
-- Node.js 18+ e *pnpm* instalado (`npm install -g pnpm`)
-- Chaves de API dos provedores de LLM que você deseja usar (configuráveis pela interface do frontend).
+### Pré-requisitos e Ambiente
+- **Sistema Operacional**: Linux (testado em Ubuntu 22.04 LTS), macOS, ou Windows (via WSL2)
+- **Python**: 3.10+
+- **Node.js**: 18.x ou 20.x
+- **pnpm**: 8.x ou 9.x (`npm install -g pnpm`)
+- **Chaves de API**: Chaves dos provedores de LLM que você deseja utilizar (configuráveis pela interface do frontend).
 
 ---
 
@@ -83,6 +90,13 @@ Instale os pacotes e dependências através do PNPM:
 ```bash
 pnpm install
 ```
+
+> **Solução de problemas `ERR_PNPM_IGNORED_BUILDS` / dependência `sharp`:**
+> Em versões mais recentes do `pnpm` (v9+), os scripts nativos de build (como o do `sharp`) são ignorados por padrão até serem aprovados. Caso o `pnpm install` ou `pnpm run dev` apresente o erro `ERR_PNPM_IGNORED_BUILDS`, execute o seguinte comando dentro da pasta `frontend`:
+> ```bash
+> pnpm approve-builds
+> ```
+> Em seguida, execute `pnpm install` novamente.
 
 Inicie a aplicação:
 ```bash
